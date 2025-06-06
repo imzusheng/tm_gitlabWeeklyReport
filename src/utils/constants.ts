@@ -3,7 +3,7 @@
  * 定义项目中使用的所有常量
  */
 
-import type { AppConfig, ThemeColors } from '@/types';
+import type { AppConfig } from '@/types';
 
 /** 应用版本 */
 export const APP_VERSION = '2.0.0';
@@ -14,7 +14,7 @@ export const STORAGE_KEYS = {
   THEME: 'gitlab-weekly-report-theme',
   PANEL_STATE: 'gitlab-weekly-report-panel-state',
   // 添加缺少的键
-  GITLAB_URL: 'gitlab-url',
+  GITLAB_URL: 'https://www.lejuhub.com',
   GITLAB_TOKEN: 'gitlab-token', 
   GITLAB_PROJECT_ID: 'gitlab-project-id',
   DEEPSEEK_API_KEY: 'deepseek-api-key',
@@ -61,42 +61,38 @@ export const API_ENDPOINTS = {
 /** 主题颜色配置 */
 export const THEME_COLORS = {
   light: {
-    primary: '#1976d2',
-    secondary: '#dc004e',
     background: '#ffffff',
     cardBg: '#ffffff',
-    surface: '#f5f5f5',
+    border: '#e0e0e0',
+    borderLight: '#f0f0f0',
     text: '#333333',
     textSecondary: '#666666',
     textMuted: '#999999',
-    border: '#e0e0e0',
-    borderLight: '#f0f0f0',
+    primary: '#1976d2',
     success: '#4caf50',
     warning: '#ff9800',
     error: '#f44336',
     buttonBg: '#f5f5f5',
-    hoverBg: '#e0e0e0',
-    shadow: '0 2px 4px rgba(0,0,0,0.1)',
-    shadowLarge: '0 4px 8px rgba(0,0,0,0.15)'
+    hoverBg: '#eeeeee',
+    shadow: 'rgba(0, 0, 0, 0.1)',
+    shadowLarge: 'rgba(0, 0, 0, 0.2)'
   },
   dark: {
-    primary: '#90caf9',
-    secondary: '#f48fb1',
     background: '#121212',
     cardBg: '#1e1e1e',
-    surface: '#1e1e1e',
-    text: '#ffffff',
-    textSecondary: '#b0b0b0',
-    textMuted: '#777777',
     border: '#333333',
-    borderLight: '#444444',
+    borderLight: '#404040',
+    text: '#ffffff',
+    textSecondary: '#b3b3b3',
+    textMuted: '#666666',
+    primary: '#90caf9',
     success: '#81c784',
     warning: '#ffb74d',
     error: '#e57373',
-    buttonBg: '#333333',
-    hoverBg: '#444444',
-    shadow: '0 2px 4px rgba(0,0,0,0.3)',
-    shadowLarge: '0 4px 8px rgba(0,0,0,0.5)'
+    buttonBg: '#2d2d2d',
+    hoverBg: '#404040',
+    shadow: 'rgba(0, 0, 0, 0.3)',
+    shadowLarge: 'rgba(0, 0, 0, 0.5)'
   }
 } as const;
 

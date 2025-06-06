@@ -1,19 +1,16 @@
 // ==UserScript==
-// @name         GitLab 周报生成器
+// @name         GitLab 周报生成器 R
 // @namespace    http://tampermonkey.net/
-// @version      2.0.0
+// @version      2.1.15
 // @description  GitLab 周报生成器 - 使用 React + TypeScript + Rollup 的现代化 Tampermonkey 脚本
-// @author       
-// @match        https://*/
+// @author       Zusheng & Trae AI & Cursor AI
+// @match        https://www.lejuhub.com/*
 // @grant        GM_xmlhttpRequest
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_deleteValue
-// @require      none
+// @run-at       document-end
 // ==/UserScript==
-
-(function() {
-    'use strict';
 var GitLabWeeklyReport = (function (exports) {
   'use strict';
 
@@ -34634,121 +34631,6 @@ var GitLabWeeklyReport = (function (exports) {
   }
 
   /**
-   * 按钮组件
-   */
-  const Button = ({ variant = 'primary', size = 'md', loading = false, disabled, className = '', children, ...props }) => {
-      const baseClass = 'btn';
-      const variantClass = `btn-${variant}`;
-      const sizeClass = size !== 'md' ? `btn-${size}` : '';
-      const classes = [baseClass, variantClass, sizeClass, className]
-          .filter(Boolean)
-          .join(' ');
-      return (jsxRuntimeExports.jsxs("button", { className: classes, disabled: disabled || loading, ...props, children: [loading && (jsxRuntimeExports.jsx("span", { className: "loader", "aria-hidden": "true" })), children] }));
-  };
-
-  /**
-   * 输入框组件
-   */
-  const Input = ({ label, error, helperText, className = '', id, ...props }) => {
-      const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
-      const classes = ['input', className].filter(Boolean).join(' ');
-      return (jsxRuntimeExports.jsxs("div", { className: "input-group", children: [label && (jsxRuntimeExports.jsx("label", { htmlFor: inputId, className: "input-label", children: label })), jsxRuntimeExports.jsx("input", { id: inputId, className: classes, ...props }), error && (jsxRuntimeExports.jsx("div", { className: "input-error", role: "alert", children: error })), helperText && !error && (jsxRuntimeExports.jsx("div", { className: "input-helper", children: helperText }))] }));
-  };
-
-  /**
-   * 可重用的下拉选择框组件
-   * 支持标签、错误提示、帮助文本等功能
-   */
-  const Select = ({ label, value, onChange, options, placeholder = '请选择...', error, helperText, disabled = false, className = '', }) => {
-      return (jsxRuntimeExports.jsxs("div", { className: `tm-form-group ${className}`, children: [label && (jsxRuntimeExports.jsx("label", { className: "tm-form-label", children: label })), jsxRuntimeExports.jsxs("select", { className: `tm-select ${error ? 'tm-select--error' : ''}`, value: value, onChange: (e) => onChange(e.target.value), disabled: disabled, children: [placeholder && (jsxRuntimeExports.jsx("option", { value: "", disabled: true, children: placeholder })), options.map((option) => (jsxRuntimeExports.jsx("option", { value: option.value, children: option.label }, option.value)))] }), error && (jsxRuntimeExports.jsx("div", { className: "tm-form-error", children: error })), helperText && !error && (jsxRuntimeExports.jsx("div", { className: "tm-form-helper", children: helperText }))] }));
-  };
-
-  /**
-   * 文本域组件
-   */
-  const Textarea = ({ label, error, helperText, className = '', id, ...props }) => {
-      const textareaId = id || `textarea-${Math.random().toString(36).substr(2, 9)}`;
-      const classes = ['input', 'textarea', className].filter(Boolean).join(' ');
-      return (jsxRuntimeExports.jsxs("div", { className: "textarea-group", children: [label && (jsxRuntimeExports.jsx("label", { htmlFor: textareaId, className: "textarea-label", children: label })), jsxRuntimeExports.jsx("textarea", { id: textareaId, className: classes, ...props }), error && (jsxRuntimeExports.jsx("div", { className: "textarea-error", role: "alert", children: error })), helperText && !error && (jsxRuntimeExports.jsx("div", { className: "textarea-helper", children: helperText }))] }));
-  };
-
-  /**
-   * 复选框组件
-   */
-  const Checkbox = ({ label, error, className = '', id, ...props }) => {
-      const checkboxId = id || `checkbox-${Math.random().toString(36).substr(2, 9)}`;
-      const classes = ['checkbox', className].filter(Boolean).join(' ');
-      return (jsxRuntimeExports.jsxs("div", { className: "checkbox-group", children: [jsxRuntimeExports.jsxs("label", { htmlFor: checkboxId, className: classes, children: [jsxRuntimeExports.jsx("input", { id: checkboxId, type: "checkbox", ...props }), label && jsxRuntimeExports.jsx("span", { className: "checkbox-label", children: label })] }), error && (jsxRuntimeExports.jsx("div", { className: "checkbox-error", role: "alert", children: error }))] }));
-  };
-
-  /**
-   * 模态框组件
-   * 支持不同尺寸和自定义内容
-   */
-  const Modal = ({ isOpen, onClose, title, children, size = 'medium', className = '', }) => {
-      // 处理 ESC 键关闭
-      reactExports.useEffect(() => {
-          const handleEscape = (e) => {
-              if (e.key === 'Escape' && isOpen) {
-                  onClose();
-              }
-          };
-          if (isOpen) {
-              document.addEventListener('keydown', handleEscape);
-              // 防止背景滚动
-              document.body.style.overflow = 'hidden';
-          }
-          return () => {
-              document.removeEventListener('keydown', handleEscape);
-              document.body.style.overflow = 'unset';
-          };
-      }, [isOpen, onClose]);
-      if (!isOpen)
-          return null;
-      return (jsxRuntimeExports.jsx("div", { className: "tm-modal-overlay", onClick: onClose, children: jsxRuntimeExports.jsxs("div", { className: `tm-modal tm-modal--${size} ${className}`, onClick: (e) => e.stopPropagation(), children: [title && (jsxRuntimeExports.jsxs("div", { className: "tm-modal__header", children: [jsxRuntimeExports.jsx("h3", { className: "tm-modal__title", children: title }), jsxRuntimeExports.jsx("button", { className: "tm-modal__close", onClick: onClose, "aria-label": "\u5173\u95ED", children: "\u00D7" })] })), jsxRuntimeExports.jsx("div", { className: "tm-modal__body", children: children })] }) }));
-  };
-
-  /**
-   * 通知组件
-   * 支持不同类型的通知和自动消失功能
-   */
-  const Notification = ({ type, message, duration = 3000, onClose, className = '', }) => {
-      const [isVisible, setIsVisible] = reactExports.useState(true);
-      reactExports.useEffect(() => {
-          if (duration > 0) {
-              const timer = setTimeout(() => {
-                  setIsVisible(false);
-                  setTimeout(() => {
-                      onClose?.();
-                  }, 300); // 等待动画完成
-              }, duration);
-              return () => clearTimeout(timer);
-          }
-      }, [duration, onClose]);
-      const handleClose = () => {
-          setIsVisible(false);
-          setTimeout(() => {
-              onClose?.();
-          }, 300);
-      };
-      const getIcon = () => {
-          switch (type) {
-              case 'success':
-                  return '✓';
-              case 'error':
-                  return '✕';
-              case 'warning':
-                  return '⚠';
-              case 'info':
-                  return 'ℹ';
-              default:
-                  return '';
-          }
-      };
-      return (jsxRuntimeExports.jsxs("div", { className: `tm-notification tm-notification--${type} ${isVisible ? 'tm-notification--visible' : 'tm-notification--hidden'} ${className}`, children: [jsxRuntimeExports.jsx("div", { className: "tm-notification__icon", children: getIcon() }), jsxRuntimeExports.jsx("div", { className: "tm-notification__content", children: message }), jsxRuntimeExports.jsx("button", { className: "tm-notification__close", onClick: handleClose, "aria-label": "\u5173\u95ED\u901A\u77E5", children: "\u00D7" })] }));
-  };
-
-  /**
    * GitLab 周报生成器 - 常量定义
    * 定义项目中使用的所有常量
    */
@@ -34760,7 +34642,7 @@ var GitLabWeeklyReport = (function (exports) {
       THEME: 'gitlab-weekly-report-theme',
       PANEL_STATE: 'gitlab-weekly-report-panel-state',
       // 添加缺少的键
-      GITLAB_URL: 'gitlab-url',
+      GITLAB_URL: 'https://www.lejuhub.com',
       GITLAB_TOKEN: 'gitlab-token',
       GITLAB_PROJECT_ID: 'gitlab-project-id',
       DEEPSEEK_API_KEY: 'deepseek-api-key',
@@ -34802,52 +34684,81 @@ var GitLabWeeklyReport = (function (exports) {
   /** 主题颜色配置 */
   const THEME_COLORS = {
       light: {
-          primary: '#1976d2',
-          secondary: '#dc004e',
           background: '#ffffff',
           cardBg: '#ffffff',
-          surface: '#f5f5f5',
+          border: '#e0e0e0',
+          borderLight: '#f0f0f0',
           text: '#333333',
           textSecondary: '#666666',
           textMuted: '#999999',
-          border: '#e0e0e0',
-          borderLight: '#f0f0f0',
+          primary: '#1976d2',
           success: '#4caf50',
           warning: '#ff9800',
           error: '#f44336',
           buttonBg: '#f5f5f5',
-          hoverBg: '#e0e0e0',
-          shadow: '0 2px 4px rgba(0,0,0,0.1)',
-          shadowLarge: '0 4px 8px rgba(0,0,0,0.15)'
+          hoverBg: '#eeeeee',
+          shadow: 'rgba(0, 0, 0, 0.1)',
+          shadowLarge: 'rgba(0, 0, 0, 0.2)'
       },
       dark: {
-          primary: '#90caf9',
-          secondary: '#f48fb1',
           background: '#121212',
           cardBg: '#1e1e1e',
-          surface: '#1e1e1e',
-          text: '#ffffff',
-          textSecondary: '#b0b0b0',
-          textMuted: '#777777',
           border: '#333333',
-          borderLight: '#444444',
+          borderLight: '#404040',
+          text: '#ffffff',
+          textSecondary: '#b3b3b3',
+          textMuted: '#666666',
+          primary: '#90caf9',
           success: '#81c784',
           warning: '#ffb74d',
           error: '#e57373',
-          buttonBg: '#333333',
-          hoverBg: '#444444',
-          shadow: '0 2px 4px rgba(0,0,0,0.3)',
-          shadowLarge: '0 4px 8px rgba(0,0,0,0.5)'
+          buttonBg: '#2d2d2d',
+          hoverBg: '#404040',
+          shadow: 'rgba(0, 0, 0, 0.3)',
+          shadowLarge: 'rgba(0, 0, 0, 0.5)'
       }
   };
+
+  function styleInject(css, ref) {
+    if ( ref === void 0 ) ref = {};
+    var insertAt = ref.insertAt;
+
+    if (!css || typeof document === 'undefined') { return; }
+
+    var head = document.head || document.getElementsByTagName('head')[0];
+    var style = document.createElement('style');
+    style.type = 'text/css';
+
+    if (insertAt === 'top') {
+      if (head.firstChild) {
+        head.insertBefore(style, head.firstChild);
+      } else {
+        head.appendChild(style);
+      }
+    } else {
+      head.appendChild(style);
+    }
+
+    if (style.styleSheet) {
+      style.styleSheet.cssText = css;
+    } else {
+      style.appendChild(document.createTextNode(css));
+    }
+  }
+
+  var css_248z$6 = "/* 面板头部样式 - 参考old版本设计风格 */\n.tm-panel-header {\n  width: 100%;\n  background: var(--header-bg, #ffffff);\n  border-bottom: 1px solid var(--border-color, #e1e5e9);\n  padding: 16px 20px;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  backdrop-filter: blur(10px);\n  -webkit-backdrop-filter: blur(10px);\n}\n\n.tm-panel-header__content {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  max-width: 100%;\n}\n\n/* 左侧内容 */\n.tm-panel-header__left {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  flex: 1;\n  min-width: 0;\n}\n\n.tm-panel-header__title {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  min-width: 0;\n}\n\n.tm-panel-header__icon {\n  font-size: 20px;\n  line-height: 1;\n  flex-shrink: 0;\n}\n\n.tm-panel-header__text {\n  font-size: 18px;\n  font-weight: 600;\n  color: var(--text-color, #1d1d1f);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.tm-panel-header__version {\n  padding: 4px 8px;\n  background: var(--version-bg, rgba(0, 122, 255, 0.1));\n  color: var(--version-color, #007aff);\n  border-radius: 12px;\n  font-size: 12px;\n  font-weight: 500;\n  border: 1px solid var(--version-border, rgba(0, 122, 255, 0.2));\n  flex-shrink: 0;\n}\n\n/* 右侧内容 */\n.tm-panel-header__right {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  flex-shrink: 0;\n}\n\n/* 设置按钮 */\n.tm-panel-header__settings {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 8px 16px;\n  background: var(--button-bg, #f1f3f4);\n  border: 1px solid var(--border-color, #e1e5e9);\n  border-radius: 6px;\n  color: var(--text-color, #1d1d1f);\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  white-space: nowrap;\n}\n\n.tm-panel-header__settings:hover {\n  background: var(--button-hover-bg, #e8eaed);\n  border-color: var(--border-hover, #d2d5da);\n  transform: translateY(-1px);\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n\n.tm-panel-header__settings:active {\n  transform: translateY(0);\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n}\n\n/* 关闭按钮 */\n.tm-panel-header__close {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 32px;\n  height: 32px;\n  background: var(--close-bg, transparent);\n  border: 1px solid var(--border-color, #e1e5e9);\n  border-radius: 6px;\n  color: var(--text-muted, #8e8e93);\n  font-size: 18px;\n  font-weight: 400;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  line-height: 1;\n}\n\n.tm-panel-header__close:hover {\n  background: var(--close-hover-bg, rgba(255, 59, 48, 0.1));\n  border-color: var(--error-color, #ff3b30);\n  color: var(--error-color, #ff3b30);\n  transform: translateY(-1px);\n  box-shadow: 0 2px 4px rgba(255, 59, 48, 0.2);\n}\n\n.tm-panel-header__close:active {\n  transform: translateY(0);\n  box-shadow: 0 1px 2px rgba(255, 59, 48, 0.2);\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .tm-panel-header {\n    padding: 12px 16px;\n  }\n  \n  .tm-panel-header__left {\n    gap: 12px;\n  }\n  \n  .tm-panel-header__text {\n    font-size: 16px;\n  }\n  \n  .tm-panel-header__version {\n    padding: 3px 6px;\n    font-size: 11px;\n  }\n  \n  .tm-panel-header__settings {\n    padding: 6px 12px;\n    font-size: 13px;\n  }\n  \n  .tm-panel-header__close {\n    width: 28px;\n    height: 28px;\n    font-size: 16px;\n  }\n}\n\n@media (max-width: 480px) {\n  .tm-panel-header {\n    padding: 10px 12px;\n  }\n  \n  .tm-panel-header__left {\n    gap: 8px;\n  }\n  \n  .tm-panel-header__text {\n    font-size: 15px;\n  }\n  \n  .tm-panel-header__version {\n    display: none; /* 在小屏幕上隐藏版本号 */\n  }\n  \n  .tm-panel-header__settings {\n    padding: 6px 10px;\n    font-size: 12px;\n    gap: 4px;\n  }\n  \n  .tm-panel-header__right {\n    gap: 6px;\n  }\n}\n\n/* 高对比度模式 */\n@media (prefers-contrast: high) {\n  .tm-panel-header {\n    border-bottom-width: 2px;\n  }\n  \n  .tm-panel-header__settings,\n  .tm-panel-header__close {\n    border-width: 2px;\n  }\n  \n  .tm-panel-header__version {\n    border-width: 2px;\n  }\n}\n\n/* 减少动画模式 */\n@media (prefers-reduced-motion: reduce) {\n  .tm-panel-header__settings,\n  .tm-panel-header__close {\n    transition: none;\n  }\n  \n  .tm-panel-header__settings:hover,\n  .tm-panel-header__close:hover {\n    transform: none;\n  }\n}\n\n/* 暗色主题适配 */\n@media (prefers-color-scheme: dark) {\n  .tm-panel-header {\n    background: var(--header-bg-dark, rgba(28, 28, 30, 0.95));\n    border-bottom-color: var(--border-color-dark, #38383a);\n  }\n  \n  .tm-panel-header__text {\n    color: var(--text-color-dark, #f2f2f7);\n  }\n  \n  .tm-panel-header__settings {\n    background: var(--button-bg-dark, #2c2c2e);\n    border-color: var(--border-color-dark, #38383a);\n    color: var(--text-color-dark, #f2f2f7);\n  }\n  \n  .tm-panel-header__settings:hover {\n    background: var(--button-hover-bg-dark, #3a3a3c);\n    border-color: var(--border-hover-dark, #48484a);\n  }\n  \n  .tm-panel-header__close {\n    border-color: var(--border-color-dark, #38383a);\n    color: var(--text-muted-dark, #8e8e93);\n  }\n  \n  .tm-panel-header__version {\n    background: var(--version-bg-dark, rgba(0, 122, 255, 0.2));\n    border-color: var(--version-border-dark, rgba(0, 122, 255, 0.3));\n  }\n}";
+  styleInject(css_248z$6);
 
   /**
    * 面板头部组件
    * 显示标题、版本信息和设置按钮
    */
-  const Header = ({ onSettingsClick, className = '', }) => {
-      return (jsxRuntimeExports.jsxs("div", { className: `tm-panel-header ${className}`, children: [jsxRuntimeExports.jsxs("div", { className: "tm-panel-header__left", children: [jsxRuntimeExports.jsxs("div", { className: "tm-panel-header__title", children: [jsxRuntimeExports.jsx("span", { className: "tm-panel-header__icon", children: "\uD83D\uDCCA" }), jsxRuntimeExports.jsx("span", { className: "tm-panel-header__text", children: "GitLab \u5468\u62A5\u751F\u6210\u5668" })] }), jsxRuntimeExports.jsxs("div", { className: "tm-panel-header__version", children: ["v", APP_VERSION] })] }), jsxRuntimeExports.jsx("div", { className: "tm-panel-header__right", children: jsxRuntimeExports.jsx(Button, { variant: "ghost", size: "sm", onClick: onSettingsClick, className: "tm-panel-header__settings", children: "\u2699\uFE0F \u8BBE\u7F6E" }) })] }));
+  const Header = ({ onSettingsClick, onClose, className = '', }) => {
+      return (jsxRuntimeExports.jsx("div", { className: `tm-panel-header ${className}`, children: jsxRuntimeExports.jsxs("div", { className: "tm-panel-header__content", children: [jsxRuntimeExports.jsxs("div", { className: "tm-panel-header__left", children: [jsxRuntimeExports.jsxs("div", { className: "tm-panel-header__title", children: [jsxRuntimeExports.jsx("span", { className: "tm-panel-header__icon", children: "\uD83D\uDCCA" }), jsxRuntimeExports.jsx("span", { className: "tm-panel-header__text", children: "GitLab \u5468\u62A5\u751F\u6210\u5668" })] }), jsxRuntimeExports.jsxs("div", { className: "tm-panel-header__version", children: ["v", APP_VERSION] })] }), jsxRuntimeExports.jsxs("div", { className: "tm-panel-header__right", children: [jsxRuntimeExports.jsx("button", { onClick: onSettingsClick, className: "tm-panel-header__settings", title: "\u6253\u5F00\u8BBE\u7F6E", children: "\u2699\uFE0F \u8BBE\u7F6E" }), onClose && (jsxRuntimeExports.jsx("button", { onClick: onClose, className: "tm-panel-header__close", title: "\u5173\u95ED\u9762\u677F", children: "\u00D7" }))] })] }) }));
   };
+
+  var css_248z$5 = "/* Footer 组件样式 - 旧版本设计风格 */\n\n/* CSS 变量定义 */\n:root {\n  /* 颜色变量 */\n  --tm-footer-bg: #f8f9fa;\n  --tm-footer-border: #e1e5e9;\n  --tm-footer-text: #6c757d;\n  --tm-footer-text-muted: #95a5a6;\n  --tm-footer-link: #007bff;\n  --tm-footer-link-hover: #0056b3;\n  --tm-footer-separator: #dee2e6;\n  \n  /* 间距变量 */\n  --tm-footer-padding: 16px;\n  --tm-footer-gap: 8px;\n  \n  /* 字体变量 */\n  --tm-footer-font-size: 12px;\n  --tm-footer-font-weight: 400;\n  \n  /* 边框变量 */\n  --tm-footer-border-width: 1px;\n}\n\n/* 暗色主题 */\n[data-theme=\"dark\"] {\n  --tm-footer-bg: #34495e;\n  --tm-footer-border: #2c3e50;\n  --tm-footer-text: #bdc3c7;\n  --tm-footer-text-muted: #95a5a6;\n  --tm-footer-link: #3498db;\n  --tm-footer-link-hover: #2980b9;\n  --tm-footer-separator: #7f8c8d;\n}\n\n/* 主容器 */\n.tm-panel-footer {\n  background: var(--tm-footer-bg);\n  border-top: var(--tm-footer-border-width) solid var(--tm-footer-border);\n  padding: var(--tm-footer-padding);\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  font-size: var(--tm-footer-font-size);\n  color: var(--tm-footer-text);\n  position: relative;\n  z-index: 1;\n}\n\n/* 内容容器 */\n.tm-panel-footer__content {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  max-width: 100%;\n  margin: 0 auto;\n  gap: var(--tm-footer-gap);\n}\n\n/* 版权信息 */\n.tm-panel-footer__copyright {\n  color: var(--tm-footer-text-muted);\n  font-weight: var(--tm-footer-font-weight);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  flex-shrink: 1;\n}\n\n/* 链接容器 */\n.tm-panel-footer__links {\n  display: flex;\n  align-items: center;\n  gap: var(--tm-footer-gap);\n  flex-shrink: 0;\n}\n\n/* 链接样式 */\n.tm-panel-footer__link {\n  color: var(--tm-footer-link);\n  text-decoration: none;\n  font-weight: var(--tm-footer-font-weight);\n  transition: color 0.2s ease;\n  white-space: nowrap;\n  padding: 2px 4px;\n  border-radius: 3px;\n}\n\n.tm-panel-footer__link:hover {\n  color: var(--tm-footer-link-hover);\n  text-decoration: underline;\n}\n\n.tm-panel-footer__link:focus {\n  outline: 2px solid var(--tm-footer-link);\n  outline-offset: 1px;\n}\n\n/* 分隔符 */\n.tm-panel-footer__separator {\n  color: var(--tm-footer-separator);\n  font-weight: bold;\n  user-select: none;\n  margin: 0 2px;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .tm-panel-footer {\n    padding: 12px;\n  }\n  \n  .tm-panel-footer__content {\n    flex-direction: column;\n    gap: 8px;\n    text-align: center;\n  }\n  \n  .tm-panel-footer__copyright {\n    order: 2;\n  }\n  \n  .tm-panel-footer__links {\n    order: 1;\n    justify-content: center;\n  }\n}\n\n@media (max-width: 480px) {\n  .tm-panel-footer {\n    padding: 8px;\n  }\n  \n  .tm-panel-footer__content {\n    gap: 6px;\n  }\n  \n  .tm-panel-footer__links {\n    flex-wrap: wrap;\n    gap: 4px;\n  }\n  \n  .tm-panel-footer__separator {\n    display: none;\n  }\n}\n\n/* 高对比度模式 */\n@media (prefers-contrast: high) {\n  .tm-panel-footer {\n    border-top-width: 2px;\n  }\n  \n  .tm-panel-footer__link {\n    outline: 1px solid transparent;\n  }\n  \n  .tm-panel-footer__link:focus {\n    outline-width: 2px;\n    outline-offset: 2px;\n  }\n}\n\n/* 减少动画模式 */\n@media (prefers-reduced-motion: reduce) {\n  .tm-panel-footer__link {\n    transition: none;\n  }\n}\n\n/* 打印样式 */\n@media print {\n  .tm-panel-footer {\n    display: none;\n  }\n}";
+  styleInject(css_248z$5);
 
   /**
    * 面板底部组件
@@ -35114,19 +35025,22 @@ var GitLabWeeklyReport = (function (exports) {
       };
   };
 
+  var css_248z$4 = "/* EventsTable 组件样式 - 旧版本设计风格 */\n\n/* CSS 变量定义 */\n:root {\n  /* 颜色变量 */\n  --tm-events-bg: #ffffff;\n  --tm-events-border: #e1e5e9;\n  --tm-events-header-bg: #f8f9fa;\n  --tm-events-row-bg: #ffffff;\n  --tm-events-row-hover: #f5f5f5;\n  --tm-events-row-selected: #e3f2fd;\n  --tm-events-text: #2c3e50;\n  --tm-events-text-secondary: #6c757d;\n  --tm-events-text-muted: #95a5a6;\n  --tm-events-checkbox: #007bff;\n  --tm-events-checkbox-checked: #0056b3;\n  --tm-events-loading-bg: rgba(255, 255, 255, 0.9);\n  --tm-events-empty-text: #6c757d;\n  \n  /* 间距变量 */\n  --tm-events-padding: 16px;\n  --tm-events-cell-padding: 12px;\n  --tm-events-border-radius: 8px;\n  \n  /* 字体变量 */\n  --tm-events-font-size: 14px;\n  --tm-events-font-size-sm: 12px;\n  --tm-events-font-weight: 400;\n  --tm-events-font-weight-medium: 500;\n  \n  /* 阴影变量 */\n  --tm-events-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n  --tm-events-shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.15);\n}\n\n/* 暗色主题 */\n[data-theme=\"dark\"] {\n  --tm-events-bg: #2c3e50;\n  --tm-events-border: #34495e;\n  --tm-events-header-bg: #34495e;\n  --tm-events-row-bg: #2c3e50;\n  --tm-events-row-hover: #34495e;\n  --tm-events-row-selected: #1e3a8a;\n  --tm-events-text: #ecf0f1;\n  --tm-events-text-secondary: #bdc3c7;\n  --tm-events-text-muted: #95a5a6;\n  --tm-events-loading-bg: rgba(44, 62, 80, 0.9);\n  --tm-events-empty-text: #bdc3c7;\n}\n\n/* 主容器 */\n.tm-events-table {\n  background: var(--tm-events-bg);\n  border: 1px solid var(--tm-events-border);\n  border-radius: var(--tm-events-border-radius);\n  box-shadow: var(--tm-events-shadow);\n  overflow: hidden;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  font-size: var(--tm-events-font-size);\n  color: var(--tm-events-text);\n}\n\n/* 表格头部 */\n.tm-events-table__header {\n  background: var(--tm-events-header-bg);\n  border-bottom: 1px solid var(--tm-events-border);\n  padding: var(--tm-events-padding);\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  font-weight: var(--tm-events-font-weight-medium);\n}\n\n.tm-events-table__select-all {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  cursor: pointer;\n  user-select: none;\n}\n\n.tm-events-table__select-all input[type=\"checkbox\"] {\n  width: 16px;\n  height: 16px;\n  accent-color: var(--tm-events-checkbox);\n  cursor: pointer;\n}\n\n.tm-events-table__stats {\n  color: var(--tm-events-text-secondary);\n  font-size: var(--tm-events-font-size-sm);\n}\n\n/* 表格主体 */\n.tm-events-table__body {\n  max-height: 400px;\n  overflow-y: auto;\n}\n\n/* 表格行 */\n.tm-events-table__row {\n  display: grid;\n  grid-template-columns: 40px 120px 1fr 150px 120px;\n  align-items: center;\n  padding: var(--tm-events-cell-padding);\n  border-bottom: 1px solid var(--tm-events-border);\n  background: var(--tm-events-row-bg);\n  transition: all 0.2s ease;\n}\n\n.tm-events-table__row:hover {\n  background: var(--tm-events-row-hover);\n}\n\n.tm-events-table__row--selected {\n  background: var(--tm-events-row-selected);\n  border-left: 3px solid var(--tm-events-checkbox);\n}\n\n.tm-events-table__row:last-child {\n  border-bottom: none;\n}\n\n/* 表格单元格 */\n.tm-events-table__cell {\n  padding: 4px 8px;\n  overflow: hidden;\n}\n\n.tm-events-table__cell--checkbox {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.tm-events-table__checkbox {\n  width: 16px;\n  height: 16px;\n  accent-color: var(--tm-events-checkbox);\n  cursor: pointer;\n}\n\n/* 事件类型 */\n.tm-events-table__event-type {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n\n.tm-events-table__event-icon {\n  font-size: 16px;\n  flex-shrink: 0;\n}\n\n.tm-events-table__event-text {\n  font-size: var(--tm-events-font-size-sm);\n  color: var(--tm-events-text-secondary);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n/* 事件标题 */\n.tm-events-table__event-title {\n  font-weight: var(--tm-events-font-weight-medium);\n  color: var(--tm-events-text);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  margin-bottom: 2px;\n}\n\n.tm-events-table__event-target {\n  font-size: var(--tm-events-font-size-sm);\n  color: var(--tm-events-text-muted);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n/* 项目名称 */\n.tm-events-table__project-name {\n  font-size: var(--tm-events-font-size-sm);\n  color: var(--tm-events-text-secondary);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  background: var(--tm-events-header-bg);\n  padding: 4px 8px;\n  border-radius: 4px;\n  border: 1px solid var(--tm-events-border);\n}\n\n/* 日期 */\n.tm-events-table__event-date {\n  font-size: var(--tm-events-font-size-sm);\n  color: var(--tm-events-text-muted);\n  white-space: nowrap;\n  font-family: 'Monaco', 'Menlo', monospace;\n}\n\n/* 加载状态 */\n.tm-events-table--loading {\n  position: relative;\n  min-height: 200px;\n}\n\n.tm-events-table__loading {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: var(--tm-events-loading-bg);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 10;\n}\n\n.tm-loading {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 16px;\n}\n\n.tm-loading__spinner {\n  display: flex;\n  gap: 4px;\n}\n\n.tm-loading__dot {\n  width: 8px;\n  height: 8px;\n  background: var(--tm-events-checkbox);\n  border-radius: 50%;\n  animation: tm-loading-bounce 1.4s ease-in-out infinite both;\n}\n\n.tm-loading__dot:nth-child(1) {\n  animation-delay: -0.32s;\n}\n\n.tm-loading__dot:nth-child(2) {\n  animation-delay: -0.16s;\n}\n\n.tm-loading__text {\n  color: var(--tm-events-text-secondary);\n  font-size: var(--tm-events-font-size-sm);\n}\n\n@keyframes tm-loading-bounce {\n  0%, 80%, 100% {\n    transform: scale(0);\n  }\n  40% {\n    transform: scale(1);\n  }\n}\n\n/* 空状态 */\n.tm-events-table--empty {\n  min-height: 200px;\n}\n\n.tm-events-table__empty {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 40px 20px;\n  text-align: center;\n}\n\n.tm-events-table__empty-icon {\n  font-size: 48px;\n  margin-bottom: 16px;\n  opacity: 0.5;\n}\n\n.tm-events-table__empty-text {\n  font-size: 16px;\n  color: var(--tm-events-empty-text);\n  margin-bottom: 8px;\n  font-weight: var(--tm-events-font-weight-medium);\n}\n\n.tm-events-table__empty-hint {\n  font-size: var(--tm-events-font-size-sm);\n  color: var(--tm-events-text-muted);\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .tm-events-table__row {\n    grid-template-columns: 40px 1fr 100px;\n    gap: 8px;\n  }\n  \n  .tm-events-table__cell--type,\n  .tm-events-table__cell--project {\n    display: none;\n  }\n  \n  .tm-events-table__header {\n    padding: 12px;\n  }\n  \n  .tm-events-table__cell {\n    padding: 2px 4px;\n  }\n}\n\n@media (max-width: 480px) {\n  .tm-events-table__row {\n    grid-template-columns: 40px 1fr;\n  }\n  \n  .tm-events-table__cell--date {\n    display: none;\n  }\n}\n\n/* 高对比度模式 */\n@media (prefers-contrast: high) {\n  .tm-events-table {\n    border-width: 2px;\n  }\n  \n  .tm-events-table__row {\n    border-bottom-width: 2px;\n  }\n  \n  .tm-events-table__checkbox,\n  .tm-events-table__select-all input[type=\"checkbox\"] {\n    outline: 2px solid var(--tm-events-text);\n    outline-offset: 2px;\n  }\n}\n\n/* 减少动画模式 */\n@media (prefers-reduced-motion: reduce) {\n  .tm-events-table__row,\n  .tm-loading__dot {\n    transition: none;\n    animation: none;\n  }\n}";
+  styleInject(css_248z$4);
+
   /**
    * GitLab 事件表格组件
    * 显示事件列表，支持选择和全选功能
    */
-  const EventsTable = ({ events, selectedEvents, onEventSelect, onSelectAll, loading = false, className = '', }) => {
+  const EventsTable = ({ events, selectedEvents, onToggleSelection, onToggleSelectAll, loading = false, className = '', }) => {
       // 全选状态
       const isAllSelected = events.length > 0 && selectedEvents.size === events.length;
       const isIndeterminate = selectedEvents.size > 0 && selectedEvents.size < events.length;
       const handleSelectAll = (event) => {
-          onSelectAll(event.target.checked);
+          onToggleSelectAll(event.target.checked);
       };
       const handleEventSelect = (eventId, checked) => {
-          onEventSelect(eventId, checked);
+          onToggleSelection(eventId, checked);
       };
       const getEventTypeIcon = (actionName) => {
           switch (actionName) {
@@ -35163,9 +35077,12 @@ var GitLabWeeklyReport = (function (exports) {
       if (events.length === 0) {
           return (jsxRuntimeExports.jsx("div", { className: `tm-events-table tm-events-table--empty ${className}`, children: jsxRuntimeExports.jsxs("div", { className: "tm-events-table__empty", children: [jsxRuntimeExports.jsx("div", { className: "tm-events-table__empty-icon", children: "\uD83D\uDCCB" }), jsxRuntimeExports.jsx("div", { className: "tm-events-table__empty-text", children: "\u6682\u65E0\u4E8B\u4EF6\u6570\u636E" }), jsxRuntimeExports.jsx("div", { className: "tm-events-table__empty-hint", children: "\u8BF7\u68C0\u67E5\u65E5\u671F\u8303\u56F4\u6216 GitLab \u914D\u7F6E" })] }) }));
       }
-      return (jsxRuntimeExports.jsxs("div", { className: `tm-events-table ${className}`, children: [jsxRuntimeExports.jsxs("div", { className: "tm-events-table__header", children: [jsxRuntimeExports.jsx("div", { className: "tm-events-table__select-all", children: jsxRuntimeExports.jsx(Checkbox, { checked: isAllSelected, onChange: handleSelectAll, label: `全选 (${selectedEvents.size}/${events.length})`, className: isIndeterminate ? 'tm-checkbox--indeterminate' : '' }) }), jsxRuntimeExports.jsxs("div", { className: "tm-events-table__stats", children: ["\u5DF2\u9009\u62E9 ", selectedEvents.size, " \u4E2A\u4E8B\u4EF6"] })] }), jsxRuntimeExports.jsx("div", { className: "tm-events-table__body", children: events.map((event) => {
+      return (jsxRuntimeExports.jsxs("div", { className: `tm-events-table ${className}`, children: [jsxRuntimeExports.jsxs("div", { className: "tm-events-table__header", children: [jsxRuntimeExports.jsxs("div", { className: "tm-events-table__select-all", children: [jsxRuntimeExports.jsx("input", { type: "checkbox", className: "tm-events-table__select-all", checked: isAllSelected, onChange: handleSelectAll, ref: (input) => {
+                                      if (input)
+                                          input.indeterminate = isIndeterminate;
+                                  } }), jsxRuntimeExports.jsx("span", { children: `全选 (${selectedEvents.size}/${events.length})` })] }), jsxRuntimeExports.jsxs("div", { className: "tm-events-table__stats", children: ["\u5DF2\u9009\u62E9 ", selectedEvents.size, " \u4E2A\u4E8B\u4EF6"] })] }), jsxRuntimeExports.jsx("div", { className: "tm-events-table__body", children: events.map((event) => {
                       const isSelected = selectedEvents.has(event.id.toString());
-                      return (jsxRuntimeExports.jsxs("div", { className: `tm-events-table__row ${isSelected ? 'tm-events-table__row--selected' : ''}`, children: [jsxRuntimeExports.jsx("div", { className: "tm-events-table__cell tm-events-table__cell--checkbox", children: jsxRuntimeExports.jsx(Checkbox, { checked: isSelected, onChange: (e) => handleEventSelect(event.id.toString(), e.target.checked) }) }), jsxRuntimeExports.jsx("div", { className: "tm-events-table__cell tm-events-table__cell--type", children: jsxRuntimeExports.jsxs("div", { className: "tm-events-table__event-type", children: [jsxRuntimeExports.jsx("span", { className: "tm-events-table__event-icon", children: getEventTypeIcon(event.action_name) }), jsxRuntimeExports.jsx("span", { className: "tm-events-table__event-text", children: getEventTypeText(event.action_name) })] }) }), jsxRuntimeExports.jsxs("div", { className: "tm-events-table__cell tm-events-table__cell--title", children: [jsxRuntimeExports.jsx("div", { className: "tm-events-table__event-title", children: event.target_title || event.push_data?.commit_title || '无标题' }), event.target_type && (jsxRuntimeExports.jsx("div", { className: "tm-events-table__event-target", children: event.target_type }))] }), jsxRuntimeExports.jsx("div", { className: "tm-events-table__cell tm-events-table__cell--project", children: jsxRuntimeExports.jsx("div", { className: "tm-events-table__project-name", children: event.project?.name || '未知项目' }) }), jsxRuntimeExports.jsx("div", { className: "tm-events-table__cell tm-events-table__cell--date", children: jsxRuntimeExports.jsx("div", { className: "tm-events-table__event-date", children: formatDate(event.created_at) }) })] }, event.id));
+                      return (jsxRuntimeExports.jsxs("div", { className: `tm-events-table__row ${isSelected ? 'tm-events-table__row--selected' : ''}`, children: [jsxRuntimeExports.jsx("div", { className: "tm-events-table__cell tm-events-table__cell--checkbox", children: jsxRuntimeExports.jsx("input", { type: "checkbox", className: "tm-events-table__checkbox", checked: isSelected, onChange: (e) => handleEventSelect(event.id.toString(), e.target.checked) }) }), jsxRuntimeExports.jsx("div", { className: "tm-events-table__cell tm-events-table__cell--type", children: jsxRuntimeExports.jsxs("div", { className: "tm-events-table__event-type", children: [jsxRuntimeExports.jsx("span", { className: "tm-events-table__event-icon", children: getEventTypeIcon(event.action_name) }), jsxRuntimeExports.jsx("span", { className: "tm-events-table__event-text", children: getEventTypeText(event.action_name) })] }) }), jsxRuntimeExports.jsxs("div", { className: "tm-events-table__cell tm-events-table__cell--title", children: [jsxRuntimeExports.jsx("div", { className: "tm-events-table__event-title", children: event.target_title || event.push_data?.commit_title || '无标题' }), event.target_type && (jsxRuntimeExports.jsx("div", { className: "tm-events-table__event-target", children: event.target_type }))] }), jsxRuntimeExports.jsx("div", { className: "tm-events-table__cell tm-events-table__cell--project", children: jsxRuntimeExports.jsx("div", { className: "tm-events-table__project-name", children: event.project?.name || '未知项目' }) }), jsxRuntimeExports.jsx("div", { className: "tm-events-table__cell tm-events-table__cell--date", children: jsxRuntimeExports.jsx("div", { className: "tm-events-table__event-date", children: formatDate(event.created_at) }) })] }, event.id));
                   }) })] }));
   };
 
@@ -35628,7 +35545,7 @@ var GitLabWeeklyReport = (function (exports) {
   /**
    * 主题管理 Hook
    */
-  const useTheme = (initialMode = 'auto') => {
+  const useTheme = (initialMode = 'dark') => {
       const [themeMode, setThemeMode] = reactExports.useState(initialMode);
       const [systemTheme, setSystemTheme] = reactExports.useState(() => detectSystemTheme());
       // 计算当前实际主题
@@ -35928,6 +35845,9 @@ var GitLabWeeklyReport = (function (exports) {
       };
   };
 
+  var css_248z$3 = "/* API设置样式 - 参考old版本设计风格 */\n.tm-api-settings {\n  width: 100%;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n}\n\n/* 设置区块 */\n.tm-settings-section {\n  margin-bottom: 32px;\n}\n\n.tm-settings-section:last-child {\n  margin-bottom: 0;\n}\n\n.tm-settings-section__title {\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--text-color, #1d1d1f);\n  margin: 0 0 16px 0;\n  padding-bottom: 8px;\n  border-bottom: 1px solid var(--border-light, #f0f0f0);\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.tm-settings-section__icon {\n  font-size: 16px;\n}\n\n.tm-settings-section__content {\n  padding: 0;\n}\n\n.tm-settings-section__actions {\n  margin-top: 16px;\n  display: flex;\n  gap: 12px;\n}\n\n/* 设置项 */\n.tm-settings__item {\n  margin-bottom: 20px;\n}\n\n.tm-settings__item:last-child {\n  margin-bottom: 0;\n}\n\n.tm-settings__label {\n  display: block;\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--text-color, #1d1d1f);\n  margin-bottom: 8px;\n}\n\n.tm-settings__label--required::after {\n  content: ' *';\n  color: var(--error-color, #ff3b30);\n}\n\n.tm-settings__input {\n  width: 100%;\n  padding: 12px 16px;\n  border: 1px solid var(--border-color, #e1e5e9);\n  border-radius: 8px;\n  font-size: 14px;\n  color: var(--text-color, #1d1d1f);\n  background: var(--input-bg, white);\n  transition: all 0.2s ease;\n  font-family: inherit;\n}\n\n.tm-settings__input:focus {\n  outline: none;\n  border-color: var(--primary-color, #007aff);\n  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);\n}\n\n.tm-settings__input:disabled {\n  background: var(--disabled-bg, #f5f5f7);\n  color: var(--text-disabled, #c7c7cc);\n  cursor: not-allowed;\n}\n\n.tm-settings__input--error {\n  border-color: var(--error-color, #ff3b30);\n  box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.1);\n}\n\n/* 选择框 */\n.tm-settings__select {\n  width: 100%;\n  padding: 12px 16px;\n  border: 1px solid var(--border-color, #e1e5e9);\n  border-radius: 8px;\n  font-size: 14px;\n  color: var(--text-color, #1d1d1f);\n  background: var(--input-bg, white);\n  transition: all 0.2s ease;\n  font-family: inherit;\n  cursor: pointer;\n}\n\n.tm-settings__select:focus {\n  outline: none;\n  border-color: var(--primary-color, #007aff);\n  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);\n}\n\n/* 帮助文本 */\n.tm-settings__help {\n  font-size: 12px;\n  color: var(--text-muted, #8e8e93);\n  margin-top: 6px;\n  line-height: 1.4;\n}\n\n.tm-settings__help--error {\n  color: var(--error-color, #ff3b30);\n}\n\n.tm-settings__help--success {\n  color: var(--success-color, #30d158);\n}\n\n/* 按钮 */\n.tm-settings__button {\n  padding: 10px 20px;\n  border: none;\n  border-radius: 6px;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  min-width: 80px;\n}\n\n.tm-settings__button--primary {\n  background: var(--primary-color, #007aff);\n  color: white;\n}\n\n.tm-settings__button--primary:hover {\n  background: #0056cc;\n  transform: translateY(-1px);\n}\n\n.tm-settings__button--primary:disabled {\n  background: var(--disabled-bg, #f5f5f7);\n  color: var(--text-disabled, #c7c7cc);\n  cursor: not-allowed;\n  transform: none;\n}\n\n.tm-settings__button--secondary {\n  background: var(--secondary-bg, #f1f3f4);\n  color: var(--text-color, #1d1d1f);\n  border: 1px solid var(--border-color, #e1e5e9);\n}\n\n.tm-settings__button--secondary:hover {\n  background: var(--hover-bg, rgba(0, 0, 0, 0.04));\n  transform: translateY(-1px);\n}\n\n.tm-settings__button--secondary:disabled {\n  background: var(--disabled-bg, #f5f5f7);\n  color: var(--text-disabled, #c7c7cc);\n  cursor: not-allowed;\n  transform: none;\n}\n\n/* 测试连接状态 */\n.tm-settings__test-status {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin-bottom: 16px;\n  padding: 12px 16px;\n  border-radius: 6px;\n  font-size: 13px;\n  font-weight: 500;\n}\n\n.tm-settings__test-status--success {\n  background: rgba(48, 209, 88, 0.1);\n  color: var(--success-color, #30d158);\n  border: 1px solid rgba(48, 209, 88, 0.2);\n}\n\n.tm-settings__test-status--error {\n  background: rgba(255, 59, 48, 0.1);\n  color: var(--error-color, #ff3b30);\n  border: 1px solid rgba(255, 59, 48, 0.2);\n}\n\n.tm-settings__test-status--loading {\n  background: rgba(0, 122, 255, 0.1);\n  color: var(--primary-color, #007aff);\n  border: 1px solid rgba(0, 122, 255, 0.2);\n}\n\n.tm-settings__test-status--info {\n  background: rgba(0, 122, 255, 0.1);\n  color: var(--primary-color, #007aff);\n  border: 1px solid rgba(0, 122, 255, 0.2);\n}\n\n.tm-settings__test-status--warning {\n  background: rgba(255, 149, 0, 0.1);\n  color: var(--warning-color, #ff9500);\n  border: 1px solid rgba(255, 149, 0, 0.2);\n}\n\n.tm-settings__test-icon {\n  font-size: 14px;\n}\n\n.tm-settings__close {\n  background: none;\n  border: none;\n  cursor: pointer;\n  padding: 4px;\n  border-radius: 4px;\n  color: inherit;\n  font-size: 12px;\n  transition: all 0.2s ease;\n  margin-left: auto;\n}\n\n.tm-settings__close:hover {\n  background: rgba(0, 0, 0, 0.1);\n}\n\n/* 表单组 */\n.tm-form-group {\n  margin-bottom: 0;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .tm-settings-section {\n    margin-bottom: 24px;\n  }\n  \n  .tm-settings__input,\n  .tm-settings__select {\n    padding: 10px 14px;\n    font-size: 13px;\n  }\n  \n  .tm-settings__button {\n    padding: 8px 16px;\n    font-size: 13px;\n  }\n  \n  .tm-settings-section__actions {\n    flex-direction: column;\n  }\n  \n  .tm-settings__button {\n    width: 100%;\n  }\n}\n\n/* 高对比度模式 */\n@media (prefers-contrast: high) {\n  .tm-settings__input,\n  .tm-settings__select {\n    border-width: 2px;\n  }\n  \n  .tm-settings__test-status {\n    border-width: 2px;\n  }\n}\n\n/* 减少动画模式 */\n@media (prefers-reduced-motion: reduce) {\n  .tm-settings__input,\n  .tm-settings__select,\n  .tm-settings__button,\n  .tm-settings__close {\n    transition: none;\n  }\n  \n  .tm-settings__button:hover {\n    transform: none;\n  }\n}";
+  styleInject(css_248z$3);
+
   /**
    * API 设置组件
    * 用于配置 GitLab 和 DeepSeek API 相关设置
@@ -35983,38 +35903,47 @@ var GitLabWeeklyReport = (function (exports) {
           { value: 'deepseek-chat', label: 'deepseek-chat' },
           { value: 'deepseek-coder', label: 'deepseek-coder' },
       ];
-      return (jsxRuntimeExports.jsxs("div", { className: `tm-api-settings ${className}`, children: [notification && (jsxRuntimeExports.jsx(Notification, { type: notification.type, message: notification.message, onClose: () => setNotification(null) })), jsxRuntimeExports.jsxs("div", { className: "tm-settings-section", children: [jsxRuntimeExports.jsxs("h3", { className: "tm-settings-section__title", children: [jsxRuntimeExports.jsx("span", { className: "tm-settings-section__icon", children: "\uD83E\uDD8A" }), "GitLab \u914D\u7F6E"] }), jsxRuntimeExports.jsxs("div", { className: "tm-settings-section__content", children: [jsxRuntimeExports.jsx(Input, { label: "GitLab \u5730\u5740", type: "url", value: config.gitlab.baseUrl, onChange: (e) => updateConfig({
-                                      gitlab: { ...config.gitlab, baseUrl: e.target.value }
-                                  }), placeholder: "https://gitlab.example.com", helperText: "GitLab \u5B9E\u4F8B\u7684\u57FA\u7840 URL \u5730\u5740" }), jsxRuntimeExports.jsx(Input, { label: "\u8BBF\u95EE\u4EE4\u724C (Token)", type: "password", value: config.gitlab.token, onChange: (e) => updateConfig({
-                                      gitlab: { ...config.gitlab, token: e.target.value }
-                                  }), placeholder: "glpat-xxxxxxxxxxxxxxxxxxxx", helperText: "GitLab \u4E2A\u4EBA\u8BBF\u95EE\u4EE4\u724C\uFF0C\u9700\u8981 read_api \u6743\u9650" }), jsxRuntimeExports.jsx(Input, { label: "\u9879\u76EE ID", type: "text", value: config.gitlab.projectId, onChange: (e) => updateConfig({
-                                      gitlab: { ...config.gitlab, projectId: e.target.value }
-                                  }), placeholder: "123", helperText: "GitLab \u9879\u76EE ID\uFF0C\u53EF\u5728\u9879\u76EE\u8BBE\u7F6E\u9875\u9762\u67E5\u770B" }), jsxRuntimeExports.jsx("div", { className: "tm-settings-section__actions", children: jsxRuntimeExports.jsx(Button, { variant: "outline", onClick: handleTestGitLab, loading: testing.gitlab, disabled: !config.gitlab.baseUrl || !config.gitlab.token, children: "\u6D4B\u8BD5\u8FDE\u63A5" }) })] })] }), jsxRuntimeExports.jsxs("div", { className: "tm-settings-section", children: [jsxRuntimeExports.jsxs("h3", { className: "tm-settings-section__title", children: [jsxRuntimeExports.jsx("span", { className: "tm-settings-section__icon", children: "\uD83E\uDD16" }), "DeepSeek \u914D\u7F6E"] }), jsxRuntimeExports.jsxs("div", { className: "tm-settings-section__content", children: [jsxRuntimeExports.jsx(Input, { label: "API Key", type: "password", value: config.deepseek.apiKey, onChange: (e) => updateConfig({
-                                      deepseek: { ...config.deepseek, apiKey: e.target.value }
-                                  }), placeholder: "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", helperText: "DeepSeek API \u5BC6\u94A5" }), jsxRuntimeExports.jsx("div", { className: "tm-form-group", children: jsxRuntimeExports.jsx(Select, { label: "\u6A21\u578B\u9009\u62E9", value: config.deepseek.model, onChange: (value) => updateConfig({
-                                          deepseek: { ...config.deepseek, model: value }
-                                      }), options: modelOptions, placeholder: "\u9009\u62E9\u6A21\u578B", helperText: "\u7528\u4E8E\u751F\u6210\u5468\u62A5\u7684 AI \u6A21\u578B" }) }), jsxRuntimeExports.jsx("div", { className: "tm-settings-section__actions", children: jsxRuntimeExports.jsx(Button, { variant: "outline", onClick: handleTestDeepSeek, loading: testing.deepseek, disabled: !config.deepseek.apiKey, children: "\u6D4B\u8BD5\u8FDE\u63A5" }) })] })] })] }));
+      return (jsxRuntimeExports.jsxs("div", { className: `tm-api-settings ${className}`, children: [notification && (jsxRuntimeExports.jsxs("div", { className: `tm-settings__test-status tm-settings__test-status--${notification.type}`, children: [jsxRuntimeExports.jsx("span", { className: "tm-settings__test-icon", children: notification.type === 'success' ? '✅' : notification.type === 'error' ? '❌' : 'ℹ️' }), jsxRuntimeExports.jsx("span", { children: notification.message }), jsxRuntimeExports.jsx("button", { className: "tm-settings__close", onClick: () => setNotification(null), style: { marginLeft: 'auto', fontSize: '12px' }, children: "\u2715" })] })), jsxRuntimeExports.jsxs("div", { className: "tm-settings-section", children: [jsxRuntimeExports.jsxs("h3", { className: "tm-settings-section__title", children: [jsxRuntimeExports.jsx("span", { className: "tm-settings-section__icon", children: "\uD83E\uDD8A" }), "GitLab \u914D\u7F6E"] }), jsxRuntimeExports.jsxs("div", { className: "tm-settings-section__content", children: [jsxRuntimeExports.jsxs("div", { className: "tm-settings__item", children: [jsxRuntimeExports.jsx("label", { className: "tm-settings__label tm-settings__label--required", children: "GitLab \u5730\u5740" }), jsxRuntimeExports.jsx("input", { type: "url", className: "tm-settings__input", value: config.gitlab.baseUrl, onChange: (e) => updateConfig({
+                                              gitlab: { ...config.gitlab, baseUrl: e.target.value }
+                                          }), placeholder: "https://gitlab.example.com" }), jsxRuntimeExports.jsx("div", { className: "tm-settings__help", children: "GitLab \u5B9E\u4F8B\u7684\u57FA\u7840 URL \u5730\u5740" })] }), jsxRuntimeExports.jsxs("div", { className: "tm-settings__item", children: [jsxRuntimeExports.jsx("label", { className: "tm-settings__label tm-settings__label--required", children: "\u8BBF\u95EE\u4EE4\u724C (Token)" }), jsxRuntimeExports.jsx("input", { type: "password", className: "tm-settings__input", value: config.gitlab.token, onChange: (e) => updateConfig({
+                                              gitlab: { ...config.gitlab, token: e.target.value }
+                                          }), placeholder: "glpat-xxxxxxxxxxxxxxxxxxxx" }), jsxRuntimeExports.jsx("div", { className: "tm-settings__help", children: "GitLab \u4E2A\u4EBA\u8BBF\u95EE\u4EE4\u724C\uFF0C\u9700\u8981 read_api \u6743\u9650" })] }), jsxRuntimeExports.jsxs("div", { className: "tm-settings__item", children: [jsxRuntimeExports.jsx("label", { className: "tm-settings__label tm-settings__label--required", children: "\u9879\u76EE ID" }), jsxRuntimeExports.jsx("input", { type: "text", className: "tm-settings__input", value: config.gitlab.projectId, onChange: (e) => updateConfig({
+                                              gitlab: { ...config.gitlab, projectId: e.target.value }
+                                          }), placeholder: "123" }), jsxRuntimeExports.jsx("div", { className: "tm-settings__help", children: "GitLab \u9879\u76EE ID\uFF0C\u53EF\u5728\u9879\u76EE\u8BBE\u7F6E\u9875\u9762\u67E5\u770B" })] }), jsxRuntimeExports.jsx("div", { className: "tm-settings-section__actions", children: jsxRuntimeExports.jsx("button", { className: "tm-settings__button tm-settings__button--secondary", onClick: handleTestGitLab, disabled: testing.gitlab || !config.gitlab.baseUrl || !config.gitlab.token, children: testing.gitlab ? '测试中...' : '测试连接' }) })] })] }), jsxRuntimeExports.jsxs("div", { className: "tm-settings-section", children: [jsxRuntimeExports.jsxs("h3", { className: "tm-settings-section__title", children: [jsxRuntimeExports.jsx("span", { className: "tm-settings-section__icon", children: "\uD83E\uDD16" }), "DeepSeek \u914D\u7F6E"] }), jsxRuntimeExports.jsxs("div", { className: "tm-settings-section__content", children: [jsxRuntimeExports.jsxs("div", { className: "tm-settings__item", children: [jsxRuntimeExports.jsx("label", { className: "tm-settings__label tm-settings__label--required", children: "API Key" }), jsxRuntimeExports.jsx("input", { type: "password", className: "tm-settings__input", value: config.deepseek.apiKey, onChange: (e) => updateConfig({
+                                              deepseek: { ...config.deepseek, apiKey: e.target.value }
+                                          }), placeholder: "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" }), jsxRuntimeExports.jsx("div", { className: "tm-settings__help", children: "DeepSeek API \u5BC6\u94A5" })] }), jsxRuntimeExports.jsx("div", { className: "tm-form-group", children: jsxRuntimeExports.jsxs("div", { className: "tm-settings__item", children: [jsxRuntimeExports.jsx("label", { className: "tm-settings__label", children: "\u6A21\u578B\u9009\u62E9" }), jsxRuntimeExports.jsx("select", { className: "tm-settings__select", value: config.deepseek.model, onChange: (e) => updateConfig({
+                                                  deepseek: { ...config.deepseek, model: e.target.value }
+                                              }), children: modelOptions.map(option => (jsxRuntimeExports.jsx("option", { value: option.value, children: option.label }, option.value))) }), jsxRuntimeExports.jsx("div", { className: "tm-settings__help", children: "\u7528\u4E8E\u751F\u6210\u5468\u62A5\u7684 AI \u6A21\u578B" })] }) }), jsxRuntimeExports.jsx("div", { className: "tm-settings-section__actions", children: jsxRuntimeExports.jsx("button", { className: "tm-settings__button tm-settings__button--secondary", onClick: handleTestDeepSeek, disabled: testing.deepseek || !config.deepseek.apiKey, children: testing.deepseek ? '测试中...' : '测试连接' }) })] })] })] }));
   };
+
+  var css_248z$2 = "/* 通用设置样式 - 参考old版本设计风格 */\n.tm-general-settings {\n  width: 100%;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n}\n\n/* 设置区块 */\n.tm-settings-section {\n  margin-bottom: 32px;\n}\n\n.tm-settings-section:last-child {\n  margin-bottom: 0;\n}\n\n.tm-settings-section__title {\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--text-color, #1d1d1f);\n  margin: 0 0 16px 0;\n  padding-bottom: 8px;\n  border-bottom: 1px solid var(--border-light, #f0f0f0);\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.tm-settings-section__icon {\n  font-size: 16px;\n}\n\n.tm-settings-section__content {\n  padding: 0;\n}\n\n/* 设置项 */\n.tm-settings__item {\n  margin-bottom: 20px;\n}\n\n.tm-settings__item:last-child {\n  margin-bottom: 0;\n}\n\n.tm-settings__label {\n  display: block;\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--text-color, #1d1d1f);\n  margin-bottom: 8px;\n}\n\n.tm-settings__label--required::after {\n  content: ' *';\n  color: var(--error-color, #ff3b30);\n}\n\n/* 选择框 */\n.tm-settings__select {\n  width: 100%;\n  padding: 12px 16px;\n  border: 1px solid var(--border-color, #e1e5e9);\n  border-radius: 8px;\n  font-size: 14px;\n  color: var(--text-color, #1d1d1f);\n  background: var(--input-bg, white);\n  transition: all 0.2s ease;\n  font-family: inherit;\n  cursor: pointer;\n}\n\n.tm-settings__select:focus {\n  outline: none;\n  border-color: var(--primary-color, #007aff);\n  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);\n}\n\n.tm-settings__select:disabled {\n  background: var(--disabled-bg, #f5f5f7);\n  color: var(--text-disabled, #c7c7cc);\n  cursor: not-allowed;\n}\n\n/* 帮助文本 */\n.tm-settings__help {\n  font-size: 12px;\n  color: var(--text-muted, #8e8e93);\n  margin-top: 6px;\n  line-height: 1.4;\n}\n\n.tm-settings__help--info {\n  color: var(--primary-color, #007aff);\n}\n\n.tm-settings__help--warning {\n  color: var(--warning-color, #ff9500);\n}\n\n.tm-settings__help--success {\n  color: var(--success-color, #30d158);\n}\n\n/* 信息卡片 */\n.tm-info-card {\n  padding: 16px;\n  background: var(--info-bg, rgba(0, 122, 255, 0.05));\n  border: 1px solid var(--info-border, rgba(0, 122, 255, 0.2));\n  border-radius: 8px;\n  margin-top: 16px;\n}\n\n.tm-info-card__title {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--text-color, #1d1d1f);\n  margin: 0 0 8px 0;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.tm-info-card__icon {\n  font-size: 16px;\n  color: var(--primary-color, #007aff);\n}\n\n.tm-info-card__content {\n  font-size: 13px;\n  color: var(--text-muted, #8e8e93);\n  line-height: 1.5;\n  margin: 0;\n}\n\n.tm-info-card__content strong {\n  color: var(--text-color, #1d1d1f);\n  font-weight: 600;\n}\n\n/* 主题预览 */\n.tm-theme-preview {\n  display: flex;\n  gap: 12px;\n  margin-top: 12px;\n  padding: 12px;\n  background: var(--preview-bg, #f8f9fa);\n  border-radius: 6px;\n  border: 1px solid var(--border-light, #f0f0f0);\n}\n\n.tm-theme-preview__item {\n  flex: 1;\n  padding: 8px;\n  border-radius: 4px;\n  text-align: center;\n  font-size: 11px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n.tm-theme-preview__item--light {\n  background: var(--input-bg);\n  color: var(--text-color);\n  border: 1px solid var(--border-color);\n}\n\n.tm-theme-preview__item--dark {\n  background: #1d1d1f;\n  color: #ffffff;\n  border: 1px solid #333;\n}\n\n.tm-theme-preview__item--auto {\n  background: linear-gradient(45deg, var(--input-bg) 50%, #1d1d1f 50%);\n  color: transparent;\n  border: 1px solid #e1e5e9;\n  position: relative;\n}\n\n.tm-theme-preview__item--auto::after {\n  content: 'Auto';\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  color: var(--text-secondary);\n  font-weight: 600;\n  text-shadow: 0 0 3px var(--background);\n}\n\n/* 表单组 */\n.tm-form-group {\n  margin-bottom: 0;\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .tm-settings-section {\n    margin-bottom: 24px;\n  }\n  \n  .tm-settings__select {\n    padding: 10px 14px;\n    font-size: 13px;\n  }\n  \n  .tm-info-card {\n    padding: 12px;\n  }\n  \n  .tm-theme-preview {\n    flex-direction: column;\n    gap: 8px;\n  }\n  \n  .tm-theme-preview__item {\n    padding: 12px 8px;\n  }\n}\n\n/* 高对比度模式 */\n@media (prefers-contrast: high) {\n  .tm-settings__select {\n    border-width: 2px;\n  }\n  \n  .tm-info-card {\n    border-width: 2px;\n  }\n  \n  .tm-theme-preview__item {\n    border-width: 2px;\n  }\n}\n\n/* 减少动画模式 */\n@media (prefers-reduced-motion: reduce) {\n  .tm-settings__select,\n  .tm-theme-preview__item {\n    transition: none;\n  }\n}\n\n/* 暗色主题适配 */\n@media (prefers-color-scheme: dark) {\n  .tm-info-card {\n    background: rgba(0, 122, 255, 0.1);\n  }\n  \n  .tm-theme-preview {\n    background: rgba(255, 255, 255, 0.05);\n  }\n}";
+  styleInject(css_248z$2);
 
   /**
    * 通用设置组件
    * 用于配置主题等通用选项
    */
   const GeneralSettings = ({ className = '' }) => {
-      const { themeMode: theme, toggleTheme: setTheme } = useTheme();
+      const { themeMode, setTheme } = useTheme();
+      const handleThemeChange = (e) => {
+          setTheme(e.target.value);
+      };
       const themeOptions = [
           { value: 'light', label: '浅色主题' },
           { value: 'dark', label: '深色主题' },
           { value: 'auto', label: '跟随系统' },
       ];
-      return (jsxRuntimeExports.jsxs("div", { className: `tm-general-settings ${className}`, children: [jsxRuntimeExports.jsxs("div", { className: "tm-settings-section", children: [jsxRuntimeExports.jsxs("h3", { className: "tm-settings-section__title", children: [jsxRuntimeExports.jsx("span", { className: "tm-settings-section__icon", children: "\u2699\uFE0F" }), "\u754C\u9762\u8BBE\u7F6E"] }), jsxRuntimeExports.jsx("div", { className: "tm-settings-section__content", children: jsxRuntimeExports.jsx(Select, { label: "\u4E3B\u9898\u6A21\u5F0F", value: theme, onChange: setTheme, options: themeOptions, helperText: "\u9009\u62E9\u754C\u9762\u4E3B\u9898\u6A21\u5F0F" }) })] }), jsxRuntimeExports.jsxs("div", { className: "tm-settings-section", children: [jsxRuntimeExports.jsxs("h3", { className: "tm-settings-section__title", children: [jsxRuntimeExports.jsx("span", { className: "tm-settings-section__icon", children: "\uD83D\uDCCA" }), "\u6570\u636E\u8BBE\u7F6E"] }), jsxRuntimeExports.jsx("div", { className: "tm-settings-section__content", children: jsxRuntimeExports.jsxs("div", { className: "tm-settings-info", children: [jsxRuntimeExports.jsxs("div", { className: "tm-settings-info__item", children: [jsxRuntimeExports.jsx("span", { className: "tm-settings-info__label", children: "\u6570\u636E\u5B58\u50A8\uFF1A" }), jsxRuntimeExports.jsx("span", { className: "tm-settings-info__value", children: "\u672C\u5730\u5B58\u50A8 (LocalStorage)" })] }), jsxRuntimeExports.jsxs("div", { className: "tm-settings-info__item", children: [jsxRuntimeExports.jsx("span", { className: "tm-settings-info__label", children: "\u6570\u636E\u540C\u6B65\uFF1A" }), jsxRuntimeExports.jsx("span", { className: "tm-settings-info__value", children: "\u4EC5\u672C\u5730\uFF0C\u4E0D\u4E0A\u4F20\u5230\u670D\u52A1\u5668" })] })] }) })] })] }));
+      return (jsxRuntimeExports.jsxs("div", { className: `tm-general-settings ${className}`, children: [jsxRuntimeExports.jsxs("div", { className: "tm-settings-section", children: [jsxRuntimeExports.jsxs("h3", { className: "tm-settings-section__title", children: [jsxRuntimeExports.jsx("span", { className: "tm-settings-section__icon", children: "\u2699\uFE0F" }), "\u754C\u9762\u8BBE\u7F6E"] }), jsxRuntimeExports.jsx("div", { className: "tm-settings-section__content", children: jsxRuntimeExports.jsxs("div", { className: "tm-settings__item", children: [jsxRuntimeExports.jsx("label", { className: "tm-settings__label", children: "\u4E3B\u9898\u6A21\u5F0F" }), jsxRuntimeExports.jsx("select", { className: "tm-settings__select", value: themeMode, onChange: handleThemeChange, children: themeOptions.map(option => (jsxRuntimeExports.jsx("option", { value: option.value, children: option.label }, option.value))) }), jsxRuntimeExports.jsx("div", { className: "tm-settings__help", children: "\u9009\u62E9\u754C\u9762\u4E3B\u9898\u6A21\u5F0F" })] }) })] }), jsxRuntimeExports.jsxs("div", { className: "tm-settings-section", children: [jsxRuntimeExports.jsxs("h3", { className: "tm-settings-section__title", children: [jsxRuntimeExports.jsx("span", { className: "tm-settings-section__icon", children: "\uD83D\uDCCA" }), "\u6570\u636E\u8BBE\u7F6E"] }), jsxRuntimeExports.jsx("div", { className: "tm-settings-section__content", children: jsxRuntimeExports.jsxs("div", { className: "tm-settings-info", children: [jsxRuntimeExports.jsxs("div", { className: "tm-settings-info__item", children: [jsxRuntimeExports.jsx("span", { className: "tm-settings-info__label", children: "\u6570\u636E\u5B58\u50A8\uFF1A" }), jsxRuntimeExports.jsx("span", { className: "tm-settings-info__value", children: "\u672C\u5730\u5B58\u50A8 (LocalStorage)" })] }), jsxRuntimeExports.jsxs("div", { className: "tm-settings-info__item", children: [jsxRuntimeExports.jsx("span", { className: "tm-settings-info__label", children: "\u6570\u636E\u540C\u6B65\uFF1A" }), jsxRuntimeExports.jsx("span", { className: "tm-settings-info__value", children: "\u4EC5\u672C\u5730\uFF0C\u4E0D\u4E0A\u4F20\u5230\u670D\u52A1\u5668" })] })] }) })] })] }));
   };
+
+  var css_248z$1 = "/* 主面板样式 - 参考old版本设计风格 */\n.tm-main-panel {\n  width: 100%;\n  max-width: 1200px;\n  margin: 0 auto;\n  background: var(--panel-bg, #ffffff);\n  border-radius: 12px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);\n  overflow: hidden;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  display: flex;\n  flex-direction: column;\n  min-height: 600px;\n  max-height: 90vh;\n}\n\n/* 面板内容 */\n.tm-main-panel__content {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n}\n\n/* 主要内容区域 */\n.tm-main-panel__body {\n  flex: 1;\n  padding: 24px;\n  overflow-y: auto;\n  display: flex;\n  flex-direction: column;\n  gap: 24px;\n}\n\n/* 控制区域 */\n.tm-controls {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n  background: var(--controls-bg, #f8f9fa);\n  padding: 20px;\n  border-radius: 8px;\n  border: 1px solid var(--border-light, #f0f0f0);\n}\n\n.tm-controls__section {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n}\n\n.tm-controls__title {\n  font-size: 16px;\n  font-weight: 600;\n  color: var(--text-color, #1d1d1f);\n  margin: 0;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.tm-controls__title-icon {\n  font-size: 16px;\n}\n\n/* 日期范围选择器 */\n.tm-date-range {\n  display: flex;\n  gap: 16px;\n  align-items: center;\n  flex-wrap: wrap;\n}\n\n.tm-date-range__group {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  min-width: 140px;\n}\n\n.tm-date-range__label {\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--text-color, #1d1d1f);\n}\n\n.tm-date-range__input {\n  padding: 10px 12px;\n  border: 1px solid var(--border-color, #e1e5e9);\n  border-radius: 6px;\n  font-size: 14px;\n  color: var(--text-color, #1d1d1f);\n  background: var(--input-bg, white);\n  transition: all 0.2s ease;\n  font-family: inherit;\n}\n\n.tm-date-range__input:focus {\n  outline: none;\n  border-color: var(--primary-color, #007aff);\n  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);\n}\n\n.tm-date-range__actions {\n  display: flex;\n  gap: 8px;\n  margin-left: auto;\n}\n\n/* 按钮样式 */\n.tm-button {\n  padding: 10px 16px;\n  border: none;\n  border-radius: 6px;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  min-width: fit-content;\n  white-space: nowrap;\n}\n\n.tm-button--primary {\n  background: var(--primary-color, #007aff);\n  color: white;\n}\n\n.tm-button--primary:hover {\n  background: #0056cc;\n  transform: translateY(-1px);\n  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);\n}\n\n.tm-button--primary:disabled {\n  background: var(--disabled-bg, #f5f5f7);\n  color: var(--text-disabled, #c7c7cc);\n  cursor: not-allowed;\n  transform: none;\n  box-shadow: none;\n}\n\n.tm-button--secondary {\n  background: var(--secondary-bg, #f1f3f4);\n  color: var(--text-color, #1d1d1f);\n  border: 1px solid var(--border-color, #e1e5e9);\n}\n\n.tm-button--secondary:hover {\n  background: var(--hover-bg, #e8eaed);\n  border-color: var(--border-hover, #d2d5da);\n  transform: translateY(-1px);\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n\n.tm-button--secondary:disabled {\n  background: var(--disabled-bg, #f5f5f7);\n  color: var(--text-disabled, #c7c7cc);\n  cursor: not-allowed;\n  transform: none;\n  box-shadow: none;\n}\n\n.tm-button--success {\n  background: var(--success-color, #30d158);\n  color: white;\n}\n\n.tm-button--success:hover {\n  background: #28a745;\n  transform: translateY(-1px);\n  box-shadow: 0 2px 8px rgba(48, 209, 88, 0.3);\n}\n\n.tm-button--icon {\n  padding: 8px;\n  min-width: 36px;\n  justify-content: center;\n}\n\n/* 附加要求输入框 */\n.tm-requirements {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n\n.tm-requirements__label {\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--text-color, #1d1d1f);\n}\n\n.tm-requirements__textarea {\n  width: 100%;\n  min-height: 80px;\n  padding: 12px 16px;\n  border: 1px solid var(--border-color, #e1e5e9);\n  border-radius: 8px;\n  font-size: 14px;\n  color: var(--text-color, #1d1d1f);\n  background: var(--input-bg, white);\n  transition: all 0.2s ease;\n  font-family: inherit;\n  resize: vertical;\n}\n\n.tm-requirements__textarea:focus {\n  outline: none;\n  border-color: var(--primary-color, #007aff);\n  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);\n}\n\n.tm-requirements__textarea::placeholder {\n  color: var(--text-muted, #8e8e93);\n}\n\n/* 事件表格区域 */\n.tm-events {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  min-height: 300px;\n}\n\n.tm-events__header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  margin-bottom: 16px;\n  flex-wrap: wrap;\n  gap: 12px;\n}\n\n.tm-events__title {\n  font-size: 18px;\n  font-weight: 600;\n  color: var(--text-color, #1d1d1f);\n  margin: 0;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.tm-events__title-icon {\n  font-size: 18px;\n}\n\n.tm-events__stats {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  font-size: 14px;\n  color: var(--text-muted, #8e8e93);\n}\n\n.tm-events__stat {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n\n.tm-events__stat-value {\n  font-weight: 600;\n  color: var(--text-color, #1d1d1f);\n}\n\n/* 周报区域 */\n.tm-report {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n\n.tm-report__header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  flex-wrap: wrap;\n  gap: 12px;\n}\n\n.tm-report__title {\n  font-size: 18px;\n  font-weight: 600;\n  color: var(--text-color, #1d1d1f);\n  margin: 0;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.tm-report__title-icon {\n  font-size: 18px;\n}\n\n.tm-report__actions {\n  display: flex;\n  gap: 8px;\n}\n\n.tm-report__content {\n  background: var(--report-bg, #f8f9fa);\n  border: 1px solid var(--border-light, #f0f0f0);\n  border-radius: 8px;\n  padding: 20px;\n  min-height: 200px;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  line-height: 1.6;\n  color: var(--text-color, #1d1d1f);\n  white-space: pre-wrap;\n  overflow-y: auto;\n}\n\n.tm-report__placeholder {\n  color: var(--text-muted, #8e8e93);\n  font-style: italic;\n  text-align: center;\n  padding: 40px 20px;\n}\n\n/* 加载状态 */\n.tm-loading {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 40px;\n  color: var(--text-muted, #8e8e93);\n  font-size: 14px;\n  gap: 8px;\n}\n\n.tm-loading__spinner {\n  width: 16px;\n  height: 16px;\n  border: 2px solid var(--border-light, #f0f0f0);\n  border-top: 2px solid var(--primary-color, #007aff);\n  border-radius: 50%;\n  animation: tm-spin 1s linear infinite;\n}\n\n@keyframes tm-spin {\n  0% { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n/* 错误状态 */\n.tm-error {\n  padding: 16px;\n  background: rgba(255, 59, 48, 0.1);\n  border: 1px solid rgba(255, 59, 48, 0.2);\n  border-radius: 8px;\n  color: var(--error-color, #ff3b30);\n  font-size: 14px;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.tm-error__icon {\n  font-size: 16px;\n  flex-shrink: 0;\n}\n\n/* 通知样式 */\n.tm-notification {\n  position: fixed;\n  top: 20px;\n  right: 20px;\n  padding: 12px 16px;\n  border-radius: 8px;\n  font-size: 14px;\n  font-weight: 500;\n  z-index: 1000;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  max-width: 400px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n\n.tm-notification--success {\n  background: var(--success-color, #30d158);\n  color: white;\n}\n\n.tm-notification--error {\n  background: var(--error-color, #ff3b30);\n  color: white;\n}\n\n.tm-notification--warning {\n  background: var(--warning-color, #ff9500);\n  color: white;\n}\n\n.tm-notification--info {\n  background: var(--primary-color, #007aff);\n  color: white;\n}\n\n/* 设置模态框 */\n.tm-settings-modal {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n  padding: 20px;\n}\n\n.tm-settings-modal__content {\n  background: var(--modal-bg, white);\n  border-radius: 12px;\n  width: 100%;\n  max-width: 600px;\n  max-height: 80vh;\n  overflow: hidden;\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);\n  display: flex;\n  flex-direction: column;\n}\n\n.tm-settings-modal__header {\n  padding: 20px;\n  border-bottom: 1px solid var(--border-light, #f0f0f0);\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n\n.tm-settings-modal__title {\n  font-size: 18px;\n  font-weight: 600;\n  color: var(--text-color, #1d1d1f);\n  margin: 0;\n}\n\n.tm-settings-modal__close {\n  background: none;\n  border: none;\n  font-size: 20px;\n  color: var(--text-muted, #8e8e93);\n  cursor: pointer;\n  padding: 4px;\n  border-radius: 4px;\n  transition: all 0.2s ease;\n}\n\n.tm-settings-modal__close:hover {\n  background: var(--hover-bg, rgba(0, 0, 0, 0.05));\n  color: var(--text-color, #1d1d1f);\n}\n\n.tm-settings-modal__body {\n  flex: 1;\n  overflow-y: auto;\n  padding: 20px;\n}\n\n/* 设置标签页 */\n.tm-settings-tabs {\n  display: flex;\n  border-bottom: 1px solid var(--border-light, #f0f0f0);\n  margin-bottom: 20px;\n}\n\n.tm-settings-tab {\n  padding: 12px 20px;\n  background: none;\n  border: none;\n  font-size: 14px;\n  font-weight: 500;\n  color: var(--text-muted, #8e8e93);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  border-bottom: 2px solid transparent;\n}\n\n.tm-settings-tab--active {\n  color: var(--primary-color, #007aff);\n  border-bottom-color: var(--primary-color, #007aff);\n}\n\n.tm-settings-tab:hover {\n  color: var(--text-color, #1d1d1f);\n}\n\n/* 响应式设计 */\n@media (max-width: 768px) {\n  .tm-main-panel {\n    margin: 0;\n    border-radius: 0;\n    min-height: 100vh;\n    max-height: 100vh;\n  }\n  \n  .tm-main-panel__body {\n    padding: 16px;\n    gap: 20px;\n  }\n  \n  .tm-controls {\n    padding: 16px;\n  }\n  \n  .tm-date-range {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 12px;\n  }\n  \n  .tm-date-range__group {\n    min-width: auto;\n  }\n  \n  .tm-date-range__actions {\n    margin-left: 0;\n    justify-content: stretch;\n  }\n  \n  .tm-button {\n    flex: 1;\n    justify-content: center;\n  }\n  \n  .tm-events__header,\n  .tm-report__header {\n    flex-direction: column;\n    align-items: stretch;\n  }\n  \n  .tm-events__stats {\n    justify-content: space-between;\n  }\n  \n  .tm-report__actions {\n    justify-content: stretch;\n  }\n  \n  .tm-settings-modal {\n    padding: 10px;\n  }\n  \n  .tm-settings-modal__content {\n    max-height: 90vh;\n  }\n  \n  .tm-settings-tabs {\n    overflow-x: auto;\n  }\n  \n  .tm-settings-tab {\n    white-space: nowrap;\n  }\n}\n\n@media (max-width: 480px) {\n  .tm-main-panel__body {\n    padding: 12px;\n    gap: 16px;\n  }\n  \n  .tm-controls {\n    padding: 12px;\n  }\n  \n  .tm-button {\n    padding: 8px 12px;\n    font-size: 13px;\n  }\n  \n  .tm-report__content {\n    padding: 16px;\n  }\n  \n  .tm-notification {\n    top: 10px;\n    right: 10px;\n    left: 10px;\n    max-width: none;\n  }\n}\n\n/* 高对比度模式 */\n@media (prefers-contrast: high) {\n  .tm-main-panel {\n    border: 2px solid var(--border-color, #e1e5e9);\n  }\n  \n  .tm-controls,\n  .tm-report__content {\n    border-width: 2px;\n  }\n  \n  .tm-date-range__input,\n  .tm-requirements__textarea {\n    border-width: 2px;\n  }\n}\n\n/* 减少动画模式 */\n@media (prefers-reduced-motion: reduce) {\n  .tm-button,\n  .tm-date-range__input,\n  .tm-requirements__textarea,\n  .tm-settings-tab,\n  .tm-settings-modal__close {\n    transition: none;\n  }\n  \n  .tm-button:hover {\n    transform: none;\n  }\n  \n  .tm-loading__spinner {\n    animation: none;\n  }\n}\n\n/* 暗色主题适配 */\n@media (prefers-color-scheme: dark) {\n  .tm-main-panel {\n    background: var(--panel-bg-dark, #1c1c1e);\n    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);\n  }\n  \n  .tm-controls {\n    background: var(--controls-bg-dark, #2c2c2e);\n    border-color: var(--border-dark, #38383a);\n  }\n  \n  .tm-report__content {\n    background: var(--report-bg-dark, #2c2c2e);\n    border-color: var(--border-dark, #38383a);\n    color: var(--text-color-dark, #f2f2f7);\n  }\n  \n  .tm-settings-modal__content {\n    background: var(--modal-bg-dark, #1c1c1e);\n  }\n}";
+  styleInject(css_248z$1);
 
   /**
    * 主面板组件
    * 集成所有功能模块的主界面
    */
-  const MainPanel = ({ className = '' }) => {
+  const MainPanel = ({ className = '', onClose }) => {
       const { config } = useConfig();
       const { themeMode } = useTheme();
       const { events, selectedEvents, dateRange, isLoading: eventsLoading, error: eventsError, fetchEvents, toggleEventSelection, toggleSelectAll, updateDateRange, getSelectedEvents, } = useEvents();
@@ -36110,65 +36039,287 @@ var GitLabWeeklyReport = (function (exports) {
               message: '事件数据已导出到剪贴板',
           });
       };
-      return (jsxRuntimeExports.jsxs("div", { className: `tm-main-panel tm-theme-${themeMode} ${className}`, children: [notification && (jsxRuntimeExports.jsx(Notification, { type: notification.type, message: notification.message, onClose: () => setNotification(null) })), jsxRuntimeExports.jsx(Header, { onSettingsClick: () => setShowSettings(true) }), jsxRuntimeExports.jsx("div", { className: "tm-main-panel__body", children: !isConfigComplete ? (jsxRuntimeExports.jsx("div", { className: "tm-main-panel__setup", children: jsxRuntimeExports.jsxs("div", { className: "tm-setup-card", children: [jsxRuntimeExports.jsx("div", { className: "tm-setup-card__icon", children: "\u2699\uFE0F" }), jsxRuntimeExports.jsx("div", { className: "tm-setup-card__title", children: "\u9996\u6B21\u4F7F\u7528\u914D\u7F6E" }), jsxRuntimeExports.jsx("div", { className: "tm-setup-card__description", children: "\u8BF7\u5148\u914D\u7F6E GitLab \u548C DeepSeek API \u4FE1\u606F" }), jsxRuntimeExports.jsx(Button, { variant: "primary", onClick: () => setShowSettings(true), children: "\u5F00\u59CB\u914D\u7F6E" })] }) })) : (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsxs("div", { className: "tm-main-panel__section", children: [jsxRuntimeExports.jsx("div", { className: "tm-section-header", children: jsxRuntimeExports.jsx("h3", { className: "tm-section-title", children: "\uD83D\uDCC5 \u9009\u62E9\u65E5\u671F\u8303\u56F4" }) }), jsxRuntimeExports.jsxs("div", { className: "tm-date-range", children: [jsxRuntimeExports.jsx(Input, { label: "\u5F00\u59CB\u65E5\u671F", type: "date", value: dateRange.startDate, onChange: (e) => handleDateRangeChange('start', e.target.value) }), jsxRuntimeExports.jsx(Input, { label: "\u7ED3\u675F\u65E5\u671F", type: "date", value: dateRange.endDate, onChange: (e) => handleDateRangeChange('end', e.target.value) }), jsxRuntimeExports.jsx(Button, { variant: "outline", onClick: () => fetchEvents(), loading: eventsLoading, disabled: !dateRange.startDate || !dateRange.endDate, children: "\u5237\u65B0\u4E8B\u4EF6" })] })] }), jsxRuntimeExports.jsxs("div", { className: "tm-main-panel__section", children: [jsxRuntimeExports.jsxs("div", { className: "tm-section-header", children: [jsxRuntimeExports.jsx("h3", { className: "tm-section-title", children: "\uD83D\uDCCB GitLab \u4E8B\u4EF6" }), jsxRuntimeExports.jsxs("div", { className: "tm-section-stats", children: ["\u5171 ", events.length, " \u4E2A\u4E8B\u4EF6\uFF0C\u5DF2\u9009\u62E9 ", selectedEvents.size, " \u4E2A"] })] }), eventsError ? (jsxRuntimeExports.jsxs("div", { className: "tm-error-card", children: [jsxRuntimeExports.jsx("div", { className: "tm-error-card__icon", children: "\u274C" }), jsxRuntimeExports.jsx("div", { className: "tm-error-card__message", children: eventsError }), jsxRuntimeExports.jsx(Button, { variant: "outline", size: "sm", onClick: () => fetchEvents(), children: "\u91CD\u8BD5" })] })) : (jsxRuntimeExports.jsx(EventsTable, { events: events, selectedEvents: selectedEvents, onEventSelect: toggleEventSelection, onSelectAll: toggleSelectAll, loading: eventsLoading }))] }), jsxRuntimeExports.jsxs("div", { className: "tm-main-panel__section", children: [jsxRuntimeExports.jsx("div", { className: "tm-section-header", children: jsxRuntimeExports.jsx("h3", { className: "tm-section-title", children: "\uD83D\uDCDD \u9644\u52A0\u8981\u6C42" }) }), jsxRuntimeExports.jsx(Textarea, { value: additionalRequirements, onChange: (e) => setAdditionalRequirements(e.target.value), placeholder: "\u8BF7\u8F93\u5165\u5BF9\u5468\u62A5\u7684\u7279\u6B8A\u8981\u6C42\u6216\u8865\u5145\u8BF4\u660E...\\n\u4F8B\u5982\uFF1A\\n- \u91CD\u70B9\u7A81\u51FA\u67D0\u4E2A\u9879\u76EE\u7684\u8FDB\u5C55\\n- \u6DFB\u52A0\u6280\u672F\u96BE\u70B9\u5206\u6790\\n- \u5305\u542B\u56E2\u961F\u534F\u4F5C\u60C5\u51B5", rows: 4, helperText: "\u53EF\u9009\uFF1A\u4E3A AI \u63D0\u4F9B\u989D\u5916\u7684\u751F\u6210\u6307\u5BFC" })] }), jsxRuntimeExports.jsxs("div", { className: "tm-main-panel__section", children: [jsxRuntimeExports.jsx("div", { className: "tm-section-header", children: jsxRuntimeExports.jsx("h3", { className: "tm-section-title", children: "\uD83D\uDE80 \u751F\u6210\u5468\u62A5" }) }), jsxRuntimeExports.jsxs("div", { className: "tm-action-buttons", children: [jsxRuntimeExports.jsx(Button, { variant: "primary", size: "lg", onClick: handleGenerateReport, loading: generating, disabled: selectedEvents.size === 0, children: generating ? '生成中...' : '生成周报' }), jsxRuntimeExports.jsx(Button, { variant: "outline", onClick: handleExportEvents, disabled: selectedEvents.size === 0, children: "\u5BFC\u51FA\u4E8B\u4EF6\u6570\u636E" })] })] }), (report || reportError) && (jsxRuntimeExports.jsxs("div", { className: "tm-main-panel__section", children: [jsxRuntimeExports.jsxs("div", { className: "tm-section-header", children: [jsxRuntimeExports.jsx("h3", { className: "tm-section-title", children: "\uD83D\uDCC4 \u751F\u6210\u7ED3\u679C" }), report && (jsxRuntimeExports.jsx(Button, { variant: "outline", size: "sm", onClick: handleExportReport, children: "\u590D\u5236\u5230\u526A\u8D34\u677F" }))] }), reportError ? (jsxRuntimeExports.jsxs("div", { className: "tm-error-card", children: [jsxRuntimeExports.jsx("div", { className: "tm-error-card__icon", children: "\u274C" }), jsxRuntimeExports.jsx("div", { className: "tm-error-card__message", children: reportError })] })) : (jsxRuntimeExports.jsx("div", { className: "tm-report-result", children: jsxRuntimeExports.jsx("pre", { className: "tm-report-content", children: report }) }))] }))] })) }), jsxRuntimeExports.jsx(Footer, {}), jsxRuntimeExports.jsx(Modal, { isOpen: showSettings, onClose: () => setShowSettings(false), title: "\u8BBE\u7F6E", size: "large", children: jsxRuntimeExports.jsxs("div", { className: "tm-settings-modal", children: [jsxRuntimeExports.jsxs("div", { className: "tm-settings-tabs", children: [jsxRuntimeExports.jsx("button", { className: `tm-settings-tab ${activeSettingsTab === 'api' ? 'tm-settings-tab--active' : ''}`, onClick: () => setActiveSettingsTab('api'), children: "API \u914D\u7F6E" }), jsxRuntimeExports.jsx("button", { className: `tm-settings-tab ${activeSettingsTab === 'general' ? 'tm-settings-tab--active' : ''}`, onClick: () => setActiveSettingsTab('general'), children: "\u901A\u7528\u8BBE\u7F6E" })] }), jsxRuntimeExports.jsx("div", { className: "tm-settings-content", children: activeSettingsTab === 'api' ? (jsxRuntimeExports.jsx(ApiSettings, {})) : (jsxRuntimeExports.jsx(GeneralSettings, {})) })] }) })] }));
+      return (jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: jsxRuntimeExports.jsxs("div", { className: `tm-main-panel tm-theme-${themeMode} visible ${className}`, children: [notification && (jsxRuntimeExports.jsxs("div", { className: `tm-notification tm-notification--${notification.type}`, children: [jsxRuntimeExports.jsx("span", { children: notification.message }), jsxRuntimeExports.jsx("button", { onClick: () => setNotification(null), className: "tm-notification__close", children: "\u00D7" })] })), jsxRuntimeExports.jsx(Header, { onSettingsClick: () => setShowSettings(true) }), jsxRuntimeExports.jsx("div", { className: "tm-main-panel__body", children: !isConfigComplete ? (jsxRuntimeExports.jsx("div", { className: "tm-main-panel__setup", children: jsxRuntimeExports.jsxs("div", { className: "tm-setup-card", children: [jsxRuntimeExports.jsx("div", { className: "tm-setup-card__icon", children: "\u2699\uFE0F" }), jsxRuntimeExports.jsx("div", { className: "tm-setup-card__title", children: "\u9996\u6B21\u4F7F\u7528\u914D\u7F6E" }), jsxRuntimeExports.jsx("div", { className: "tm-setup-card__description", children: "\u8BF7\u5148\u914D\u7F6E GitLab \u548C DeepSeek API \u4FE1\u606F" }), jsxRuntimeExports.jsx("button", { className: "tm-button tm-button--primary", onClick: () => setShowSettings(true), children: "\u5F00\u59CB\u914D\u7F6E" })] }) })) : (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsxs("div", { className: "tm-main-panel__section", children: [jsxRuntimeExports.jsx("div", { className: "tm-section-header", children: jsxRuntimeExports.jsx("h3", { className: "tm-section-title", children: "\uD83D\uDCC5 \u9009\u62E9\u65E5\u671F\u8303\u56F4" }) }), jsxRuntimeExports.jsxs("div", { className: "tm-date-range", children: [jsxRuntimeExports.jsxs("div", { className: "tm-date-range__group", children: [jsxRuntimeExports.jsx("label", { className: "tm-date-range__label", children: "\u5F00\u59CB\u65E5\u671F" }), jsxRuntimeExports.jsx("input", { type: "date", value: dateRange.startDate, onChange: (e) => handleDateRangeChange('start', e.target.value), className: "tm-date-range__input" })] }), jsxRuntimeExports.jsxs("div", { className: "tm-date-range__group", children: [jsxRuntimeExports.jsx("label", { className: "tm-date-range__label", children: "\u7ED3\u675F\u65E5\u671F" }), jsxRuntimeExports.jsx("input", { type: "date", value: dateRange.endDate, onChange: (e) => handleDateRangeChange('end', e.target.value), className: "tm-date-range__input" })] }), jsxRuntimeExports.jsx("button", { onClick: () => fetchEvents(), disabled: !dateRange.startDate || !dateRange.endDate || eventsLoading, className: "tm-button tm-button--primary", children: eventsLoading ? '加载中...' : '刷新事件' })] })] }), jsxRuntimeExports.jsxs("div", { className: "tm-main-panel__section", children: [jsxRuntimeExports.jsxs("div", { className: "tm-section-header", children: [jsxRuntimeExports.jsx("h3", { className: "tm-section-title", children: "\uD83D\uDCCB GitLab \u4E8B\u4EF6" }), jsxRuntimeExports.jsxs("div", { className: "tm-section-stats", children: ["\u5171 ", events.length, " \u4E2A\u4E8B\u4EF6\uFF0C\u5DF2\u9009\u62E9 ", selectedEvents.size, " \u4E2A"] })] }), eventsError ? (jsxRuntimeExports.jsxs("div", { className: "tm-error-card", children: [jsxRuntimeExports.jsx("div", { className: "tm-error-card__icon", children: "\u274C" }), jsxRuntimeExports.jsx("div", { className: "tm-error-card__message", children: eventsError }), jsxRuntimeExports.jsx("button", { className: "tm-button tm-button--outline tm-button--sm", onClick: () => fetchEvents(), children: "\u91CD\u8BD5" })] })) : (jsxRuntimeExports.jsx(EventsTable, { events: events, selectedEvents: selectedEvents, onToggleSelection: toggleEventSelection, onToggleSelectAll: toggleSelectAll, loading: eventsLoading }))] }), jsxRuntimeExports.jsxs("div", { className: "tm-main-panel__section", children: [jsxRuntimeExports.jsx("div", { className: "tm-section-header", children: jsxRuntimeExports.jsx("h3", { className: "tm-section-title", children: "\uD83D\uDCDD \u9644\u52A0\u8981\u6C42" }) }), jsxRuntimeExports.jsxs("div", { className: "tm-requirements", children: [jsxRuntimeExports.jsx("label", { className: "tm-requirements__label", children: "\u8865\u5145\u8BF4\u660E\uFF08\u53EF\u9009\uFF09" }), jsxRuntimeExports.jsx("textarea", { value: additionalRequirements, onChange: (e) => setAdditionalRequirements(e.target.value), placeholder: "\u8BF7\u8F93\u5165\u5BF9\u5468\u62A5\u7684\u7279\u6B8A\u8981\u6C42\u6216\u8865\u5145\u8BF4\u660E...\\n\u4F8B\u5982\uFF1A\\n- \u91CD\u70B9\u7A81\u51FA\u67D0\u4E2A\u9879\u76EE\u7684\u8FDB\u5C55\\n- \u6DFB\u52A0\u6280\u672F\u96BE\u70B9\u5206\u6790\\n- \u5305\u542B\u56E2\u961F\u534F\u4F5C\u60C5\u51B5", className: "tm-requirements__textarea", rows: 4 }), jsxRuntimeExports.jsx("div", { className: "tm-requirements__helper", children: "\u53EF\u9009\uFF1A\u4E3A AI \u63D0\u4F9B\u989D\u5916\u7684\u751F\u6210\u6307\u5BFC" })] })] }), jsxRuntimeExports.jsxs("div", { className: "tm-main-panel__section", children: [jsxRuntimeExports.jsx("div", { className: "tm-section-header", children: jsxRuntimeExports.jsx("h3", { className: "tm-section-title", children: "\uD83D\uDE80 \u751F\u6210\u5468\u62A5" }) }), jsxRuntimeExports.jsxs("div", { className: "tm-action-buttons", children: [jsxRuntimeExports.jsx("button", { onClick: handleGenerateReport, disabled: selectedEvents.size === 0 || generating, className: "tm-button tm-button--primary tm-button--lg", children: generating ? (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx("div", { className: "tm-loading__spinner" }), "\u751F\u6210\u4E2D..."] })) : ('生成周报') }), jsxRuntimeExports.jsx("button", { onClick: handleExportEvents, disabled: selectedEvents.size === 0, className: "tm-button tm-button--outline", children: "\u5BFC\u51FA\u4E8B\u4EF6\u6570\u636E" })] })] }), (report || reportError) && (jsxRuntimeExports.jsxs("div", { className: "tm-main-panel__section", children: [jsxRuntimeExports.jsxs("div", { className: "tm-section-header", children: [jsxRuntimeExports.jsx("h3", { className: "tm-section-title", children: "\uD83D\uDCC4 \u751F\u6210\u7ED3\u679C" }), report && (jsxRuntimeExports.jsx("button", { className: "tm-button tm-button--outline tm-button--sm", onClick: handleExportReport, children: "\u590D\u5236\u5230\u526A\u8D34\u677F" }))] }), reportError ? (jsxRuntimeExports.jsxs("div", { className: "tm-error-card", children: [jsxRuntimeExports.jsx("div", { className: "tm-error-card__icon", children: "\u274C" }), jsxRuntimeExports.jsx("div", { className: "tm-error-card__message", children: reportError })] })) : (jsxRuntimeExports.jsx("div", { className: "tm-report-result", children: jsxRuntimeExports.jsx("pre", { className: "tm-report-content", children: report }) }))] }))] })) }), jsxRuntimeExports.jsx(Footer, {}), showSettings && (jsxRuntimeExports.jsx("div", { className: "tm-settings-modal", onClick: () => setShowSettings(false), children: jsxRuntimeExports.jsxs("div", { className: "tm-settings-modal__content", onClick: (e) => e.stopPropagation(), children: [jsxRuntimeExports.jsxs("div", { className: "tm-settings-modal__header", children: [jsxRuntimeExports.jsx("h2", { className: "tm-settings-modal__title", children: "\u8BBE\u7F6E" }), jsxRuntimeExports.jsx("button", { onClick: () => setShowSettings(false), className: "tm-settings-modal__close", children: "\u00D7" })] }), jsxRuntimeExports.jsxs("div", { className: "tm-settings-modal__body", children: [jsxRuntimeExports.jsxs("div", { className: "tm-settings-tabs", children: [jsxRuntimeExports.jsx("button", { onClick: () => setActiveSettingsTab('api'), className: `tm-settings-tab ${activeSettingsTab === 'api' ? 'tm-settings-tab--active' : ''}`, children: "API \u914D\u7F6E" }), jsxRuntimeExports.jsx("button", { onClick: () => setActiveSettingsTab('general'), className: `tm-settings-tab ${activeSettingsTab === 'general' ? 'tm-settings-tab--active' : ''}`, children: "\u901A\u7528\u8BBE\u7F6E" })] }), jsxRuntimeExports.jsx("div", { className: "tm-settings-content", children: activeSettingsTab === 'api' ? (jsxRuntimeExports.jsx(ApiSettings, {})) : (jsxRuntimeExports.jsx(GeneralSettings, {})) })] })] }) }))] }) }));
   };
 
-  function styleInject(css, ref) {
-    if ( ref === void 0 ) ref = {};
-    var insertAt = ref.insertAt;
-
-    if (typeof document === 'undefined') { return; }
-
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var style = document.createElement('style');
-    style.type = 'text/css';
-
-    if (insertAt === 'top') {
-      if (head.firstChild) {
-        head.insertBefore(style, head.firstChild);
-      } else {
-        head.appendChild(style);
-      }
-    } else {
-      head.appendChild(style);
-    }
-
-    if (style.styleSheet) {
-      style.styleSheet.cssText = css;
-    } else {
-      style.appendChild(document.createTextNode(css));
-    }
-  }
-
-  var css_248z = "/* 样式入口文件 */\n@import './base.css';\n@import './components.css';\n@import './panel.css';\n\n/* 油猴脚本特定样式 */\n.tm-root {\n  all: initial;\n  font-family: var(--font-family-base);\n  font-size: var(--font-size-base);\n  line-height: var(--line-height-normal);\n  color: var(--color-text-primary);\n  direction: ltr;\n  text-align: left;\n}\n\n.tm-root *,\n.tm-root *::before,\n.tm-root *::after {\n  box-sizing: border-box;\n}\n\n/* 确保在任何网站上都能正常显示 */\n.tm-root {\n  position: relative;\n  z-index: 2147483647; /* 最大 z-index 值 */\n}\n\n/* 防止被其他样式影响 */\n.tm-root button,\n.tm-root input,\n.tm-root select,\n.tm-root textarea {\n  font-family: inherit;\n  font-size: inherit;\n  line-height: inherit;\n  color: inherit;\n  margin: 0;\n}\n\n.tm-root a {\n  color: var(--color-primary);\n  text-decoration: none;\n}\n\n.tm-root a:hover {\n  text-decoration: underline;\n}";
+  var css_248z = "/* GitLab 周报生成器 - macOS 简洁设计风格 */\n\n/* CSS 变量定义 - 浅色主题 */\n:root {\n  /* 颜色系统 - 浅色主题 */\n  --background: #ffffff;\n  --card-bg: #f8f9fa;\n  --card-bg-solid: #f8f9fa;\n  --border-color: #e1e5e9;\n  --border-light: #f1f3f4;\n  --text-color: #1a1a1a;\n  --text-secondary: #6c757d;\n  --text-muted: #9ca3af;\n  --primary-color: #007aff;\n  --success-color: #28a745;\n  --warning-color: #ffc107;\n  --error-color: #dc3545;\n  --info-color: #17a2b8;\n  --button-bg: #f8f9fa;\n  --button-bg-hover: #e9ecef;\n  --hover-bg: rgba(0, 0, 0, 0.05);\n  --shadow: 0 2px 4px rgba(0, 0, 0, 0.08);\n  --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.1);\n  --shadow-large: 0 8px 25px rgba(0, 0, 0, 0.12);\n  \n  /* 按钮状态颜色 */\n  --primary-hover: #0056cc;\n  --primary-active: #004bb5;\n  --success-hover: #218838;\n  --success-active: #1e7e34;\n  --warning-hover: #e0a800;\n  --warning-active: #d39e00;\n  --error-hover: #c82333;\n  --error-active: #bd2130;\n  --info-hover: #138496;\n  --info-active: #117a8b;\n  \n  /* 面板变量 */\n  --panel-bg: #ffffff;\n  --input-bg: #ffffff;\n  --overlay-bg: rgba(0, 0, 0, 0.4);\n  \n  /* 动画变量 */\n  --transition-fast: 0.15s;\n  --transition-normal: 0.25s;\n  --transition-slow: 0.35s;\n  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);\n}\n\n/* 深色主题 */\n[data-theme=\"dark\"] {\n  --background: #1c1c1e;\n  --card-bg: #2c2c2e;\n  --card-bg-solid: #2c2c2e;\n  --border-color: #38383a;\n  --border-light: #48484a;\n  --text-color: #ffffff;\n  --text-secondary: #aeaeb2;\n  --text-muted: #8e8e93;\n  --primary-color: #0a84ff;\n  --success-color: #32d74b;\n  --warning-color: #ff9f0a;\n  --error-color: #ff453a;\n  --info-color: #5ac8fa;\n  --button-bg: #38383a;\n  --button-bg-hover: #48484a;\n  --hover-bg: rgba(255, 255, 255, 0.08);\n  --shadow: 0 2px 4px rgba(0, 0, 0, 0.25);\n  --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.3);\n  --shadow-large: 0 8px 25px rgba(0, 0, 0, 0.35);\n  \n  /* 按钮状态颜色 */\n  --primary-hover: #409cff;\n  --primary-active: #0070f3;\n  --success-hover: #5de270;\n  --success-active: #28cd41;\n  --warning-hover: #ffb340;\n  --warning-active: #ff8f00;\n  --error-hover: #ff6961;\n  --error-active: #ff3b30;\n  --info-hover: #7dd3fc;\n  --info-active: #38bdf8;\n  \n  --panel-bg: #1c1c1e;\n  --input-bg: #2c2c2e;\n  --overlay-bg: rgba(0, 0, 0, 0.6);\n}\n\n/* 基础重置 */\n* {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n}\n\nbody {\n  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\n/* 主按钮样式 - macOS风格 */\n.ui-main-button {\n  position: fixed;\n  bottom: 110px;\n  right: 50px;\n  width: 56px;\n  height: 56px;\n  border-radius: 50%;\n  z-index: 10000;\n  background: var(--primary-color);\n  color: white;\n  border: none;\n  cursor: pointer;\n  font-size: 14px;\n  font-weight: 600;\n  box-shadow: var(--shadow-large);\n  transition: all 0.3s cubic-bezier(0.25, 0.10, 0.25, 1.00);\n  transform: scale(1);\n  will-change: transform, box-shadow;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  animation: buttonPulse 2s ease-in-out infinite;\n}\n\n.ui-main-button:hover {\n  transform: scale(1.1);\n  box-shadow: 0 12px 40px rgba(0, 122, 255, 0.4);\n  animation: none;\n}\n\n.ui-main-button:active {\n  transform: scale(0.95);\n  transition: transform 0.1s ease;\n}\n\n/* 按钮脉冲动画 */\n@keyframes buttonPulse {\n  0%, 100% {\n    box-shadow: var(--shadow-large), 0 0 0 0 rgba(0, 122, 255, 0.4);\n  }\n  50% {\n    box-shadow: var(--shadow-large), 0 0 0 8px rgba(0, 122, 255, 0);\n  }\n}\n\n/* 按钮进入动画 */\n.ui-main-button.entering {\n  animation: buttonEnter 0.5s cubic-bezier(0.25, 0.10, 0.25, 1.00) forwards;\n}\n\n@keyframes buttonEnter {\n  0% {\n    opacity: 0;\n    transform: scale(0) rotate(180deg);\n  }\n  60% {\n    opacity: 1;\n    transform: scale(1.2) rotate(-10deg);\n  }\n  100% {\n    opacity: 1;\n    transform: scale(1) rotate(0deg);\n  }\n}\n\n/* 遮罩层样式 - 增强动画 */\n.ui-mask-layer,\n.tm-mask {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: var(--overlay-bg);\n  backdrop-filter: blur(10px);\n  -webkit-backdrop-filter: blur(10px);\n  z-index: 9999;\n  display: none;\n  transition: all 0.3s cubic-bezier(0.25, 0.10, 0.25, 1.00);\n  opacity: 0;\n  will-change: opacity, backdrop-filter;\n}\n\n.ui-mask-layer.visible,\n.tm-mask.visible {\n  display: block;\n  opacity: 1;\n}\n\n/* 遮罩层进入动画 */\n.ui-mask-layer.entering,\n.tm-mask.entering {\n  display: block;\n  animation: maskEnter 0.3s cubic-bezier(0.25, 0.10, 0.25, 1.00) forwards;\n}\n\n/* 遮罩层退出动画 */\n.ui-mask-layer.exiting,\n.tm-mask.exiting {\n  animation: maskExit 0.25s cubic-bezier(0.25, 0.10, 0.25, 1.00) forwards;\n}\n\n@keyframes maskEnter {\n  0% {\n    opacity: 0;\n    backdrop-filter: blur(0px);\n    -webkit-backdrop-filter: blur(0px);\n  }\n  100% {\n    opacity: 1;\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n  }\n}\n\n@keyframes maskExit {\n  0% {\n    opacity: 1;\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n  }\n  100% {\n    opacity: 0;\n    backdrop-filter: blur(0px);\n    -webkit-backdrop-filter: blur(0px);\n  }\n}\n\n/* 应用根容器 */\n.tm-root {\n  position: fixed;\n  top: 60px;\n  right: 20px;\n  width: 750px;\n  height: calc(100vh - 80px);\n  z-index: 10001;\n  transform-origin: bottom right;\n  opacity: 0;\n  transform: scale(0.3) translateY(50px);\n  transition: all 0.4s cubic-bezier(0.25, 0.10, 0.25, 1.00);\n  will-change: transform, opacity;\n}\n\n/* 应用容器 */\n.tm-app {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 40px;\n  box-sizing: border-box;\n}\n\n/* 主面板样式 - macOS风格 */\n.tm-main-panel {\n  width: 100%;\n  height: 100%;\n  background: var(--panel-bg);\n  border: 1px solid var(--border-color);\n  border-radius: 12px;\n  box-shadow: var(--shadow-large);\n  backdrop-filter: blur(20px);\n  -webkit-backdrop-filter: blur(20px);\n  overflow: hidden;\n  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;\n  display: flex;\n  flex-direction: column;\n}\n\n.tm-main-panel.visible {\n  display: block;\n  opacity: 1;\n  transform: scale(1) translateY(0);\n}\n\n/* 面板进入动画 */\n.tm-main-panel.entering {\n  display: block;\n  animation: panelEnter 0.3s cubic-bezier(0.25, 0.10, 0.25, 1.00) forwards;\n}\n\n/* 面板退出动画 */\n.tm-main-panel.exiting {\n  animation: panelExit 0.25s cubic-bezier(0.25, 0.10, 0.25, 1.00) forwards;\n}\n\n@keyframes panelEnter {\n  0% {\n    opacity: 0;\n    transform: scale(0.3) translateY(50px);\n  }\n  60% {\n    opacity: 0.8;\n    transform: scale(1.02) translateY(-5px);\n  }\n  100% {\n    opacity: 1;\n    transform: scale(1) translateY(0);\n  }\n}\n\n@keyframes panelExit {\n  0% {\n    opacity: 1;\n    transform: scale(1) translateY(0);\n  }\n  100% {\n    opacity: 0;\n    transform: scale(0.3) translateY(50px);\n  }\n}\n\n/* 内容区域动画 */\n@keyframes slideInFromTop {\n  0% {\n    opacity: 0;\n    transform: translateY(-20px);\n  }\n  100% {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n@keyframes slideInFromBottom {\n  0% {\n    opacity: 0;\n    transform: translateY(20px);\n  }\n  100% {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n@keyframes fadeInScale {\n  0% {\n    opacity: 0;\n    transform: scale(0.95);\n  }\n  100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n}\n\n.tm-main-panel__body {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n\n/* 面板头部样式 - 优化排版 */\n.tm-panel-header {\n  padding: 20px 24px;\n  border-bottom: 1px solid var(--border-light);\n  background: var(--card-bg);\n  flex-shrink: 0;\n  border-radius: 12px 12px 0 0;\n  animation: slideInFromTop 0.4s cubic-bezier(0.25, 0.10, 0.25, 1.00) 0.1s both;\n}\n\n.tm-header-top {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 16px;\n}\n\n.tm-header-title {\n  margin: 0;\n  color: var(--text-color);\n  font-size: 20px;\n  font-weight: 700;\n  letter-spacing: -0.01em;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.tm-header-title::before {\n  content: '📊';\n  font-size: 18px;\n}\n\n.tm-header-actions {\n  display: flex;\n  gap: 6px;\n  align-items: center;\n}\n\n.tm-header-button {\n  background: var(--button-bg);\n  border: 1px solid var(--border-color);\n  border-radius: 8px;\n  width: 32px;\n  height: 32px;\n  font-size: 16px;\n  cursor: pointer;\n  color: var(--text-secondary);\n  padding: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: all var(--transition-fast) var(--ease);\n}\n\n.tm-header-button:hover {\n  background: var(--button-bg-hover);\n  color: var(--text-color);\n  border-color: var(--border-color);\n}\n\n.tm-close-button {\n  color: var(--text-muted);\n}\n\n.tm-close-button:hover {\n  color: var(--error-color);\n  background: rgba(255, 59, 48, 0.1);\n}\n\n/* 日期选择器样式 (100% 还原) */\n.tm-date-controls {\n  display: flex;\n  gap: 12px;\n  align-items: center;\n  flex-wrap: wrap;\n  margin-bottom: 12px;\n}\n\n.tm-date-input-group {\n  display: flex;\n  gap: 8px;\n  align-items: center;\n}\n\n.tm-date-label {\n  font-size: 14px;\n  color: var(--text-secondary);\n  min-width: 50px;\n  line-height: 1;\n  display: flex;\n  align-items: center;\n  font-weight: 500;\n}\n\n.tm-date-input {\n  height: 32px;\n  padding: 0 12px;\n  border: 1px solid var(--border-color);\n  border-radius: 8px;\n  font-size: 13px;\n  width: 130px;\n  background: var(--input-bg);\n  color: var(--text-color);\n  box-shadow: var(--shadow);\n}\n\n.tm-date-input:focus {\n  outline: none;\n  border-color: var(--primary-color);\n  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);\n}\n\n/* 快速日期按钮 (100% 还原) */\n.tm-quick-date-buttons {\n  display: flex;\n  gap: 6px;\n}\n\n.tm-quick-date-button {\n  height: 32px;\n  padding: 0 12px;\n  border-radius: 8px;\n  cursor: pointer;\n  font-size: 12px;\n  white-space: nowrap;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n\n.tm-quick-date-button.this-week {\n  border: 1px solid var(--primary-color);\n  background: rgba(0, 122, 255, 0.1);\n  color: var(--primary-color);\n}\n\n.tm-quick-date-button.last-week {\n  border: 1px solid var(--success-color);\n  background: rgba(48, 209, 88, 0.1);\n  color: var(--success-color);\n}\n\n.tm-quick-date-button.this-month {\n  border: 1px solid var(--warning-color);\n  background: rgba(255, 149, 0, 0.1);\n  color: var(--warning-color);\n}\n\n.tm-quick-date-button.last-month {\n  border: 1px solid var(--error-color);\n  background: rgba(255, 59, 48, 0.1);\n  color: var(--error-color);\n}\n\n.tm-quick-date-button:hover {\n  opacity: 0.8;\n  transform: translateY(-1px);\n}\n\n/* 状态信息 (100% 还原) */\n.tm-status-info {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n\n.tm-data-count {\n  color: var(--text-secondary);\n  font-size: 13px;\n  font-weight: 500;\n}\n\n.tm-data-count.success {\n  color: var(--success-color);\n}\n\n.tm-data-count.warning {\n  color: var(--warning-color);\n}\n\n.tm-data-count.error {\n  color: var(--error-color);\n}\n\n.tm-date-range {\n  color: var(--text-muted);\n  font-size: 12px;\n  margin-left: 12px;\n}\n\n.tm-refresh-button {\n  height: 32px;\n  padding: 0 16px;\n  background: var(--success-color);\n  color: white;\n  border: none;\n  border-radius: 8px;\n  cursor: pointer;\n  font-size: 13px;\n  font-weight: 600;\n  white-space: nowrap;\n  box-shadow: var(--shadow);\n  transition: all 0.2s ease;\n  min-width: 80px;\n}\n\n.tm-refresh-button:hover {\n  background: #28a745;\n  transform: translateY(-1px);\n}\n\n.tm-refresh-button:disabled {\n  background: #d9d9d9;\n  cursor: not-allowed;\n  transform: none;\n}\n\n/* 滚动内容区域 (100% 还原) */\n.tm-scrollable-content {\n  flex: 1;\n  overflow-y: auto;\n  display: flex;\n  flex-direction: column;\n}\n\n/* 事件表格样式 (100% 还原) */\n.tm-events-table-container {\n  max-height: 240px;\n  overflow-y: auto;\n  border-bottom: 1px solid var(--border-light);\n  flex-shrink: 0;\n}\n\n.tm-events-table {\n  width: 100%;\n  border-collapse: collapse;\n}\n\n.tm-events-table thead {\n  position: sticky;\n  top: 0;\n  background: var(--panel-bg);\n  z-index: 1;\n}\n\n.tm-events-table thead tr {\n  background: var(--card-bg);\n}\n\n.tm-events-table th {\n  padding: 12px 8px;\n  border-bottom: 1px solid var(--border-light);\n  color: var(--text-color);\n  font-weight: 600;\n  font-size: 12px;\n}\n\n.tm-events-table th.checkbox-col {\n  text-align: center;\n  width: 40px;\n}\n\n.tm-events-table th.index-col {\n  text-align: left;\n  width: 40px;\n}\n\n.tm-events-table th.date-col {\n  text-align: left;\n  width: 130px;\n}\n\n.tm-events-table th.action-col {\n  text-align: center;\n  width: 50px;\n}\n\n.tm-events-table tbody tr {\n  transition: background-color 0.2s ease;\n  border-bottom: 1px solid var(--border-light);\n}\n\n.tm-events-table tbody tr:hover {\n  background-color: var(--hover-bg);\n}\n\n.tm-events-table td {\n  padding: 12px 8px;\n  font-size: 12px;\n}\n\n.tm-events-table .checkbox-cell {\n  text-align: center;\n}\n\n.tm-events-table .index-cell {\n  color: var(--text-secondary);\n  text-align: center;\n  font-weight: 500;\n}\n\n.tm-events-table .date-cell {\n  color: var(--text-color);\n  font-weight: 500;\n}\n\n.tm-events-table .title-cell {\n  color: var(--text-color);\n  word-break: break-word;\n  line-height: 1.4;\n}\n\n.tm-events-table .action-cell {\n  text-align: center;\n}\n\n/* 复选框样式 */\n.tm-checkbox {\n  cursor: pointer;\n  transform: scale(1.1);\n}\n\n/* 复制按钮样式 */\n.tm-copy-button {\n  padding: 6px 8px;\n  background: var(--button-bg);\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  font-size: 11px;\n  color: var(--text-secondary);\n  transition: all 0.2s ease;\n}\n\n.tm-copy-button:hover {\n  background: var(--primary-color);\n  color: white;\n}\n\n/* 空状态样式 */\n.tm-empty-state {\n  padding: 24px;\n  text-align: center;\n  color: var(--text-muted);\n  font-style: italic;\n  font-size: 13px;\n}\n\n/* 操作区域样式 (100% 还原) */\n.tm-operation-section {\n  padding: 20px;\n  border-bottom: 1px solid var(--border-light);\n  flex-shrink: 0;\n}\n\n.tm-additional-prompt-group {\n  margin-bottom: 16px;\n}\n\n.tm-form-label {\n  display: block;\n  margin-bottom: 8px;\n  font-weight: 600;\n  color: var(--text-color);\n  font-size: 15px;\n}\n\n.tm-textarea {\n  width: 100%;\n  border: 1px solid var(--border-color);\n  border-radius: 8px;\n  padding: 12px;\n  resize: vertical;\n  font-size: 13px;\n  line-height: 1.4;\n  background: var(--panel-bg);\n  color: var(--text-color);\n  box-shadow: var(--shadow);\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n}\n\n.tm-textarea:focus {\n  outline: none;\n  border-color: var(--primary-color);\n  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);\n}\n\n/* 余额信息 */\n.tm-balance-info {\n  margin-bottom: 16px;\n  display: flex;\n  gap: 16px;\n  padding: 12px;\n  background: var(--card-bg);\n  border-radius: 8px;\n  border: 1px solid var(--border-light);\n}\n\n.tm-balance-text {\n  color: var(--text-secondary);\n  font-size: 12px;\n  font-weight: 500;\n}\n\n.tm-token-usage {\n  color: var(--text-secondary);\n  font-size: 12px;\n  font-weight: 500;\n}\n\n/* 操作按钮组 */\n.tm-action-buttons {\n  display: flex;\n  gap: 12px;\n}\n\n.tm-generate-button {\n  flex: 1;\n  padding: 14px;\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  color: white;\n  border: none;\n  border-radius: 8px;\n  cursor: pointer;\n  font-size: 15px;\n  font-weight: 600;\n  box-shadow: var(--shadow);\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n}\n\n.tm-generate-button:hover:not(:disabled) {\n  transform: translateY(-1px);\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n}\n\n.tm-generate-button:disabled {\n  background: #d9d9d9;\n  cursor: not-allowed;\n  transform: none;\n}\n\n.tm-export-button {\n  padding: 14px 20px;\n  background: #20d3c2;\n  color: white;\n  border: none;\n  border-radius: 8px;\n  cursor: pointer;\n  font-size: 15px;\n  font-weight: 600;\n  box-shadow: var(--shadow);\n  transition: all 0.2s ease;\n}\n\n.tm-export-button:hover:not(:disabled) {\n  background: #1bc4b4;\n  transform: translateY(-1px);\n}\n\n.tm-export-button:disabled {\n  background: #d9d9d9;\n  cursor: not-allowed;\n  transform: none;\n}\n\n/* 报告结果区域 (100% 还原) */\n.tm-report-result {\n  padding: 20px;\n  background: var(--card-bg);\n  display: none;\n  flex: 1;\n  min-height: 200px;\n}\n\n.tm-report-result.visible {\n  display: block;\n}\n\n.tm-report-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 12px;\n}\n\n.tm-report-title {\n  margin: 0;\n  color: var(--text-color);\n  font-size: 17px;\n  font-weight: 600;\n}\n\n.tm-copy-report-button {\n  padding: 8px 12px;\n  background: var(--primary-color);\n  color: white;\n  border: none;\n  border-radius: 8px;\n  cursor: pointer;\n  font-size: 13px;\n  font-weight: 600;\n  box-shadow: var(--shadow);\n}\n\n.tm-copy-report-button:hover {\n  background: #0056cc;\n}\n\n.tm-report-content {\n  background: var(--panel-bg);\n  padding: 20px;\n  border-radius: 8px;\n  border: 1px solid var(--border-color);\n  white-space: pre-wrap;\n  color: var(--text-color);\n  line-height: 1.6;\n  font-size: 14px;\n  min-height: 120px;\n  height: calc(100% - 50px);\n  overflow-y: auto;\n  box-shadow: var(--shadow);\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n}\n\n/* 设置面板样式 (100% 还原) */\n.tm-settings-panel {\n  position: fixed;\n  top: 60px;\n  right: 20px;\n  width: 600px;\n  height: calc(100vh - 80px);\n  background: var(--panel-bg);\n  border: 1px solid var(--border-color);\n  border-radius: 12px;\n  box-shadow: var(--shadow-large);\n  backdrop-filter: blur(20px);\n  z-index: 10001;\n  display: none;\n  overflow: hidden;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n}\n\n.tm-settings-panel.visible {\n  display: block;\n}\n\n.tm-settings-header {\n  padding: 20px;\n  border-bottom: 1px solid var(--border-light);\n  background: var(--card-bg);\n  flex-shrink: 0;\n  border-radius: 12px 12px 0 0;\n}\n\n.tm-settings-header-top {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 16px;\n}\n\n.tm-settings-title {\n  margin: 0;\n  color: var(--text-color);\n  font-size: 18px;\n  font-weight: 600;\n}\n\n.tm-settings-body {\n  flex: 1;\n  overflow-y: auto;\n  padding: 20px;\n}\n\n.tm-settings-section {\n  margin-bottom: 24px;\n}\n\n.tm-settings-section-title {\n  margin: 0 0 12px 0;\n  color: var(--text-color);\n  font-size: 16px;\n  font-weight: 600;\n}\n\n.tm-settings-field {\n  margin-bottom: 16px;\n}\n\n.tm-settings-label {\n  display: block;\n  margin-bottom: 8px;\n  font-size: 14px;\n  color: var(--text-secondary);\n  font-weight: 500;\n}\n\n.tm-settings-input {\n  width: 100%;\n  padding: 12px;\n  border: 1px solid var(--border-color);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--input-bg);\n  color: var(--text-color);\n  box-shadow: var(--shadow);\n  transition: border-color 0.2s ease, box-shadow 0.2s ease;\n}\n\n.tm-settings-input:focus {\n  outline: none;\n  border-color: var(--primary-color);\n  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);\n}\n\n.tm-settings-select {\n  width: 100%;\n  padding: 12px;\n  border: 1px solid var(--border-color);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--input-bg);\n  color: var(--text-color);\n  box-shadow: var(--shadow);\n  transition: border-color 0.2s ease, box-shadow 0.2s ease;\n}\n\n.tm-settings-select:focus {\n  outline: none;\n  border-color: var(--primary-color);\n  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);\n}\n\n.tm-settings-textarea {\n  width: 100%;\n  padding: 12px;\n  border: 1px solid var(--border-color);\n  border-radius: 8px;\n  font-size: 14px;\n  background: var(--input-bg);\n  color: var(--text-color);\n  resize: vertical;\n  box-shadow: var(--shadow);\n  transition: border-color 0.2s ease, box-shadow 0.2s ease;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  line-height: 1.4;\n}\n\n.tm-settings-textarea:focus {\n  outline: none;\n  border-color: var(--primary-color);\n  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);\n}\n\n.tm-settings-footer {\n  padding: 20px;\n  border-top: 1px solid var(--border-light);\n  background: var(--card-bg);\n  flex-shrink: 0;\n  border-radius: 0 0 12px 12px;\n}\n\n.tm-settings-actions {\n  display: flex;\n  gap: 12px;\n  justify-content: flex-end;\n}\n\n.tm-reset-button {\n  padding: 12px 20px;\n  background: var(--error-color);\n  color: white;\n  border: none;\n  border-radius: 8px;\n  cursor: pointer;\n  font-size: 14px;\n  font-weight: 600;\n  transition: all 0.2s ease;\n  box-shadow: var(--shadow);\n}\n\n.tm-reset-button:hover {\n  background: #e6342a;\n}\n\n.tm-save-button {\n  padding: 12px 20px;\n  background: var(--primary-color);\n  color: white;\n  border: none;\n  border-radius: 8px;\n  cursor: pointer;\n  font-size: 14px;\n  font-weight: 600;\n  transition: all 0.2s ease;\n  box-shadow: var(--shadow);\n}\n\n.tm-save-button:hover {\n  background: #0056cc;\n}\n\n/* 通知样式 (100% 还原) */\n.ui-notification {\n  position: absolute;\n  bottom: 80px;\n  left: 20px;\n  right: 20px;\n  padding: 12px 16px;\n  border-radius: 12px;\n  color: var(--text-color);\n  font-size: 14px;\n  z-index: 10003;\n  backdrop-filter: blur(20px);\n  -webkit-backdrop-filter: blur(20px);\n  box-shadow: 0 4px 20px rgba(0,0,0,0.1);\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 8px;\n  font-weight: 500;\n  transform: translateY(20px);\n  opacity: 0;\n  transition: all 0.3s cubic-bezier(0.25, 0.10, 0.25, 1.00);\n  will-change: transform, opacity;\n}\n\n.ui-notification.visible {\n  transform: translateY(0);\n  opacity: 1;\n}\n\n.ui-notification.success {\n  background: rgba(48, 209, 88, 0.1);\n  border: 1px solid #30d15840;\n}\n\n.ui-notification.error {\n  background: rgba(255, 59, 48, 0.1);\n  border: 1px solid #ff3b3040;\n}\n\n.ui-notification.warning {\n  background: rgba(255, 149, 0, 0.1);\n  border: 1px solid #ff950040;\n}\n\n.ui-notification.info {\n  background: rgba(0, 122, 255, 0.1);\n  border: 1px solid #007aff40;\n}\n\n.notification-content {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.notification-icon {\n  font-size: 16px;\n}\n\n.notification-close {\n  background: none;\n  border: none;\n  cursor: pointer;\n  font-size: 18px;\n  padding: 0;\n  margin: 0;\n  width: 24px;\n  height: 24px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 50%;\n  transition: background-color 0.2s ease;\n  flex-shrink: 0;\n}\n\n.notification-close:hover {\n  background-color: rgba(0, 0, 0, 0.1);\n}\n\n/* 滚动条样式 (100% 还原) */\n::-webkit-scrollbar {\n  width: 8px;\n  height: 8px;\n}\n\n::-webkit-scrollbar-track {\n  background: var(--card-bg);\n  border-radius: 4px;\n}\n\n::-webkit-scrollbar-thumb {\n  background: var(--border-color);\n  border-radius: 4px;\n  transition: background 0.2s ease;\n}\n\n::-webkit-scrollbar-thumb:hover {\n  background: var(--text-muted);\n}\n\n/* Firefox 滚动条 */\n* {\n  scrollbar-width: thin;\n  scrollbar-color: var(--border-color) var(--card-bg);\n}\n\n/* 选择文本样式 */\n::selection {\n  background: var(--primary-color);\n  color: white;\n}\n\n::-moz-selection {\n  background: var(--primary-color);\n  color: white;\n}\n\n/* 动画定义 (100% 还原) */\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n@keyframes fadeOut {\n  from {\n    opacity: 1;\n    transform: translateY(0);\n  }\n  to {\n    opacity: 0;\n    transform: translateY(-10px);\n  }\n}\n\n@keyframes slideIn {\n  from {\n    opacity: 0;\n    transform: translateX(20px);\n  }\n  to {\n    opacity: 1;\n    transform: translateX(0);\n  }\n}\n\n@keyframes slideOut {\n  from {\n    opacity: 1;\n    transform: translateX(0);\n  }\n  to {\n    opacity: 0;\n    transform: translateX(20px);\n  }\n}\n\n@keyframes spin {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n\n@keyframes pulse {\n  0%, 100% {\n    opacity: 1;\n  }\n  50% {\n    opacity: 0.5;\n  }\n}\n\n@keyframes bounce {\n  0%, 20%, 53%, 80%, 100% {\n    transform: translate3d(0, 0, 0);\n  }\n  40%, 43% {\n    transform: translate3d(0, -8px, 0);\n  }\n  70% {\n    transform: translate3d(0, -4px, 0);\n  }\n  90% {\n    transform: translate3d(0, -2px, 0);\n  }\n}\n\n/* 简化动画效果 */\n@keyframes tm-fade-in {\n  from {\n    opacity: 0;\n    transform: translateY(10px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n/* 工具类 */\n.tm-fade-in {\n  animation: fadeIn 0.3s ease-out;\n}\n\n.tm-fade-out {\n  animation: fadeOut 0.3s ease-out;\n}\n\n.tm-slide-in {\n  animation: slideIn 0.3s ease-out;\n}\n\n.tm-slide-out {\n  animation: slideOut 0.3s ease-out;\n}\n\n.tm-spin {\n  animation: spin 1s linear infinite;\n}\n\n.tm-pulse {\n  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;\n}\n\n.tm-bounce {\n  animation: bounce 1s infinite;\n}\n\n/* 可见性工具类 */\n.tm-visible {\n  display: block !important;\n}\n\n.tm-hidden {\n  display: none !important;\n}\n\n/* 布局工具类 */\n.tm-flex {\n  display: flex;\n}\n\n.tm-flex-column {\n  flex-direction: column;\n}\n\n.tm-flex-1 {\n  flex: 1;\n}\n\n.tm-items-center {\n  align-items: center;\n}\n\n.tm-justify-between {\n  justify-content: space-between;\n}\n\n.tm-gap-2 {\n  gap: 8px;\n}\n\n.tm-gap-3 {\n  gap: 12px;\n}\n\n.tm-gap-4 {\n  gap: 16px;\n}\n\n/* 响应式支持 */\n@media (max-width: 768px) {\n  .tm-main-panel {\n    width: calc(100vw - 40px);\n    right: 20px;\n    left: 20px;\n  }\n  \n  .tm-settings-panel {\n    width: calc(100vw - 40px);\n    right: 20px;\n    left: 20px;\n  }\n  \n  .tm-date-controls {\n    flex-direction: column;\n    align-items: stretch;\n  }\n  \n  .tm-quick-date-buttons {\n    flex-wrap: wrap;\n  }\n  \n  .tm-action-buttons {\n    flex-direction: column;\n  }\n}\n\n/* 高对比度模式支持 */\n@media (prefers-contrast: high) {\n  :root {\n    --border-color: #333333;\n    --text-secondary: #333333;\n    --text-color: #000000;\n  }\n  \n  [data-theme=\"dark\"] {\n    --border-color: #cccccc;\n    --text-secondary: #cccccc;\n    --text-color: #ffffff;\n  }\n}\n\n/* 减少动画模式支持 */\n@media (prefers-reduced-motion: reduce) {\n  * {\n    animation-duration: 0.01ms !important;\n    animation-iteration-count: 1 !important;\n    transition-duration: 0.01ms !important;\n  }\n}\n\n/* 主面板部分样式 */\n.tm-main-panel__section {\n  padding: 20px;\n  border-bottom: 1px solid var(--border-light);\n  flex-shrink: 0;\n  animation: slideInFromBottom 0.4s cubic-bezier(0.25, 0.10, 0.25, 1.00) both;\n}\n\n/* 为不同的section添加延迟，创造层次感 */\n.tm-main-panel__section:nth-child(1) {\n  animation-delay: 0.1s;\n}\n\n.tm-main-panel__section:nth-child(2) {\n  animation-delay: 0.15s;\n}\n\n.tm-main-panel__section:nth-child(3) {\n  animation-delay: 0.2s;\n}\n\n.tm-main-panel__section:nth-child(4) {\n  animation-delay: 0.25s;\n}\n\n.tm-main-panel__section:nth-child(5) {\n  animation-delay: 0.3s;\n}\n\n.tm-section-header {\n  margin-bottom: 16px;\n}\n\n.tm-section-title {\n  margin: 0;\n  color: var(--text-color);\n  font-size: 16px;\n  font-weight: 600;\n  animation: fadeInScale 0.3s cubic-bezier(0.25, 0.10, 0.25, 1.00) 0.1s both;\n}\n\n.tm-date-range {\n  display: flex;\n  gap: 12px;\n  align-items: center;\n  flex-wrap: wrap;\n}\n\n/* 设置卡片 */\n/* 首次配置提示 - macOS简洁设计 */\n.tm-main-panel__setup {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 100%;\n  padding: 40px;\n}\n\n.tm-setup-card {\n  background: var(--card-bg);\n  border: 1px solid var(--border-color);\n  border-radius: 16px;\n  padding: 40px;\n  text-align: center;\n  box-shadow: var(--shadow);\n  max-width: 400px;\n  width: 100%;\n}\n\n.tm-setup-card__icon {\n  font-size: 48px;\n  margin-bottom: 20px;\n  opacity: 0.8;\n}\n\n.tm-setup-card__title {\n  font-size: 20px;\n  font-weight: 600;\n  color: var(--text-color);\n  margin-bottom: 12px;\n  letter-spacing: -0.01em;\n}\n\n.tm-setup-card__description {\n  color: var(--text-secondary);\n  margin-bottom: 24px;\n  line-height: 1.5;\n  font-size: 15px;\n}\n\n/* 通用按钮样式 - macOS风格 */\n.tm-button {\n  padding: 8px 16px;\n  border-radius: 8px;\n  border: 1px solid var(--border-color);\n  background: var(--button-bg);\n  color: var(--text-color);\n  font-size: 13px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.3s cubic-bezier(0.25, 0.10, 0.25, 1.00);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n  min-height: 32px;\n  text-decoration: none;\n  box-shadow: var(--shadow);\n  transform: translateY(0);\n  will-change: transform, box-shadow;\n}\n\n.tm-button:hover {\n  transform: translateY(-1px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n  background: var(--button-bg-hover);\n}\n\n.tm-button:active {\n  transform: translateY(0);\n  transition: transform 0.1s ease;\n}\n\n/* 主要按钮样式 */\n.tm-button--primary {\n  background: var(--primary-color);\n  color: white;\n  border-color: var(--primary-color);\n}\n\n.tm-button--primary:hover {\n  background: var(--primary-color);\n  filter: brightness(1.1);\n  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);\n}\n\n/* 轮廓按钮样式 */\n.tm-button--outline {\n  background: transparent;\n  border-color: var(--border-color);\n}\n\n.tm-button--outline:hover {\n  background: var(--hover-bg);\n}\n\n/* 小尺寸按钮 */\n.tm-button--sm {\n  padding: 4px 8px;\n  font-size: 12px;\n  min-height: 24px;\n}";
   styleInject(css_248z);
 
   /**
    * 主应用组件
    * 负责初始化应用和渲染主界面
    */
-  const App = () => {
+  const App = ({ onClose }) => {
       const { currentTheme, applyTheme } = useTheme();
       // 应用主题到 DOM
       reactExports.useEffect(() => {
           applyTheme();
       }, [currentTheme, applyTheme]);
-      return (jsxRuntimeExports.jsx("div", { className: "tm-app", children: jsxRuntimeExports.jsx(MainPanel, {}) }));
+      const handleBackdropClick = (e) => {
+          // 如果点击的是背景区域（不是面板内容），则关闭面板
+          if (e.target === e.currentTarget) {
+              onClose?.();
+          }
+      };
+      return (jsxRuntimeExports.jsx("div", { className: "tm-app", onClick: handleBackdropClick, children: jsxRuntimeExports.jsx(MainPanel, { onClose: onClose }) }));
   };
 
+  let appContainer = null;
+  let appRoot = null;
+  let isAppVisible = false;
+  let maskLayer = null;
+  let triggerButton = null;
   /**
-   * 初始化并渲染 React 应用
+   * 创建遮罩层
+   */
+  function createMaskLayer() {
+      if (maskLayer)
+          return;
+      maskLayer = document.createElement('div');
+      maskLayer.className = 'tm-mask';
+      maskLayer.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: none;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.25, 0.10, 0.25, 1.00);
+    will-change: opacity;
+    pointer-events: none;
+  `;
+      // 遮罩层点击事件将在面板容器中处理
+      document.body.appendChild(maskLayer);
+  }
+  /**
+   * 显示遮罩层
+   */
+  function showMaskLayer() {
+      if (!maskLayer) {
+          createMaskLayer();
+      }
+      // 防止页面滚动
+      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = scrollBarWidth + 'px';
+      requestAnimationFrame(() => {
+          if (maskLayer) {
+              maskLayer.style.display = 'block';
+              requestAnimationFrame(() => {
+                  if (maskLayer) {
+                      maskLayer.style.opacity = '1';
+                  }
+              });
+          }
+      });
+  }
+  /**
+   * 隐藏遮罩层
+   */
+  function hideMaskLayer() {
+      if (!maskLayer)
+          return;
+      maskLayer.style.opacity = '0';
+      setTimeout(() => {
+          if (maskLayer) {
+              maskLayer.style.display = 'none';
+          }
+          // 恢复页面滚动
+          document.body.style.overflow = '';
+          document.body.style.paddingRight = '';
+      }, 300);
+  }
+  /**
+   * 创建触发按钮
+   */
+  function createTriggerButton() {
+      const button = document.createElement('button');
+      button.innerHTML = '周报';
+      button.className = 'ui-main-button';
+      button.style.cssText = `
+    position: fixed;
+    bottom: 110px;
+    right: 50px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    z-index: 10000;
+    background: #1890ff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: all 0.3s cubic-bezier(0.25, 0.10, 0.25, 1.00);
+    transform: scale(1);
+    will-change: transform, background-color, box-shadow;
+  `;
+      // 悬停效果
+      button.addEventListener('mouseenter', () => {
+          button.style.background = '#40a9ff';
+          button.style.transform = 'scale(1.1)';
+          button.style.boxShadow = '0 4px 16px rgba(0,0,0,0.25)';
+      });
+      button.addEventListener('mouseleave', () => {
+          button.style.background = '#1890ff';
+          button.style.transform = 'scale(1)';
+          button.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+      });
+      // 点击效果和切换面板
+      button.addEventListener('click', () => {
+          button.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+              button.style.transform = button.matches(':hover') ? 'scale(1.05)' : 'scale(1)';
+          }, 100);
+          togglePanel();
+      });
+      document.body.appendChild(button);
+      triggerButton = button;
+  }
+  /**
+   * 切换面板显示/隐藏
+   */
+  function togglePanel() {
+      if (isAppVisible) {
+          hidePanel();
+      }
+      else {
+          showPanel();
+      }
+  }
+  /**
+   * 显示面板
+   */
+  function showPanel() {
+      if (!appContainer) {
+          // 创建应用容器
+          appContainer = document.createElement('div');
+          appContainer.id = 'tm-root';
+          appContainer.className = 'tm-root';
+          appContainer.style.cssText = `
+      position: fixed;
+      top: 60px;
+      right: 20px;
+      width: 750px;
+      height: calc(100vh - 80px);
+      z-index: 10001;
+      transform-origin: bottom right;
+      opacity: 0;
+      transform: scale(0.3) translateY(50px);
+      transition: all 0.4s cubic-bezier(0.25, 0.10, 0.25, 1.00);
+      will-change: transform, opacity;
+    `;
+          // 添加到页面
+          document.body.appendChild(appContainer);
+          // 渲染 React 应用
+          appRoot = createRoot(appContainer);
+          appRoot.render(jsxRuntimeExports.jsx(App, { onClose: hidePanel }));
+      }
+      // 显示遮罩层
+      showMaskLayer();
+      if (appContainer) {
+          appContainer.style.display = 'block';
+          // 从按钮位置钻出的动画
+          requestAnimationFrame(() => {
+              if (appContainer) {
+                  appContainer.style.opacity = '1';
+                  appContainer.style.transform = 'scale(1) translateY(0)';
+              }
+          });
+          isAppVisible = true;
+      }
+  }
+  /**
+   * 隐藏面板 - 收回到按钮的动画
+   */
+  function hidePanel() {
+      if (!appContainer || !triggerButton) {
+          isAppVisible = false;
+          return;
+      }
+      // 获取按钮和面板的位置信息
+      const panelRect = appContainer.getBoundingClientRect();
+      const buttonRect = triggerButton.getBoundingClientRect();
+      // 创建克隆元素用于动画
+      const clone = appContainer.cloneNode(true);
+      clone.style.cssText = appContainer.style.cssText;
+      clone.style.zIndex = '10002';
+      clone.style.pointerEvents = 'none';
+      clone.style.overflow = 'hidden';
+      clone.style.willChange = 'transform, opacity, border-radius';
+      clone.style.position = 'fixed';
+      clone.style.width = `${panelRect.width}px`;
+      clone.style.height = `${panelRect.height}px`;
+      clone.style.left = `${panelRect.left}px`;
+      clone.style.top = `${panelRect.top}px`;
+      clone.style.transformOrigin = 'center';
+      document.body.appendChild(clone);
+      // 隐藏原面板和遮罩层
+      appContainer.style.display = 'none';
+      hideMaskLayer();
+      // 计算动画参数
+      const targetCenterX = buttonRect.left + buttonRect.width / 2;
+      const targetCenterY = buttonRect.top + buttonRect.height / 2;
+      const originCenterX = panelRect.left + panelRect.width / 2;
+      const originCenterY = panelRect.top + panelRect.height / 2;
+      const deltaX = targetCenterX - originCenterX;
+      const deltaY = targetCenterY - originCenterY;
+      const scaleX = buttonRect.width / panelRect.width;
+      const scaleY = buttonRect.height / panelRect.height;
+      const scale = Math.min(scaleX, scaleY);
+      // 执行收回动画
+      requestAnimationFrame(() => {
+          const animation = clone.animate([
+              {
+                  transform: 'translate(0px, 0px) scale(1)',
+                  opacity: '1',
+                  borderRadius: '12px'
+              },
+              {
+                  transform: `translate(${deltaX}px, ${deltaY}px) scale(${scale})`,
+                  opacity: '0.3',
+                  borderRadius: '50%'
+              }
+          ], {
+              duration: 400,
+              easing: 'cubic-bezier(0.73, 0.06, 0.34, 1.02)',
+              fill: 'forwards'
+          });
+          animation.onfinish = () => {
+              // 清理克隆元素
+              if (clone.parentNode) {
+                  document.body.removeChild(clone);
+              }
+              // 重置面板状态
+              if (appContainer) {
+                  appContainer.style.opacity = '0';
+                  appContainer.style.transform = 'scale(0.3) translateY(50px)';
+              }
+              // 按钮反馈动画
+              if (triggerButton) {
+                  triggerButton.animate([
+                      { transform: 'scale(1.2)' },
+                      { transform: 'scale(1)' }
+                  ], {
+                      duration: 150,
+                      easing: 'ease-out'
+                  });
+              }
+          };
+      });
+      isAppVisible = false;
+  }
+  /**
+   * 初始化应用
    */
   function initApp() {
-      // 创建应用容器
-      const container = document.createElement('div');
-      container.id = 'tm-root';
-      container.className = 'tm-root';
-      // 添加到页面
-      document.body.appendChild(container);
-      // 渲染 React 应用
-      const root = createRoot(container);
-      root.render(jsxRuntimeExports.jsx(App, {}));
+      // 创建触发按钮
+      createTriggerButton();
       console.log('GitLab Weekly Report Generator initialized');
   }
   /**
@@ -36183,8 +36334,8 @@ var GitLabWeeklyReport = (function (exports) {
           initApp();
       }
   }
-  // 如果直接运行（开发环境），立即执行
-  if (typeof window !== 'undefined' && !window.GM_info) {
+  // 自动执行主函数
+  if (typeof window !== 'undefined') {
       main();
   }
 
@@ -36194,5 +36345,3 @@ var GitLabWeeklyReport = (function (exports) {
 
 })({});
 //# sourceMappingURL=index.user.js.map
-
-})();

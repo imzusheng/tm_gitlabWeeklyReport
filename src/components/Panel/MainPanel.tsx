@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Input, Textarea, Loading, Notification, Modal } from '../common';
 import { EventsTable } from '../EventsTable';
 import { ApiSettings, GeneralSettings } from '../Settings';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { useConfig, useEvents, useReport, useTheme } from '../../hooks';
 import { formatDate } from '../../utils';
+import './mainpanel.css';
 
 interface MainPanelProps {
   className?: string;
+  onClose?: () => void;
 }
 
 /**
  * 主面板组件
  * 集成所有功能模块的主界面
  */
-export const MainPanel: React.FC<MainPanelProps> = ({ className = '' }) => {
+export const MainPanel: React.FC<MainPanelProps> = ({ className = '', onClose }) => {
   const { config } = useConfig();
   const { themeMode } = useTheme();
   const {
@@ -143,16 +144,22 @@ export const MainPanel: React.FC<MainPanelProps> = ({ className = '' }) => {
   };
 
   return (
-    <div className={`tm-main-panel tm-theme-${themeMode} ${className}`}>
-      {notification && (
-        <Notification
-          type={notification.type}
-          message={notification.message}
-          onClose={() => setNotification(null)}
-        />
-      )}
-
-      <Header onSettingsClick={() => setShowSettings(true)} />
+    <>
+      {/* 主面板 */}
+      <div className={`tm-main-panel tm-theme-${themeMode} visible ${className}`}>
+        {notification && (
+          <div className={`tm-notification tm-notification--${notification.type}`}>
+            <span>{notification.message}</span>
+            <button
+              onClick={() => setNotification(null)}
+              className="tm-notification__close"
+            >
+              ×
+            </button>
+          </div>
+        )}
+        
+        <Header onSettingsClick={() => setShowSettings(true)} />
       
       <div className="tm-main-panel__body">
         {!isConfigComplete ? (
@@ -163,12 +170,12 @@ export const MainPanel: React.FC<MainPanelProps> = ({ className = '' }) => {
               <div className="tm-setup-card__description">
                 请先配置 GitLab 和 DeepSeek API 信息
               </div>
-              <Button
-                variant="primary"
+              <button
+                className="tm-button tm-button--primary"
                 onClick={() => setShowSettings(true)}
               >
                 开始配置
-              </Button>
+              </button>
             </div>
           </div>
         ) : (
@@ -179,26 +186,31 @@ export const MainPanel: React.FC<MainPanelProps> = ({ className = '' }) => {
                 <h3 className="tm-section-title">📅 选择日期范围</h3>
               </div>
               <div className="tm-date-range">
-                <Input
-                  label="开始日期"
-                  type="date"
-                  value={dateRange.startDate}
-                  onChange={(e) => handleDateRangeChange('start', e.target.value)}
-                />
-                <Input
-                  label="结束日期"
-                  type="date"
-                  value={dateRange.endDate}
-                  onChange={(e) => handleDateRangeChange('end', e.target.value)}
-                />
-                <Button
-                  variant="outline"
+                <div className="tm-date-range__group">
+                  <label className="tm-date-range__label">开始日期</label>
+                  <input
+                    type="date"
+                    value={dateRange.startDate}
+                    onChange={(e) => handleDateRangeChange('start', e.target.value)}
+                    className="tm-date-range__input"
+                  />
+                </div>
+                <div className="tm-date-range__group">
+                  <label className="tm-date-range__label">结束日期</label>
+                  <input
+                    type="date"
+                    value={dateRange.endDate}
+                    onChange={(e) => handleDateRangeChange('end', e.target.value)}
+                    className="tm-date-range__input"
+                  />
+                </div>
+                <button
                   onClick={() => fetchEvents()}
-                  loading={eventsLoading}
-                  disabled={!dateRange.startDate || !dateRange.endDate}
+                  disabled={!dateRange.startDate || !dateRange.endDate || eventsLoading}
+                  className="tm-button tm-button--primary"
                 >
-                  刷新事件
-                </Button>
+                  {eventsLoading ? '加载中...' : '刷新事件'}
+                </button>
               </div>
             </div>
 
@@ -215,20 +227,19 @@ export const MainPanel: React.FC<MainPanelProps> = ({ className = '' }) => {
                 <div className="tm-error-card">
                   <div className="tm-error-card__icon">❌</div>
                   <div className="tm-error-card__message">{eventsError}</div>
-                  <Button
-                    variant="outline"
-                    size="sm"
+                  <button
+                    className="tm-button tm-button--outline tm-button--sm"
                     onClick={() => fetchEvents()}
                   >
                     重试
-                  </Button>
+                  </button>
                 </div>
               ) : (
                 <EventsTable
                   events={events}
                   selectedEvents={selectedEvents}
-                  onEventSelect={toggleEventSelection}
-                  onSelectAll={toggleSelectAll}
+                  onToggleSelection={toggleEventSelection}
+                  onToggleSelectAll={toggleSelectAll}
                   loading={eventsLoading}
                 />
               )}
@@ -239,13 +250,17 @@ export const MainPanel: React.FC<MainPanelProps> = ({ className = '' }) => {
               <div className="tm-section-header">
                 <h3 className="tm-section-title">📝 附加要求</h3>
               </div>
-              <Textarea
-                value={additionalRequirements}
-                onChange={(e) => setAdditionalRequirements(e.target.value)}
-                placeholder="请输入对周报的特殊要求或补充说明...\n例如：\n- 重点突出某个项目的进展\n- 添加技术难点分析\n- 包含团队协作情况"
-                rows={4}
-                helperText="可选：为 AI 提供额外的生成指导"
-              />
+              <div className="tm-requirements">
+                <label className="tm-requirements__label">补充说明（可选）</label>
+                <textarea
+                  value={additionalRequirements}
+                  onChange={(e) => setAdditionalRequirements(e.target.value)}
+                  placeholder="请输入对周报的特殊要求或补充说明...\n例如：\n- 重点突出某个项目的进展\n- 添加技术难点分析\n- 包含团队协作情况"
+                  className="tm-requirements__textarea"
+                  rows={4}
+                />
+                <div className="tm-requirements__helper">可选：为 AI 提供额外的生成指导</div>
+              </div>
             </div>
 
             {/* 操作按钮 */}
@@ -254,22 +269,27 @@ export const MainPanel: React.FC<MainPanelProps> = ({ className = '' }) => {
                 <h3 className="tm-section-title">🚀 生成周报</h3>
               </div>
               <div className="tm-action-buttons">
-                <Button
-                  variant="primary"
-                  size="lg"
+                <button
                   onClick={handleGenerateReport}
-                  loading={generating}
-                  disabled={selectedEvents.size === 0}
+                  disabled={selectedEvents.size === 0 || generating}
+                  className="tm-button tm-button--primary tm-button--lg"
                 >
-                  {generating ? '生成中...' : '生成周报'}
-                </Button>
-                <Button
-                  variant="outline"
+                  {generating ? (
+                    <>
+                      <div className="tm-loading__spinner"></div>
+                      生成中...
+                    </>
+                  ) : (
+                    '生成周报'
+                  )}
+                </button>
+                <button
                   onClick={handleExportEvents}
                   disabled={selectedEvents.size === 0}
+                  className="tm-button tm-button--outline"
                 >
                   导出事件数据
-                </Button>
+                </button>
               </div>
             </div>
 
@@ -279,13 +299,12 @@ export const MainPanel: React.FC<MainPanelProps> = ({ className = '' }) => {
                 <div className="tm-section-header">
                   <h3 className="tm-section-title">📄 生成结果</h3>
                   {report && (
-                    <Button
-                      variant="outline"
-                      size="sm"
+                    <button
+                      className="tm-button tm-button--outline tm-button--sm"
                       onClick={handleExportReport}
                     >
                       复制到剪贴板
-                    </Button>
+                    </button>
                   )}
                 </div>
                 
@@ -308,41 +327,51 @@ export const MainPanel: React.FC<MainPanelProps> = ({ className = '' }) => {
       <Footer />
 
       {/* 设置模态框 */}
-      <Modal
-        isOpen={showSettings}
-        onClose={() => setShowSettings(false)}
-        title="设置"
-        size="large"
-      >
-        <div className="tm-settings-modal">
-          <div className="tm-settings-tabs">
-            <button
-              className={`tm-settings-tab ${
-                activeSettingsTab === 'api' ? 'tm-settings-tab--active' : ''
-              }`}
-              onClick={() => setActiveSettingsTab('api')}
-            >
-              API 配置
-            </button>
-            <button
-              className={`tm-settings-tab ${
-                activeSettingsTab === 'general' ? 'tm-settings-tab--active' : ''
-              }`}
-              onClick={() => setActiveSettingsTab('general')}
-            >
-              通用设置
-            </button>
-          </div>
-          
-          <div className="tm-settings-content">
-            {activeSettingsTab === 'api' ? (
-              <ApiSettings />
-            ) : (
-              <GeneralSettings />
-            )}
+      {showSettings && (
+        <div className="tm-settings-modal" onClick={() => setShowSettings(false)}>
+          <div className="tm-settings-modal__content" onClick={(e) => e.stopPropagation()}>
+            <div className="tm-settings-modal__header">
+              <h2 className="tm-settings-modal__title">设置</h2>
+              <button
+                onClick={() => setShowSettings(false)}
+                className="tm-settings-modal__close"
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="tm-settings-modal__body">
+              <div className="tm-settings-tabs">
+                <button
+                  onClick={() => setActiveSettingsTab('api')}
+                  className={`tm-settings-tab ${
+                    activeSettingsTab === 'api' ? 'tm-settings-tab--active' : ''
+                  }`}
+                >
+                  API 配置
+                </button>
+                <button
+                  onClick={() => setActiveSettingsTab('general')}
+                  className={`tm-settings-tab ${
+                    activeSettingsTab === 'general' ? 'tm-settings-tab--active' : ''
+                  }`}
+                >
+                  通用设置
+                </button>
+              </div>
+              
+              <div className="tm-settings-content">
+                {activeSettingsTab === 'api' ? (
+                  <ApiSettings />
+                ) : (
+                  <GeneralSettings />
+                )}
+              </div>
+            </div>
           </div>
         </div>
-      </Modal>
-    </div>
+      )}
+      </div>
+    </>
   );
 };

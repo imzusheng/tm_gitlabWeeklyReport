@@ -1,13 +1,13 @@
 import React from 'react';
 import { GitLabEvent } from '../../types';
-import { Button, Checkbox } from '../common';
 import { formatDate } from '../../utils';
+import './eventstable.css';
 
 interface EventsTableProps {
   events: GitLabEvent[];
   selectedEvents: Set<string>;
-  onEventSelect: (eventId: string, selected: boolean) => void;
-  onSelectAll: (selected: boolean) => void;
+  onToggleSelection: (eventId: string, selected: boolean) => void;
+  onToggleSelectAll: (selected: boolean) => void;
   loading?: boolean;
   className?: string;
 }
@@ -19,8 +19,8 @@ interface EventsTableProps {
 export const EventsTable: React.FC<EventsTableProps> = ({
   events,
   selectedEvents,
-  onEventSelect,
-  onSelectAll,
+  onToggleSelection,
+  onToggleSelectAll,
   loading = false,
   className = '',
 }) => {
@@ -29,11 +29,11 @@ export const EventsTable: React.FC<EventsTableProps> = ({
   const isIndeterminate = selectedEvents.size > 0 && selectedEvents.size < events.length;
 
   const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onSelectAll(event.target.checked);
+    onToggleSelectAll(event.target.checked);
   };
 
   const handleEventSelect = (eventId: string, checked: boolean) => {
-    onEventSelect(eventId, checked);
+    onToggleSelection(eventId, checked);
   };
 
   const getEventTypeIcon = (actionName: string) => {
@@ -102,12 +102,16 @@ export const EventsTable: React.FC<EventsTableProps> = ({
     <div className={`tm-events-table ${className}`}>
       <div className="tm-events-table__header">
         <div className="tm-events-table__select-all">
-          <Checkbox
+          <input
+            type="checkbox"
+            className="tm-events-table__select-all"
             checked={isAllSelected}
             onChange={handleSelectAll}
-            label={`全选 (${selectedEvents.size}/${events.length})`}
-            className={isIndeterminate ? 'tm-checkbox--indeterminate' : ''}
+            ref={(input) => {
+              if (input) input.indeterminate = isIndeterminate;
+            }}
           />
+          <span>{`全选 (${selectedEvents.size}/${events.length})`}</span>
         </div>
         <div className="tm-events-table__stats">
           已选择 {selectedEvents.size} 个事件
@@ -126,7 +130,9 @@ export const EventsTable: React.FC<EventsTableProps> = ({
               }`}
             >
               <div className="tm-events-table__cell tm-events-table__cell--checkbox">
-                <Checkbox
+                <input
+                  type="checkbox"
+                  className="tm-events-table__checkbox"
                   checked={isSelected}
                   onChange={(e) => handleEventSelect(event.id.toString(), e.target.checked)}
                 />

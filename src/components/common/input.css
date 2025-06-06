@@ -1,0 +1,514 @@
+/* 输入框组件样式 */
+.tm-input {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* 基础输入框 */
+.tm-input__field {
+  width: 100%;
+  height: 40px;
+  padding: 0 var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: var(--font-md);
+  font-family: inherit;
+  background: var(--panel-bg);
+  color: var(--text-color);
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow);
+  outline: none;
+}
+
+.tm-input__field::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+.tm-input__field:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1), var(--shadow);
+}
+
+.tm-input__field:hover:not(:focus):not(:disabled) {
+  border-color: var(--border-hover);
+}
+
+.tm-input__field:disabled {
+  background: var(--bg-disabled);
+  color: var(--text-disabled);
+  cursor: not-allowed;
+  border-color: var(--border-light);
+}
+
+.tm-input__field:read-only {
+  background: var(--panel-bg);
+  cursor: default;
+}
+
+/* 输入框尺寸 */
+.tm-input--small .tm-input__field {
+  height: 32px;
+  padding: 0 var(--spacing-sm);
+  font-size: var(--font-sm);
+}
+
+.tm-input--large .tm-input__field {
+  height: 48px;
+  padding: 0 var(--spacing-lg);
+  font-size: var(--font-lg);
+}
+
+/* 带图标的输入框 */
+.tm-input--with-prefix .tm-input__field {
+  padding-left: 40px;
+}
+
+.tm-input--with-suffix .tm-input__field {
+  padding-right: 40px;
+}
+
+.tm-input--small.tm-input--with-prefix .tm-input__field {
+  padding-left: 32px;
+}
+
+.tm-input--small.tm-input--with-suffix .tm-input__field {
+  padding-right: 32px;
+}
+
+.tm-input--large.tm-input--with-prefix .tm-input__field {
+  padding-left: 48px;
+}
+
+.tm-input--large.tm-input--with-suffix .tm-input__field {
+  padding-right: 48px;
+}
+
+/* 前缀图标 */
+.tm-input__prefix {
+  position: absolute;
+  left: var(--spacing-md);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: var(--font-md);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.tm-input--small .tm-input__prefix {
+  left: var(--spacing-sm);
+  font-size: var(--font-sm);
+}
+
+.tm-input--large .tm-input__prefix {
+  left: var(--spacing-lg);
+  font-size: var(--font-lg);
+}
+
+/* 后缀图标 */
+.tm-input__suffix {
+  position: absolute;
+  right: var(--spacing-md);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: var(--font-md);
+  cursor: pointer;
+  z-index: 1;
+  transition: color var(--transition-normal);
+}
+
+.tm-input__suffix:hover {
+  color: var(--text-color);
+}
+
+.tm-input--small .tm-input__suffix {
+  right: var(--spacing-sm);
+  font-size: var(--font-sm);
+}
+
+.tm-input--large .tm-input__suffix {
+  right: var(--spacing-lg);
+  font-size: var(--font-lg);
+}
+
+/* 清除按钮 */
+.tm-input__clear {
+  position: absolute;
+  right: var(--spacing-md);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border: none;
+  background: var(--text-muted);
+  color: var(--panel-bg);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-normal);
+  z-index: 1;
+}
+
+.tm-input__clear:hover {
+  background: var(--text-color);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.tm-input--small .tm-input__clear {
+  right: var(--spacing-sm);
+  width: 14px;
+  height: 14px;
+  font-size: 8px;
+}
+
+.tm-input--large .tm-input__clear {
+  right: var(--spacing-lg);
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+}
+
+/* 标签 */
+.tm-input__label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-color);
+  line-height: 1.4;
+}
+
+.tm-input__label--required::after {
+  content: ' *';
+  color: var(--error-color);
+}
+
+/* 帮助文本 */
+.tm-input__help {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* 错误状态 */
+.tm-input--error .tm-input__field {
+  border-color: var(--error-color);
+  box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.1), var(--shadow);
+}
+
+.tm-input--error .tm-input__field:focus {
+  border-color: var(--error-color);
+  box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.2), var(--shadow);
+}
+
+.tm-input__error {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-xs);
+  color: var(--error-color);
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.tm-input__error-icon {
+  font-size: var(--font-xs);
+  flex-shrink: 0;
+}
+
+/* 成功状态 */
+.tm-input--success .tm-input__field {
+  border-color: var(--success-color);
+}
+
+.tm-input--success .tm-input__field:focus {
+  border-color: var(--success-color);
+  box-shadow: 0 0 0 3px rgba(48, 209, 88, 0.1), var(--shadow);
+}
+
+/* 警告状态 */
+.tm-input--warning .tm-input__field {
+  border-color: var(--warning-color);
+}
+
+.tm-input--warning .tm-input__field:focus {
+  border-color: var(--warning-color);
+  box-shadow: 0 0 0 3px rgba(255, 149, 0, 0.1), var(--shadow);
+}
+
+/* 文本域 */
+.tm-input__textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: var(--font-md);
+  font-family: inherit;
+  background: var(--panel-bg);
+  color: var(--text-color);
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow);
+  outline: none;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.tm-input__textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+.tm-input__textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1), var(--shadow);
+}
+
+.tm-input__textarea:hover:not(:focus):not(:disabled) {
+  border-color: var(--border-hover);
+}
+
+.tm-input__textarea:disabled {
+  background: var(--bg-disabled);
+  color: var(--text-disabled);
+  cursor: not-allowed;
+  border-color: var(--border-light);
+  resize: none;
+}
+
+.tm-input--small .tm-input__textarea {
+  min-height: 60px;
+  padding: var(--spacing-sm);
+  font-size: var(--font-sm);
+}
+
+.tm-input--large .tm-input__textarea {
+  min-height: 100px;
+  padding: var(--spacing-lg);
+  font-size: var(--font-lg);
+}
+
+/* 字符计数 */
+.tm-input__count {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.tm-input__count--warning {
+  color: var(--warning-color);
+}
+
+.tm-input__count--error {
+  color: var(--error-color);
+}
+
+/* 输入组 */
+.tm-input-group {
+  display: flex;
+  width: 100%;
+}
+
+.tm-input-group .tm-input {
+  flex: 1;
+}
+
+.tm-input-group .tm-input__field {
+  border-radius: 0;
+}
+
+.tm-input-group .tm-input:first-child .tm-input__field {
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.tm-input-group .tm-input:last-child .tm-input__field {
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.tm-input-group .tm-input:only-child .tm-input__field {
+  border-radius: var(--radius-md);
+}
+
+.tm-input-group .tm-input:not(:last-child) .tm-input__field {
+  border-right: none;
+}
+
+.tm-input-group .tm-input:not(:first-child):not(:last-child) .tm-input__field {
+  border-radius: 0;
+}
+
+/* 输入组插件 */
+.tm-input-group__addon {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--spacing-md);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: var(--font-sm);
+  white-space: nowrap;
+}
+
+.tm-input-group__addon--prepend {
+  border-right: none;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.tm-input-group__addon--append {
+  border-left: none;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.tm-input-group--small .tm-input-group__addon {
+  padding: 0 var(--spacing-sm);
+  font-size: var(--font-xs);
+}
+
+.tm-input-group--large .tm-input-group__addon {
+  padding: 0 var(--spacing-lg);
+  font-size: var(--font-md);
+}
+
+/* 搜索输入框 */
+.tm-input--search .tm-input__field {
+  padding-right: 40px;
+}
+
+.tm-input__search-button {
+  position: absolute;
+  right: var(--spacing-sm);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: var(--primary-color);
+  color: white;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: var(--font-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-normal);
+  z-index: 1;
+}
+
+.tm-input__search-button:hover {
+  background: var(--primary-hover);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.tm-input__search-button:active {
+  background: var(--primary-active);
+  transform: translateY(-50%) scale(0.95);
+}
+
+.tm-input--small .tm-input__search-button {
+  width: 24px;
+  height: 24px;
+  font-size: var(--font-xs);
+}
+
+.tm-input--large .tm-input__search-button {
+  width: 40px;
+  height: 40px;
+  font-size: var(--font-md);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .tm-input__field,
+  .tm-input__textarea {
+    font-size: var(--font-sm);
+  }
+  
+  .tm-input--large .tm-input__field,
+  .tm-input--large .tm-input__textarea {
+    font-size: var(--font-md);
+  }
+  
+  .tm-input-group {
+    flex-direction: column;
+  }
+  
+  .tm-input-group .tm-input__field {
+    border-radius: var(--radius-md);
+    border-right: 1px solid var(--border-color);
+  }
+  
+  .tm-input-group .tm-input:not(:last-child) {
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .tm-input-group__addon {
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .tm-input__field {
+    height: 36px;
+    padding: 0 var(--spacing-sm);
+    font-size: var(--font-sm);
+  }
+  
+  .tm-input--small .tm-input__field {
+    height: 28px;
+    font-size: var(--font-xs);
+  }
+  
+  .tm-input--large .tm-input__field {
+    height: 44px;
+    font-size: var(--font-md);
+  }
+  
+  .tm-input__textarea {
+    min-height: 60px;
+    padding: var(--spacing-sm);
+    font-size: var(--font-sm);
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .tm-input__field,
+  .tm-input__textarea {
+    border-width: 2px;
+  }
+  
+  .tm-input__field:focus,
+  .tm-input__textarea:focus {
+    border-width: 2px;
+  }
+  
+  .tm-input--error .tm-input__field,
+  .tm-input--success .tm-input__field,
+  .tm-input--warning .tm-input__field {
+    border-width: 2px;
+  }
+}
+
+/* 减少动画模式 */
+@media (prefers-reduced-motion: reduce) {
+  .tm-input__clear:hover {
+    transform: translateY(-50%);
+  }
+  
+  .tm-input__search-button:hover {
+    transform: translateY(-50%);
+  }
+  
+  .tm-input__search-button:active {
+    transform: translateY(-50%);
+  }
+}

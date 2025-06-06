@@ -1,6 +1,7 @@
 import React from 'react';
-import { Select } from '../common';
 import { useTheme } from '../../hooks';
+import type { ThemeMode } from '../../types';
+import './generalsettings.css';
 
 interface GeneralSettingsProps {
   className?: string;
@@ -11,7 +12,11 @@ interface GeneralSettingsProps {
  * 用于配置主题等通用选项
  */
 export const GeneralSettings: React.FC<GeneralSettingsProps> = ({ className = '' }) => {
-  const { themeMode: theme, toggleTheme: setTheme } = useTheme();
+  const { themeMode, setTheme } = useTheme();
+  
+  const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setTheme(e.target.value as ThemeMode);
+  };
 
   const themeOptions = [
     { value: 'light', label: '浅色主题' },
@@ -28,13 +33,25 @@ export const GeneralSettings: React.FC<GeneralSettingsProps> = ({ className = ''
         </h3>
         
         <div className="tm-settings-section__content">
-          <Select
-            label="主题模式"
-            value={theme}
-            onChange={setTheme}
-            options={themeOptions}
-            helperText="选择界面主题模式"
-          />
+          <div className="tm-settings__item">
+            <label className="tm-settings__label">
+              主题模式
+            </label>
+            <select
+              className="tm-settings__select"
+              value={themeMode}
+              onChange={handleThemeChange}
+            >
+              {themeOptions.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <div className="tm-settings__help">
+              选择界面主题模式
+            </div>
+          </div>
         </div>
       </div>
 

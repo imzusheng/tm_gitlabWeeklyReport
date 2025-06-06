@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Input, Select, Loading, Notification } from '../common';
 import { useConfig } from '../../hooks';
 import { DeepSeekModel } from '../../types';
+import './apisettings.css';
 
 interface ApiSettingsProps {
   className?: string;
@@ -74,11 +74,19 @@ export const ApiSettings: React.FC<ApiSettingsProps> = ({ className = '' }) => {
   return (
     <div className={`tm-api-settings ${className}`}>
       {notification && (
-        <Notification
-          type={notification.type}
-          message={notification.message}
-          onClose={() => setNotification(null)}
-        />
+        <div className={`tm-settings__test-status tm-settings__test-status--${notification.type}`}>
+          <span className="tm-settings__test-icon">
+            {notification.type === 'success' ? '✅' : notification.type === 'error' ? '❌' : 'ℹ️'}
+          </span>
+          <span>{notification.message}</span>
+          <button 
+            className="tm-settings__close" 
+            onClick={() => setNotification(null)}
+            style={{ marginLeft: 'auto', fontSize: '12px' }}
+          >
+            ✕
+          </button>
+        </div>
       )}
 
       {/* GitLab 设置 */}
@@ -89,48 +97,68 @@ export const ApiSettings: React.FC<ApiSettingsProps> = ({ className = '' }) => {
         </h3>
         
         <div className="tm-settings-section__content">
-          <Input
-            label="GitLab 地址"
-            type="url"
-            value={config.gitlab.baseUrl}
-            onChange={(e) => updateConfig({
-              gitlab: { ...config.gitlab, baseUrl: e.target.value }
-            })}
-            placeholder="https://gitlab.example.com"
-            helperText="GitLab 实例的基础 URL 地址"
-          />
+          <div className="tm-settings__item">
+            <label className="tm-settings__label tm-settings__label--required">
+              GitLab 地址
+            </label>
+            <input
+              type="url"
+              className="tm-settings__input"
+              value={config.gitlab.baseUrl}
+              onChange={(e) => updateConfig({
+                gitlab: { ...config.gitlab, baseUrl: e.target.value }
+              })}
+              placeholder="https://gitlab.example.com"
+            />
+            <div className="tm-settings__help">
+              GitLab 实例的基础 URL 地址
+            </div>
+          </div>
           
-          <Input
-            label="访问令牌 (Token)"
-            type="password"
-            value={config.gitlab.token}
-            onChange={(e) => updateConfig({
-              gitlab: { ...config.gitlab, token: e.target.value }
-            })}
-            placeholder="glpat-xxxxxxxxxxxxxxxxxxxx"
-            helperText="GitLab 个人访问令牌，需要 read_api 权限"
-          />
+          <div className="tm-settings__item">
+            <label className="tm-settings__label tm-settings__label--required">
+              访问令牌 (Token)
+            </label>
+            <input
+              type="password"
+              className="tm-settings__input"
+              value={config.gitlab.token}
+              onChange={(e) => updateConfig({
+                gitlab: { ...config.gitlab, token: e.target.value }
+              })}
+              placeholder="glpat-xxxxxxxxxxxxxxxxxxxx"
+            />
+            <div className="tm-settings__help">
+              GitLab 个人访问令牌，需要 read_api 权限
+            </div>
+          </div>
           
-          <Input
-            label="项目 ID"
-            type="text"
-            value={config.gitlab.projectId}
-            onChange={(e) => updateConfig({
-              gitlab: { ...config.gitlab, projectId: e.target.value }
-            })}
-            placeholder="123"
-            helperText="GitLab 项目 ID，可在项目设置页面查看"
-          />
+          <div className="tm-settings__item">
+            <label className="tm-settings__label tm-settings__label--required">
+              项目 ID
+            </label>
+            <input
+              type="text"
+              className="tm-settings__input"
+              value={config.gitlab.projectId}
+              onChange={(e) => updateConfig({
+                gitlab: { ...config.gitlab, projectId: e.target.value }
+              })}
+              placeholder="123"
+            />
+            <div className="tm-settings__help">
+              GitLab 项目 ID，可在项目设置页面查看
+            </div>
+          </div>
           
           <div className="tm-settings-section__actions">
-            <Button
-              variant="outline"
+            <button
+              className="tm-settings__button tm-settings__button--secondary"
               onClick={handleTestGitLab}
-              loading={testing.gitlab}
-              disabled={!config.gitlab.baseUrl || !config.gitlab.token}
+              disabled={testing.gitlab || !config.gitlab.baseUrl || !config.gitlab.token}
             >
-              测试连接
-            </Button>
+              {testing.gitlab ? '测试中...' : '测试连接'}
+            </button>
           </div>
         </div>
       </div>
@@ -143,40 +171,57 @@ export const ApiSettings: React.FC<ApiSettingsProps> = ({ className = '' }) => {
         </h3>
         
         <div className="tm-settings-section__content">
-          <Input
-            label="API Key"
-            type="password"
-            value={config.deepseek.apiKey}
-            onChange={(e) => updateConfig({
-              deepseek: { ...config.deepseek, apiKey: e.target.value }
-            })}
-            placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            helperText="DeepSeek API 密钥"
-          />
+          <div className="tm-settings__item">
+            <label className="tm-settings__label tm-settings__label--required">
+              API Key
+            </label>
+            <input
+              type="password"
+              className="tm-settings__input"
+              value={config.deepseek.apiKey}
+              onChange={(e) => updateConfig({
+                deepseek: { ...config.deepseek, apiKey: e.target.value }
+              })}
+              placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            />
+            <div className="tm-settings__help">
+              DeepSeek API 密钥
+            </div>
+          </div>
           
           <div className="tm-form-group">
-            <Select
-              label="模型选择"
-              value={config.deepseek.model}
-              onChange={(value) => updateConfig({
-                 deepseek: { ...config.deepseek, model: value }
-               })}
-              options={modelOptions}
-              placeholder="选择模型"
-              helperText="用于生成周报的 AI 模型"
-            />
+            <div className="tm-settings__item">
+              <label className="tm-settings__label">
+                模型选择
+              </label>
+              <select
+                className="tm-settings__select"
+                value={config.deepseek.model}
+                onChange={(e) => updateConfig({
+                  deepseek: { ...config.deepseek, model: e.target.value }
+                })}
+              >
+                {modelOptions.map(option => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <div className="tm-settings__help">
+                用于生成周报的 AI 模型
+              </div>
+            </div>
 
           </div>
           
           <div className="tm-settings-section__actions">
-            <Button
-              variant="outline"
+            <button
+              className="tm-settings__button tm-settings__button--secondary"
               onClick={handleTestDeepSeek}
-              loading={testing.deepseek}
-              disabled={!config.deepseek.apiKey}
+              disabled={testing.deepseek || !config.deepseek.apiKey}
             >
-              测试连接
-            </Button>
+              {testing.deepseek ? '测试中...' : '测试连接'}
+            </button>
           </div>
         </div>
       </div>

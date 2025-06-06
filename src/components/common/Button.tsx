@@ -1,5 +1,6 @@
 import React from 'react';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import './Button.css';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
@@ -20,9 +21,9 @@ export const Button: React.FC<ButtonProps> = ({
   children,
   ...props
 }) => {
-  const baseClass = 'btn';
-  const variantClass = `btn-${variant}`;
-  const sizeClass = size !== 'md' ? `btn-${size}` : '';
+  const baseClass = 'tm-button';
+  const variantClass = variant !== 'secondary' ? `tm-button--${variant}` : '';
+  const sizeClass = size !== 'md' ? `tm-button--${size === 'sm' ? 'small' : 'large'}` : '';
   const classes = [baseClass, variantClass, sizeClass, className]
     .filter(Boolean)
     .join(' ');

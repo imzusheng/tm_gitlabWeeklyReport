@@ -1,48 +1,1546 @@
-/* 样式入口文件 */
-@import './base.css';
-@import './components.css';
-@import './panel.css';
+/* GitLab 周报生成器 - macOS 简洁设计风格 */
 
-/* 油猴脚本特定样式 */
-.tm-root {
-  all: initial;
-  font-family: var(--font-family-base);
-  font-size: var(--font-size-base);
-  line-height: var(--line-height-normal);
-  color: var(--color-text-primary);
-  direction: ltr;
-  text-align: left;
+/* CSS 变量定义 - 浅色主题 */
+:root {
+  /* 颜色系统 - 浅色主题 */
+  --background: #ffffff;
+  --card-bg: #f8f9fa;
+  --card-bg-solid: #f8f9fa;
+  --border-color: #e1e5e9;
+  --border-light: #f1f3f4;
+  --text-color: #1a1a1a;
+  --text-secondary: #6c757d;
+  --text-muted: #9ca3af;
+  --primary-color: #007aff;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --error-color: #dc3545;
+  --info-color: #17a2b8;
+  --button-bg: #f8f9fa;
+  --button-bg-hover: #e9ecef;
+  --hover-bg: rgba(0, 0, 0, 0.05);
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-large: 0 8px 25px rgba(0, 0, 0, 0.12);
+  
+  /* 按钮状态颜色 */
+  --primary-hover: #0056cc;
+  --primary-active: #004bb5;
+  --success-hover: #218838;
+  --success-active: #1e7e34;
+  --warning-hover: #e0a800;
+  --warning-active: #d39e00;
+  --error-hover: #c82333;
+  --error-active: #bd2130;
+  --info-hover: #138496;
+  --info-active: #117a8b;
+  
+  /* 面板变量 */
+  --panel-bg: #ffffff;
+  --input-bg: #ffffff;
+  --overlay-bg: rgba(0, 0, 0, 0.4);
+  
+  /* 动画变量 */
+  --transition-fast: 0.15s;
+  --transition-normal: 0.25s;
+  --transition-slow: 0.35s;
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-.tm-root *,
-.tm-root *::before,
-.tm-root *::after {
+/* 深色主题 */
+[data-theme="dark"] {
+  --background: #1c1c1e;
+  --card-bg: #2c2c2e;
+  --card-bg-solid: #2c2c2e;
+  --border-color: #38383a;
+  --border-light: #48484a;
+  --text-color: #ffffff;
+  --text-secondary: #aeaeb2;
+  --text-muted: #8e8e93;
+  --primary-color: #0a84ff;
+  --success-color: #32d74b;
+  --warning-color: #ff9f0a;
+  --error-color: #ff453a;
+  --info-color: #5ac8fa;
+  --button-bg: #38383a;
+  --button-bg-hover: #48484a;
+  --hover-bg: rgba(255, 255, 255, 0.08);
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-large: 0 8px 25px rgba(0, 0, 0, 0.35);
+  
+  /* 按钮状态颜色 */
+  --primary-hover: #409cff;
+  --primary-active: #0070f3;
+  --success-hover: #5de270;
+  --success-active: #28cd41;
+  --warning-hover: #ffb340;
+  --warning-active: #ff8f00;
+  --error-hover: #ff6961;
+  --error-active: #ff3b30;
+  --info-hover: #7dd3fc;
+  --info-active: #38bdf8;
+  
+  --panel-bg: #1c1c1e;
+  --input-bg: #2c2c2e;
+  --overlay-bg: rgba(0, 0, 0, 0.6);
+}
+
+/* 基础重置 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 主按钮样式 - macOS风格 */
+.ui-main-button {
+  position: fixed;
+  bottom: 110px;
+  right: 50px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  z-index: 10000;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: var(--shadow-large);
+  transition: all 0.3s cubic-bezier(0.25, 0.10, 0.25, 1.00);
+  transform: scale(1);
+  will-change: transform, box-shadow;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: buttonPulse 2s ease-in-out infinite;
+}
+
+.ui-main-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 12px 40px rgba(0, 122, 255, 0.4);
+  animation: none;
+}
+
+.ui-main-button:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
+
+/* 按钮脉冲动画 */
+@keyframes buttonPulse {
+  0%, 100% {
+    box-shadow: var(--shadow-large), 0 0 0 0 rgba(0, 122, 255, 0.4);
+  }
+  50% {
+    box-shadow: var(--shadow-large), 0 0 0 8px rgba(0, 122, 255, 0);
+  }
+}
+
+/* 按钮进入动画 */
+.ui-main-button.entering {
+  animation: buttonEnter 0.5s cubic-bezier(0.25, 0.10, 0.25, 1.00) forwards;
+}
+
+@keyframes buttonEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(180deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.2) rotate(-10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* 遮罩层样式 - 增强动画 */
+.ui-mask-layer,
+.tm-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--overlay-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: none;
+  transition: all 0.3s cubic-bezier(0.25, 0.10, 0.25, 1.00);
+  opacity: 0;
+  will-change: opacity, backdrop-filter;
+}
+
+.ui-mask-layer.visible,
+.tm-mask.visible {
+  display: block;
+  opacity: 1;
+}
+
+/* 遮罩层进入动画 */
+.ui-mask-layer.entering,
+.tm-mask.entering {
+  display: block;
+  animation: maskEnter 0.3s cubic-bezier(0.25, 0.10, 0.25, 1.00) forwards;
+}
+
+/* 遮罩层退出动画 */
+.ui-mask-layer.exiting,
+.tm-mask.exiting {
+  animation: maskExit 0.25s cubic-bezier(0.25, 0.10, 0.25, 1.00) forwards;
+}
+
+@keyframes maskEnter {
+  0% {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
+
+@keyframes maskExit {
+  0% {
+    opacity: 1;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  100% {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+}
+
+/* 应用根容器 */
+.tm-root {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  width: 750px;
+  height: calc(100vh - 80px);
+  z-index: 10001;
+  transform-origin: bottom right;
+  opacity: 0;
+  transform: scale(0.3) translateY(50px);
+  transition: all 0.4s cubic-bezier(0.25, 0.10, 0.25, 1.00);
+  will-change: transform, opacity;
+}
+
+/* 应用容器 */
+.tm-app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
   box-sizing: border-box;
 }
 
-/* 确保在任何网站上都能正常显示 */
-.tm-root {
-  position: relative;
-  z-index: 2147483647; /* 最大 z-index 值 */
+/* 主面板样式 - macOS风格 */
+.tm-main-panel {
+  width: 100%;
+  height: 100%;
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--shadow-large);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
-/* 防止被其他样式影响 */
-.tm-root button,
-.tm-root input,
-.tm-root select,
-.tm-root textarea {
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
+.tm-main-panel.visible {
+  display: block;
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* 面板进入动画 */
+.tm-main-panel.entering {
+  display: block;
+  animation: panelEnter 0.3s cubic-bezier(0.25, 0.10, 0.25, 1.00) forwards;
+}
+
+/* 面板退出动画 */
+.tm-main-panel.exiting {
+  animation: panelExit 0.25s cubic-bezier(0.25, 0.10, 0.25, 1.00) forwards;
+}
+
+@keyframes panelEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translateY(50px);
+  }
+  60% {
+    opacity: 0.8;
+    transform: scale(1.02) translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes panelExit {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3) translateY(50px);
+  }
+}
+
+/* 内容区域动画 */
+@keyframes slideInFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.tm-main-panel__body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* 面板头部样式 - 优化排版 */
+.tm-panel-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--card-bg);
+  flex-shrink: 0;
+  border-radius: 12px 12px 0 0;
+  animation: slideInFromTop 0.4s cubic-bezier(0.25, 0.10, 0.25, 1.00) 0.1s both;
+}
+
+.tm-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.tm-header-title {
   margin: 0;
+  color: var(--text-color);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.tm-root a {
-  color: var(--color-primary);
+.tm-header-title::before {
+  content: '📊';
+  font-size: 18px;
+}
+
+.tm-header-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.tm-header-button {
+  background: var(--button-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast) var(--ease);
+}
+
+.tm-header-button:hover {
+  background: var(--button-bg-hover);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+.tm-close-button {
+  color: var(--text-muted);
+}
+
+.tm-close-button:hover {
+  color: var(--error-color);
+  background: rgba(255, 59, 48, 0.1);
+}
+
+/* 日期选择器样式 (100% 还原) */
+.tm-date-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.tm-date-input-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.tm-date-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  min-width: 50px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.tm-date-input {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 13px;
+  width: 130px;
+  background: var(--input-bg);
+  color: var(--text-color);
+  box-shadow: var(--shadow);
+}
+
+.tm-date-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+/* 快速日期按钮 (100% 还原) */
+.tm-quick-date-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.tm-quick-date-button {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  white-space: nowrap;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.tm-quick-date-button.this-week {
+  border: 1px solid var(--primary-color);
+  background: rgba(0, 122, 255, 0.1);
+  color: var(--primary-color);
+}
+
+.tm-quick-date-button.last-week {
+  border: 1px solid var(--success-color);
+  background: rgba(48, 209, 88, 0.1);
+  color: var(--success-color);
+}
+
+.tm-quick-date-button.this-month {
+  border: 1px solid var(--warning-color);
+  background: rgba(255, 149, 0, 0.1);
+  color: var(--warning-color);
+}
+
+.tm-quick-date-button.last-month {
+  border: 1px solid var(--error-color);
+  background: rgba(255, 59, 48, 0.1);
+  color: var(--error-color);
+}
+
+.tm-quick-date-button:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+/* 状态信息 (100% 还原) */
+.tm-status-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tm-data-count {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.tm-data-count.success {
+  color: var(--success-color);
+}
+
+.tm-data-count.warning {
+  color: var(--warning-color);
+}
+
+.tm-data-count.error {
+  color: var(--error-color);
+}
+
+.tm-date-range {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-left: 12px;
+}
+
+.tm-refresh-button {
+  height: 32px;
+  padding: 0 16px;
+  background: var(--success-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: var(--shadow);
+  transition: all 0.2s ease;
+  min-width: 80px;
+}
+
+.tm-refresh-button:hover {
+  background: #28a745;
+  transform: translateY(-1px);
+}
+
+.tm-refresh-button:disabled {
+  background: #d9d9d9;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 滚动内容区域 (100% 还原) */
+.tm-scrollable-content {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 事件表格样式 (100% 还原) */
+.tm-events-table-container {
+  max-height: 240px;
+  overflow-y: auto;
+  border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+
+.tm-events-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tm-events-table thead {
+  position: sticky;
+  top: 0;
+  background: var(--panel-bg);
+  z-index: 1;
+}
+
+.tm-events-table thead tr {
+  background: var(--card-bg);
+}
+
+.tm-events-table th {
+  padding: 12px 8px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.tm-events-table th.checkbox-col {
+  text-align: center;
+  width: 40px;
+}
+
+.tm-events-table th.index-col {
+  text-align: left;
+  width: 40px;
+}
+
+.tm-events-table th.date-col {
+  text-align: left;
+  width: 130px;
+}
+
+.tm-events-table th.action-col {
+  text-align: center;
+  width: 50px;
+}
+
+.tm-events-table tbody tr {
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.tm-events-table tbody tr:hover {
+  background-color: var(--hover-bg);
+}
+
+.tm-events-table td {
+  padding: 12px 8px;
+  font-size: 12px;
+}
+
+.tm-events-table .checkbox-cell {
+  text-align: center;
+}
+
+.tm-events-table .index-cell {
+  color: var(--text-secondary);
+  text-align: center;
+  font-weight: 500;
+}
+
+.tm-events-table .date-cell {
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.tm-events-table .title-cell {
+  color: var(--text-color);
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+.tm-events-table .action-cell {
+  text-align: center;
+}
+
+/* 复选框样式 */
+.tm-checkbox {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+/* 复制按钮样式 */
+.tm-copy-button {
+  padding: 6px 8px;
+  background: var(--button-bg);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.tm-copy-button:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* 空状态样式 */
+.tm-empty-state {
+  padding: 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 13px;
+}
+
+/* 操作区域样式 (100% 还原) */
+.tm-operation-section {
+  padding: 20px;
+  border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+
+.tm-additional-prompt-group {
+  margin-bottom: 16px;
+}
+
+.tm-form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 15px;
+}
+
+.tm-textarea {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  resize: vertical;
+  font-size: 13px;
+  line-height: 1.4;
+  background: var(--panel-bg);
+  color: var(--text-color);
+  box-shadow: var(--shadow);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.tm-textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+/* 余额信息 */
+.tm-balance-info {
+  margin-bottom: 16px;
+  display: flex;
+  gap: 16px;
+  padding: 12px;
+  background: var(--card-bg);
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+}
+
+.tm-balance-text {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.tm-token-usage {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* 操作按钮组 */
+.tm-action-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.tm-generate-button {
+  flex: 1;
+  padding: 14px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: var(--shadow);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.tm-generate-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.tm-generate-button:disabled {
+  background: #d9d9d9;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.tm-export-button {
+  padding: 14px 20px;
+  background: #20d3c2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: var(--shadow);
+  transition: all 0.2s ease;
+}
+
+.tm-export-button:hover:not(:disabled) {
+  background: #1bc4b4;
+  transform: translateY(-1px);
+}
+
+.tm-export-button:disabled {
+  background: #d9d9d9;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 报告结果区域 (100% 还原) */
+.tm-report-result {
+  padding: 20px;
+  background: var(--card-bg);
+  display: none;
+  flex: 1;
+  min-height: 200px;
+}
+
+.tm-report-result.visible {
+  display: block;
+}
+
+.tm-report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.tm-report-title {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.tm-copy-report-button {
+  padding: 8px 12px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: var(--shadow);
+}
+
+.tm-copy-report-button:hover {
+  background: #0056cc;
+}
+
+.tm-report-content {
+  background: var(--panel-bg);
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  white-space: pre-wrap;
+  color: var(--text-color);
+  line-height: 1.6;
+  font-size: 14px;
+  min-height: 120px;
+  height: calc(100% - 50px);
+  overflow-y: auto;
+  box-shadow: var(--shadow);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* 设置面板样式 (100% 还原) */
+.tm-settings-panel {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  width: 600px;
+  height: calc(100vh - 80px);
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--shadow-large);
+  backdrop-filter: blur(20px);
+  z-index: 10001;
+  display: none;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.tm-settings-panel.visible {
+  display: block;
+}
+
+.tm-settings-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--card-bg);
+  flex-shrink: 0;
+  border-radius: 12px 12px 0 0;
+}
+
+.tm-settings-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.tm-settings-title {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.tm-settings-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.tm-settings-section {
+  margin-bottom: 24px;
+}
+
+.tm-settings-section-title {
+  margin: 0 0 12px 0;
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.tm-settings-field {
+  margin-bottom: 16px;
+}
+
+.tm-settings-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.tm-settings-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 14px;
+  background: var(--input-bg);
+  color: var(--text-color);
+  box-shadow: var(--shadow);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tm-settings-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.tm-settings-select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 14px;
+  background: var(--input-bg);
+  color: var(--text-color);
+  box-shadow: var(--shadow);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tm-settings-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.tm-settings-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 14px;
+  background: var(--input-bg);
+  color: var(--text-color);
+  resize: vertical;
+  box-shadow: var(--shadow);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.4;
+}
+
+.tm-settings-textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.tm-settings-footer {
+  padding: 20px;
+  border-top: 1px solid var(--border-light);
+  background: var(--card-bg);
+  flex-shrink: 0;
+  border-radius: 0 0 12px 12px;
+}
+
+.tm-settings-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.tm-reset-button {
+  padding: 12px 20px;
+  background: var(--error-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow);
+}
+
+.tm-reset-button:hover {
+  background: #e6342a;
+}
+
+.tm-save-button {
+  padding: 12px 20px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow);
+}
+
+.tm-save-button:hover {
+  background: #0056cc;
+}
+
+/* 通知样式 (100% 还原) */
+.ui-notification {
+  position: absolute;
+  bottom: 80px;
+  left: 20px;
+  right: 20px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: var(--text-color);
+  font-size: 14px;
+  z-index: 10003;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-weight: 500;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.25, 0.10, 0.25, 1.00);
+  will-change: transform, opacity;
+}
+
+.ui-notification.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.ui-notification.success {
+  background: rgba(48, 209, 88, 0.1);
+  border: 1px solid #30d15840;
+}
+
+.ui-notification.error {
+  background: rgba(255, 59, 48, 0.1);
+  border: 1px solid #ff3b3040;
+}
+
+.ui-notification.warning {
+  background: rgba(255, 149, 0, 0.1);
+  border: 1px solid #ff950040;
+}
+
+.ui-notification.info {
+  background: rgba(0, 122, 255, 0.1);
+  border: 1px solid #007aff40;
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notification-icon {
+  font-size: 16px;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+  margin: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.notification-close:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* 滚动条样式 (100% 还原) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--card-bg);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Firefox 滚动条 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) var(--card-bg);
+}
+
+/* 选择文本样式 */
+::selection {
+  background: var(--primary-color);
+  color: white;
+}
+
+::-moz-selection {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* 动画定义 (100% 还原) */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -8px, 0);
+  }
+  70% {
+    transform: translate3d(0, -4px, 0);
+  }
+  90% {
+    transform: translate3d(0, -2px, 0);
+  }
+}
+
+/* 简化动画效果 */
+@keyframes tm-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 工具类 */
+.tm-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.tm-fade-out {
+  animation: fadeOut 0.3s ease-out;
+}
+
+.tm-slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+.tm-slide-out {
+  animation: slideOut 0.3s ease-out;
+}
+
+.tm-spin {
+  animation: spin 1s linear infinite;
+}
+
+.tm-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.tm-bounce {
+  animation: bounce 1s infinite;
+}
+
+/* 可见性工具类 */
+.tm-visible {
+  display: block !important;
+}
+
+.tm-hidden {
+  display: none !important;
+}
+
+/* 布局工具类 */
+.tm-flex {
+  display: flex;
+}
+
+.tm-flex-column {
+  flex-direction: column;
+}
+
+.tm-flex-1 {
+  flex: 1;
+}
+
+.tm-items-center {
+  align-items: center;
+}
+
+.tm-justify-between {
+  justify-content: space-between;
+}
+
+.tm-gap-2 {
+  gap: 8px;
+}
+
+.tm-gap-3 {
+  gap: 12px;
+}
+
+.tm-gap-4 {
+  gap: 16px;
+}
+
+/* 响应式支持 */
+@media (max-width: 768px) {
+  .tm-main-panel {
+    width: calc(100vw - 40px);
+    right: 20px;
+    left: 20px;
+  }
+  
+  .tm-settings-panel {
+    width: calc(100vw - 40px);
+    right: 20px;
+    left: 20px;
+  }
+  
+  .tm-date-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .tm-quick-date-buttons {
+    flex-wrap: wrap;
+  }
+  
+  .tm-action-buttons {
+    flex-direction: column;
+  }
+}
+
+/* 高对比度模式支持 */
+@media (prefers-contrast: high) {
+  :root {
+    --border-color: #333333;
+    --text-secondary: #333333;
+    --text-color: #000000;
+  }
+  
+  [data-theme="dark"] {
+    --border-color: #cccccc;
+    --text-secondary: #cccccc;
+    --text-color: #ffffff;
+  }
+}
+
+/* 减少动画模式支持 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 主面板部分样式 */
+.tm-main-panel__section {
+  padding: 20px;
+  border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0;
+  animation: slideInFromBottom 0.4s cubic-bezier(0.25, 0.10, 0.25, 1.00) both;
+}
+
+/* 为不同的section添加延迟，创造层次感 */
+.tm-main-panel__section:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.tm-main-panel__section:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.tm-main-panel__section:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.tm-main-panel__section:nth-child(4) {
+  animation-delay: 0.25s;
+}
+
+.tm-main-panel__section:nth-child(5) {
+  animation-delay: 0.3s;
+}
+
+.tm-section-header {
+  margin-bottom: 16px;
+}
+
+.tm-section-title {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 600;
+  animation: fadeInScale 0.3s cubic-bezier(0.25, 0.10, 0.25, 1.00) 0.1s both;
+}
+
+.tm-date-range {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* 设置卡片 */
+/* 首次配置提示 - macOS简洁设计 */
+.tm-main-panel__setup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 40px;
+}
+
+.tm-setup-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  max-width: 400px;
+  width: 100%;
+}
+
+.tm-setup-card__icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.tm-setup-card__title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.tm-setup-card__description {
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  line-height: 1.5;
+  font-size: 15px;
+}
+
+/* 通用按钮样式 - macOS风格 */
+.tm-button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--button-bg);
+  color: var(--text-color);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.10, 0.25, 1.00);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 32px;
   text-decoration: none;
+  box-shadow: var(--shadow);
+  transform: translateY(0);
+  will-change: transform, box-shadow;
 }
 
-.tm-root a:hover {
-  text-decoration: underline;
+.tm-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: var(--button-bg-hover);
+}
+
+.tm-button:active {
+  transform: translateY(0);
+  transition: transform 0.1s ease;
+}
+
+/* 主要按钮样式 */
+.tm-button--primary {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.tm-button--primary:hover {
+  background: var(--primary-color);
+  filter: brightness(1.1);
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+/* 轮廓按钮样式 */
+.tm-button--outline {
+  background: transparent;
+  border-color: var(--border-color);
+}
+
+.tm-button--outline:hover {
+  background: var(--hover-bg);
+}
+
+/* 小尺寸按钮 */
+.tm-button--sm {
+  padding: 4px 8px;
+  font-size: 12px;
+  min-height: 24px;
 }

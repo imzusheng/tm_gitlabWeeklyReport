@@ -1,0 +1,88 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# TM Weekly Report - 项目结构指南
+
+## 项目概述
+这是一个基于 React + TypeScript + Rollup 构建的油猴脚本项目，用于生成 GitLab 周报。项目已基于 old 版本进行了 100% 样式还原重写。
+
+## 核心架构文件
+
+### 构建配置
+- [rollup.config.js](mdc:rollup.config.js) - Rollup 打包配置，输出油猴脚本格式
+- [userscript.config.js](mdc:userscript.config.js) - 油猴脚本元数据配置
+- [tsconfig.json](mdc:tsconfig.json) - TypeScript 编译配置
+- [package.json](mdc:package.json) - 项目依赖和脚本配置
+
+### 主入口文件
+- [src/index.tsx](mdc:src/index.tsx) - 应用程序主入口，包含油猴脚本初始化逻辑
+- [src/App.tsx](mdc:src/App.tsx) - React 应用根组件
+
+## 源码目录结构 (src/)
+
+### 组件系统 (components/)
+- [src/components/Panel/](mdc:src/components/Panel/) - 主面板组件
+  - [MainPanel.tsx](mdc:src/components/Panel/MainPanel.tsx) - 主面板逻辑组件
+  - [Header.tsx](mdc:src/components/Panel/Header.tsx) - 面板头部组件
+  - [Footer.tsx](mdc:src/components/Panel/Footer.tsx) - 面板底部组件
+- [src/components/Settings/](mdc:src/components/Settings/) - 设置相关组件
+- [src/components/EventsTable/](mdc:src/components/EventsTable/) - 事件表格组件
+- [src/components/common/](mdc:src/components/common/) - 通用UI组件
+- [src/components/index.ts](mdc:src/components/index.ts) - 组件统一导出
+
+### 样式系统 (styles/)
+- [src/styles/index.css](mdc:src/styles/index.css) - **核心样式文件**，基于 old 版本 100% 还原
+  - CSS 变量系统 (明暗主题支持)
+  - 750px 固定宽度面板设计
+  - 毛玻璃背景效果和现代化动画
+  - 响应式设计和无障碍功能
+- 组件样式文件：
+  - [src/components/Panel/MainPanel.css](mdc:src/components/Panel/MainPanel.css) - 主面板样式
+  - [src/components/Panel/Header.css](mdc:src/components/Panel/Header.css) - 头部样式
+  - [src/components/Panel/Footer.css](mdc:src/components/Panel/Footer.css) - 底部样式
+
+### 服务层 (services/)
+- [src/services/gitlab.ts](mdc:src/services/gitlab.ts) - GitLab API 集成服务
+- [src/services/deepseek.ts](mdc:src/services/deepseek.ts) - DeepSeek AI API 集成服务
+- [src/services/index.ts](mdc:src/services/index.ts) - 服务统一导出
+
+### 工具函数 (utils/)
+- 包含项目通用工具和辅助函数
+
+### 类型定义 (types/)
+- TypeScript 类型定义文件
+
+### 自定义 Hooks (hooks/)
+- React 自定义 Hooks
+
+## 参考版本 (old/)
+- [old/](mdc:old/) - 原版本参考目录，包含完整的设计和功能实现
+- 用于样式还原和功能对比的重要参考源
+
+## 构建脚本 (scripts/)
+- [scripts/update-version.cjs](mdc:scripts/update-version.cjs) - 版本自动更新脚本
+
+## 输出目录 (dist/)
+- [dist/index.user.js](mdc:dist/index.user.js) - 最终构建的油猴脚本文件
+
+## 设计规范
+- **面板尺寸**: 750px 固定宽度
+- **圆角规范**: 12px 统一圆角
+- **间距规范**: 20px 内边距
+- **动画效果**: 悬停时 Y 轴位移微交互
+- **主题支持**: 明暗主题无缝切换
+- **按钮规范**: 32px 高度，渐变背景
+
+## 开发工作流
+1. 开发: `npm run dev` - 开发环境构建
+2. 生产: `npm run build:prod` - 生产环境构建（自动版本更新）
+3. 清理: `npm run clean` - 清理构建产物
+
+## 关键特性
+- 基于 old 版本 100% 样式还原
+- 现代化 React TypeScript 架构
+- 油猴脚本格式输出
+- GitLab API 和 AI 集成
+- 响应式设计和无障碍支持

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './Notification.css';
 
 type NotificationType = 'success' | 'error' | 'warning' | 'info';
 

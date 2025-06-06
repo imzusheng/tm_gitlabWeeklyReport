@@ -1,5 +1,6 @@
 import React from 'react';
 import type { InputHTMLAttributes } from 'react';
+import './Input.css';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -19,12 +20,12 @@ export const Input: React.FC<InputProps> = ({
   ...props
 }) => {
   const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
-  const classes = ['input', className].filter(Boolean).join(' ');
+  const classes = ['tm-input', className].filter(Boolean).join(' ');
 
   return (
-    <div className="input-group">
+    <div className="tm-input-group">
       {label && (
-        <label htmlFor={inputId} className="input-label">
+        <label htmlFor={inputId} className="tm-label">
           {label}
         </label>
       )}
@@ -34,12 +35,12 @@ export const Input: React.FC<InputProps> = ({
         {...props}
       />
       {error && (
-        <div className="input-error" role="alert">
+        <div className="tm-text tm-text--error" role="alert">
           {error}
         </div>
       )}
       {helperText && !error && (
-        <div className="input-helper">
+        <div className="tm-text tm-text--muted tm-text--small">
           {helperText}
         </div>
       )}

@@ -1,0 +1,253 @@
+/* 通用设置样式 - 参考old版本设计风格 */
+.tm-general-settings {
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* 设置区块 */
+.tm-settings-section {
+  margin-bottom: 32px;
+}
+
+.tm-settings-section:last-child {
+  margin-bottom: 0;
+}
+
+.tm-settings-section__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-color, #1d1d1f);
+  margin: 0 0 16px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-light, #f0f0f0);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tm-settings-section__icon {
+  font-size: 16px;
+}
+
+.tm-settings-section__content {
+  padding: 0;
+}
+
+/* 设置项 */
+.tm-settings__item {
+  margin-bottom: 20px;
+}
+
+.tm-settings__item:last-child {
+  margin-bottom: 0;
+}
+
+.tm-settings__label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color, #1d1d1f);
+  margin-bottom: 8px;
+}
+
+.tm-settings__label--required::after {
+  content: ' *';
+  color: var(--error-color, #ff3b30);
+}
+
+/* 选择框 */
+.tm-settings__select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border-color, #e1e5e9);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--text-color, #1d1d1f);
+  background: var(--input-bg, white);
+  transition: all 0.2s ease;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.tm-settings__select:focus {
+  outline: none;
+  border-color: var(--primary-color, #007aff);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.tm-settings__select:disabled {
+  background: var(--disabled-bg, #f5f5f7);
+  color: var(--text-disabled, #c7c7cc);
+  cursor: not-allowed;
+}
+
+/* 帮助文本 */
+.tm-settings__help {
+  font-size: 12px;
+  color: var(--text-muted, #8e8e93);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.tm-settings__help--info {
+  color: var(--primary-color, #007aff);
+}
+
+.tm-settings__help--warning {
+  color: var(--warning-color, #ff9500);
+}
+
+.tm-settings__help--success {
+  color: var(--success-color, #30d158);
+}
+
+/* 信息卡片 */
+.tm-info-card {
+  padding: 16px;
+  background: var(--info-bg, rgba(0, 122, 255, 0.05));
+  border: 1px solid var(--info-border, rgba(0, 122, 255, 0.2));
+  border-radius: 8px;
+  margin-top: 16px;
+}
+
+.tm-info-card__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-color, #1d1d1f);
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tm-info-card__icon {
+  font-size: 16px;
+  color: var(--primary-color, #007aff);
+}
+
+.tm-info-card__content {
+  font-size: 13px;
+  color: var(--text-muted, #8e8e93);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.tm-info-card__content strong {
+  color: var(--text-color, #1d1d1f);
+  font-weight: 600;
+}
+
+/* 主题预览 */
+.tm-theme-preview {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--preview-bg, #f8f9fa);
+  border-radius: 6px;
+  border: 1px solid var(--border-light, #f0f0f0);
+}
+
+.tm-theme-preview__item {
+  flex: 1;
+  padding: 8px;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.tm-theme-preview__item--light {
+  background: var(--input-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.tm-theme-preview__item--dark {
+  background: #1d1d1f;
+  color: #ffffff;
+  border: 1px solid #333;
+}
+
+.tm-theme-preview__item--auto {
+  background: linear-gradient(45deg, var(--input-bg) 50%, #1d1d1f 50%);
+  color: transparent;
+  border: 1px solid #e1e5e9;
+  position: relative;
+}
+
+.tm-theme-preview__item--auto::after {
+  content: 'Auto';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-shadow: 0 0 3px var(--background);
+}
+
+/* 表单组 */
+.tm-form-group {
+  margin-bottom: 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .tm-settings-section {
+    margin-bottom: 24px;
+  }
+  
+  .tm-settings__select {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+  
+  .tm-info-card {
+    padding: 12px;
+  }
+  
+  .tm-theme-preview {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .tm-theme-preview__item {
+    padding: 12px 8px;
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .tm-settings__select {
+    border-width: 2px;
+  }
+  
+  .tm-info-card {
+    border-width: 2px;
+  }
+  
+  .tm-theme-preview__item {
+    border-width: 2px;
+  }
+}
+
+/* 减少动画模式 */
+@media (prefers-reduced-motion: reduce) {
+  .tm-settings__select,
+  .tm-theme-preview__item {
+    transition: none;
+  }
+}
+
+/* 暗色主题适配 */
+@media (prefers-color-scheme: dark) {
+  .tm-info-card {
+    background: rgba(0, 122, 255, 0.1);
+  }
+  
+  .tm-theme-preview {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}

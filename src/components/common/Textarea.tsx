@@ -1,5 +1,6 @@
 import React from 'react';
 import type { TextareaHTMLAttributes } from 'react';
+import './Textarea.css';
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
@@ -19,12 +20,12 @@ export const Textarea: React.FC<TextareaProps> = ({
   ...props
 }) => {
   const textareaId = id || `textarea-${Math.random().toString(36).substr(2, 9)}`;
-  const classes = ['input', 'textarea', className].filter(Boolean).join(' ');
+  const classes = ['tm-textarea', className].filter(Boolean).join(' ');
 
   return (
-    <div className="textarea-group">
+    <div className="tm-input-group">
       {label && (
-        <label htmlFor={textareaId} className="textarea-label">
+        <label htmlFor={textareaId} className="tm-label">
           {label}
         </label>
       )}
@@ -34,12 +35,12 @@ export const Textarea: React.FC<TextareaProps> = ({
         {...props}
       />
       {error && (
-        <div className="textarea-error" role="alert">
+        <div className="tm-text tm-text--error" role="alert">
           {error}
         </div>
       )}
       {helperText && !error && (
-        <div className="textarea-helper">
+        <div className="tm-text tm-text--muted tm-text--small">
           {helperText}
         </div>
       )}

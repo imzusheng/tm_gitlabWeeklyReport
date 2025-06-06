@@ -1,0 +1,301 @@
+/* Modal 组件样式 - 与old版本保持一致 */
+
+/* 模态框遮罩 */
+.tm-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.tm-modal-overlay.tm-modal-overlay--open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* 模态框容器 */
+.tm-modal {
+  background: var(--panel-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow-large);
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: hidden;
+  transform: scale(0.9) translateY(20px);
+  transition: all 0.3s cubic-bezier(0.25, 0.10, 0.25, 1.00);
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.tm-modal-overlay--open .tm-modal {
+  transform: scale(1) translateY(0);
+}
+
+/* 尺寸变体 */
+.tm-modal--small {
+  width: 400px;
+}
+
+.tm-modal--medium {
+  width: 600px;
+}
+
+.tm-modal--large {
+  width: 800px;
+}
+
+/* 模态框头部 */
+.tm-modal__header {
+  padding: 20px;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--card-bg);
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.tm-modal__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.tm-modal__close {
+  background: var(--button-bg);
+  border: none;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 18px;
+  transition: all 0.2s ease;
+}
+
+.tm-modal__close:hover {
+  background: var(--error-color);
+  color: white;
+}
+
+.tm-modal__close:active {
+  transform: scale(0.95);
+}
+
+/* 模态框内容 */
+.tm-modal__content {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  color: var(--text-color);
+}
+
+/* 模态框底部 */
+.tm-modal__footer {
+  padding: 20px;
+  border-top: 1px solid var(--border-light);
+  background: var(--card-bg);
+  border-radius: 0 0 12px 12px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+/* 设置模态框特殊样式 */
+.tm-modal--settings {
+  width: 700px;
+  height: 600px;
+}
+
+.tm-modal--settings .tm-modal__content {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 设置标签页 */
+.tm-modal__tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--card-bg);
+}
+
+.tm-modal__tab {
+  flex: 1;
+  padding: 16px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.tm-modal__tab:hover {
+  color: var(--text-color);
+  background: var(--hover-bg);
+}
+
+.tm-modal__tab--active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+  background: var(--panel-bg);
+}
+
+.tm-modal__tab-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* 确认对话框样式 */
+.tm-modal--confirm {
+  width: 400px;
+}
+
+.tm-modal--confirm .tm-modal__content {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.tm-modal--confirm .tm-modal__icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.tm-modal--confirm .tm-modal__message {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-color);
+  margin-bottom: 8px;
+}
+
+.tm-modal--confirm .tm-modal__description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* 警告对话框 */
+.tm-modal--warning .tm-modal__icon {
+  color: var(--warning-color);
+}
+
+.tm-modal--warning .tm-modal__header {
+  border-bottom-color: var(--warning-color);
+}
+
+/* 错误对话框 */
+.tm-modal--error .tm-modal__icon {
+  color: var(--error-color);
+}
+
+.tm-modal--error .tm-modal__header {
+  border-bottom-color: var(--error-color);
+}
+
+/* 成功对话框 */
+.tm-modal--success .tm-modal__icon {
+  color: var(--success-color);
+}
+
+.tm-modal--success .tm-modal__header {
+  border-bottom-color: var(--success-color);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .tm-modal-overlay {
+    padding: 10px;
+  }
+  
+  .tm-modal--small,
+  .tm-modal--medium,
+  .tm-modal--large,
+  .tm-modal--settings {
+    width: 100%;
+    max-width: none;
+    height: auto;
+    max-height: 90vh;
+  }
+  
+  .tm-modal__header {
+    padding: 16px;
+  }
+  
+  .tm-modal__content {
+    padding: 16px;
+  }
+  
+  .tm-modal__footer {
+    padding: 16px;
+    flex-direction: column;
+  }
+  
+  .tm-modal__title {
+    font-size: 16px;
+  }
+  
+  .tm-modal__tabs {
+    flex-direction: column;
+  }
+  
+  .tm-modal__tab {
+    text-align: left;
+    border-bottom: 1px solid var(--border-light);
+    border-right: none;
+  }
+  
+  .tm-modal__tab--active {
+    border-bottom-color: var(--border-light);
+    border-left: 3px solid var(--primary-color);
+  }
+  
+  .tm-modal__tab-content {
+    padding: 16px;
+  }
+}
+
+/* 动画关键帧 */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+}

@@ -6,7 +6,7 @@ import { detectSystemTheme, watchSystemTheme } from '../utils';
 /**
  * 主题管理 Hook
  */
-export const useTheme = (initialMode: ThemeMode = 'auto'): UseThemeReturn => {
+export const useTheme = (initialMode: ThemeMode = 'dark'): UseThemeReturn => {
   const [themeMode, setThemeMode] = useState<ThemeMode>(initialMode);
   const [systemTheme, setSystemTheme] = useState<'light' | 'dark'>(() => detectSystemTheme());
   

@@ -1,0 +1,358 @@
+/* Select 组件样式 - 与old版本保持一致 */
+
+/* 选择框 */
+.tm-select {
+  position: relative;
+  width: 100%;
+  height: 32px;
+  padding: 0 32px 0 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 13px;
+  background: var(--panel-bg);
+  color: var(--text-color);
+  box-shadow: var(--shadow);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.tm-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.tm-select:disabled {
+  background: var(--card-bg);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* 选择框容器 */
+.tm-select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* 下拉箭头 */
+.tm-select-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid var(--text-secondary);
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.tm-select:focus + .tm-select-wrapper::after,
+.tm-select-wrapper:hover::after {
+  border-top-color: var(--primary-color);
+}
+
+.tm-select:disabled + .tm-select-wrapper::after {
+  border-top-color: var(--text-muted);
+}
+
+/* 错误状态 */
+.tm-select--error {
+  border-color: var(--error-color);
+}
+
+.tm-select--error:focus {
+  border-color: var(--error-color);
+  box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.1);
+}
+
+.tm-select--error + .tm-select-wrapper::after {
+  border-top-color: var(--error-color);
+}
+
+/* 成功状态 */
+.tm-select--success {
+  border-color: var(--success-color);
+}
+
+.tm-select--success:focus {
+  border-color: var(--success-color);
+  box-shadow: 0 0 0 3px rgba(48, 209, 88, 0.1);
+}
+
+.tm-select--success + .tm-select-wrapper::after {
+  border-top-color: var(--success-color);
+}
+
+/* 尺寸变体 */
+.tm-select--small {
+  height: 28px;
+  padding: 0 28px 0 10px;
+  font-size: 12px;
+}
+
+.tm-select--small + .tm-select-wrapper::after {
+  right: 10px;
+  border-left-width: 3px;
+  border-right-width: 3px;
+  border-top-width: 4px;
+}
+
+.tm-select--large {
+  height: 40px;
+  padding: 0 40px 0 16px;
+  font-size: 14px;
+}
+
+.tm-select--large + .tm-select-wrapper::after {
+  right: 16px;
+  border-left-width: 5px;
+  border-right-width: 5px;
+  border-top-width: 6px;
+}
+
+/* 选项样式 */
+.tm-select option {
+  padding: 8px 12px;
+  background: var(--panel-bg);
+  color: var(--text-color);
+  font-size: 13px;
+}
+
+.tm-select option:hover {
+  background: var(--hover-bg);
+}
+
+.tm-select option:disabled {
+  color: var(--text-muted);
+  background: var(--card-bg);
+}
+
+/* 自定义下拉框（高级版本） */
+.tm-select-custom {
+  position: relative;
+}
+
+.tm-select-custom__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--panel-bg);
+  color: var(--text-color);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.tm-select-custom__trigger:hover {
+  border-color: var(--primary-color);
+}
+
+.tm-select-custom__trigger--open {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.tm-select-custom__value {
+  flex: 1;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tm-select-custom__placeholder {
+  color: var(--text-muted);
+}
+
+.tm-select-custom__arrow {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid var(--text-secondary);
+  transition: transform 0.2s ease;
+}
+
+.tm-select-custom__trigger--open .tm-select-custom__arrow {
+  transform: rotate(180deg);
+}
+
+/* 下拉选项列表 */
+.tm-select-custom__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--shadow-large);
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 4px;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.tm-select-custom__dropdown--open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.tm-select-custom__option {
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.tm-select-custom__option:last-child {
+  border-bottom: none;
+}
+
+.tm-select-custom__option:hover {
+  background: var(--hover-bg);
+}
+
+.tm-select-custom__option--selected {
+  background: rgba(0, 122, 255, 0.1);
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.tm-select-custom__option--disabled {
+  color: var(--text-muted);
+  cursor: not-allowed;
+  background: var(--card-bg);
+}
+
+.tm-select-custom__option--disabled:hover {
+  background: var(--card-bg);
+}
+
+/* 搜索框 */
+.tm-select-custom__search {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  background: var(--panel-bg);
+  z-index: 1;
+}
+
+.tm-select-custom__search input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text-color);
+  font-size: 13px;
+}
+
+.tm-select-custom__search input::placeholder {
+  color: var(--text-muted);
+}
+
+/* 空状态 */
+.tm-select-custom__empty {
+  padding: 16px 12px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-style: italic;
+}
+
+/* 多选模式 */
+.tm-select-custom--multiple .tm-select-custom__value {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  min-height: 20px;
+}
+
+.tm-select-custom__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.tm-select-custom__tag-remove {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  transition: background-color 0.2s ease;
+}
+
+.tm-select-custom__tag-remove:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .tm-select,
+  .tm-select-custom__trigger {
+    height: 36px;
+    padding: 0 36px 0 14px;
+    font-size: 14px;
+  }
+  
+  .tm-select--small,
+  .tm-select-custom__trigger--small {
+    height: 32px;
+    padding: 0 32px 0 12px;
+    font-size: 13px;
+  }
+  
+  .tm-select--large,
+  .tm-select-custom__trigger--large {
+    height: 44px;
+    padding: 0 44px 0 18px;
+    font-size: 15px;
+  }
+  
+  .tm-select-custom__dropdown {
+    max-height: 160px;
+  }
+  
+  .tm-select-custom__option {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+}

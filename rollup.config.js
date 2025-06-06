@@ -2,34 +2,14 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import replace from '@rollup/plugin-replace';
+import terser from '@rollup/plugin-terser';
 import banner from 'rollup-plugin-banner2';
 import postcss from 'rollup-plugin-postcss';
 import { readFileSync } from 'fs';
+import { generateUserscriptHeader } from './userscript.config.js';
 
 const pkg = JSON.parse(readFileSync('./package.json', 'utf8'));
 const isProduction = process.env.NODE_ENV === 'production';
-
-// 油猴脚本头部
-const userscriptHeader = `// ==UserScript==
-// @name         GitLab 周报生成器
-// @namespace    http://tampermonkey.net/
-// @version      ${pkg.version}
-// @description  ${pkg.description}
-// @author       ${pkg.author}
-// @match        https://*/
-// @grant        GM_xmlhttpRequest
-// @grant        GM_setValue
-// @grant        GM_getValue
-// @grant        GM_deleteValue
-// @require      none
-// ==/UserScript==
-
-(function() {
-    'use strict';
-`;
-
-const userscriptFooter = `
-})();`;
 
 export default {
   input: 'src/index.tsx',
@@ -58,18 +38,8 @@ export default {
       inject: true,
       minimize: isProduction
     }),
-    banner(() => userscriptHeader),
-    {
-      name: 'userscript-footer',
-      generateBundle(options, bundle) {
-        for (const fileName in bundle) {
-          const chunk = bundle[fileName];
-          if (chunk.type === 'chunk') {
-            chunk.code += userscriptFooter;
-          }
-        }
-      }
-    }
+    isProduction && terser(),
+    banner(() => generateUserscriptHeader(pkg.version))
   ],
   external: [],
   onwarn(warning, warn) {

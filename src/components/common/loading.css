@@ -1,0 +1,289 @@
+/* Loading 组件样式 - 与old版本保持一致 */
+
+/* 加载容器 */
+.tm-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  color: var(--text-secondary);
+}
+
+/* 加载动画容器 */
+.tm-loading__spinner {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+/* 加载点 */
+.tm-loading__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  animation: loading-bounce 1.4s ease-in-out infinite both;
+}
+
+.tm-loading__dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.tm-loading__dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.tm-loading__dot:nth-child(3) {
+  animation-delay: 0s;
+}
+
+/* 加载文本 */
+.tm-loading__text {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* 尺寸变体 */
+.tm-loading--small {
+  padding: 12px;
+  gap: 8px;
+}
+
+.tm-loading--small .tm-loading__dot {
+  width: 6px;
+  height: 6px;
+}
+
+.tm-loading--small .tm-loading__text {
+  font-size: 12px;
+}
+
+.tm-loading--medium {
+  padding: 20px;
+  gap: 12px;
+}
+
+.tm-loading--medium .tm-loading__dot {
+  width: 8px;
+  height: 8px;
+}
+
+.tm-loading--medium .tm-loading__text {
+  font-size: 13px;
+}
+
+.tm-loading--large {
+  padding: 32px;
+  gap: 16px;
+}
+
+.tm-loading--large .tm-loading__dot {
+  width: 12px;
+  height: 12px;
+}
+
+.tm-loading--large .tm-loading__text {
+  font-size: 14px;
+}
+
+/* 内联加载 */
+.tm-loading--inline {
+  flex-direction: row;
+  padding: 0;
+  gap: 8px;
+}
+
+.tm-loading--inline .tm-loading__text {
+  margin: 0;
+}
+
+/* 覆盖层加载 */
+.tm-loading--overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(2px);
+  z-index: 100;
+}
+
+/* 全屏加载 */
+.tm-loading--fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+}
+
+/* 旋转加载器 */
+.tm-loading--spinner {
+  padding: 20px;
+}
+
+.tm-loading--spinner .tm-loading__spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border-light);
+  border-top: 3px solid var(--primary-color);
+  border-radius: 50%;
+  animation: loading-spin 1s linear infinite;
+}
+
+.tm-loading--spinner.tm-loading--small .tm-loading__spinner {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+}
+
+.tm-loading--spinner.tm-loading--large .tm-loading__spinner {
+  width: 48px;
+  height: 48px;
+  border-width: 4px;
+}
+
+/* 脉冲加载器 */
+.tm-loading--pulse .tm-loading__spinner {
+  width: 32px;
+  height: 32px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  animation: loading-pulse 1.5s ease-in-out infinite;
+}
+
+.tm-loading--pulse.tm-loading--small .tm-loading__spinner {
+  width: 20px;
+  height: 20px;
+}
+
+.tm-loading--pulse.tm-loading--large .tm-loading__spinner {
+  width: 48px;
+  height: 48px;
+}
+
+/* 条形加载器 */
+.tm-loading--bars .tm-loading__spinner {
+  display: flex;
+  gap: 3px;
+}
+
+.tm-loading--bars .tm-loading__dot {
+  width: 4px;
+  height: 20px;
+  border-radius: 2px;
+  animation: loading-bars 1.2s ease-in-out infinite;
+}
+
+.tm-loading--bars.tm-loading--small .tm-loading__dot {
+  width: 3px;
+  height: 16px;
+}
+
+.tm-loading--bars.tm-loading--large .tm-loading__dot {
+  width: 6px;
+  height: 28px;
+}
+
+/* 表格加载状态 */
+.tm-loading--table {
+  padding: 40px 20px;
+  background: var(--panel-bg);
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+}
+
+/* 按钮加载状态 */
+.tm-loading--button {
+  padding: 0;
+  gap: 6px;
+  flex-direction: row;
+}
+
+.tm-loading--button .tm-loading__dot {
+  width: 4px;
+  height: 4px;
+}
+
+.tm-loading--button .tm-loading__text {
+  font-size: inherit;
+  color: inherit;
+}
+
+/* 动画关键帧 */
+@keyframes loading-bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes loading-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loading-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+}
+
+@keyframes loading-bars {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    opacity: 0.5;
+  }
+  20% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* 暗色主题适配 */
+@media (prefers-color-scheme: dark) {
+  .tm-loading--overlay {
+    background: rgba(0, 0, 0, 0.9);
+  }
+  
+  .tm-loading--fullscreen {
+    background: rgba(0, 0, 0, 0.95);
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .tm-loading {
+    padding: 16px;
+  }
+  
+  .tm-loading--large {
+    padding: 24px;
+  }
+  
+  .tm-loading__text {
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,350 @@
+/* EventsTable 组件样式 - 旧版本设计风格 */
+
+/* CSS 变量定义 */
+:root {
+  /* 颜色变量 */
+  --tm-events-bg: #ffffff;
+  --tm-events-border: #e1e5e9;
+  --tm-events-header-bg: #f8f9fa;
+  --tm-events-row-bg: #ffffff;
+  --tm-events-row-hover: #f5f5f5;
+  --tm-events-row-selected: #e3f2fd;
+  --tm-events-text: #2c3e50;
+  --tm-events-text-secondary: #6c757d;
+  --tm-events-text-muted: #95a5a6;
+  --tm-events-checkbox: #007bff;
+  --tm-events-checkbox-checked: #0056b3;
+  --tm-events-loading-bg: rgba(255, 255, 255, 0.9);
+  --tm-events-empty-text: #6c757d;
+  
+  /* 间距变量 */
+  --tm-events-padding: 16px;
+  --tm-events-cell-padding: 12px;
+  --tm-events-border-radius: 8px;
+  
+  /* 字体变量 */
+  --tm-events-font-size: 14px;
+  --tm-events-font-size-sm: 12px;
+  --tm-events-font-weight: 400;
+  --tm-events-font-weight-medium: 500;
+  
+  /* 阴影变量 */
+  --tm-events-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --tm-events-shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 暗色主题 */
+[data-theme="dark"] {
+  --tm-events-bg: #2c3e50;
+  --tm-events-border: #34495e;
+  --tm-events-header-bg: #34495e;
+  --tm-events-row-bg: #2c3e50;
+  --tm-events-row-hover: #34495e;
+  --tm-events-row-selected: #1e3a8a;
+  --tm-events-text: #ecf0f1;
+  --tm-events-text-secondary: #bdc3c7;
+  --tm-events-text-muted: #95a5a6;
+  --tm-events-loading-bg: rgba(44, 62, 80, 0.9);
+  --tm-events-empty-text: #bdc3c7;
+}
+
+/* 主容器 */
+.tm-events-table {
+  background: var(--tm-events-bg);
+  border: 1px solid var(--tm-events-border);
+  border-radius: var(--tm-events-border-radius);
+  box-shadow: var(--tm-events-shadow);
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: var(--tm-events-font-size);
+  color: var(--tm-events-text);
+}
+
+/* 表格头部 */
+.tm-events-table__header {
+  background: var(--tm-events-header-bg);
+  border-bottom: 1px solid var(--tm-events-border);
+  padding: var(--tm-events-padding);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: var(--tm-events-font-weight-medium);
+}
+
+.tm-events-table__select-all {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tm-events-table__select-all input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--tm-events-checkbox);
+  cursor: pointer;
+}
+
+.tm-events-table__stats {
+  color: var(--tm-events-text-secondary);
+  font-size: var(--tm-events-font-size-sm);
+}
+
+/* 表格主体 */
+.tm-events-table__body {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* 表格行 */
+.tm-events-table__row {
+  display: grid;
+  grid-template-columns: 40px 120px 1fr 150px 120px;
+  align-items: center;
+  padding: var(--tm-events-cell-padding);
+  border-bottom: 1px solid var(--tm-events-border);
+  background: var(--tm-events-row-bg);
+  transition: all 0.2s ease;
+}
+
+.tm-events-table__row:hover {
+  background: var(--tm-events-row-hover);
+}
+
+.tm-events-table__row--selected {
+  background: var(--tm-events-row-selected);
+  border-left: 3px solid var(--tm-events-checkbox);
+}
+
+.tm-events-table__row:last-child {
+  border-bottom: none;
+}
+
+/* 表格单元格 */
+.tm-events-table__cell {
+  padding: 4px 8px;
+  overflow: hidden;
+}
+
+.tm-events-table__cell--checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tm-events-table__checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--tm-events-checkbox);
+  cursor: pointer;
+}
+
+/* 事件类型 */
+.tm-events-table__event-type {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tm-events-table__event-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.tm-events-table__event-text {
+  font-size: var(--tm-events-font-size-sm);
+  color: var(--tm-events-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 事件标题 */
+.tm-events-table__event-title {
+  font-weight: var(--tm-events-font-weight-medium);
+  color: var(--tm-events-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.tm-events-table__event-target {
+  font-size: var(--tm-events-font-size-sm);
+  color: var(--tm-events-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 项目名称 */
+.tm-events-table__project-name {
+  font-size: var(--tm-events-font-size-sm);
+  color: var(--tm-events-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--tm-events-header-bg);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--tm-events-border);
+}
+
+/* 日期 */
+.tm-events-table__event-date {
+  font-size: var(--tm-events-font-size-sm);
+  color: var(--tm-events-text-muted);
+  white-space: nowrap;
+  font-family: 'Monaco', 'Menlo', monospace;
+}
+
+/* 加载状态 */
+.tm-events-table--loading {
+  position: relative;
+  min-height: 200px;
+}
+
+.tm-events-table__loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--tm-events-loading-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.tm-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.tm-loading__spinner {
+  display: flex;
+  gap: 4px;
+}
+
+.tm-loading__dot {
+  width: 8px;
+  height: 8px;
+  background: var(--tm-events-checkbox);
+  border-radius: 50%;
+  animation: tm-loading-bounce 1.4s ease-in-out infinite both;
+}
+
+.tm-loading__dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.tm-loading__dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.tm-loading__text {
+  color: var(--tm-events-text-secondary);
+  font-size: var(--tm-events-font-size-sm);
+}
+
+@keyframes tm-loading-bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+/* 空状态 */
+.tm-events-table--empty {
+  min-height: 200px;
+}
+
+.tm-events-table__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.tm-events-table__empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.tm-events-table__empty-text {
+  font-size: 16px;
+  color: var(--tm-events-empty-text);
+  margin-bottom: 8px;
+  font-weight: var(--tm-events-font-weight-medium);
+}
+
+.tm-events-table__empty-hint {
+  font-size: var(--tm-events-font-size-sm);
+  color: var(--tm-events-text-muted);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .tm-events-table__row {
+    grid-template-columns: 40px 1fr 100px;
+    gap: 8px;
+  }
+  
+  .tm-events-table__cell--type,
+  .tm-events-table__cell--project {
+    display: none;
+  }
+  
+  .tm-events-table__header {
+    padding: 12px;
+  }
+  
+  .tm-events-table__cell {
+    padding: 2px 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tm-events-table__row {
+    grid-template-columns: 40px 1fr;
+  }
+  
+  .tm-events-table__cell--date {
+    display: none;
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .tm-events-table {
+    border-width: 2px;
+  }
+  
+  .tm-events-table__row {
+    border-bottom-width: 2px;
+  }
+  
+  .tm-events-table__checkbox,
+  .tm-events-table__select-all input[type="checkbox"] {
+    outline: 2px solid var(--tm-events-text);
+    outline-offset: 2px;
+  }
+}
+
+/* 减少动画模式 */
+@media (prefers-reduced-motion: reduce) {
+  .tm-events-table__row,
+  .tm-loading__dot {
+    transition: none;
+    animation: none;
+  }
+}

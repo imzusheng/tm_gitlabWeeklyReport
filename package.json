@@ -1,17 +1,18 @@
 {
   "name": "tm-ts-weekly-report",
-  "version": "2.1.0",
+  "version": "2.1.15",
   "description": "GitLab 周报生成器 - 使用 React + TypeScript + Rollup 的现代化 Tampermonkey 脚本",
   "main": "dist/index.user.js",
   "type": "module",
   "scripts": {
+    "check": "tsc --noEmit",
     "dev": "rollup -c --watch",
-    "build": "rollup -c",
-    "build:prod": "NODE_ENV=production rollup -c",
-    "lint": "eslint src --ext .ts,.tsx",
-    "lint:fix": "eslint src --ext .ts,.tsx --fix",
-    "type-check": "tsc --noEmit",
-    "release": "standard-version"
+    "build": "npm run clean && rollup -c",
+    "build:prod": "npm run update-version:patch && npm run clean && rollup -c --environment NODE_ENV:production",
+    "clean": "rm -rf dist",
+    "update-version:patch": "node scripts/update-version.cjs patch",
+    "update-version:minor": "node scripts/update-version.cjs minor",
+    "update-version:major": "node scripts/update-version.cjs major"
   },
   "keywords": [
     "tampermonkey",
@@ -27,6 +28,7 @@
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
+    "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",

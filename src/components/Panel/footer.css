@@ -1,0 +1,175 @@
+/* Footer 组件样式 - 旧版本设计风格 */
+
+/* CSS 变量定义 */
+:root {
+  /* 颜色变量 */
+  --tm-footer-bg: #f8f9fa;
+  --tm-footer-border: #e1e5e9;
+  --tm-footer-text: #6c757d;
+  --tm-footer-text-muted: #95a5a6;
+  --tm-footer-link: #007bff;
+  --tm-footer-link-hover: #0056b3;
+  --tm-footer-separator: #dee2e6;
+  
+  /* 间距变量 */
+  --tm-footer-padding: 16px;
+  --tm-footer-gap: 8px;
+  
+  /* 字体变量 */
+  --tm-footer-font-size: 12px;
+  --tm-footer-font-weight: 400;
+  
+  /* 边框变量 */
+  --tm-footer-border-width: 1px;
+}
+
+/* 暗色主题 */
+[data-theme="dark"] {
+  --tm-footer-bg: #34495e;
+  --tm-footer-border: #2c3e50;
+  --tm-footer-text: #bdc3c7;
+  --tm-footer-text-muted: #95a5a6;
+  --tm-footer-link: #3498db;
+  --tm-footer-link-hover: #2980b9;
+  --tm-footer-separator: #7f8c8d;
+}
+
+/* 主容器 */
+.tm-panel-footer {
+  background: var(--tm-footer-bg);
+  border-top: var(--tm-footer-border-width) solid var(--tm-footer-border);
+  padding: var(--tm-footer-padding);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: var(--tm-footer-font-size);
+  color: var(--tm-footer-text);
+  position: relative;
+  z-index: 1;
+}
+
+/* 内容容器 */
+.tm-panel-footer__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 100%;
+  margin: 0 auto;
+  gap: var(--tm-footer-gap);
+}
+
+/* 版权信息 */
+.tm-panel-footer__copyright {
+  color: var(--tm-footer-text-muted);
+  font-weight: var(--tm-footer-font-weight);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
+}
+
+/* 链接容器 */
+.tm-panel-footer__links {
+  display: flex;
+  align-items: center;
+  gap: var(--tm-footer-gap);
+  flex-shrink: 0;
+}
+
+/* 链接样式 */
+.tm-panel-footer__link {
+  color: var(--tm-footer-link);
+  text-decoration: none;
+  font-weight: var(--tm-footer-font-weight);
+  transition: color 0.2s ease;
+  white-space: nowrap;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.tm-panel-footer__link:hover {
+  color: var(--tm-footer-link-hover);
+  text-decoration: underline;
+}
+
+.tm-panel-footer__link:focus {
+  outline: 2px solid var(--tm-footer-link);
+  outline-offset: 1px;
+}
+
+/* 分隔符 */
+.tm-panel-footer__separator {
+  color: var(--tm-footer-separator);
+  font-weight: bold;
+  user-select: none;
+  margin: 0 2px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .tm-panel-footer {
+    padding: 12px;
+  }
+  
+  .tm-panel-footer__content {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+  
+  .tm-panel-footer__copyright {
+    order: 2;
+  }
+  
+  .tm-panel-footer__links {
+    order: 1;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .tm-panel-footer {
+    padding: 8px;
+  }
+  
+  .tm-panel-footer__content {
+    gap: 6px;
+  }
+  
+  .tm-panel-footer__links {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  
+  .tm-panel-footer__separator {
+    display: none;
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .tm-panel-footer {
+    border-top-width: 2px;
+  }
+  
+  .tm-panel-footer__link {
+    outline: 1px solid transparent;
+  }
+  
+  .tm-panel-footer__link:focus {
+    outline-width: 2px;
+    outline-offset: 2px;
+  }
+}
+
+/* 减少动画模式 */
+@media (prefers-reduced-motion: reduce) {
+  .tm-panel-footer__link {
+    transition: none;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .tm-panel-footer {
+    display: none;
+  }
+}

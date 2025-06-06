@@ -1,0 +1,369 @@
+/* Tooltip 组件样式 - 与old版本保持一致 */
+
+/* 工具提示触发器 */
+.tm-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* 工具提示内容 */
+.tm-tooltip__content {
+  position: absolute;
+  z-index: 10003;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  font-size: 12px;
+  line-height: 1.4;
+  border-radius: 6px;
+  white-space: nowrap;
+  max-width: 250px;
+  word-wrap: break-word;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.8);
+  transition: all 0.2s cubic-bezier(0.25, 0.10, 0.25, 1.00);
+  pointer-events: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.tm-tooltip__content--visible {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+/* 工具提示箭头 */
+.tm-tooltip__arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+}
+
+/* 位置变体 */
+
+/* 顶部 */
+.tm-tooltip__content--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.8);
+  margin-bottom: 8px;
+}
+
+.tm-tooltip__content--top.tm-tooltip__content--visible {
+  transform: translateX(-50%) scale(1);
+}
+
+.tm-tooltip__content--top .tm-tooltip__arrow {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: rgba(0, 0, 0, 0.9);
+}
+
+/* 底部 */
+.tm-tooltip__content--bottom {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.8);
+  margin-top: 8px;
+}
+
+.tm-tooltip__content--bottom.tm-tooltip__content--visible {
+  transform: translateX(-50%) scale(1);
+}
+
+.tm-tooltip__content--bottom .tm-tooltip__arrow {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: rgba(0, 0, 0, 0.9);
+}
+
+/* 左侧 */
+.tm-tooltip__content--left {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%) scale(0.8);
+  margin-right: 8px;
+}
+
+.tm-tooltip__content--left.tm-tooltip__content--visible {
+  transform: translateY(-50%) scale(1);
+}
+
+.tm-tooltip__content--left .tm-tooltip__arrow {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left-color: rgba(0, 0, 0, 0.9);
+}
+
+/* 右侧 */
+.tm-tooltip__content--right {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%) scale(0.8);
+  margin-left: 8px;
+}
+
+.tm-tooltip__content--right.tm-tooltip__content--visible {
+  transform: translateY(-50%) scale(1);
+}
+
+.tm-tooltip__content--right .tm-tooltip__arrow {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-right-color: rgba(0, 0, 0, 0.9);
+}
+
+/* 主题变体 */
+
+/* 浅色主题 */
+.tm-tooltip__content--light {
+  background: var(--input-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-large);
+}
+
+.tm-tooltip__content--light .tm-tooltip__arrow {
+  border-color: transparent;
+}
+
+.tm-tooltip__content--light.tm-tooltip__content--top .tm-tooltip__arrow {
+  border-top-color: var(--input-bg);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+}
+
+.tm-tooltip__content--light.tm-tooltip__content--bottom .tm-tooltip__arrow {
+  border-bottom-color: white;
+  filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.1));
+}
+
+.tm-tooltip__content--light.tm-tooltip__content--left .tm-tooltip__arrow {
+  border-left-color: white;
+  filter: drop-shadow(1px 0 1px rgba(0, 0, 0, 0.1));
+}
+
+.tm-tooltip__content--light.tm-tooltip__content--right .tm-tooltip__arrow {
+  border-right-color: white;
+  filter: drop-shadow(-1px 0 1px rgba(0, 0, 0, 0.1));
+}
+
+/* 成功主题 */
+.tm-tooltip__content--success {
+  background: var(--success-color);
+  color: white;
+}
+
+.tm-tooltip__content--success .tm-tooltip__arrow {
+  border-color: transparent;
+}
+
+.tm-tooltip__content--success.tm-tooltip__content--top .tm-tooltip__arrow {
+  border-top-color: var(--success-color);
+}
+
+.tm-tooltip__content--success.tm-tooltip__content--bottom .tm-tooltip__arrow {
+  border-bottom-color: var(--success-color);
+}
+
+.tm-tooltip__content--success.tm-tooltip__content--left .tm-tooltip__arrow {
+  border-left-color: var(--success-color);
+}
+
+.tm-tooltip__content--success.tm-tooltip__content--right .tm-tooltip__arrow {
+  border-right-color: var(--success-color);
+}
+
+/* 错误主题 */
+.tm-tooltip__content--error {
+  background: var(--error-color);
+  color: white;
+}
+
+.tm-tooltip__content--error .tm-tooltip__arrow {
+  border-color: transparent;
+}
+
+.tm-tooltip__content--error.tm-tooltip__content--top .tm-tooltip__arrow {
+  border-top-color: var(--error-color);
+}
+
+.tm-tooltip__content--error.tm-tooltip__content--bottom .tm-tooltip__arrow {
+  border-bottom-color: var(--error-color);
+}
+
+.tm-tooltip__content--error.tm-tooltip__content--left .tm-tooltip__arrow {
+  border-left-color: var(--error-color);
+}
+
+.tm-tooltip__content--error.tm-tooltip__content--right .tm-tooltip__arrow {
+  border-right-color: var(--error-color);
+}
+
+/* 警告主题 */
+.tm-tooltip__content--warning {
+  background: var(--warning-color);
+  color: white;
+}
+
+.tm-tooltip__content--warning .tm-tooltip__arrow {
+  border-color: transparent;
+}
+
+.tm-tooltip__content--warning.tm-tooltip__content--top .tm-tooltip__arrow {
+  border-top-color: var(--warning-color);
+}
+
+.tm-tooltip__content--warning.tm-tooltip__content--bottom .tm-tooltip__arrow {
+  border-bottom-color: var(--warning-color);
+}
+
+.tm-tooltip__content--warning.tm-tooltip__content--left .tm-tooltip__arrow {
+  border-left-color: var(--warning-color);
+}
+
+.tm-tooltip__content--warning.tm-tooltip__content--right .tm-tooltip__arrow {
+  border-right-color: var(--warning-color);
+}
+
+/* 尺寸变体 */
+
+/* 小尺寸 */
+.tm-tooltip__content--small {
+  padding: 4px 8px;
+  font-size: 11px;
+  border-radius: 4px;
+}
+
+.tm-tooltip__content--small .tm-tooltip__arrow {
+  border-width: 4px;
+}
+
+/* 大尺寸 */
+.tm-tooltip__content--large {
+  padding: 12px 16px;
+  font-size: 13px;
+  border-radius: 8px;
+  max-width: 300px;
+}
+
+.tm-tooltip__content--large .tm-tooltip__arrow {
+  border-width: 6px;
+}
+
+/* 多行工具提示 */
+.tm-tooltip__content--multiline {
+  white-space: normal;
+  max-width: 200px;
+  text-align: left;
+}
+
+/* 富文本工具提示 */
+.tm-tooltip__content--rich {
+  white-space: normal;
+  max-width: 250px;
+  text-align: left;
+}
+
+.tm-tooltip__content--rich strong {
+  font-weight: 600;
+}
+
+.tm-tooltip__content--rich em {
+  font-style: italic;
+}
+
+.tm-tooltip__content--rich code {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 1px 3px;
+  border-radius: 2px;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-size: 11px;
+}
+
+/* 延迟显示 */
+.tm-tooltip--delay .tm-tooltip__content {
+  transition-delay: 0.5s;
+}
+
+/* 禁用状态 */
+.tm-tooltip--disabled {
+  cursor: not-allowed;
+}
+
+.tm-tooltip--disabled .tm-tooltip__content {
+  display: none;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .tm-tooltip__content {
+    font-size: 13px;
+    padding: 10px 14px;
+    max-width: 200px;
+  }
+  
+  .tm-tooltip__content--small {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  .tm-tooltip__content--large {
+    padding: 14px 18px;
+    font-size: 14px;
+    max-width: 250px;
+  }
+  
+  /* 移动设备上简化箭头 */
+  .tm-tooltip__arrow {
+    display: none;
+  }
+  
+  .tm-tooltip__content {
+    margin: 8px !important;
+  }
+}
+
+/* 动画关键帧 */
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes tooltipFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .tm-tooltip__content {
+    background: var(--text-color);
+    color: var(--background);
+    border: 2px solid var(--input-bg);
+  }
+  
+  .tm-tooltip__content--light {
+    background: var(--input-bg);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+  }
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import type { InputHTMLAttributes, ReactNode } from 'react';
+import './Checkbox.css';
 
 interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   label?: ReactNode;
