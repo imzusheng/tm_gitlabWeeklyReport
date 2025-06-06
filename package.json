@@ -1,6 +1,6 @@
 {
   "name": "tm-ts-weekly-report",
-  "version": "2.0.6",
+  "version": "2.1.0",
   "description": "GitLab 周报生成器 - 使用 React + TypeScript + Rollup 的现代化 Tampermonkey 脚本",
   "main": "dist/index.user.js",
   "type": "module",
