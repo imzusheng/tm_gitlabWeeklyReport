@@ -1,0 +1,50 @@
+{
+  "name": "tm-ts-weekly-report",
+  "version": "2.0.6",
+  "description": "GitLab 周报生成器 - 使用 React + TypeScript + Rollup 的现代化 Tampermonkey 脚本",
+  "main": "dist/index.user.js",
+  "type": "module",
+  "scripts": {
+    "dev": "rollup -c --watch",
+    "build": "rollup -c",
+    "build:prod": "NODE_ENV=production rollup -c",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "type-check": "tsc --noEmit",
+    "release": "standard-version"
+  },
+  "keywords": [
+    "tampermonkey",
+    "gitlab",
+    "周报",
+    "ai",
+    "react",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-replace": "^5.0.5",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "rollup": "^4.9.1",
+    "rollup-plugin-banner2": "^1.2.2",
+    "rollup-plugin-postcss": "^4.0.2",
+    "standard-version": "^9.5.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@types/tampermonkey": "^5.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tslib": "^2.8.1"
+  }
+}

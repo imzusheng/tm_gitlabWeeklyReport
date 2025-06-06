@@ -1,0 +1,48 @@
+/* 样式入口文件 */
+@import './base.css';
+@import './components.css';
+@import './panel.css';
+
+/* 油猴脚本特定样式 */
+.tm-root {
+  all: initial;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  direction: ltr;
+  text-align: left;
+}
+
+.tm-root *,
+.tm-root *::before,
+.tm-root *::after {
+  box-sizing: border-box;
+}
+
+/* 确保在任何网站上都能正常显示 */
+.tm-root {
+  position: relative;
+  z-index: 2147483647; /* 最大 z-index 值 */
+}
+
+/* 防止被其他样式影响 */
+.tm-root button,
+.tm-root input,
+.tm-root select,
+.tm-root textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  margin: 0;
+}
+
+.tm-root a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.tm-root a:hover {
+  text-decoration: underline;
+}
