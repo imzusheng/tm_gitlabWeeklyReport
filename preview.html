@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitLab 周报生成器 - 预览</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .header h1 {
+            color: #333;
+            margin: 0;
+        }
+        .header p {
+            color: #666;
+            margin: 10px 0 0 0;
+        }
+        .info-box {
+            background: #e6f7ff;
+            border: 1px solid #91d5ff;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+        .info-box h3 {
+            margin: 0 0 10px 0;
+            color: #0050b3;
+        }
+        .script-info {
+            background: #f6ffed;
+            border: 1px solid #b7eb8f;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+        .script-info h3 {
+            margin: 0 0 10px 0;
+            color: #389e0d;
+        }
+        .code {
+            background: #f5f5f5;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #1890ff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #40a9ff;
+        }
+        .debug-panel {
+            background: #fff2e8;
+            border: 1px solid #ffbb96;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+        .debug-panel h3 {
+            margin: 0 0 10px 0;
+            color: #d4380d;
+        }
+        .console-output {
+            background: #000;
+            color: #00ff00;
+            border-radius: 4px;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            height: 200px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+        .debug-controls {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-loaded { background: #52c41a; }
+        .status-error { background: #ff4d4f; }
+        .status-loading { background: #faad14; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 GitLab 周报生成器</h1>
+            <p>基于 Rollup 构建的现代化 Tampermonkey 脚本</p>
+        </div>
+
+        <div class="info-box">
+            <h3>📋 开发预览说明</h3>
+            <p>这是一个用于开发和测试的预览页面。在实际使用中，此脚本将作为 Tampermonkey 用户脚本运行在目标网站上。</p>
+        </div>
+
+        <div class="script-info">
+            <h3>📄 脚本文件</h3>
+            <p>构建后的脚本文件位置：</p>
+            <div class="code">
+                <a href="/dist/gitlab-weekly-report.user.js" class="btn" target="_blank">查看脚本文件</a>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3>🔧 开发工具</h3>
+            <p>可用的 npm 脚本命令：</p>
+            <div class="code">
+                npm run build      # 生产环境构建<br>
+                npm run build:dev  # 开发环境构建<br>
+                npm run watch       # 监听模式构建<br>
+                npm run dev         # 开发模式（带服务器）
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3>📦 Rollup 配置特性</h3>
+            <ul>
+                <li>✅ ES6 模块支持</li>
+                <li>✅ CommonJS 模块转换</li>
+                <li>✅ CSS 处理和注入</li>
+                <li>✅ 生产环境代码压缩</li>
+                <li>✅ 开发服务器支持</li>
+                <li>✅ 自动添加 Tampermonkey 头部</li>
+                <li>✅ 热重载开发模式</li>
+            </ul>
+        </div>
+
+        <div class="script-info">
+            <h3>🎯 使用方法</h3>
+            <ol>
+                <li>运行 <code>npm run dev</code> 启动开发服务器</li>
+                <li>访问 <code>http://localhost:3000/dist/gitlab-weekly-report.user.js</code> 获取脚本</li>
+                <li>在 Tampermonkey 中安装该脚本</li>
+                <li>访问匹配的网站测试功能</li>
+            </ol>
+        </div>
+
+        <div class="debug-panel">
+            <h3>🐛 调试面板</h3>
+            <p><span id="scriptStatus" class="status-indicator status-loading"></span>脚本状态: <span id="statusText">加载中...</span></p>
+            
+            <div class="debug-controls">
+                <button class="btn" onclick="clearConsole()">清空控制台</button>
+                <button class="btn" onclick="reloadScript()">重新加载脚本</button>
+                <button class="btn" onclick="toggleDebugMode()">切换调试模式</button>
+                <button class="btn" onclick="exportLogs()">导出日志</button>
+            </div>
+            
+            <div class="console-output" id="consoleOutput">
+                <div style="color: #888;">控制台输出将显示在这里...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 调试脚本 -->
+    <script>
+        let debugMode = true;
+        let logs = [];
+        
+        // 拦截console.log
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        function addToConsole(message, type = 'log') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}`;
+            logs.push({ timestamp, message, type });
+            
+            const consoleOutput = document.getElementById('consoleOutput');
+            const div = document.createElement('div');
+            div.style.color = type === 'error' ? '#ff6b6b' : type === 'warn' ? '#ffd93d' : '#00ff00';
+            div.textContent = logEntry;
+            consoleOutput.appendChild(div);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            if (debugMode) {
+                addToConsole(args.join(' '), 'log');
+            }
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            if (debugMode) {
+                addToConsole(args.join(' '), 'error');
+            }
+        };
+        
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            if (debugMode) {
+                addToConsole(args.join(' '), 'warn');
+            }
+        };
+        
+        function clearConsole() {
+            document.getElementById('consoleOutput').innerHTML = '<div style="color: #888;">控制台已清空...</div>';
+            logs = [];
+        }
+        
+        function reloadScript() {
+            location.reload();
+        }
+        
+        function toggleDebugMode() {
+            debugMode = !debugMode;
+            addToConsole(`调试模式: ${debugMode ? '开启' : '关闭'}`, 'log');
+        }
+        
+        function exportLogs() {
+            const logText = logs.map(log => `[${log.timestamp}] [${log.type.toUpperCase()}] ${log.message}`).join('\n');
+            const blob = new Blob([logText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `debug-logs-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        // 监控脚本加载状态
+        function updateScriptStatus(status, message) {
+            const indicator = document.getElementById('scriptStatus');
+            const statusText = document.getElementById('statusText');
+            
+            indicator.className = `status-indicator status-${status}`;
+            statusText.textContent = message;
+            
+            addToConsole(`脚本状态更新: ${message}`, status === 'error' ? 'error' : 'log');
+        }
+        
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            addToConsole('调试面板初始化完成', 'log');
+            updateScriptStatus('loading', '正在加载脚本...');
+        });
+        
+        // 监听脚本加载
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                if (window.UI || window.Main) {
+                    updateScriptStatus('loaded', '脚本加载成功');
+                    addToConsole('检测到脚本对象: ' + Object.keys(window).filter(key => ['UI', 'Main', 'API', 'CONFIG'].includes(key)).join(', '), 'log');
+                } else {
+                    updateScriptStatus('error', '脚本加载失败');
+                }
+            }, 1000);
+        });
+        
+        // 监听错误
+        window.addEventListener('error', function(e) {
+            updateScriptStatus('error', '脚本运行错误');
+            addToConsole(`错误: ${e.message} (${e.filename}:${e.lineno})`, 'error');
+        });
+    </script>
+
+    <!-- 加载构建后的脚本用于测试 -->
+    <script src="/dist/gitlab-weekly-report.user.js" onerror="updateScriptStatus('error', '脚本文件加载失败')" onload="console.log('脚本文件加载完成')"></script>
+</body>
+</html>

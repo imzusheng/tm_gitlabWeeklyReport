@@ -1,0 +1,20 @@
+{
+    "id": 1121430,
+    "project_id": 1426,
+    "action_name": "opened",
+    "target_id": 32966,
+    "target_iid": 191,
+    "target_type": "MergeRequest",
+    "author_id": 1172,
+    "target_title": "删除滑动条及相关的逻辑代码并在标题上显示红色的提示语句:零点调试须密切观察机器人状态,操作过程中务必保持谨慎",
+    "created_at": "2025-05-28T17:41:13.625+08:00",
+    "author": {
+        "id": 1172,
+        "username": "lizusheng",
+        "name": "李祖昇",
+        "state": "active",
+        "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+        "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+}
