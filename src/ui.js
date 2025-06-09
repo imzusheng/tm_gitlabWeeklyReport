@@ -24,15 +24,14 @@ const UI = {
     currentEndDate: '',
     userBalance: null,
     lastTokenUsage: null,
-    originalBodyOverflow: '',
-    originalHtmlOverflow: '',
-    originalBodyPaddingRight: '',
+    originalBodyOverscrollBehavior: '',
+    originalHtmlOverscrollBehavior: '',
 
     // 性能优化：缓存常用的DOM查询
     _domCache: new Map(),
     _animationFrameId: null,
     _notificationTimer: null,
-    _scrollBarWidth: null,
+    // 注释：已移除_scrollBarWidth缓存，使用overscroll-behavior替代
 
     // 性能优化：获取缓存的DOM元素
     getCachedElement: (selector, context = document) => {
@@ -52,13 +51,7 @@ const UI = {
     // 性能优化：防抖函数
     debounce: debounce,
 
-    // 性能优化：获取滚动条宽度（缓存）
-    getScrollBarWidth: () => {
-        if (UI._scrollBarWidth === null) {
-            UI._scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
-        }
-        return UI._scrollBarWidth;
-    },
+    // 注释：已移除getScrollBarWidth方法，使用overscroll-behavior替代
 
     applyTheme: (theme) => {
         const colors = CONFIG.THEMES[theme];
@@ -335,18 +328,14 @@ const UI = {
             UI.createMaskLayer();
         }
 
-        const scrollBarWidth = UI.getScrollBarWidth();
-
-        UI.originalBodyOverflow = document.body.style.overflow;
-        UI.originalHtmlOverflow = document.documentElement.style.overflow;
-        UI.originalBodyPaddingRight = document.body.style.paddingRight;
+        UI.originalBodyOverscrollBehavior = document.body.style.overscrollBehavior;
+        UI.originalHtmlOverscrollBehavior = document.documentElement.style.overscrollBehavior;
 
         // 性能优化：批量更新样式
         requestAnimationFrame(() => {
             UI.maskLayer.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            document.documentElement.style.overflow = 'hidden';
-            document.body.style.paddingRight = scrollBarWidth + 'px';
+            document.body.style.overscrollBehavior = 'contain';
+            document.documentElement.style.overscrollBehavior = 'contain';
 
             requestAnimationFrame(() => {
                 UI.maskLayer.style.opacity = '1';
@@ -363,9 +352,8 @@ const UI = {
             setTimeout(() => {
                 requestAnimationFrame(() => {
                     UI.maskLayer.style.display = 'none';
-                    document.body.style.overflow = UI.originalBodyOverflow;
-                    document.documentElement.style.overflow = UI.originalHtmlOverflow;
-                    document.body.style.paddingRight = UI.originalBodyPaddingRight || '';
+                    document.body.style.overscrollBehavior = UI.originalBodyOverscrollBehavior || '';
+                    document.documentElement.style.overscrollBehavior = UI.originalHtmlOverscrollBehavior || '';
                 });
             }, 300);
         });
@@ -582,14 +570,14 @@ const UI = {
         UI.clearDOMCache();
 
         // 重置滚动条宽度缓存
-        UI._scrollBarWidth = null;
+        // 注释：已移除滚动条宽度缓存清理
     }
 };
 
 // 性能优化：添加窗口大小变化监听（防抖）- 移到UI对象定义后
 UI.handleResize = debounce(() => {
     // 重置滚动条宽度缓存
-    UI._scrollBarWidth = null;
+    // 注释：已移除滚动条宽度缓存清理
     UI.clearDOMCache();
 }, 250);
 

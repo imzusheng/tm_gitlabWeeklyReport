@@ -15,6 +15,10 @@ const Main = {
     totalPages: 1,
     filteredEvents: [],
     allEvents: [],
+    
+    // 排序相关变量
+    currentSortField: null,
+    currentSortOrder: 'asc', // 'asc' 或 'desc'
 
     updateButtons: () => {
         const generateBtn = document.getElementById('generateReport');
@@ -55,6 +59,93 @@ const Main = {
                 `找到 ${Main.allEvents.length} 条记录`;
             dataCount.textContent = countText;
             dataCount.style.color = '#52c41a';
+        }
+    },
+
+    // 排序功能
+    sortEvents: (field) => {
+        // 切换排序顺序
+        if (Main.currentSortField === field) {
+            Main.currentSortOrder = Main.currentSortOrder === 'asc' ? 'desc' : 'asc';
+        } else {
+            Main.currentSortField = field;
+            Main.currentSortOrder = 'asc';
+        }
+
+        // 更新排序图标
+        Main.updateSortIcons(field);
+
+        // 对数据进行排序
+        const sortedEvents = [...Main.filteredEvents].sort((a, b) => {
+            let valueA, valueB;
+
+            switch (field) {
+            case 'created_at':
+                valueA = new Date(a.created_at);
+                valueB = new Date(b.created_at);
+                break;
+            case 'target_type':
+                valueA = Main.getTargetTypeDisplayName(a.target_type);
+                valueB = Main.getTargetTypeDisplayName(b.target_type);
+                break;
+            case 'target_title':
+                valueA = (a.target_title || '').toLowerCase();
+                valueB = (b.target_title || '').toLowerCase();
+                break;
+            default:
+                return 0;
+            }
+
+            if (valueA < valueB) {
+                return Main.currentSortOrder === 'asc' ? -1 : 1;
+            }
+            if (valueA > valueB) {
+                return Main.currentSortOrder === 'asc' ? 1 : -1;
+            }
+            return 0;
+        });
+
+        // 更新过滤后的事件数据
+        Main.filteredEvents = sortedEvents;
+        
+        // 重置到第一页
+        Main.currentPage = 1;
+        
+        // 重新渲染表格
+        Main.applyFiltersAndPagination();
+    },
+
+    // 更新排序图标
+    updateSortIcons: (activeField) => {
+        // 重置所有排序图标
+        document.querySelectorAll('.sort-indicator').forEach(icon => {
+            icon.style.opacity = '0.5';
+            icon.textContent = '↕️';
+        });
+
+        // 更新活跃字段的图标
+        const activeHeader = document.querySelector(`[data-sort="${activeField}"]`);
+        if (activeHeader) {
+            const icon = activeHeader.querySelector('.sort-indicator');
+            if (icon) {
+                icon.style.opacity = '1';
+                icon.textContent = Main.currentSortOrder === 'asc' ? '↑' : '↓';
+            }
+        }
+
+        // 特殊处理时间列的图标
+        if (activeField === 'created_at') {
+            const timeIcon = document.getElementById('timeSortIcon');
+            if (timeIcon) {
+                timeIcon.style.color = 'var(--text-color, #1d1d1f)';
+                timeIcon.textContent = Main.currentSortOrder === 'asc' ? '↑' : '↓';
+            }
+        } else {
+            const timeIcon = document.getElementById('timeSortIcon');
+            if (timeIcon) {
+                timeIcon.style.color = 'var(--text-secondary, #8e8e93)';
+                timeIcon.textContent = '↕';
+            }
         }
     },
 
@@ -407,78 +498,150 @@ const Main = {
     }
 };
 
-// 为UI添加loadEvents方法
+/**
+ * 加载 GitLab 事件数据
+ * 从 GitLab API 获取指定时间范围内的所有事件数据，并应用筛选和分页
+ * @async
+ * @function
+ */
 UI.loadEvents = async () => {
-    const refreshBtn = document.getElementById('refreshEvents');
+    // 常量定义
+    const REFRESH_BTN_ID = 'refreshEvents';
+    const LOADING_TEXT = '🔄 加载中...';
+    const LOADING_STYLES = {
+        background: '#d9d9d9',
+        cursor: 'not-allowed'
+    };
+    const SUCCESS_STYLES = {
+        background: 'var(--success-color, #30d158)',
+        cursor: 'pointer'
+    };
+    const TIME_SUFFIX = {
+        start: 'T00:00:00.000Z',
+        end: 'T23:59:59.999Z'
+    };
+    
+    // HTTP 错误码映射
+    const ERROR_MESSAGES = {
+        '401': 'Access Token 无效或已过期',
+        '403': 'GitLab 访问被拒绝，请检查 Token 权限',
+        '404': 'GitLab API 地址不正确'
+    };
+    
+    const refreshBtn = document.getElementById(REFRESH_BTN_ID);
+    if (!refreshBtn) {
+        console.error('未找到刷新按钮元素');
+        UI.showNotification('界面元素缺失，请刷新页面', 'error');
+        return;
+    }
+    
     const originalText = refreshBtn.textContent;
-
-    refreshBtn.disabled = true;
-    refreshBtn.textContent = '🔄 加载中...';
-    refreshBtn.style.background = '#d9d9d9';
-    refreshBtn.style.cursor = 'not-allowed';
-
-    try {
-        const config = CONFIG.get();
-        const configErrors = Utils.validateConfig(config);
-
-        if (configErrors.length > 0) {
-            UI.showNotification(`无法加载数据：${configErrors.join('、')}`, 'error');
-            Main.allEvents = [];
-            Main.filteredEvents = [];
-            UI.eventsData = [];
-            return;
-        }
-
-        const startDate = `${UI.currentStartDate}T00:00:00.000Z`;
-        const endDate = `${UI.currentEndDate}T23:59:59.999Z`;
-        
-        // 🔧 修复：总是获取所有类型的数据，在前端进行筛选
-        // 不传递 targetType 参数，让 API 返回所有数据
-        console.log('🚀 开始加载所有事件数据...');
-        const events = await API.getEvents(startDate, endDate, config, ''); // 传递空字符串获取所有数据
-
-        if (Array.isArray(events)) {
-            Main.allEvents = events;
-            UI.eventsData = events; // 保持向后兼容
-            console.log(`✅ 成功加载 ${events.length} 条原始数据`);
-            
-            // 🔧 修复：加载数据后立即应用筛选和分页
-            Main.applyFiltersAndPagination();
-            
-            // 显示筛选后的实际数据数量
-            const filteredCount = Main.filteredEvents ? Main.filteredEvents.length : events.length;
-            UI.showNotification(`成功加载 ${events.length} 条记录，筛选后显示 ${filteredCount} 条`, 'success');
-        } else {
-            Main.allEvents = [];
-            Main.filteredEvents = [];
-            UI.eventsData = [];
-            UI.showNotification('数据格式错误', 'error');
-        }
-    } catch (error) {
-        console.error('加载事件失败:', error);
+    
+    /**
+     * 重置数据状态
+     */
+    const resetDataState = () => {
         Main.allEvents = [];
         Main.filteredEvents = [];
         UI.eventsData = [];
-
-        let errorMessage = '加载数据失败';
-        if (error.message.includes('401')) {
-            errorMessage = 'Access Token 无效或已过期';
-        } else if (error.message.includes('403')) {
-            errorMessage = 'GitLab 访问被拒绝，请检查 Token 权限';
-        } else if (error.message.includes('404')) {
-            errorMessage = 'GitLab API 地址不正确';
-        } else if (error.message) {
-            errorMessage = error.message;
+    };
+    
+    /**
+     * 设置按钮加载状态
+     * @param {boolean} isLoading - 是否为加载状态
+     */
+    const setButtonLoadingState = (isLoading) => {
+        if (isLoading) {
+            refreshBtn.disabled = true;
+            refreshBtn.textContent = LOADING_TEXT;
+            Object.assign(refreshBtn.style, LOADING_STYLES);
+        } else {
+            refreshBtn.disabled = false;
+            refreshBtn.textContent = originalText;
+            Object.assign(refreshBtn.style, SUCCESS_STYLES);
         }
-
+    };
+    
+    /**
+     * 解析错误消息
+     * @param {Error} error - 错误对象
+     * @returns {string} 用户友好的错误消息
+     */
+    const parseErrorMessage = (error) => {
+        if (!error.message) return '加载数据失败';
+        
+        // 检查是否为 HTTP 错误
+        for (const [code, message] of Object.entries(ERROR_MESSAGES)) {
+            if (error.message.includes(code)) {
+                return message;
+            }
+        }
+        
+        return error.message;
+    };
+    
+    setButtonLoadingState(true);
+    
+    try {
+        // 验证配置
+        const config = CONFIG.get();
+        const configErrors = Utils.validateConfig(config);
+        
+        if (configErrors.length > 0) {
+            const errorMsg = `无法加载数据：${configErrors.join('、')}`;
+            UI.showNotification(errorMsg, 'error');
+            resetDataState();
+            return;
+        }
+        
+        // 构建时间范围
+        const startDate = `${UI.currentStartDate}${TIME_SUFFIX.start}`;
+        const endDate = `${UI.currentEndDate}${TIME_SUFFIX.end}`;
+        
+        console.log('🚀 开始加载所有事件数据...');
+        console.log(`📅 时间范围: ${UI.currentStartDate} 至 ${UI.currentEndDate}`);
+        
+        // 获取所有类型的数据，在前端进行筛选
+        const events = await API.getEvents(startDate, endDate, config, '');
+        
+        if (!Array.isArray(events)) {
+            resetDataState();
+            UI.showNotification('数据格式错误：API 返回的不是数组格式', 'error');
+            return;
+        }
+        
+        // 更新数据状态
+        Main.allEvents = events;
+        UI.eventsData = events; // 保持向后兼容
+        
+        console.log(`✅ 成功加载 ${events.length} 条原始数据`);
+        
+        // 应用筛选和分页
+        if (typeof Main.applyFiltersAndPagination === 'function') {
+            Main.applyFiltersAndPagination();
+        } else {
+            console.warn('Main.applyFiltersAndPagination 方法不存在');
+        }
+        
+        // 显示加载结果
+        const filteredCount = Main.filteredEvents ? Main.filteredEvents.length : events.length;
+        const successMsg = `成功加载 ${events.length} 条记录，筛选后显示 ${filteredCount} 条`;
+        UI.showNotification(successMsg, 'success');
+        
+    } catch (error) {
+        console.error('加载事件失败:', error);
+        resetDataState();
+        
+        const errorMessage = parseErrorMessage(error);
         UI.showNotification(errorMessage, 'error');
+        
     } finally {
-        refreshBtn.disabled = false;
-        refreshBtn.textContent = originalText;
-        refreshBtn.style.background = 'var(--success-color, #30d158)';
-        refreshBtn.style.cursor = 'pointer';
+        setButtonLoadingState(false);
     }
 };
+
+// 将Main添加到window对象以便其他部分访问
+window.Main = Main;
 
 // 为UI添加createPanel方法
 UI.createPanel = () => {

@@ -12,7 +12,7 @@
             background-color: #f5f5f5;
         }
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             background: white;
             border-radius: 8px;
@@ -21,57 +21,32 @@
         }
         .header {
             text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 1px solid #eee;
         }
         .header h1 {
             color: #333;
             margin: 0;
+            font-size: 24px;
         }
-        .header p {
-            color: #666;
-            margin: 10px 0 0 0;
-        }
-        .info-box {
-            background: #e6f7ff;
-            border: 1px solid #91d5ff;
-            border-radius: 6px;
-            padding: 16px;
-            margin: 20px 0;
-        }
-        .info-box h3 {
-            margin: 0 0 10px 0;
-            color: #0050b3;
-        }
-        .script-info {
+        .script-section {
             background: #f6ffed;
             border: 1px solid #b7eb8f;
             border-radius: 6px;
             padding: 16px;
             margin: 20px 0;
-        }
-        .script-info h3 {
-            margin: 0 0 10px 0;
-            color: #389e0d;
-        }
-        .code {
-            background: #f5f5f5;
-            border: 1px solid #d9d9d9;
-            border-radius: 4px;
-            padding: 12px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            overflow-x: auto;
+            text-align: center;
         }
         .btn {
             display: inline-block;
-            padding: 8px 16px;
+            padding: 10px 20px;
             background: #1890ff;
             color: white;
             text-decoration: none;
             border-radius: 4px;
             margin: 5px;
+            font-weight: 500;
         }
         .btn:hover {
             background: #40a9ff;
@@ -86,6 +61,7 @@
         .debug-panel h3 {
             margin: 0 0 10px 0;
             color: #d4380d;
+            font-size: 16px;
         }
         .console-output {
             background: #000;
@@ -102,6 +78,19 @@
             display: flex;
             gap: 10px;
             margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        .debug-controls button {
+            padding: 6px 12px;
+            background: #1890ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .debug-controls button:hover {
+            background: #40a9ff;
         }
         .status-indicator {
             display: inline-block;
@@ -113,71 +102,40 @@
         .status-loaded { background: #52c41a; }
         .status-error { background: #ff4d4f; }
         .status-loading { background: #faad14; }
+        .status-line {
+            margin: 10px 0;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🚀 GitLab 周报生成器</h1>
-            <p>基于 Rollup 构建的现代化 Tampermonkey 脚本</p>
+            <h1>GitLab 周报生成器</h1>
         </div>
 
-        <div class="info-box">
-            <h3>📋 开发预览说明</h3>
-            <p>这是一个用于开发和测试的预览页面。在实际使用中，此脚本将作为 Tampermonkey 用户脚本运行在目标网站上。</p>
-        </div>
-
-        <div class="script-info">
-            <h3>📄 脚本文件</h3>
-            <p>构建后的脚本文件位置：</p>
-            <div class="code">
-                <a href="/dist/gitlab-weekly-report.user.js" class="btn" target="_blank">查看脚本文件</a>
-            </div>
-        </div>
-
-        <div class="info-box">
-            <h3>🔧 开发工具</h3>
-            <p>可用的 npm 脚本命令：</p>
-            <div class="code">
-                npm run build      # 生产环境构建<br>
-                npm run build:dev  # 开发环境构建<br>
-                npm run watch       # 监听模式构建<br>
-                npm run dev         # 开发模式（带服务器）
-            </div>
-        </div>
-
-        <div class="info-box">
-            <h3>📦 Rollup 配置特性</h3>
-            <ul>
-                <li>✅ ES6 模块支持</li>
-                <li>✅ CommonJS 模块转换</li>
-                <li>✅ CSS 处理和注入</li>
-                <li>✅ 生产环境代码压缩</li>
-                <li>✅ 开发服务器支持</li>
-                <li>✅ 自动添加 Tampermonkey 头部</li>
-                <li>✅ 热重载开发模式</li>
-            </ul>
-        </div>
-
-        <div class="script-info">
-            <h3>🎯 使用方法</h3>
-            <ol>
-                <li>运行 <code>npm run dev</code> 启动开发服务器</li>
-                <li>访问 <code>http://localhost:3000/dist/gitlab-weekly-report.user.js</code> 获取脚本</li>
-                <li>在 Tampermonkey 中安装该脚本</li>
-                <li>访问匹配的网站测试功能</li>
-            </ol>
+        <div class="script-section">
+            <a href="/dist/gitlab-weekly-report.user.js" class="btn" target="_blank">📄 查看脚本文件</a>
         </div>
 
         <div class="debug-panel">
             <h3>🐛 调试面板</h3>
-            <p><span id="scriptStatus" class="status-indicator status-loading"></span>脚本状态: <span id="statusText">加载中...</span></p>
+            <div class="status-line">
+                <span id="scriptStatus" class="status-indicator status-loading"></span>
+                脚本状态: <span id="statusText">加载中...</span>
+            </div>
+            <div class="status-line">
+                <span class="status-indicator status-loading"></span>
+                自动打开: <span id="autoOpenStatus">准备中...</span>
+            </div>
             
             <div class="debug-controls">
-                <button class="btn" onclick="clearConsole()">清空控制台</button>
-                <button class="btn" onclick="reloadScript()">重新加载脚本</button>
-                <button class="btn" onclick="toggleDebugMode()">切换调试模式</button>
-                <button class="btn" onclick="exportLogs()">导出日志</button>
+                <button onclick="clearConsole()">清空控制台</button>
+                <button onclick="reloadScript()">重新加载</button>
+                <button onclick="toggleDebugMode()">调试模式</button>
+                <button onclick="exportLogs()">导出日志</button>
+                <button onclick="cancelAutoOpen()">取消自动打开</button>
+                <button onclick="window.open('/dist/gitlab-weekly-report.user.js', '_blank')">立即打开脚本</button>
             </div>
             
             <div class="console-output" id="consoleOutput">
@@ -266,10 +224,68 @@
             addToConsole(`脚本状态更新: ${message}`, status === 'error' ? 'error' : 'log');
         }
         
+        // 自动检测脚本更新
+        let lastModified = null;
+        let autoOpenTimer = null;
+        
+        function checkScriptUpdate() {
+            fetch('/dist/gitlab-weekly-report.user.js', { method: 'HEAD' })
+                .then(response => {
+                    const modified = response.headers.get('Last-Modified');
+                    if (lastModified && modified && lastModified !== modified) {
+                        addToConsole('检测到脚本文件更新，准备重新加载...', 'log');
+                        updateScriptStatus('loading', '脚本已更新，重新加载中...');
+                        setTimeout(() => location.reload(), 1000);
+                    }
+                    lastModified = modified;
+                })
+                .catch(err => {
+                    addToConsole('检查脚本更新失败: ' + err.message, 'warn');
+                });
+        }
+        
+        function startAutoOpen() {
+            let countdown = 3;
+            const autoOpenStatus = document.getElementById('autoOpenStatus');
+            
+            function updateCountdown() {
+                if (countdown > 0) {
+                    autoOpenStatus.textContent = `${countdown}秒后自动打开脚本`;
+                    addToConsole(`${countdown}秒后自动打开脚本文件`, 'log');
+                    countdown--;
+                    autoOpenTimer = setTimeout(updateCountdown, 1000);
+                } else {
+                    window.open('/dist/gitlab-weekly-report.user.js', '_blank');
+                    autoOpenStatus.textContent = '已自动打开脚本';
+                    addToConsole('已自动打开脚本文件', 'log');
+                    autoOpenTimer = null;
+                }
+            }
+            
+            updateCountdown();
+        }
+        
+        function cancelAutoOpen() {
+            if (autoOpenTimer) {
+                clearTimeout(autoOpenTimer);
+                autoOpenTimer = null;
+                const autoOpenStatus = document.getElementById('autoOpenStatus');
+                autoOpenStatus.textContent = '已取消自动打开';
+                addToConsole('已取消自动打开', 'log');
+            }
+        }
+        
         // 页面加载完成后的初始化
         document.addEventListener('DOMContentLoaded', function() {
             addToConsole('调试面板初始化完成', 'log');
             updateScriptStatus('loading', '正在加载脚本...');
+            
+            // 开始检测脚本更新
+            checkScriptUpdate();
+            setInterval(checkScriptUpdate, 2000); // 每2秒检查一次
+            
+            // 启动自动打开计时器
+            startAutoOpen();
         });
         
         // 监听脚本加载

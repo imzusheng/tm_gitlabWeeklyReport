@@ -5,12 +5,11 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "build": "npm run lint:check && rollup -c",
-    "build:dev": "rollup -c --environment NODE_ENV:development",
+    "dev": "rollup -c -w --environment NODE_ENV:development",
+    "build": "npm run lint:fix && rollup -c",
     "build:release": "npm run release",
     "lint:check": "eslint src/**/*.js",
-    "watch": "rollup -c -w",
-    "dev": "rollup -c -w --environment NODE_ENV:development"
+    "lint:fix": "eslint --fix src/**/*.js"
   },
   "husky": {
     "hooks": {

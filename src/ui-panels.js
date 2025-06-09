@@ -115,9 +115,15 @@ const UIPanels = {
                                         <input type="checkbox" id="selectAll" style="cursor: pointer; transform: scale(1.1);" title="全选/取消全选" checked>
                                     </th>
                                     <th style="padding: 12px 8px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: left; color: var(--text-color, #1d1d1f); font-weight: 600; width: 40px; font-size: 12px;">#</th>
-                                    <th style="padding: 12px 8px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: left; color: var(--text-color, #1d1d1f); font-weight: 600; width: 80px; font-size: 12px;">类型</th>
-                                    <th style="padding: 12px 8px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: left; color: var(--text-color, #1d1d1f); font-weight: 600; width: 130px; font-size: 12px;">时间</th>
-                                    <th style="padding: 12px 8px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: left; color: var(--text-color, #1d1d1f); font-weight: 600; font-size: 12px;">提交内容</th>
+                                    <th style="padding: 12px 8px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: left; color: var(--text-color, #1d1d1f); font-weight: 600; width: 80px; font-size: 12px; cursor: pointer; user-select: none; position: relative;" data-sort="target_type" title="点击排序">
+                                        类型 <span class="sort-indicator" style="margin-left: 4px; opacity: 0.5;">↕️</span>
+                                    </th>
+                                    <th style="padding: 12px 8px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: left; color: var(--text-color, #1d1d1f); font-weight: 600; width: 130px; font-size: 12px; cursor: pointer; user-select: none; position: relative;" data-sort="created_at" title="点击排序">
+                                        时间 <span class="sort-indicator" style="margin-left: 4px; opacity: 0.5;">↕️</span>
+                                    </th>
+                                    <th style="padding: 12px 8px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: left; color: var(--text-color, #1d1d1f); font-weight: 600; font-size: 12px; cursor: pointer; user-select: none; position: relative;" data-sort="target_title" title="点击排序">
+                                        提交内容 <span class="sort-indicator" style="margin-left: 4px; opacity: 0.5;">↕️</span>
+                                    </th>
                                     <th style="padding: 12px 8px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: center; color: var(--text-color, #1d1d1f); font-weight: 600; width: 50px; font-size: 12px;">操作</th>
                                 </tr>
                             </thead>
@@ -208,6 +214,9 @@ const UIPanels = {
 
         document.getElementById('startDate').addEventListener('change', () => UIPanels.updateDateRange(UI));
         document.getElementById('endDate').addEventListener('change', () => UIPanels.updateDateRange(UI));
+        
+        // 绑定表格排序事件
+        UIPanels.bindTableSortEvents();
 
         document.getElementById('thisWeek').addEventListener('click', () => {
             const [start, end] = Utils.getThisWeekRange();
@@ -295,22 +304,147 @@ const UIPanels = {
         });
     },
 
+    /**
+     * 设置日期范围输入框的值
+     * @param {string} startDate - 开始日期 (YYYY-MM-DD)
+     * @param {string} endDate - 结束日期 (YYYY-MM-DD)
+     * @param {Object} UI - UI对象实例
+     */
     setDateRange: (startDate, endDate, UI) => {
-        document.getElementById('startDate').value = startDate;
-        document.getElementById('endDate').value = endDate;
-        UIPanels.updateDateRange(UI);
+        try {
+            const startDateElement = document.getElementById('startDate');
+            const endDateElement = document.getElementById('endDate');
+            
+            if (!startDateElement || !endDateElement) {
+                console.error('日期输入框元素未找到');
+                return;
+            }
+            
+            startDateElement.value = startDate;
+            endDateElement.value = endDate;
+            UIPanels.updateDateRange(UI);
+        } catch (error) {
+            console.error('设置日期范围失败:', error);
+        }
     },
 
+    /**
+     * 设置日期范围并刷新事件数据
+     * @param {string} startDate - 开始日期 (YYYY-MM-DD)
+     * @param {string} endDate - 结束日期 (YYYY-MM-DD)
+     * @param {Object} UI - UI对象实例
+     */
     setDateRangeAndRefresh: async (startDate, endDate, UI) => {
-        UIPanels.setDateRange(startDate, endDate, UI);
-        await UI.loadEvents();
+        try {
+            // 先设置日期范围
+            UIPanels.setDateRange(startDate, endDate, UI);
+            
+            // 然后刷新事件数据
+            await UI.loadEvents();
+        } catch (error) {
+            console.error('设置日期范围并刷新数据失败:', error);
+            // 可以在这里添加用户友好的错误提示
+            if (window.UI && window.UI.showNotification) {
+                window.UI.showNotification('刷新数据失败，请重试', 'error');
+            }
+        }
     },
 
+    /**
+     * 更新日期范围显示文本
+     * @param {Object} UI - UI对象实例
+     */
     updateDateRange: (UI) => {
-        UI.currentStartDate = document.getElementById('startDate').value;
-        UI.currentEndDate = document.getElementById('endDate').value;
-        const dateRangeText = `${UI.currentStartDate} 至 ${UI.currentEndDate}`;
-        document.getElementById('dateRange').textContent = dateRangeText;
+        try {
+            const startDateElement = document.getElementById('startDate');
+            const endDateElement = document.getElementById('endDate');
+            const dateRangeElement = document.getElementById('dateRange');
+            
+            if (!startDateElement || !endDateElement || !dateRangeElement) {
+                console.error('日期相关元素未找到');
+                return;
+            }
+            
+            // 更新UI对象中的日期值
+            UI.currentStartDate = startDateElement.value;
+            UI.currentEndDate = endDateElement.value;
+            
+            // 更新显示文本
+            const dateRangeText = `${UI.currentStartDate} 至 ${UI.currentEndDate}`;
+            dateRangeElement.textContent = dateRangeText;
+        } catch (error) {
+            console.error('更新日期范围显示失败:', error);
+        }
+    },
+
+    /**
+     * 绑定表格排序事件
+     * 为所有可排序的表头添加点击和悬停事件
+     */
+    bindTableSortEvents: () => {
+        try {
+            // 常量定义
+            const HOVER_BG_COLOR = 'var(--hover-bg, #f8f8f8)';
+            const TIME_HEADER_ID = 'timeHeader';
+            const TIME_SORT_FIELD = 'created_at';
+            
+            /**
+             * 为表头元素添加悬停效果
+             * @param {HTMLElement} element - 表头元素
+             */
+            const addHoverEffect = (element) => {
+                element.addEventListener('mouseenter', () => {
+                    element.style.backgroundColor = HOVER_BG_COLOR;
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    element.style.backgroundColor = '';
+                });
+            };
+            
+            /**
+             * 为表头元素添加排序点击事件
+             * @param {HTMLElement} element - 表头元素
+             * @param {string} sortField - 排序字段名
+             */
+            const addSortClickEvent = (element, sortField) => {
+                element.addEventListener('click', () => {
+                    if (window.Main && typeof window.Main.sortEvents === 'function') {
+                        window.Main.sortEvents(sortField);
+                    } else {
+                        console.warn('排序功能不可用: Main.sortEvents 方法未找到');
+                    }
+                });
+            };
+            
+            // 绑定所有带有 data-sort 属性的表头
+            const sortableHeaders = document.querySelectorAll('[data-sort]');
+            if (sortableHeaders.length === 0) {
+                console.warn('未找到可排序的表头元素');
+                return;
+            }
+            
+            sortableHeaders.forEach(header => {
+                const sortField = header.getAttribute('data-sort');
+                if (sortField) {
+                    addSortClickEvent(header, sortField);
+                    addHoverEffect(header);
+                } else {
+                    console.warn('表头元素缺少 data-sort 属性值:', header);
+                }
+            });
+            
+            // 特殊处理时间列（如果存在且未被上面的逻辑处理）
+            const timeHeader = document.getElementById(TIME_HEADER_ID);
+            if (timeHeader && !timeHeader.hasAttribute('data-sort')) {
+                addSortClickEvent(timeHeader, TIME_SORT_FIELD);
+                addHoverEffect(timeHeader);
+            }
+            
+            console.log(`已绑定 ${sortableHeaders.length} 个可排序表头的事件`);
+        } catch (error) {
+            console.error('绑定表格排序事件失败:', error);
+        }
     },
 
     createSettingsPanel: (UI) => {
