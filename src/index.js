@@ -264,17 +264,17 @@ const Main = {
             });
 
             row.innerHTML = `
-                <td style="padding: 12px 8px; text-align: center;">
+                <td style="padding: 8px 6px; text-align: center;">
                     <input type="checkbox" data-index="${actualIndex}" data-original-index="${Main.allEvents.indexOf(event) !== -1 ? Main.allEvents.indexOf(event) : baseIndex + index}" style="cursor: pointer; transform: scale(1.1);" checked>
                 </td>
-                <td style="padding: 12px 8px; color: var(--text-secondary, #6e6e73); font-size: 12px; text-align: center; font-weight: 500;">${actualIndex + 1}</td>
-                <td style="padding: 12px 8px; color: var(--text-color, #1d1d1f); font-size: 12px; font-weight: 500;">
+                <td style="padding: 8px 6px; color: var(--text-secondary, #6e6e73); font-size: 12px; text-align: center; font-weight: 500;">${actualIndex + 1}</td>
+                <td style="padding: 8px 6px; color: var(--text-color, #1d1d1f); font-size: 12px; font-weight: 500;">
                     <span style="background: var(--card-bg, #f8f9fa); padding: 2px 6px; border-radius: 4px; font-size: 11px;">${targetType}</span>
                 </td>
-                <td style="padding: 12px 8px; color: var(--text-color, #1d1d1f); font-size: 12px; font-weight: 500;">${Utils.formatTime(event.created_at).split(' ')[0]}</td>
-                <td style="padding: 12px 8px; color: var(--text-color, #1d1d1f); font-size: 12px; word-break: break-word; line-height: 1.4;">${commitTitle}</td>
-                <td style="padding: 12px 8px; text-align: center;">
-                    <button class="copy-btn" data-text="${commitTitle.replace(/"/g, '&quot;')}" style="padding: 6px 8px; background: var(--button-bg, #f2f2f7); border: none; border-radius: 6px; cursor: pointer; font-size: 11px; color: var(--text-secondary, #6e6e73); transition: all 0.2s ease;" title="复制此条记录">📋</button>
+                <td style="padding: 8px 6px; color: var(--text-color, #1d1d1f); font-size: 12px; font-weight: 500;">${Utils.formatTime(event.created_at).split(' ')[0]}</td>
+                <td style="padding: 8px 6px; color: var(--text-color, #1d1d1f); font-size: 12px; word-break: break-word; line-height: 1.3;">${commitTitle}</td>
+                <td style="padding: 8px 6px; text-align: center;">
+                    <button class="copy-btn" data-text="${commitTitle.replace(/"/g, '&quot;')}" style="padding: 4px 6px; background: var(--button-bg, #f2f2f7); border: none; border-radius: 4px; cursor: pointer; font-size: 11px; color: var(--text-secondary, #6e6e73); transition: all 0.2s ease;" title="复制此条记录">📋</button>
                 </td>
             `;
             tbody.appendChild(row);

@@ -5,11 +5,12 @@ import API from './api.js';
 const UIPanels = {
     createPanel: (UI, Main) => {
         UI.panel = document.createElement('div');
+        UI.panel.id = 'tm-gwe-ui-panel';
         UI.panel.style.cssText = `
             position: fixed;
             top: 60px;
             right: 20px;
-            width: 750px;
+            width: calc(100vw - 80px);
             height: calc(100vh - 80px);
             background: var(--panel-bg, white);
             border: 1px solid var(--border-color, #e1e5e9);
@@ -31,17 +32,67 @@ const UIPanels = {
         UI.currentEndDate = thisWeekEnd;
 
         UI.panel.innerHTML = `
-            <div style="display: flex; flex-direction: column; height: 100%;">
-                <div style="padding: 20px; border-bottom: 1px solid var(--border-light, #f0f0f0); background: var(--card-bg, #f8f9fa); flex-shrink: 0; border-radius: 12px 12px 0 0;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                        <h3 style="margin: 0; color: var(--text-color, #1d1d1f); font-size: 18px; font-weight: 600;">GitLab 周报生成器</h3>
-                        <div style="display: flex; gap: 8px; align-items: center;">
-                            <button id="openSettings" style="background: var(--button-bg, #f2f2f7); border: none; font-size: 16px; cursor: pointer; color: var(--text-secondary, #6e6e73); padding: 8px; border-radius: 8px; transition: all 0.2s ease;" title="打开设置">⚙️</button>
-                            <button id="closePanel" style="background: var(--button-bg, #f2f2f7); border: none; font-size: 18px; cursor: pointer; color: var(--text-muted, #8e8e93); padding: 8px; border-radius: 8px; transition: all 0.2s ease;">×</button>
+            <div style="display: flex; height: 100%;">
+                <!-- 左侧AI功能面板 -->
+                <div id="aiPanel" style="width: 320px; flex-shrink: 0; background: var(--card-bg, #f8f9fa); border-right: 1px solid var(--border-light, #f0f0f0); display: flex; flex-direction: column; border-radius: 12px 0 0 12px;">
+                    <div style="padding: 20px; border-bottom: 1px solid var(--border-light, #f0f0f0); flex-shrink: 0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <h3 style="margin: 0; color: var(--text-color, #1d1d1f); font-size: 16px; font-weight: 600;">🤖 AI 助手</h3>
+                            <button id="openSettings" style="background: var(--button-bg, #f2f2f7); border: none; font-size: 14px; cursor: pointer; color: var(--text-secondary, #6e6e73); padding: 6px; border-radius: 6px; transition: all 0.2s ease;" title="打开设置">⚙️</button>
+                        </div>
+                        
+                        <!-- 附加要求 -->
+                        <div style="margin-bottom: 16px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-color, #1d1d1f); font-size: 13px;">📝 附加要求:</label>
+                            <textarea id="additionalPrompt" rows="3" style="width: 100%; border: 1px solid var(--border-color, #e1e5e9); border-radius: 6px; padding: 10px; resize: vertical; font-size: 12px; line-height: 1.4; background: var(--panel-bg, white); color: var(--text-color, #1d1d1f); box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,0.08)); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;" placeholder="输入附加要求，如：重点突出某个功能模块...">${CONFIG.get().DEFAULT_ADDITIONAL_PROMPT}</textarea>
+                        </div>
+                        
+                        <!-- 金额和Token信息 -->
+                        <div style="margin-bottom: 16px; padding: 10px; background: var(--panel-bg, white); border-radius: 6px; border: 1px solid var(--border-light, #f0f0f0);">
+                            <div style="margin-bottom: 6px;">
+                                <span id="balanceInfo" style="color: var(--text-secondary, #6e6e73); font-size: 11px; font-weight: 500; display: block;">💰 余额信息加载中...</span>
+                            </div>
+                            <div>
+                                <span id="tokenUsage" style="color: var(--text-secondary, #6e6e73); font-size: 11px; font-weight: 500; display: block;">🔢 Token使用情况</span>
+                            </div>
+                        </div>
+                        
+                        <!-- AI操作按钮 -->
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <button id="generateReport" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,0.08)); transition: all 0.2s ease;" disabled>🤖 生成周报</button>
+                            <button id="exportData" style="width: 100%; padding: 12px; background: var(--primary-color, #007aff); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,0.08)); transition: all 0.2s ease;" disabled>📤 导出数据</button>
                         </div>
                     </div>
                     
-                    <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px;">
+                    <!-- AI生成结果区域 -->
+                    <div id="reportResult" style="padding: 16px; background: var(--panel-bg, white); display: none; flex: 1; min-height: 200px; margin: 16px; border-radius: 6px; border: 1px solid var(--border-color, #e1e5e9);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <h4 style="margin: 0; color: var(--text-color, #1d1d1f); font-size: 14px; font-weight: 600;">📄 生成的周报:</h4>
+                            <button id="copyReport" style="padding: 6px 10px; background: var(--primary-color, #007aff); color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 600; box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,0.08));">📋 复制</button>
+                        </div>
+                        <div id="reportContent" style="background: var(--card-bg, #f8f9fa); padding: 12px; border-radius: 4px; border: 1px solid var(--border-light, #f0f0f0); white-space: pre-wrap; color: var(--text-color, #1d1d1f) !important; line-height: 1.5; font-size: 12px; min-height: 100px; height: calc(100% - 40px); overflow-y: auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;"></div>
+                    </div>
+                </div>
+                
+                <!-- 右侧数据面板 -->
+                <div data-name="tm-gwe-ui-panel__events-table" style="flex: 1; display: flex; flex-direction: column;">
+                    <div data-name="panel-title" style="padding: 20px; border-bottom: 1px solid var(--border-light, #f0f0f0); background: var(--panel-bg, white); flex-shrink: 0; border-radius: 0 12px 0 0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <h3 style="margin: 0; color: var(--text-color, #1d1d1f); font-size: 18px; font-weight: 600;">📊 GitLab 数据</h3>
+                            <button id="closePanel" style="background: var(--button-bg, #f2f2f7); border: none; font-size: 18px; cursor: pointer; color: var(--text-muted, #8e8e93); padding: 0 8px; border-radius: 8px; transition: all 0.2s ease;">×</button>
+                        </div>
+                    </div>
+                <!-- 筛选条件区域 -->
+                <div class="tm-gwe-ui-panel_search-query-filter" style="padding: 16px; border-bottom: 1px solid var(--border-light, #f0f0f0); background: var(--card-bg, #f8f9fa); flex-shrink: 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <span id="dataCount" style="color: var(--text-secondary, #6e6e73); font-size: 13px; font-weight: 500;"></span>
+                            <span id="dateRange" style="color: var(--text-muted, #8e8e93); font-size: 12px; margin-left: 12px;"></span>
+                        </div>
+                    </div>
+
+                    <!-- 日期筛选区域 -->
+                    <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light, #f0f0f0);">
                         <div style="display: flex; gap: 8px; align-items: center;">
                             <label style="font-size: 14px; color: var(--text-secondary, #6e6e73); min-width: 50px; line-height: 1; display: flex; align-items: center; font-weight: 500;">开始:</label>
                             <input type="date" id="startDate" value="${thisWeekStart}" style="height: 32px; padding: 0 12px; border: 1px solid var(--border-color, #e1e5e9); border-radius: 8px; font-size: 13px; width: 130px; background: var(--panel-bg, white); color: var(--text-color, #1d1d1f); box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,0.08));">
@@ -60,16 +111,7 @@ const UIPanels = {
                         </div>
                     </div>
                     
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <span id="dataCount" style="color: var(--text-secondary, #6e6e73); font-size: 13px; font-weight: 500;"></span>
-                            <span id="dateRange" style="color: var(--text-muted, #8e8e93); font-size: 12px; margin-left: 12px;"></span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 筛选条件区域 -->
-                <div style="padding: 16px; border-bottom: 1px solid var(--border-light, #f0f0f0); background: var(--card-bg, #f8f9fa); flex-shrink: 0;">
+                    <!-- 其他筛选条件 -->
                     <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px;">
                         <div style="display: flex; gap: 8px; align-items: center;">
                             <label style="font-size: 14px; color: var(--text-secondary, #6e6e73); min-width: 80px; font-weight: 500;">Target Type:</label>
@@ -106,31 +148,33 @@ const UIPanels = {
                     </div>
                 </div>
                 
-                <div id="scrollableContent" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column;">
-                    <div style="max-height: 400px; overflow-y: auto; border-bottom: 1px solid var(--border-light, #f0f0f0); flex-shrink: 0;">
+                
+                <div id="scrollableContent" style="flex: 1; display: flex; flex-direction: column;">
+                    <div style="flex: 1; overflow-y: auto; border-bottom: 1px solid var(--border-light, #f0f0f0); flex-shrink: 0;">
                         <table id="eventsTable" style="width: 100%; border-collapse: collapse;">
                             <thead style="position: sticky; top: 0; background: var(--panel-bg, white); z-index: 1;">
                                 <tr style="background: var(--card-bg, #f8f9fa);">
-                                    <th style="padding: 12px 8px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: center; color: var(--text-color, #1d1d1f); font-weight: 600; width: 40px; font-size: 12px;">
+                                    <th style="padding: 8px 6px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: center; color: var(--text-color, #1d1d1f); font-weight: 600; width: 40px; font-size: 12px;">
                                         <input type="checkbox" id="selectAll" style="cursor: pointer; transform: scale(1.1);" title="全选/取消全选" checked>
                                     </th>
-                                    <th style="padding: 12px 8px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: left; color: var(--text-color, #1d1d1f); font-weight: 600; width: 40px; font-size: 12px;">#</th>
-                                    <th style="padding: 12px 8px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: left; color: var(--text-color, #1d1d1f); font-weight: 600; width: 80px; font-size: 12px; cursor: pointer; user-select: none; position: relative;" data-sort="target_type" title="点击排序">
+                                    <th style="padding: 8px 6px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: left; color: var(--text-color, #1d1d1f); font-weight: 600; width: 40px; font-size: 12px;">#</th>
+                                    <th style="padding: 8px 6px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: left; color: var(--text-color, #1d1d1f); font-weight: 600; width: 80px; font-size: 12px; cursor: pointer; user-select: none; position: relative;" data-sort="target_type" title="点击排序">
                                         类型 <span class="sort-indicator" style="margin-left: 4px; opacity: 0.5;">↕️</span>
                                     </th>
-                                    <th style="padding: 12px 8px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: left; color: var(--text-color, #1d1d1f); font-weight: 600; width: 130px; font-size: 12px; cursor: pointer; user-select: none; position: relative;" data-sort="created_at" title="点击排序">
+                                    <th style="padding: 8px 6px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: left; color: var(--text-color, #1d1d1f); font-weight: 600; width: 130px; font-size: 12px; cursor: pointer; user-select: none; position: relative;" data-sort="created_at" title="点击排序">
                                         时间 <span class="sort-indicator" style="margin-left: 4px; opacity: 0.5;">↕️</span>
                                     </th>
-                                    <th style="padding: 12px 8px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: left; color: var(--text-color, #1d1d1f); font-weight: 600; font-size: 12px; cursor: pointer; user-select: none; position: relative;" data-sort="target_title" title="点击排序">
+                                    <th style="padding: 8px 6px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: left; color: var(--text-color, #1d1d1f); font-weight: 600; font-size: 12px; cursor: pointer; user-select: none; position: relative;" data-sort="target_title" title="点击排序">
                                         提交内容 <span class="sort-indicator" style="margin-left: 4px; opacity: 0.5;">↕️</span>
                                     </th>
-                                    <th style="padding: 12px 8px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: center; color: var(--text-color, #1d1d1f); font-weight: 600; width: 50px; font-size: 12px;">操作</th>
+                                    <th style="padding: 8px 6px; border-bottom: 1px solid var(--border-light, #f0f0f0); text-align: center; color: var(--text-color, #1d1d1f); font-weight: 600; width: 50px; font-size: 12px;">操作</th>
                                 </tr>
                             </thead>
                             <tbody id="eventsBody">
                             </tbody>
                         </table>
                     </div>
+                </div>
                     
                     <!-- 分页控件 -->
                     <div id="paginationControls" style="padding: 16px; border-bottom: 1px solid var(--border-light, #f0f0f0); background: var(--card-bg, #f8f9fa); flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;">
@@ -146,30 +190,7 @@ const UIPanels = {
                         </div>
                     </div>
                     
-                    <div style="padding: 20px; border-bottom: 1px solid var(--border-light, #f0f0f0); flex-shrink: 0;">
-                        <div style="margin-bottom: 16px;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-color, #1d1d1f); font-size: 15px;">附加要求:</label>
-                            <textarea id="additionalPrompt" rows="3" style="width: 100%; border: 1px solid var(--border-color, #e1e5e9); border-radius: 8px; padding: 12px; resize: vertical; font-size: 13px; line-height: 1.4; background: var(--panel-bg, white); color: var(--text-color, #1d1d1f); box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,0.08)); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;" placeholder="输入附加要求，如：重点突出某个功能模块...">${CONFIG.get().DEFAULT_ADDITIONAL_PROMPT}</textarea>
-                        </div>
-                        
-                        <div style="margin-bottom: 16px; display: flex; gap: 16px; padding: 12px; background: var(--card-bg, #f8f9fa); border-radius: 8px; border: 1px solid var(--border-light, #f0f0f0);">
-                            <span id="balanceInfo" style="color: var(--text-secondary, #6e6e73); font-size: 12px; font-weight: 500;"></span>
-                            <span id="tokenUsage" style="color: var(--text-secondary, #6e6e73); font-size: 12px; font-weight: 500;"></span>
-                        </div>
-                        
-                        <div style="display: flex; gap: 12px;">
-                            <button id="generateReport" style="flex: 1; padding: 14px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,0.08)); transition: all 0.2s ease;" disabled>🤖 生成周报</button>
-                            <button id="exportData" style="padding: 14px 20px; background: var(--primary-color, #007aff); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,0.08)); transition: all 0.2s ease;" disabled>📤 导出数据</button>
-                        </div>
-                    </div>
-                    
-                    <div id="reportResult" style="padding: 20px; background: var(--card-bg, #f8f9fa); display: none; flex: 1; min-height: 200px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                            <h4 style="margin: 0; color: var(--text-color, #1d1d1f); font-size: 17px; font-weight: 600;">生成的周报:</h4>
-                            <button id="copyReport" style="padding: 8px 12px; background: var(--primary-color, #007aff); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,0.08));">📋 复制</button>
-                        </div>
-                        <div id="reportContent" style="background: var(--panel-bg, white); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color, #e1e5e9); white-space: pre-wrap; color: var(--text-color, #1d1d1f) !important; line-height: 1.6; font-size: 14px; min-height: 120px; height: calc(100% - 50px); overflow-y: auto; box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,0.08)); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;"></div>
-                    </div>
+
                 </div>
             </div>
         `;

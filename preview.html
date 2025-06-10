@@ -116,6 +116,7 @@
 
         <div class="script-section">
             <a href="/dist/gitlab-weekly-report.user.js" class="btn" target="_blank">📄 查看脚本文件</a>
+            <button class="btn" onclick="openDebugPanel()">🔧 打开调试面板</button>
         </div>
 
         <div class="debug-panel">
@@ -125,8 +126,8 @@
                 脚本状态: <span id="statusText">加载中...</span>
             </div>
             <div class="status-line">
-                <span class="status-indicator status-loading"></span>
-                自动打开: <span id="autoOpenStatus">准备中...</span>
+                <span id="panelStatus" class="status-indicator status-loading"></span>
+                面板状态: <span id="panelStatusText">准备加载...</span>
             </div>
             
             <div class="debug-controls">
@@ -134,7 +135,7 @@
                 <button onclick="reloadScript()">重新加载</button>
                 <button onclick="toggleDebugMode()">调试模式</button>
                 <button onclick="exportLogs()">导出日志</button>
-                <button onclick="cancelAutoOpen()">取消自动打开</button>
+                <button onclick="initializeUIPanel()">重新加载面板</button>
                 <button onclick="window.open('/dist/gitlab-weekly-report.user.js', '_blank')">立即打开脚本</button>
             </div>
             
@@ -224,54 +225,58 @@
             addToConsole(`脚本状态更新: ${message}`, status === 'error' ? 'error' : 'log');
         }
         
-        // 自动检测脚本更新
-        let lastModified = null;
-        let autoOpenTimer = null;
+        // 直接加载UI面板功能
+        let panelLoaded = false;
         
-        function checkScriptUpdate() {
-            fetch('/dist/gitlab-weekly-report.user.js', { method: 'HEAD' })
-                .then(response => {
-                    const modified = response.headers.get('Last-Modified');
-                    if (lastModified && modified && lastModified !== modified) {
-                        addToConsole('检测到脚本文件更新，准备重新加载...', 'log');
-                        updateScriptStatus('loading', '脚本已更新，重新加载中...');
-                        setTimeout(() => location.reload(), 1000);
+        function initializeUIPanel() {
+            if (panelLoaded) return;
+            
+            try {
+                // 检查脚本是否已加载
+                if (window.UI && window.Main && typeof window.UI.createPanel === 'function') {
+                    addToConsole('✅ 脚本模块已加载，初始化UI面板...', 'log');
+                    
+                    // 创建UI面板
+                    window.UI.createPanel();
+                    
+                    // 显示面板
+                    if (window.UI.panel) {
+                        document.body.appendChild(window.UI.panel);
+                        window.UI.showPanel();
+                        addToConsole('🎉 UI面板已成功加载并显示', 'log');
+                        panelLoaded = true;
+                        updateScriptStatus('loaded', 'UI面板已加载');
+                    } else {
+                        addToConsole('❌ UI面板创建失败', 'error');
+                        updateScriptStatus('error', 'UI面板创建失败');
                     }
-                    lastModified = modified;
-                })
-                .catch(err => {
-                    addToConsole('检查脚本更新失败: ' + err.message, 'warn');
-                });
-        }
-        
-        function startAutoOpen() {
-            let countdown = 3;
-            const autoOpenStatus = document.getElementById('autoOpenStatus');
-            
-            function updateCountdown() {
-                if (countdown > 0) {
-                    autoOpenStatus.textContent = `${countdown}秒后自动打开脚本`;
-                    addToConsole(`${countdown}秒后自动打开脚本文件`, 'log');
-                    countdown--;
-                    autoOpenTimer = setTimeout(updateCountdown, 1000);
                 } else {
-                    window.open('/dist/gitlab-weekly-report.user.js', '_blank');
-                    autoOpenStatus.textContent = '已自动打开脚本';
-                    addToConsole('已自动打开脚本文件', 'log');
-                    autoOpenTimer = null;
+                    const missing = [];
+                    if (!window.UI) missing.push('UI');
+                    if (!window.Main) missing.push('Main');
+                    if (!window.UI || typeof window.UI.createPanel !== 'function') missing.push('UI.createPanel');
+                    addToConsole(`⚠️ 脚本模块尚未完全加载，缺少: ${missing.join(', ')}`, 'warn');
+                    // 延迟重试
+                    setTimeout(initializeUIPanel, 500);
                 }
+            } catch (error) {
+                addToConsole('❌ 初始化UI面板时出错: ' + error.message, 'error');
+                updateScriptStatus('error', '初始化失败: ' + error.message);
             }
-            
-            updateCountdown();
         }
         
-        function cancelAutoOpen() {
-            if (autoOpenTimer) {
-                clearTimeout(autoOpenTimer);
-                autoOpenTimer = null;
-                const autoOpenStatus = document.getElementById('autoOpenStatus');
-                autoOpenStatus.textContent = '已取消自动打开';
-                addToConsole('已取消自动打开', 'log');
+        function openDebugPanel() {
+            // 直接打开调试面板
+            addToConsole('🔧 手动打开调试面板', 'log');
+            
+            if (panelLoaded && window.UI && window.UI.panel) {
+                // 如果面板已加载，直接显示
+                window.UI.showPanel();
+                addToConsole('✅ 显示已加载的UI面板', 'log');
+            } else {
+                // 如果面板未加载，尝试初始化
+                addToConsole('🔄 面板未加载，尝试初始化...', 'log');
+                initializeUIPanel();
             }
         }
         
@@ -280,22 +285,30 @@
             addToConsole('调试面板初始化完成', 'log');
             updateScriptStatus('loading', '正在加载脚本...');
             
-            // 开始检测脚本更新
-            checkScriptUpdate();
-            setInterval(checkScriptUpdate, 2000); // 每2秒检查一次
-            
-            // 启动自动打开计时器
-            startAutoOpen();
+            // 自动初始化UI面板
+            setTimeout(() => {
+                addToConsole('🚀 自动初始化UI面板', 'log');
+                initializeUIPanel();
+            }, 1000);
         });
         
         // 监听脚本加载
         window.addEventListener('load', function() {
             setTimeout(() => {
-                if (window.UI || window.Main) {
-                    updateScriptStatus('loaded', '脚本加载成功');
-                    addToConsole('检测到脚本对象: ' + Object.keys(window).filter(key => ['UI', 'Main', 'API', 'CONFIG'].includes(key)).join(', '), 'log');
+                const loadedModules = Object.keys(window).filter(key => ['UI', 'Main', 'API', 'CONFIG'].includes(key));
+                if (window.UI && typeof window.UI.createPanel === 'function') {
+                    loadedModules.push('UI.createPanel');
+                }
+                if (loadedModules.length > 0) {
+                    updateScriptStatus('loaded', '脚本模块加载成功');
+                    addToConsole('检测到脚本模块: ' + loadedModules.join(', '), 'log');
+                    
+                    // 脚本加载完成后自动初始化面板
+                    if (!panelLoaded) {
+                        setTimeout(initializeUIPanel, 500);
+                    }
                 } else {
-                    updateScriptStatus('error', '脚本加载失败');
+                    updateScriptStatus('error', '脚本模块加载失败');
                 }
             }, 1000);
         });
