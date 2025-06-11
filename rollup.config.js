@@ -6,6 +6,7 @@ import terser from '@rollup/plugin-terser';
 import banner from 'rollup-plugin-banner2';
 import del from 'rollup-plugin-delete';
 import serve from 'rollup-plugin-serve';
+import babel from '@rollup/plugin-babel';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
@@ -33,7 +34,7 @@ const userscriptHeader = `// ==UserScript==
 `;
 
 export default {
-  input: 'src/index.js',
+  input: 'src/main.js',
   output: {
     file: 'dist/gitlab-weekly-report.user.js',
     format: 'iife',
@@ -58,11 +59,20 @@ export default {
     // 转换CommonJS模块
     commonjs(),
     
+    // Babel转换JSX
+    babel({
+      babelHelpers: 'bundled',
+      exclude: 'node_modules/**',
+      extensions: ['.js', '.jsx']
+    }),
+    
     // CSS处理
     postcss({
       extract: false,
       inject: true,
-      minimize: process.env.NODE_ENV === 'production'
+      minimize: process.env.NODE_ENV === 'production',
+      extensions: ['.css', '.less'],
+      use: ['less']
     }),
     
     // 生产环境压缩代码
@@ -81,7 +91,7 @@ export default {
       openPage: '/preview.html',
       contentBase: ['dist', '.'],
       host: 'localhost',
-      port: 3000,
+      port: 3002,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',

@@ -1,0 +1,244 @@
+/**
+ * 表格行样式文件
+ * 包含事件表格行的所有样式定义
+ */
+
+/* 表格行样式 */
+.event-table-row {
+    border-bottom: 1px solid var(--border-light, #f0f0f0);
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+        background-color: var(--hover-bg, #f8f8f8);
+    }
+}
+
+/* 表格单元格样式 */
+.event-table-cell {
+    padding: 6px 12px;
+    vertical-align: top;
+    
+    &--checkbox {
+        padding: 6px 12px;
+        width: 40px;
+        text-align: center;
+    }
+    
+    &--id {
+        padding: 6px 12px;
+        width: 80px;
+        font-size: 12px;
+        color: var(--text-secondary, #6e6e73);
+        font-family: monospace;
+    }
+    
+    &--type {
+        padding: 6px 12px;
+        width: 120px;
+        font-size: 12px;
+    }
+    
+    &--time {
+        padding: 6px 12px;
+        width: 140px;
+        font-size: 12px;
+        color: var(--text-secondary, #6e6e73);
+        white-space: nowrap;
+    }
+    
+    &--content {
+        padding: 6px 12px;
+        font-size: 13px;
+        color: var(--text-color, #1d1d1f);
+        min-width: 200px;
+    }
+    
+    &--actions {
+        padding: 6px 12px;
+        width: 80px;
+        text-align: center;
+        white-space: nowrap;
+    }
+}
+
+/* 类型信息样式 */
+.type-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.type-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.type-text {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-color, #1d1d1f);
+}
+
+/* 内容信息样式 */
+.content-info {
+    .content-title {
+        font-weight: 500;
+        color: #262626;
+        margin-bottom: 2px;
+        line-height: 1.2;
+    }
+    
+    .content-meta {
+        display: flex;
+        align-items: center;
+        font-size: 11px;
+        color: #8c8c8c;
+        flex-wrap: wrap;
+        
+        .action-icon {
+            margin-right: 4px;
+        }
+        
+        .action-text {
+            margin-right: 4px;
+        }
+        
+        .author-text {
+            color: #595959;
+            margin-right: 4px;
+        }
+        
+        .content-extra {
+            color: #8c8c8c;
+            font-style: italic;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }
+    }
+}
+
+/* 详情按钮样式 */
+.details-button {
+    background: var(--primary-color, #007aff);
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    color: #ffffff;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 40px;
+    max-width: 60px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    &:hover {
+        background: var(--primary-hover, #0056cc);
+        transform: translateY(-1px);
+    }
+    
+    &:active {
+        transform: translateY(0);
+        background: var(--primary-active, #004499);
+    }
+}
+
+/* 复选框样式 */
+.event-checkbox {
+    cursor: pointer;
+    accent-color: var(--primary-color, #007aff);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .event-table-cell {
+        padding: 8px;
+        font-size: 12px;
+        
+        &--checkbox {
+            width: 30px;
+            padding: 8px 4px;
+        }
+    }
+    
+    .action-icon {
+        font-size: 14px;
+    }
+    
+    .target-title {
+        font-size: 13px;
+    }
+    
+    .target-type-info {
+        font-size: 11px;
+    }
+    
+    .details-button {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+}
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+    .event-table-row {
+        border-bottom-color: var(--border-dark, #2c2c2e);
+        
+        &:hover {
+            background-color: var(--hover-bg-dark, #1c1c1e);
+        }
+    }
+    
+    /* 内容信息深色模式适配 */
+    .content-info {
+        .content-title {
+            color: var(--text-color-dark, #ffffff);
+        }
+        
+        .content-meta {
+            color: var(--text-muted-dark, #8e8e93);
+            
+            .author-text {
+                color: var(--text-secondary-dark, #aeaeb2);
+            }
+            
+            .content-extra {
+                color: var(--text-muted-dark, #8e8e93);
+            }
+        }
+    }
+    
+    /* 类型信息深色模式适配 */
+    .type-info {
+        .type-text {
+            color: var(--text-color-dark, #ffffff);
+        }
+    }
+    
+    /* 表格单元格文字颜色适配 */
+    .event-table-cell {
+        color: var(--text-color-dark, #ffffff);
+        
+        &--id {
+            color: var(--text-muted-dark, #8e8e93);
+        }
+    }
+    
+    .details-button {
+        background: var(--button-bg-dark, #2c2c2e);
+        color: var(--text-color-dark, #ffffff);
+        
+        &:hover {
+            background: var(--button-hover-bg-dark, #3a3a3c);
+        }
+    }
+}

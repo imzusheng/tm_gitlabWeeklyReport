@@ -32,12 +32,12 @@ const API = {
                 console.log(`⏱️ 响应时间: ${duration}ms`);
                 console.log('📥 响应头:', response.responseHeaders);
                 console.log('📄 响应数据:', response.responseText.substring(0, 500) + (response.responseText.length > 500 ? '...(截断)' : ''));
-                
                 try {
                     const data = JSON.parse(response.responseText);
                     console.log(`🔍 解析结果: JSON对象，包含 ${Object.keys(data).length} 个字段`);
                     console.groupEnd();
                     console.log(''); // 添加空行分隔
+                    console.log(data)
                     resolve(data);
                 } catch (e) {
                     console.log('🔍 解析结果: 纯文本响应');
