@@ -77,7 +77,12 @@ const UIManager = {
                 ['--button-bg', colors.buttonBg],
                 ['--hover-bg', colors.hoverBg],
                 ['--shadow', colors.shadow],
-                ['--shadow-large', colors.shadowLarge]
+                ['--shadow-large', colors.shadowLarge],
+                // 滚动条主题变量
+                ['--scrollbar-track-bg', colors.scrollbarTrack],
+                ['--scrollbar-thumb-bg', colors.scrollbarThumb],
+                ['--scrollbar-thumb-hover-bg', colors.scrollbarThumbHover],
+                ['--scrollbar-thumb-active-bg', colors.scrollbarThumbActive]
             ];
 
             styleUpdates.forEach(([property, value]) => {
@@ -410,8 +415,8 @@ const UIManager = {
     // 性能优化：优化余额显示更新
     updateBalanceDisplay: () => {
         // 使用缓存查询减少DOM操作
-        const balanceElement = UIManager.getCachedElement('#balanceInfo');
-        const tokenElement = UIManager.getCachedElement('#tokenUsage');
+        const balanceElement = UIManager.getCachedElement('#balance-info');
+        const tokenElement = UIManager.getCachedElement('#token-usage');
 
         // 批量更新DOM
         requestAnimationFrame(() => {
@@ -465,9 +470,6 @@ const UIManager = {
         
         // 创建AI面板
         const aiPanelElement = createElement(AIPanel, {
-            onOpenSettings: () => {
-                UIManager.toggleSettingsPanel();
-            },
             onGenerateReport: () => {
                 // 这里会在DataManager中处理
                 if (window.DataManager && window.DataManager.onGenerateReport) {
@@ -503,6 +505,9 @@ const UIManager = {
                 if (window.DataManager && window.DataManager.handleSelectAll) {
                     window.DataManager.handleSelectAll();
                 }
+            },
+            onOpenSettings: () => {
+                UIManager.toggleSettingsPanel();
             },
             startDate: thisWeekStart,
             endDate: thisWeekEnd,
@@ -551,14 +556,7 @@ const UIManager = {
 
     // 事件绑定
     bindPanelEvents: () => {
-        // 注意：closePanel 的点击事件已经通过 JSX onClick 属性绑定，无需重复绑定
-        
-        const openSettings = document.getElementById('openSettings');
-        if (openSettings) {
-            openSettings.addEventListener('click', () => {
-                UIManager.toggleSettingsPanel();
-            });
-        }
+        // 注意：closePanel 和 openSettings 的点击事件已经通过 JSX onClick 属性绑定，无需重复绑定
 
         const startDate = document.getElementById('startDate');
         const endDate = document.getElementById('endDate');
@@ -568,66 +566,12 @@ const UIManager = {
         // 绑定表格排序事件
         UIManager.bindTableSortEvents();
 
-        // 绑定日期快捷按钮
-        const thisWeek = document.getElementById('thisWeek');
-        const lastWeek = document.getElementById('lastWeek');
-        const thisMonth = document.getElementById('thisMonth');
-        const lastMonth = document.getElementById('lastMonth');
+        // 注意：以下按钮的点击事件已经通过 JSX onClick 属性绑定，无需重复绑定：
+        // - thisWeek, lastWeek, thisMonth, lastMonth (data-panel.jsx)
+        // - generateReport, exportData, copyReport (ai-panel.jsx)
+        // - refreshEvents, openSettings, clearFilters, closePanel (data-panel.jsx)
         
-        if (thisWeek) {
-            thisWeek.addEventListener('click', () => {
-                const [start, end] = Utils.getThisWeekRange();
-                UIManager.setDateRangeAndRefresh(start, end);
-            });
-        }
-        if (lastWeek) {
-            lastWeek.addEventListener('click', () => {
-                const [start, end] = Utils.getLastWeekRange();
-                UIManager.setDateRangeAndRefresh(start, end);
-            });
-        }
-        if (thisMonth) {
-            thisMonth.addEventListener('click', () => {
-                const [start, end] = Utils.getThisMonthRange();
-                UIManager.setDateRangeAndRefresh(start, end);
-            });
-        }
-        if (lastMonth) {
-            lastMonth.addEventListener('click', () => {
-                const [start, end] = Utils.getLastMonthRange();
-                UIManager.setDateRangeAndRefresh(start, end);
-            });
-        }
-
-        // 绑定其他按钮事件
-        // 注意：refreshEvents 的点击事件已经通过 JSX onClick 属性绑定，无需重复绑定
-
-        const generateReport = document.getElementById('generateReport');
-        if (generateReport) {
-            generateReport.addEventListener('click', () => {
-                if (window.DataManager && window.DataManager.onGenerateReport) {
-                    window.DataManager.onGenerateReport();
-                }
-            });
-        }
-
-        const exportData = document.getElementById('exportData');
-        if (exportData) {
-            exportData.addEventListener('click', () => {
-                if (window.DataManager && window.DataManager.exportData) {
-                    window.DataManager.exportData();
-                }
-            });
-        }
-
-        const copyReport = document.getElementById('copyReport');
-        if (copyReport) {
-            copyReport.addEventListener('click', () => {
-                if (window.DataManager && window.DataManager.copyReport) {
-                    window.DataManager.copyReport();
-                }
-            });
-        }
+        console.log('bindPanelEvents: 跳过重复事件绑定，所有按钮事件已通过JSX绑定');
 
         // 注意：selectAll 的点击事件已经通过 JSX onClick 属性绑定，无需重复绑定
 
@@ -724,9 +668,8 @@ const UIManager = {
         try {
             const startDateElement = document.getElementById('startDate');
             const endDateElement = document.getElementById('endDate');
-            const dateRangeElement = document.getElementById('dateRange');
             
-            if (!startDateElement || !endDateElement || !dateRangeElement) {
+            if (!startDateElement || !endDateElement) {
                 console.error('日期相关元素未找到');
                 return;
             }
@@ -734,10 +677,6 @@ const UIManager = {
             // 更新UIManager对象中的日期值
             UIManager.currentStartDate = startDateElement.value;
             UIManager.currentEndDate = endDateElement.value;
-            
-            // 更新显示文本
-            const dateRangeText = `${UIManager.currentStartDate} 至 ${UIManager.currentEndDate}`;
-            dateRangeElement.textContent = dateRangeText;
         } catch (error) {
             console.error('更新日期范围显示失败:', error);
         }
@@ -812,16 +751,22 @@ const UIManager = {
 
     // 设置面板
     createSettingsPanel: () => {
+        // 防止重复创建设置面板
+        if (UIManager.settingsPanel) {
+            console.log('设置面板已存在，跳过重复创建');
+            return;
+        }
+        
         // 创建设置面板组件
         const settingsPanelElement = createElement(SettingsPanel, {
             onClose: () => {
                 UIManager.settingsPanel.style.display = 'none';
             },
-            onSave: () => {
-                UIManager.saveSettings();
+            onSave: async () => {
+                await UIManager.saveSettings();
             },
-            onReset: () => {
-                UIManager.resetSettings();
+            onReset: async () => {
+                await UIManager.resetSettings();
             },
             userBalance: UIManager.userBalance,
             tokenUsage: UIManager.lastTokenUsage
@@ -835,9 +780,20 @@ const UIManager = {
 
         // 绑定设置面板事件
         UIManager.bindSettingsEvents();
+        
+        // 延迟更新表单值，确保DOM元素已完全渲染
+        setTimeout(async () => {
+            await UIManager.updateSettingsFormValues();
+        }, 100);
     },
 
     bindSettingsEvents: () => {
+        // 防止重复绑定事件
+        if (UIManager.settingsEventsbound) {
+            console.log('设置面板事件已绑定，跳过重复绑定');
+            return;
+        }
+        
         const closeSettingsPanel = document.getElementById('closeSettingsPanel');
         if (closeSettingsPanel) {
             closeSettingsPanel.addEventListener('click', () => {
@@ -845,21 +801,33 @@ const UIManager = {
             });
         }
 
-        const saveSettings = document.getElementById('saveSettings');
+        const saveSettings = document.getElementById('save-settings');
         if (saveSettings) {
-            saveSettings.addEventListener('click', () => {
-                UIManager.saveSettings();
+            saveSettings.addEventListener('click', async () => {
+                // 防止重复点击
+                saveSettings.disabled = true;
+                try {
+                    await UIManager.saveSettings();
+                } finally {
+                    saveSettings.disabled = false;
+                }
             });
         }
 
-        const resetSettings = document.getElementById('resetSettings');
+        const resetSettings = document.getElementById('reset-settings');
         if (resetSettings) {
-            resetSettings.addEventListener('click', () => {
-                UIManager.resetSettings();
+            resetSettings.addEventListener('click', async () => {
+                // 防止重复点击
+                resetSettings.disabled = true;
+                try {
+                    await UIManager.resetSettings();
+                } finally {
+                    resetSettings.disabled = false;
+                }
             });
         }
 
-        const maxTokens = document.getElementById('maxTokens');
+        const maxTokens = document.getElementById('max-tokens');
         if (maxTokens) {
             Utils.validateTokenInput(maxTokens, UIManager.showNotification);
         }
@@ -870,60 +838,164 @@ const UIManager = {
                 UIManager.updateTheme();
             });
         }
+        
+        // 标记事件已绑定，防止重复绑定
+        UIManager.settingsEventsbound = true;
+        console.log('设置面板事件绑定完成');
     },
 
     toggleSettingsPanel: () => {
         if (!UIManager.settingsPanel) {
             UIManager.createSettingsPanel();
         }
+        console.log('设置面板元素:', UIManager.settingsPanel);
+        console.log('当前display状态:', UIManager.settingsPanel.style.display);
         
-        if (UIManager.settingsPanel.style.display === 'none') {
+        // 修复初始状态判断：空字符串或'none'都视为隐藏状态
+        const isHidden = UIManager.settingsPanel.style.display === 'none' || 
+                        UIManager.settingsPanel.style.display === '';
+        
+        if (isHidden) {
             UIManager.settingsPanel.style.display = 'block';
             UIManager.fetchAndShowBalance();
+            
+            // 延迟更新表单值，确保DOM元素已渲染
+            setTimeout(async () => {
+                await UIManager.updateSettingsFormValues();
+            }, 100);
+            
+            console.log('设置面板已显示');
         } else {
             UIManager.settingsPanel.style.display = 'none';
+            console.log('设置面板已隐藏');
         }
     },
 
-    saveSettings: () => {
-        const config = {
-            THEME_MODE: document.getElementById('themeMode').value,
-            GITLAB_URL: document.getElementById('gitlabUrl').value.trim(),
-            ACCESS_TOKEN: document.getElementById('accessToken').value.trim(),
-            DEEPSEEK_BASE_URL: document.getElementById('deepseekUrl').value.trim(),
-            DEEPSEEK_API_KEY: document.getElementById('deepseekKey').value.trim(),
-            DEEPSEEK_MODEL: document.getElementById('deepseekModel').value,
-            MAX_TOKENS: parseInt(document.getElementById('maxTokens').value, 10)
-        };
-
-        CONFIG.save(config);
-        UIManager.updateTheme();
-        UIManager.showNotification('设置已保存', 'success');
-        
-        // 更新按钮状态
-        if (window.DataManager && window.DataManager.updateButtons) {
-            window.DataManager.updateButtons();
+    /**
+     * 保存设置配置
+     * 异步保存配置信息，支持不同环境下的存储方式
+     */
+    saveSettings: async () => {
+        try {
+            // 移除"正在保存设置..."通知，避免过多无用提示
+            
+            // 收集表单数据
+            const config = {
+                THEME_MODE: document.getElementById('theme-mode').value,
+                GITLAB_URL: document.getElementById('gitlab-url').value.trim(),
+                ACCESS_TOKEN: document.getElementById('access-token').value.trim(),
+                DEEPSEEK_BASE_URL: document.getElementById('deepseek-url').value.trim(),
+                DEEPSEEK_API_KEY: document.getElementById('deepseek-key').value.trim(),
+                DEEPSEEK_MODEL: document.getElementById('deepseek-model').value,
+                MAX_TOKENS: parseInt(document.getElementById('max-tokens').value, 10)
+            };
+            
+            // 验证配置数据
+            if (!config.GITLAB_URL) {
+                throw new Error('GitLab URL 不能为空');
+            }
+            
+            if (config.MAX_TOKENS < 100 || config.MAX_TOKENS > 2000) {
+                throw new Error('最大Token数必须在100-2000之间');
+            }
+            
+            console.log('💾 准备保存配置:', config);
+            
+            // 异步保存配置
+            await CONFIG.save(config);
+            
+            // 更新主题
+            UIManager.updateTheme();
+            
+            // 显示成功提示
+            UIManager.showNotification('设置已保存', 'success');
+            
+            // 更新表单显示值，确保界面反映最新配置
+            await UIManager.updateSettingsFormValues();
+            
+            // 更新按钮状态
+            if (window.DataManager && window.DataManager.updateButtons) {
+                window.DataManager.updateButtons();
+            }
+            
+            console.log('✅ 设置保存完成');
+            
+        } catch (error) {
+            console.error('❌ 设置保存失败:', error);
+            UIManager.showNotification(`设置保存失败: ${error.message}`, 'error');
         }
     },
 
-    resetSettings: () => {
-        CONFIG.reset();
-        const config = CONFIG.get();
-        
-        document.getElementById('themeMode').value = config.THEME_MODE;
-        document.getElementById('gitlabUrl').value = config.GITLAB_URL;
-        document.getElementById('accessToken').value = config.ACCESS_TOKEN;
-        document.getElementById('deepseekUrl').value = config.DEEPSEEK_BASE_URL;
-        document.getElementById('deepseekKey').value = config.DEEPSEEK_API_KEY;
-        document.getElementById('deepseekModel').value = config.DEEPSEEK_MODEL;
-        document.getElementById('maxTokens').value = config.MAX_TOKENS;
-        
-        UIManager.updateTheme();
-        UIManager.showNotification('设置已重置', 'info');
-        
-        // 更新按钮状态
-        if (window.DataManager && window.DataManager.updateButtons) {
-            window.DataManager.updateButtons();
+    /**
+     * 重置设置配置
+     * 异步重置配置信息，恢复到默认设置
+     */
+    /**
+     * 更新设置面板的表单字段值
+     * 确保显示当前保存的配置数据
+     */
+    updateSettingsFormValues: async () => {
+        try {
+            // 获取当前配置
+            const config = await CONFIG.get();
+            
+            // 更新所有表单字段的值
+            const themeMode = document.getElementById('theme-mode');
+            const gitlabUrl = document.getElementById('gitlab-url');
+            const accessToken = document.getElementById('access-token');
+            const deepseekUrl = document.getElementById('deepseek-url');
+            const deepseekKey = document.getElementById('deepseek-key');
+            const deepseekModel = document.getElementById('deepseek-model');
+            const maxTokens = document.getElementById('max-tokens');
+            
+            if (themeMode) themeMode.value = config.THEME_MODE || 'system';
+            if (gitlabUrl) gitlabUrl.value = config.GITLAB_URL || '';
+            if (accessToken) accessToken.value = config.ACCESS_TOKEN || '';
+            if (deepseekUrl) deepseekUrl.value = config.DEEPSEEK_BASE_URL || 'https://api.deepseek.com';
+            if (deepseekKey) deepseekKey.value = config.DEEPSEEK_API_KEY || '';
+            if (deepseekModel) deepseekModel.value = config.DEEPSEEK_MODEL || 'deepseek-chat';
+            if (maxTokens) maxTokens.value = config.MAX_TOKENS || 500;
+            
+            console.log('✅ 设置面板表单值已更新');
+        } catch (error) {
+            console.error('❌ 更新设置面板表单值失败:', error);
+        }
+    },
+
+    resetSettings: async () => {
+        try {
+            // 移除"正在重置设置..."通知，避免过多无用提示
+            
+            console.log('🗑️ 准备重置配置');
+            
+            // 异步重置配置
+            const defaultConfig = await CONFIG.reset();
+            
+            // 更新表单字段为默认值
+            document.getElementById('theme-mode').value = defaultConfig.THEME_MODE;
+            document.getElementById('gitlab-url').value = defaultConfig.GITLAB_URL;
+            document.getElementById('access-token').value = defaultConfig.ACCESS_TOKEN;
+            document.getElementById('deepseek-url').value = defaultConfig.DEEPSEEK_BASE_URL;
+            document.getElementById('deepseek-key').value = defaultConfig.DEEPSEEK_API_KEY;
+            document.getElementById('deepseek-model').value = defaultConfig.DEEPSEEK_MODEL;
+            document.getElementById('max-tokens').value = defaultConfig.MAX_TOKENS;
+            
+            // 更新主题
+            UIManager.updateTheme();
+            
+            // 显示成功提示
+            UIManager.showNotification('设置已重置', 'info');
+            
+            // 更新按钮状态
+            if (window.DataManager && window.DataManager.updateButtons) {
+                window.DataManager.updateButtons();
+            }
+            
+            console.log('✅ 设置重置完成');
+            
+        } catch (error) {
+            console.error('❌ 设置重置失败:', error);
+            UIManager.showNotification(`设置重置失败: ${error.message}`, 'error');
         }
     },
 
@@ -938,7 +1010,7 @@ const UIManager = {
                 return;
             }
 
-            UIManager.showNotification('正在加载数据...', 'info');
+            // 移除"正在加载数据..."通知，避免过多无用提示
             
             // 构建时间范围
             const startDate = `${UIManager.currentStartDate}T00:00:00.000Z`;

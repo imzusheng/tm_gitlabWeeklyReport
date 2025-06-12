@@ -1,5 +1,17 @@
+/**
+ * API 请求模块
+ * 处理所有的网络请求，支持油猴插件和Web网页两种模式
+ */
+
+import environmentAdapter from './utils/environment-adapter.js';
+
 const API = {
-    makeRequest: (url, options = {}) => new Promise((resolve, reject) => {
+    makeRequest: (url, options = {}) => {
+        return environmentAdapter.makeRequest(url, options);
+    },
+
+    // 兼容性方法，保持向后兼容
+    _legacyRequest: (url, options = {}) => new Promise((resolve, reject) => {
         // 请求开始时的调试信息
         const requestId = Date.now() + Math.random().toString(36).substr(2, 9);
         const method = options.method || 'GET';
@@ -18,46 +30,92 @@ const API = {
         
         const startTime = Date.now();
         
-        GM_xmlhttpRequest({
-            method,
-            url,
-            headers,
-            data: options.data,
-            onload: (response) => {
-                const endTime = Date.now();
-                const duration = endTime - startTime;
-                
-                console.group('✅ [API响应] ${requestId}');
-                console.log(`📊 状态码: ${response.status}`);
-                console.log(`⏱️ 响应时间: ${duration}ms`);
-                console.log('📥 响应头:', response.responseHeaders);
-                console.log('📄 响应数据:', response.responseText.substring(0, 500) + (response.responseText.length > 500 ? '...(截断)' : ''));
-                try {
-                    const data = JSON.parse(response.responseText);
-                    console.log(`🔍 解析结果: JSON对象，包含 ${Object.keys(data).length} 个字段`);
+        // 检查是否在油猴环境
+        if (typeof GM_xmlhttpRequest !== 'undefined') {
+            GM_xmlhttpRequest({
+                method,
+                url,
+                headers,
+                data: options.data,
+                onload: (response) => {
+                    const endTime = Date.now();
+                    const duration = endTime - startTime;
+                    
+                    console.group('✅ [API响应] ${requestId}');
+                    console.log(`📊 状态码: ${response.status}`);
+                    console.log(`⏱️ 响应时间: ${duration}ms`);
+                    console.log('📥 响应头:', response.responseHeaders);
+                    console.log('📄 响应数据:', response.responseText.substring(0, 500) + (response.responseText.length > 500 ? '...(截断)' : ''));
+                    try {
+                        const data = JSON.parse(response.responseText);
+                        console.log(`🔍 解析结果: JSON对象，包含 ${Object.keys(data).length} 个字段`);
+                        console.groupEnd();
+                        console.log(''); // 添加空行分隔
+                        console.log(data);
+                        resolve(data);
+                    } catch (e) {
+                        console.log('🔍 解析结果: 纯文本响应');
+                        console.groupEnd();
+                        console.log(''); // 添加空行分隔
+                        resolve(response.responseText);
+                    }
+                },
+                onerror: (error) => {
+                    const endTime = Date.now();
+                    const duration = endTime - startTime;
+                    
+                    console.group(`❌ [API错误] ${requestId}`);
+                    console.error(`⏱️ 错误时间: ${duration}ms`);
+                    console.error('🚨 错误信息:', error);
                     console.groupEnd();
                     console.log(''); // 添加空行分隔
-                    console.log(data)
-                    resolve(data);
-                } catch (e) {
-                    console.log('🔍 解析结果: 纯文本响应');
-                    console.groupEnd();
-                    console.log(''); // 添加空行分隔
-                    resolve(response.responseText);
+                    reject(error);
                 }
-            },
-            onerror: (error) => {
-                const endTime = Date.now();
-                const duration = endTime - startTime;
+            });
+        } else {
+            // 使用 fetch API 作为后备
+            fetch(url, {
+                method,
+                headers,
+                body: options.data
+            })
+                .then(response => {
+                    const endTime = Date.now();
+                    const duration = endTime - startTime;
                 
-                console.group(`❌ [API错误] ${requestId}`);
-                console.error(`⏱️ 错误时间: ${duration}ms`);
-                console.error('🚨 错误信息:', error);
-                console.groupEnd();
-                console.log(''); // 添加空行分隔
-                reject(error);
-            }
-        });
+                    console.group('✅ [API响应] ${requestId}');
+                    console.log(`📊 状态码: ${response.status}`);
+                    console.log(`⏱️ 响应时间: ${duration}ms`);
+                
+                    return response.text().then(text => {
+                        console.log('📄 响应数据:', text.substring(0, 500) + (text.length > 500 ? '...(截断)' : ''));
+                        try {
+                            const data = JSON.parse(text);
+                            console.log(`🔍 解析结果: JSON对象，包含 ${Object.keys(data).length} 个字段`);
+                            console.groupEnd();
+                            console.log(''); // 添加空行分隔
+                            console.log(data);
+                            resolve(data);
+                        } catch (e) {
+                            console.log('🔍 解析结果: 纯文本响应');
+                            console.groupEnd();
+                            console.log(''); // 添加空行分隔
+                            resolve(text);
+                        }
+                    });
+                })
+                .catch(error => {
+                    const endTime = Date.now();
+                    const duration = endTime - startTime;
+                
+                    console.group(`❌ [API错误] ${requestId}`);
+                    console.error(`⏱️ 错误时间: ${duration}ms`);
+                    console.error('🚨 错误信息:', error);
+                    console.groupEnd();
+                    console.log(''); // 添加空行分隔
+                    reject(error);
+                });
+        }
     }),
 
     getEvents: async (startDate, endDate, config, targetType = '') => {
@@ -173,6 +231,102 @@ const API = {
             console.error('获取模型列表失败:', error);
             return [{ id: 'deepseek-chat' }, { id: 'deepseek-reasoner' }];
         }
+    },
+
+    /**
+     * 获取事件详情
+     * @param {Object} event - 基础事件数据
+     * @param {Object} config - 配置信息
+     * @returns {Promise<Object>} 详细事件数据
+     */
+    getEventDetail: async (event, config) => {
+        if (!event.project_id || !event.target_id || !event.target_type) {
+            return event; // 返回原始数据
+        }
+
+        try {
+            let detailUrl = '';
+            const baseUrl = `${config.GITLAB_URL}/projects/${event.project_id}`;
+            
+            // 根据不同的target_type构建API URL
+            switch (event.target_type) {
+                case 'Issue':
+                    detailUrl = `${baseUrl}/issues/${event.target_iid || event.target_id}`;
+                    break;
+                case 'MergeRequest':
+                    detailUrl = `${baseUrl}/merge_requests/${event.target_iid || event.target_id}`;
+                    break;
+                case 'Milestone':
+                    detailUrl = `${baseUrl}/milestones/${event.target_id}`;
+                    break;
+                case 'WikiPage':
+                    // Wiki页面需要特殊处理，获取所有wiki页面然后筛选
+                    detailUrl = `${baseUrl}/wikis`;
+                    break;
+                case 'Snippet':
+                    detailUrl = `${baseUrl}/snippets/${event.target_id}`;
+                    break;
+                default:
+                    return event; // 不支持的类型，返回原始数据
+            }
+
+            // 添加访问令牌
+            const url = `${detailUrl}?access_token=${config.ACCESS_TOKEN}`;
+            
+            // 获取详细信息
+            const detailData = await API.makeRequest(url);
+            
+            // 对于Wiki页面，需要特殊处理
+            if (event.target_type === 'WikiPage' && Array.isArray(detailData)) {
+                const wikiPage = detailData.find(page => 
+                    page.title === event.target_title || 
+                    page.slug === event.target_title
+                );
+                return {
+                    ...event,
+                    detail: wikiPage || null
+                };
+            }
+            
+            // 合并详细信息到原始事件数据
+            return {
+                ...event,
+                detail: detailData
+            };
+        } catch (error) {
+            console.warn(`获取事件详情失败 (ID: ${event.id}, Type: ${event.target_type}):`, error);
+            return event; // 失败时返回原始数据
+        }
+    },
+
+    /**
+     * 批量获取事件详情
+     * @param {Array} events - 事件数组
+     * @param {Object} config - 配置信息
+     * @param {number} concurrency - 并发数量，默认为3
+     * @returns {Promise<Array>} 包含详细信息的事件数组
+     */
+    getEventsDetail: async (events, config, concurrency = 3) => {
+        if (!Array.isArray(events) || events.length === 0) {
+            return events;
+        }
+
+        const results = [];
+        const chunks = [];
+        
+        // 将事件分组以控制并发
+        for (let i = 0; i < events.length; i += concurrency) {
+            chunks.push(events.slice(i, i + concurrency));
+        }
+
+        // 逐批处理
+        for (const chunk of chunks) {
+            const promises = chunk.map(event => API.getEventDetail(event, config));
+            const chunkResults = await Promise.all(promises);
+            results.push(...chunkResults);
+        }
+
+        return results;
     }
 };
 

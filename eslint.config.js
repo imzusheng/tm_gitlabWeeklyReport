@@ -2,14 +2,25 @@ import js from '@eslint/js';
 import globals from 'globals';
 
 export default [
+    {
+        env: {
+            node: true
+        }
+    },
     js.configs.recommended,
     {
         languageOptions: {
             ecmaVersion: 2022,
             sourceType: 'module',
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
             globals: {
                 ...globals.browser,
                 ...globals.es2022,
+                ...globals.node,
                 // Tampermonkey 全局变量
                 GM_setValue: 'readonly',
                 GM_getValue: 'readonly',
@@ -20,13 +31,18 @@ export default [
                 GM_openInTab: 'readonly',
                 GM_setClipboard: 'readonly',
                 GM_info: 'readonly',
-                unsafeWindow: 'readonly'
+                unsafeWindow: 'readonly',
+                // 构建时环境变量
+                process: 'readonly'
             }
         },
-        files: ['src/**/*.js'],
+        files: ['src/**/*.{js,jsx}'],
         rules: {
             // 基础规则
-            'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+            'no-unused-vars': ['warn', { 
+                argsIgnorePattern: '^_',
+                varsIgnorePattern: '^(createElement|Fragment)$'
+            }],
             'no-console': 'off',
             'no-debugger': 'warn',
             

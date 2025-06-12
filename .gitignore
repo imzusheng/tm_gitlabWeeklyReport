@@ -44,3 +44,4 @@ coverage/
 
 # 锁文件（保留package-lock.json）
 # yarn.lock
+.yarn

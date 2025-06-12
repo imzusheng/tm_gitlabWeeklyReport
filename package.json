@@ -4,13 +4,18 @@
   "description": "GitLab 周报生成器 - 使用 DeepSeek AI 的现代化 Tampermonkey 脚本",
   "main": "src/index.js",
   "type": "module",
+  "packageManager": "yarn@4.1.1",
   "scripts": {
     "dev": "node scripts/check-port.js",
-    "dev:force": "rollup -c -w --environment NODE_ENV:development",
-    "build": "npm run lint:fix && rollup -c",
-    "build:release": "npm run release",
-    "lint:check": "eslint src/**/*.js",
-    "lint:fix": "eslint --fix src/**/*.js"
+    "dev:web": "rollup -c rollup.config.web.js -w --environment NODE_ENV:development",
+    "dev:userscript": "rollup -c rollup.config.js -w --environment NODE_ENV:development",
+    "build": "npm run lint:fix && node scripts/detect-duplicate-bindings.cjs && npm run build:userscript && npm run build:web",
+    "build:userscript": "rollup -c rollup.config.js --environment NODE_ENV:production",
+    "build:web": "rollup -c rollup.config.web.js --environment NODE_ENV:production",
+    "lint:check": "eslint 'src/**/*.{js,jsx}'",
+    "lint:fix": "eslint --fix 'src/**/*.{js,jsx}'",
+    "stylelint:check": "stylelint 'src/**/*.less'",
+    "stylelint:fix": "stylelint 'src/**/*.less' --fix"
   },
   "husky": {
     "hooks": {
@@ -23,7 +28,7 @@
   "devDependencies": {
     "@babel/core": "^7.27.4",
     "@babel/preset-react": "^7.27.1",
-    "@eslint/js": "^8.56.0",
+    "@eslint/js": "^9.28.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -32,8 +37,9 @@
     "@rollup/plugin-typescript": "^11.1.5",
     "conventional-changelog-cli": "^4.1.0",
     "cross-env": "^7.0.3",
-    "eslint": "^8.56.0",
+    "eslint": "^9.28.0",
     "eslint-plugin-prettier": "^5.4.1",
+    "glob": "^10.3.10",
     "globals": "^16.2.0",
     "husky": "^8.0.3",
     "less": "^4.3.0",
@@ -42,12 +48,18 @@
     "rollup": "^4.9.6",
     "rollup-plugin-banner2": "^1.2.2",
     "rollup-plugin-delete": "^2.0.0",
+    "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-serve": "^1.1.1",
-    "standard-version": "^9.5.0"
+    "standard-version": "^9.5.0",
+    "stylelint": "^16.20.0",
+    "stylelint-config-prettier": "^9.0.5",
+    "stylelint-config-recess-order": "^6.0.0",
+    "stylelint-config-standard": "^38.0.0",
+    "stylelint-order": "^7.0.0"
   },
   "engines": {
-    "node": ">=16.0.0",
+    "node": ">=18.18.0",
     "npm": ">=8.0.0"
   },
   "repository": {
@@ -63,6 +75,11 @@
     "userscript"
   ],
   "dependencies": {
+    "postcss-less": "^6.0.0",
     "typescript": "^5.8.3"
+  },
+  "volta": {
+    "node": "22.15.1",
+    "yarn": "4.1.1"
   }
 }

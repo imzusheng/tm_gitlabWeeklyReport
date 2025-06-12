@@ -308,7 +308,7 @@ export class NotificationManager {
         }
         
         // 重新排列通知
-         this._updateNotificationPositions();
+        this._updateNotificationPositions();
     }
 }
 

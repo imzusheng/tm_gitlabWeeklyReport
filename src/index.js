@@ -1,24 +1,32 @@
 /**
- * GitLab Weekly Report - 主入口文件
- * 整合了原来的 ui.js, index.js, ui-panels.js 的功能
- * 提供统一的初始化和管理接口
+ * GitLab Weekly Report 统一入口文件
+ * 自动检测环境并选择合适的初始化方式
  */
 
 import CONFIG from './config.js';
-import Utils from './utils/utils.js';
 import UIManager from './core/ui-manager.js';
 import DataManager from './core/data-manager.js';
+import environmentAdapter from './utils/environment-adapter.js';
+// 导入全局滚动条样式
+import './components/global-scrollbar.less';
 
-// 主应用类
+/**
+ * GitLab Weekly Report 主应用类
+ * 支持油猴脚本模式和Web开发模式
+ */
 class GitLabWeeklyReport {
     constructor() {
         this.initialized = false;
         this.config = null;
         this.retryCount = 0;
         this.maxRetries = 3;
+        this.mode = environmentAdapter.getMode();
     }
 
-    // 初始化应用
+    /**
+     * 初始化应用
+     * 根据环境模式选择不同的初始化策略
+     */
     async init() {
         try {
             if (this.initialized) {
@@ -26,10 +34,10 @@ class GitLabWeeklyReport {
                 return;
             }
 
-            console.log('正在初始化 GitLab Weekly Report...');
+            console.log(`正在初始化 GitLab Weekly Report (${this.mode.toUpperCase()} 模式)...`);
 
             // 检查运行环境
-            if (!this.checkEnvironment()) {
+            if (!(await this.checkEnvironment())) {
                 console.error('运行环境检查失败');
                 return;
             }
@@ -38,33 +46,15 @@ class GitLabWeeklyReport {
             this.config = CONFIG.get();
             console.log('配置加载完成');
 
-            // 初始化主题
-            UIManager.updateTheme();
-            console.log('主题初始化完成');
-
-            // 创建主按钮
-            UIManager.createButton();
-            console.log('主按钮创建完成');
-
-            // 创建遮罩层
-            UIManager.createMaskLayer();
-            console.log('遮罩层创建完成');
-
-            // 初始化数据管理器
-            DataManager.init();
-            console.log('数据管理器初始化完成');
-
-            // 绑定全局事件
-            this.bindGlobalEvents();
-            console.log('全局事件绑定完成');
+            // 根据模式选择初始化策略
+            if (this.mode === 'userscript') {
+                await this.initUserScriptMode();
+            } else {
+                await this.initWebMode();
+            }
 
             this.initialized = true;
-            console.log('GitLab Weekly Report 初始化完成');
-
-            // 显示初始化成功通知
-            setTimeout(() => {
-                UIManager.showNotification('GitLab 周报插件已就绪', 'success');
-            }, 1000);
+            console.log(`GitLab Weekly Report 初始化完成 (${this.mode.toUpperCase()} 模式)`);
 
         } catch (error) {
             console.error('初始化失败:', error);
@@ -72,48 +62,122 @@ class GitLabWeeklyReport {
         }
     }
 
-    // 检查运行环境
-    checkEnvironment() {
-        try {
-            // 检查是否在浏览器环境中
-            if (typeof window === 'undefined' || typeof document === 'undefined') {
-                console.error('必须在浏览器环境中运行');
-                return false;
-            }
+    /**
+     * 油猴脚本模式初始化
+     * 创建按钮和面板，等待用户触发
+     */
+    async initUserScriptMode() {
+        console.log('🔧 初始化油猴脚本模式...');
 
-            // 检查必要的API支持
-            const requiredAPIs = [
-                'fetch',
-                'localStorage',
-                'JSON',
-                'Promise',
-                'requestAnimationFrame'
-            ];
+        // 初始化主题
+        UIManager.updateTheme();
+        console.log('主题初始化完成');
 
-            for (const api of requiredAPIs) {
-                if (typeof window[api] === 'undefined') {
-                    console.error(`浏览器不支持 ${api} API`);
-                    return false;
-                }
-            }
+        // 创建主按钮
+        UIManager.createButton();
+        console.log('主按钮创建完成');
 
-            // 检查是否在GitLab页面
-            const isGitLabPage = window.location.hostname.includes('gitlab') || 
-                                document.querySelector('[data-page="projects:activity"]') ||
-                                document.querySelector('.navbar-gitlab');
+        // 创建遮罩层
+        UIManager.createMaskLayer();
+        console.log('遮罩层创建完成');
 
-            if (!isGitLabPage) {
-                console.warn('当前页面可能不是GitLab页面，插件功能可能受限');
-            }
+        // 初始化数据管理器
+        DataManager.init();
+        console.log('数据管理器初始化完成');
 
-            return true;
-        } catch (error) {
-            console.error('环境检查失败:', error);
-            return false;
-        }
+        // 绑定全局事件
+        this.bindGlobalEvents();
+        console.log('全局事件绑定完成');
     }
 
-    // 绑定全局事件
+    /**
+     * Web开发模式初始化
+     * 直接显示全屏面板
+     */
+    async initWebMode() {
+        console.log('🌐 初始化Web开发模式...');
+
+        // 初始化数据管理器
+        const dataManager = DataManager;
+        
+        // 初始化UI管理器
+        const uiManager = UIManager;
+        
+        // 将DataManager设置为全局变量，供UIManager使用
+        window.DataManager = dataManager;
+        
+        // 在Web模式下直接显示全屏弹窗
+        uiManager.createPanel();
+        
+        // 设置全屏样式
+        if (uiManager.panel) {
+            uiManager.panel.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: var(--panel-bg, white);
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+                backdrop-filter: blur(20px);
+                z-index: 10001;
+                display: block;
+                overflow: hidden;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                opacity: 1;
+                transform: none;
+                transition: none;
+            `;
+            
+            // 隐藏加载提示
+            const loadingElement = document.getElementById('loading');
+            if (loadingElement) {
+                loadingElement.style.display = 'none';
+            }
+             
+            // 延迟加载事件数据
+            setTimeout(() => {
+                uiManager.loadEvents();
+            }, 200);
+        }
+         
+        // 添加热更新测试标识
+        console.log('🔥 热更新功能已启用 - 修改代码后页面将自动刷新');
+        
+        // 设置全局变量供调试使用
+        window.GitLabWeeklyReport = {
+            dataManager,
+            uiManager,
+            version: '1.3.0'
+        };
+        
+        // 移除加载提示
+        const loadingElement = document.getElementById('loading');
+        if (loadingElement) {
+            loadingElement.style.display = 'none';
+        }
+        
+        // 绑定全局事件（Web模式也需要键盘快捷键等）
+        this.bindGlobalEvents();
+        
+        console.log('Web 模式初始化完成');
+    }
+
+    /**
+     * 检查运行环境
+     * @returns {Promise<boolean>} 环境检查是否通过
+     */
+    async checkEnvironment() {
+        const result = await environmentAdapter.checkEnvironment();
+        return result.success;
+    }
+
+    /**
+     * 绑定全局事件
+     * 包括键盘快捷键、网络状态监听等
+     */
     bindGlobalEvents() {
         try {
             // 监听页面可见性变化
@@ -172,8 +236,11 @@ class GitLabWeeklyReport {
         }
     }
 
-    // 处理初始化错误
-    handleInitError(error) {
+    /**
+     * 处理初始化错误
+     * @param {Error} _error 错误对象
+     */
+    handleInitError(_error) {
         this.retryCount++;
         
         if (this.retryCount <= this.maxRetries) {
@@ -185,34 +252,62 @@ class GitLabWeeklyReport {
             console.error('初始化重试次数已达上限，插件启动失败');
             
             // 显示错误通知
-            const errorNotification = document.createElement('div');
-            errorNotification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: #ff3b30;
-                color: white;
-                padding: 12px 16px;
-                border-radius: 8px;
-                font-size: 14px;
-                z-index: 10000;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                max-width: 300px;
-            `;
-            errorNotification.textContent = 'GitLab 周报插件启动失败，请刷新页面重试';
-            document.body.appendChild(errorNotification);
-            
-            // 5秒后自动移除错误通知
-            setTimeout(() => {
-                if (errorNotification.parentNode) {
-                    errorNotification.parentNode.removeChild(errorNotification);
-                }
-            }, 5000);
+            this.showErrorNotification();
         }
     }
 
-    // 重新初始化
-    reinit() {
+    /**
+     * 显示错误通知
+     */
+    showErrorNotification() {
+        const errorNotification = document.createElement('div');
+        errorNotification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ff3b30;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            max-width: 300px;
+        `;
+        
+        if (this.mode === 'web') {
+            errorNotification.innerHTML = `
+                <div style="color: #dc3545; text-align: center;">
+                    <h3>初始化失败</h3>
+                    <p>GitLab 周报插件启动失败</p>
+                    <button onclick="location.reload()" style="
+                        padding: 8px 16px;
+                        background: #007bff;
+                        color: white;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                    ">重新加载</button>
+                </div>
+            `;
+        } else {
+            errorNotification.textContent = 'GitLab 周报插件启动失败，请刷新页面重试';
+        }
+        
+        document.body.appendChild(errorNotification);
+        
+        // 5秒后自动移除错误通知
+        setTimeout(() => {
+            if (errorNotification.parentNode) {
+                errorNotification.parentNode.removeChild(errorNotification);
+            }
+        }, 5000);
+    }
+
+    /**
+     * 重新初始化
+     */
+    async reinit() {
         try {
             console.log('正在重新初始化...');
             
@@ -224,13 +319,15 @@ class GitLabWeeklyReport {
             this.retryCount = 0;
             
             // 重新初始化
-            this.init();
+            await this.init();
         } catch (error) {
             console.error('重新初始化失败:', error);
         }
     }
 
-    // 清理资源
+    /**
+     * 清理资源
+     */
     cleanup() {
         try {
             console.log('正在清理资源...');
@@ -283,20 +380,28 @@ class GitLabWeeklyReport {
         }
     }
 
-    // 获取应用状态
+    /**
+     * 获取应用状态
+     * @returns {Object} 应用状态信息
+     */
     getStatus() {
         return {
             initialized: this.initialized,
+            mode: this.mode,
             retryCount: this.retryCount,
             config: this.config,
             eventsCount: DataManager.allEvents ? DataManager.allEvents.length : 0,
             filteredEventsCount: DataManager.filteredEvents ? DataManager.filteredEvents.length : 0,
             currentPage: DataManager.currentPage,
-            totalPages: DataManager.totalPages
+            totalPages: DataManager.totalPages,
+            environmentInfo: environmentAdapter.getSummary()
         };
     }
 
-    // 导出数据（用于调试）
+    /**
+     * 导出调试信息
+     * @returns {Object} 调试信息
+     */
     exportDebugInfo() {
         const debugInfo = {
             status: this.getStatus(),
@@ -304,7 +409,8 @@ class GitLabWeeklyReport {
             userAgent: navigator.userAgent,
             url: window.location.href,
             timestamp: new Date().toISOString(),
-            errors: this.errors || []
+            errors: this.errors || [],
+            environment: environmentAdapter.getSummary()
         };
         
         console.log('Debug Info:', debugInfo);
@@ -315,21 +421,30 @@ class GitLabWeeklyReport {
 // 创建全局实例
 const app = new GitLabWeeklyReport();
 
-// 等待DOM加载完成后初始化
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
+/**
+ * 初始化函数
+ * 根据DOM状态决定何时初始化
+ */
+function initializeApp() {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            app.init();
+        });
+    } else {
+        // DOM已经加载完成，直接初始化
         app.init();
-    });
-} else {
-    // DOM已经加载完成，直接初始化
-    app.init();
+    }
 }
+
+// 执行初始化
+initializeApp();
 
 // 将应用实例暴露到全局（用于调试和扩展）
 if (typeof window !== 'undefined') {
     window.GitLabWeeklyReport = app;
     window.UIManager = UIManager;
     window.DataManager = DataManager;
+    window.environmentAdapter = environmentAdapter;
     
     // 为了保持向后兼容性，暴露原有的接口
     // 原 ui.js 的兼容性接口
@@ -357,7 +472,7 @@ if (typeof window !== 'undefined') {
     
     // 原 ui-panels.js 的兼容性接口
     window.UIPanels = {
-        createPanel: (UI, Main) => {
+        createPanel: (_UI, _Main) => {
             return UIManager.createPanel();
         }
     };
@@ -395,11 +510,34 @@ if (typeof window !== 'undefined') {
                 DataManager.filteredEvents = [];
                 DataManager.applyFiltersAndPagination();
             }
+        },
+        env: {
+            mode: () => environmentAdapter.getMode(),
+            info: () => environmentAdapter.getSummary(),
+            check: () => environmentAdapter.checkEnvironment()
         }
     };
     
     console.log('GitLab Weekly Report 控制台命令已注册，使用 window.glwr 访问');
 }
 
-// 导出主应用类（用于模块化使用）
-export default GitLabWeeklyReport;
+// 热更新支持：在开发模式下添加模块热替换逻辑
+if (process.env.NODE_ENV === 'development') {
+    console.log('🔥 开发模式：热更新已启用');
+    
+    // 监听文件变化（通过 livereload 实现）
+    if (typeof window !== 'undefined') {
+        window.addEventListener('beforeunload', () => {
+            console.log('页面即将刷新...');
+        });
+    }
+}
+
+// 导出主应用类和初始化函数（用于模块化使用）
+// export { initializeApp as initWebMode };
+// export { app };
+
+// 兼容性：将初始化函数暴露到全局
+if (typeof window !== 'undefined') {
+    window.initWebMode = initializeApp;
+}

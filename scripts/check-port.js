@@ -96,7 +96,7 @@ async function main() {
     
     if (isPortInUse) {
       console.log(`✅ 端口 ${PORT} 已被占用，开发服务器可能正在运行`);
-      console.log(`📍 预览地址: http://${HOST}:${PORT}/preview.html`);
+      console.log(`📍 预览地址: http://${HOST}:${PORT}/`);
       console.log(`📄 脚本地址: http://${HOST}:${PORT}/dist/gitlab-weekly-report.user.js`);
       console.log('💡 如需重启服务器，请先停止当前进程');
       process.exit(0);

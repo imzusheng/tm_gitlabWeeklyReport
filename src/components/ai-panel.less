@@ -1,190 +1,219 @@
 /* AI面板样式 */
 
-#aiPanel {
-  width: 300px;
+#ai-panel {
+  display: flex;
   flex-shrink: 0;
+  flex-direction: column;
+  width: 300px;
   background: var(--card-bg, #f8f9fa);
   border-right: 1px solid var(--border-light, #f0f0f0);
-  display: flex;
-  flex-direction: column;
   border-radius: var(--radius-xl, 12px) 0 0 var(--radius-xl, 12px);
+  transition: width 0.3s ease;
+  
+  &.collapsed {
+    width: 60px;
+    
+    .ai-content {
+      display: none;
+    }
+    
+    .header .title-row h3 {
+      display: none;
+    }
+    
+    .header .title-row {
+      justify-content: center;
+    }
+    
+    .header {
+      padding: var(--spacing-md, 12px) var(--spacing-sm, 8px);
+    }
+  }
+  
+  .ai-content {
+    display: block;
+    flex: 1;
+    overflow: hidden;
+    padding: var(--spacing-lg, 16px);
+  }
 
   /* 头部区域 */
   .header {
+    flex-shrink: 0;
     padding: var(--spacing-lg, 16px);
     border-bottom: 1px solid var(--border-light, #f0f0f0);
-    flex-shrink: 0;
 
     .title-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: var(--spacing-md, 12px);
 
       h3 {
         margin: 0;
-        color: var(--text-color, #1d1d1f);
         font-size: var(--font-lg, 14px);
         font-weight: var(--font-semibold, 600);
+        color: var(--text-color, #1d1d1f);
+        flex: 1;
       }
-
-      .settings-button {
-        background: var(--button-bg, #f2f2f7);
-        border: none;
-        font-size: var(--font-lg, 14px);
-        cursor: pointer;
+      
+      .toggle-btn {
+        width: 24px;
+        height: 24px;
+        border: 1px solid var(--border-color, #e1e5e9);
+        background: var(--button-bg, #fff);
         color: var(--text-secondary, #6e6e73);
-        padding: var(--spacing-xs, 4px) var(--spacing-sm, 8px);
-        border-radius: var(--radius-md, 6px);
-        transition: all 0.2s ease;
-        width: 28px;
-        height: 28px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        
-        &:hover {
-          background: var(--hover-bg, #e8e8ed);
-          transform: translateY(-1px);
-        }
-      }
-    }
-
-    /* 附加要求 */
-    .prompt-section {
-      margin-bottom: var(--spacing-md, 12px);
-
-      label {
-        display: block;
-        margin-bottom: var(--spacing-sm, 8px);
-        font-weight: var(--font-semibold, 600);
-        color: var(--text-color, #1d1d1f);
-        font-size: var(--font-md, 13px);
-      }
-
-      textarea {
-        width: 100%;
-        border: 1px solid var(--border-color, #e1e5e9);
-        border-radius: var(--radius-md, 6px);
-        padding: var(--spacing-sm, 8px) var(--spacing-md, 12px);
-        resize: vertical;
-        font-size: var(--font-sm, 12px);
-        line-height: 1.4;
-        background: var(--panel-bg, white);
-        color: var(--text-color, #1d1d1f);
-        box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,0.08));
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         transition: all 0.2s ease;
-        min-height: 60px;
-        
-        &:focus {
-          outline: none;
-          border-color: var(--primary-color, #007aff);
-          box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1);
-        }
         
         &:hover {
+          background: var(--primary-bg, #f0f8ff);
           border-color: var(--primary-color, #007aff);
+          color: var(--primary-color, #007aff);
         }
       }
     }
+  }
 
-    /* 金额和Token信息 */
-    .info-section {
-      margin-bottom: var(--spacing-md, 12px);
+  /* 附加要求 */
+  .prompt-section {
+    margin-bottom: var(--spacing-md, 12px);
+
+    label {
+      display: block;
+      margin-bottom: var(--spacing-sm, 8px);
+      font-size: var(--font-md, 13px);
+      font-weight: var(--font-semibold, 600);
+      color: var(--text-color, #1d1d1f);
+    }
+
+    textarea {
+      width: 100%;
       padding: var(--spacing-sm, 8px) var(--spacing-md, 12px);
+      border: 1px solid var(--border-color, #e1e5e9);
       background: var(--panel-bg, white);
+      color: var(--text-color, #1d1d1f);
+      box-sizing: border-box;
+      min-height: 60px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: var(--font-sm, 12px);
+      line-height: 1.4;
+      resize: vertical;
       border-radius: var(--radius-md, 6px);
-      border: 1px solid var(--border-light, #f0f0f0);
-      box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,0.08));
+      box-shadow: var(--shadow, 0 1px 3px rgb(0 0 0 / 8%));
+      transition: all 0.2s ease;
+      
+      &:focus {
+        outline: none;
+        border-color: var(--primary-color, #007aff);
+        box-shadow: 0 0 0 2px rgb(0 122 255 / 10%);
+      }
+      
+      &:hover {
+        border-color: var(--primary-color, #007aff);
+      }
+    }
+  }
 
-      .info-row {
-        margin-bottom: var(--spacing-xs, 4px);
+  /* 金额和Token信息 */
+  .info-section {
+    padding: var(--spacing-sm, 8px) var(--spacing-md, 12px);
+    border: 1px solid var(--border-light, #f0f0f0);
+    background: var(--panel-bg, white);
+    margin-bottom: var(--spacing-md, 12px);
+    border-radius: var(--radius-md, 6px);
+    box-shadow: var(--shadow, 0 1px 3px rgb(0 0 0 / 8%));
 
-        &:last-child {
-          margin-bottom: 0;
-        }
+    .info-row {
+      margin-bottom: var(--spacing-xs, 4px);
 
-        .info-text {
-          color: var(--text-secondary, #6e6e73);
-          font-size: var(--font-xs, 11px);
-          font-weight: var(--font-medium, 500);
-          display: block;
-          line-height: 1.3;
-        }
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .info-text {
+        display: block;
+        font-size: var(--font-xs, 11px);
+        font-weight: var(--font-medium, 500);
+        line-height: 1.3;
+        color: var(--text-secondary, #6e6e73);
+      }
+    }
+  }
+
+  /* AI操作按钮 */
+  .action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm, 8px);
+
+    .generate-button {
+      width: 100%;
+      padding: var(--spacing-md, 12px) var(--spacing-lg, 16px);
+      border: none;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      font-size: var(--font-md, 13px);
+      font-weight: var(--font-semibold, 600);
+      cursor: pointer;
+      border-radius: var(--radius-md, 6px);
+      box-shadow: var(--shadow, 0 1px 3px rgb(0 0 0 / 8%));
+      transition: all 0.2s ease;
+
+      &:hover:not(:disabled) {
+        box-shadow: var(--shadow-md, 0 2px 8px rgb(0 0 0 / 10%));
+        filter: brightness(1.1);
+        transform: translateY(-1px);
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 70%;
       }
     }
 
-    /* AI操作按钮 */
-    .action-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-sm, 8px);
+    .export-button {
+      width: 100%;
+      padding: var(--spacing-md, 12px) var(--spacing-lg, 16px);
+      border: none;
+      background: var(--primary-color, #007aff);
+      color: white;
+      font-size: var(--font-md, 13px);
+      font-weight: var(--font-semibold, 600);
+      cursor: pointer;
+      border-radius: var(--radius-md, 6px);
+      box-shadow: var(--shadow, 0 1px 3px rgb(0 0 0 / 8%));
+      transition: all 0.2s ease;
 
-      .generate-button {
-        width: 100%;
-        padding: var(--spacing-md, 12px) var(--spacing-lg, 16px);
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        border-radius: var(--radius-md, 6px);
-        cursor: pointer;
-        font-size: var(--font-md, 13px);
-        font-weight: var(--font-semibold, 600);
-        box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,0.08));
-        transition: all 0.2s ease;
-
-        &:hover:not(:disabled) {
-          filter: brightness(1.1);
-          transform: translateY(-1px);
-          box-shadow: var(--shadow-md, 0 2px 8px rgba(0,0,0,0.1));
-        }
-
-        &:disabled {
-          opacity: 0.7;
-          cursor: not-allowed;
-        }
+      &:hover:not(:disabled) {
+        background: var(--primary-color, #007aff);
+        box-shadow: var(--shadow-md, 0 2px 8px rgb(0 0 0 / 10%));
+        filter: brightness(1.1);
+        transform: translateY(-1px);
       }
 
-      .export-button {
-        width: 100%;
-        padding: var(--spacing-md, 12px) var(--spacing-lg, 16px);
-        background: var(--primary-color, #007aff);
-        color: white;
-        border: none;
-        border-radius: var(--radius-md, 6px);
-        cursor: pointer;
-        font-size: var(--font-md, 13px);
-        font-weight: var(--font-semibold, 600);
-        box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,0.08));
-        transition: all 0.2s ease;
-
-        &:hover:not(:disabled) {
-          background: var(--primary-color, #007aff);
-          filter: brightness(1.1);
-          transform: translateY(-1px);
-          box-shadow: var(--shadow-md, 0 2px 8px rgba(0,0,0,0.1));
-        }
-
-        &:disabled {
-          opacity: 0.7;
-          cursor: not-allowed;
-        }
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 70%;
       }
     }
   }
 
   /* AI生成结果区域 */
   .report-result {
-    padding: var(--spacing-lg, 16px);
-    background: var(--panel-bg, white);
     display: none;
+    margin: var(--spacing-lg, 16px);
+    padding: var(--spacing-lg, 16px);
+    border: 1px solid var(--border-color, #e1e5e9);
+    background: var(--panel-bg, white);
     flex: 1;
     min-height: 180px;
-    margin: var(--spacing-lg, 16px);
     border-radius: var(--radius-md, 6px);
-    border: 1px solid var(--border-color, #e1e5e9);
-    box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,0.08));
+    box-shadow: var(--shadow, 0 1px 3px rgb(0 0 0 / 8%));
 
     .result-header {
       display: flex;
@@ -194,21 +223,21 @@
 
       h4 {
         margin: 0;
-        color: var(--text-color, #1d1d1f);
         font-size: var(--font-lg, 14px);
         font-weight: var(--font-semibold, 600);
+        color: var(--text-color, #1d1d1f);
       }
 
       .copy-button {
         padding: var(--spacing-xs, 4px) var(--spacing-sm, 8px);
+        border: none;
         background: var(--primary-color, #007aff);
         color: white;
-        border: none;
-        border-radius: var(--radius-sm, 4px);
-        cursor: pointer;
         font-size: var(--font-xs, 11px);
         font-weight: var(--font-semibold, 600);
-        box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,0.08));
+        cursor: pointer;
+        border-radius: var(--radius-sm, 4px);
+        box-shadow: var(--shadow, 0 1px 3px rgb(0 0 0 / 8%));
         transition: all 0.2s ease;
         
         &:hover {
@@ -220,36 +249,18 @@
     }
 
     .report-content {
-      background: var(--card-bg, #f8f9fa);
-      padding: var(--spacing-md, 12px);
-      border-radius: var(--radius-sm, 4px);
-      border: 1px solid var(--border-light, #f0f0f0);
-      white-space: pre-wrap;
-      color: var(--text-color, #1d1d1f) !important;
-      line-height: 1.5;
-      font-size: var(--font-sm, 12px);
-      min-height: 80px;
       height: calc(100% - 40px);
+      padding: var(--spacing-md, 12px);
+      border: 1px solid var(--border-light, #f0f0f0);
+      background: var(--card-bg, #f8f9fa);
+      color: var(--text-color, #1d1d1f) !important;
+      min-height: 80px;
       overflow-y: auto;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      
-      &::-webkit-scrollbar {
-        width: 6px;
-      }
-      
-      &::-webkit-scrollbar-track {
-        background: var(--border-light, #f0f0f0);
-        border-radius: 3px;
-      }
-      
-      &::-webkit-scrollbar-thumb {
-        background: var(--border-color, #e1e5e9);
-        border-radius: 3px;
-        
-        &:hover {
-          background: var(--text-muted, #8e8e93);
-        }
-      }
+      font-size: var(--font-sm, 12px);
+      line-height: 1.5;
+      white-space: pre-wrap;
+      border-radius: var(--radius-sm, 4px);
     }
   }
 }

@@ -1,0 +1,100 @@
+/**
+ * 全局滚动条样式 - 深色/浅色模式适配
+ * 仅影响插件内的元素，不影响宿主页面
+ * 使用属性选择器确保样式隔离
+ */
+
+// 插件容器内的所有滚动条样式
+#tm-gwe-ui-panel * {
+  // 滚动条整体样式
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  // 滚动条轨道
+  &::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-bg, #f0f0f0);
+    border-radius: 3px;
+  }
+
+  // 滚动条滑块
+  &::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb-bg, #c1c1c1);
+    border-radius: 3px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background: var(--scrollbar-thumb-hover-bg, #a1a1a1);
+    }
+
+    &:active {
+      background: var(--scrollbar-thumb-active-bg, #8e8e93);
+    }
+  }
+
+  // 滚动条角落
+  &::-webkit-scrollbar-corner {
+    background: var(--scrollbar-track-bg, #f0f0f0);
+  }
+}
+
+// Firefox 滚动条样式（使用 scrollbar-* 属性）
+#tm-gwe-ui-panel * {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-bg, #f0f0f0);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb-bg, #c1c1c1);
+    border-radius: 3px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background: var(--scrollbar-thumb-hover-bg, #a1a1a1);
+    }
+
+    &:active {
+      background: var(--scrollbar-thumb-active-bg, #8e8e93);
+    }
+  }
+
+  &::-webkit-scrollbar-corner {
+    background: var(--scrollbar-track-bg, #f0f0f0);
+  }
+}
+
+// 响应式设计 - 移动端滚动条
+@media (width <= 768px) {
+  #tm-gwe-ui-panel * {
+    &::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+  }
+}
+
+// 触摸设备优化
+@media (hover: none) and (pointer: coarse) {
+  #tm-gwe-ui-panel * {
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb-bg, #c1c1c1);
+      
+      // 触摸设备上不需要hover效果
+      &:hover {
+        background: var(--scrollbar-thumb-bg, #c1c1c1);
+      }
+    }
+  }
+}

@@ -5,6 +5,8 @@
 
 import { jsx } from '../utils/jsx-runtime.js';
 import './table-row.less';
+import EventDetailPanel from './event-detail-panel.jsx';
+import '../components/event-detail-panel.less';
 
 const TableRowTemplate = {
     // 工具函数
@@ -181,6 +183,163 @@ const TableRowTemplate = {
             }
             
             return null;
+        },
+
+        /**
+         * 生成源URL路径
+         * @param {Object} event - 事件数据
+         * @returns {string} 源URL路径
+         */
+        getSourceUrl: (event) => {
+            // 基础项目URL
+            const baseUrl = event.project?.web_url || '';
+            
+            // 根据不同类型生成URL
+            switch (event.target_type) {
+                case 'Issue':
+                    return event.target_iid ? `${baseUrl}/-/issues/${event.target_iid}` : baseUrl;
+                case 'MergeRequest':
+                    return event.target_iid ? `${baseUrl}/-/merge_requests/${event.target_iid}` : baseUrl;
+                case 'Milestone':
+                    return event.target_id ? `${baseUrl}/-/milestones/${event.target_id}` : baseUrl;
+                case 'WikiPage':
+                    return event.target_title ? `${baseUrl}/-/wikis/${encodeURIComponent(event.target_title)}` : baseUrl;
+                case 'Snippet':
+                    return event.target_id ? `${baseUrl}/-/snippets/${event.target_id}` : baseUrl;
+                default:
+                    // Push 事件或其他类型
+                    if (event.action_name?.includes('pushed') && event.push_data?.ref) {
+                        return `${baseUrl}/-/commits/${event.push_data.ref}`;
+                    }
+                    return baseUrl;
+            }
+        },
+
+        /**
+         * 创建详情面板内容（已废弃，使用EventDetailPanel.create代替）
+         * @deprecated 使用EventDetailPanel.create代替
+         * @param {Object} event - 事件数据
+         * @returns {JSX.Element} 详情面板JSX
+         */
+        createDetailPanel: (event) => {
+            console.warn('TableRowTemplate.createDetailPanel已废弃，请使用EventDetailPanel.create');
+            return EventDetailPanel.create(event, window.currentConfig || {});
+        },
+
+        /**
+         * 显示详情面板
+         * @param {Object} event - 事件数据
+         * @param {Object} config - 配置信息
+         */
+        showDetailPanel: async (event, config = window.currentConfig || {}) => {
+            // 移除已存在的面板
+            const existingPanel = document.querySelector('.event-detail-panel');
+            if (existingPanel) {
+                existingPanel.remove();
+            }
+
+            try {
+                // 创建加载状态的面板
+                const loadingPanel = jsx('div', {
+                    className: 'event-detail-panel loading',
+                    children: [
+                        jsx('div', {
+                            className: 'detail-header',
+                            children: [
+                                jsx('h4', {
+                                    className: 'detail-title',
+                                    children: '加载中...'
+                                }),
+                                jsx('button', {
+                                    className: 'detail-close',
+                                    onClick: (e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        const panel = e.target.closest('.event-detail-panel');
+                                        if (panel) {
+                                            panel.remove();
+                                        }
+                                    },
+                                    children: '×'
+                                })
+                            ]
+                        }),
+                        jsx('div', {
+                            className: 'detail-content',
+                            children: []
+                        })
+                    ]
+                });
+                
+                document.body.appendChild(loadingPanel);
+
+                // 创建详细面板
+                const panel = await EventDetailPanel.create(event, config);
+                
+                // 替换加载面板
+                loadingPanel.remove();
+                document.body.appendChild(panel);
+
+                // 添加点击背景关闭功能
+                panel.addEventListener('click', (e) => {
+                    if (e.target === panel) {
+                        panel.remove();
+                    }
+                });
+
+                // 添加ESC键关闭功能
+                const handleEscape = (e) => {
+                    if (e.key === 'Escape') {
+                        panel.remove();
+                        document.removeEventListener('keydown', handleEscape);
+                    }
+                };
+                document.addEventListener('keydown', handleEscape);
+                
+            } catch (error) {
+                console.error('显示详情面板失败:', error);
+                
+                // 显示错误状态
+                const errorPanel = jsx('div', {
+                    className: 'event-detail-panel error',
+                    children: [
+                        jsx('div', {
+                            className: 'detail-header',
+                            children: [
+                                jsx('h4', {
+                                    className: 'detail-title',
+                                    children: '加载失败'
+                                }),
+                                jsx('button', {
+                                    className: 'detail-close',
+                                    onClick: (e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        const panel = e.target.closest('.event-detail-panel');
+                                        if (panel) {
+                                            panel.remove();
+                                        }
+                                    },
+                                    children: '×'
+                                })
+                            ]
+                        }),
+                        jsx('div', {
+                            className: 'detail-content',
+                            children: []
+                        })
+                    ]
+                });
+                
+                document.body.appendChild(errorPanel);
+                
+                // 自动关闭错误面板
+                setTimeout(() => {
+                    if (errorPanel.parentNode) {
+                        errorPanel.remove();
+                    }
+                }, 3000);
+            }
         }
     },
 
@@ -201,13 +360,9 @@ const TableRowTemplate = {
                     children: jsx('input', {
                         type: 'checkbox',
                         className: 'event-checkbox',
-                        'data-event-id': event.id
+                        'data-event-id': event.id,
+                        checked: true
                     })
-                }),
-                // ID列
-                jsx('td', {
-                    className: 'event-table-cell event-table-cell--id',
-                    children: event.id
                 }),
                 // 类型列
                 jsx('td', {
@@ -267,11 +422,7 @@ const TableRowTemplate = {
                     className: 'event-table-cell event-table-cell--actions',
                     children: jsx('button', {
                         className: 'details-button',
-                        onClick: () => {
-                            if (window.DataManager && window.DataManager.showEventDetails) {
-                                window.DataManager.showEventDetails(event.id);
-                            }
-                        },
+                        onClick: () => TableRowTemplate.utils.showDetailPanel(event, window.currentConfig),
                         children: '详情'
                     })
                 })
@@ -287,7 +438,7 @@ const TableRowTemplate = {
     createTableRow: (event) => {
         const jsxElement = TableRowTemplate.generateRowJSX(event);
         return jsxElement;
-    },
+    }
 
 
 };

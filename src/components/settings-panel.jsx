@@ -1,7 +1,7 @@
 import { createElement } from '../utils/jsx-runtime.js';
 import CONFIG from '../config.js';
 
-export const SettingsPanel = ({ onClose, onSave, onReset, userBalance, tokenUsage }) => {
+export const SettingsPanel = ({ onClose, onSave, onReset, userBalance: _userBalance, tokenUsage }) => {
     const config = CONFIG.get();
     
     return createElement('div', {
@@ -43,7 +43,7 @@ export const SettingsPanel = ({ onClose, onSave, onReset, userBalance, tokenUsag
                 }
             }, '⚙️ 插件设置'),
             createElement('button', {
-                id: 'closeSettingsPanel',
+                id: 'close-settings-panel',
                 onClick: onClose,
                 style: {
                     background: 'var(--button-bg, #f2f2f7)',
@@ -98,10 +98,11 @@ export const SettingsPanel = ({ onClose, onSave, onReset, userBalance, tokenUsag
                         }
                     }, '主题模式:'),
                     createElement('select', {
-                        id: 'themeMode',
+                        id: 'theme-mode',
                         defaultValue: config.THEME_MODE,
                         style: {
                             width: '100%',
+                            boxSizing: 'border-box',
                             padding: '8px 10px',
                             border: '1px solid var(--border-color, #e1e5e9)',
                             borderRadius: '6px',
@@ -145,10 +146,11 @@ export const SettingsPanel = ({ onClose, onSave, onReset, userBalance, tokenUsag
                     }, 'GitLab API URL:'),
                     createElement('input', {
                         type: 'text',
-                        id: 'gitlabUrl',
+                        id: 'gitlab-url',
                         defaultValue: config.GITLAB_URL,
                         style: {
                             width: '100%',
+                            boxSizing: 'border-box',
                             padding: '8px 10px',
                             border: '1px solid var(--border-color, #e1e5e9)',
                             borderRadius: '6px',
@@ -173,10 +175,11 @@ export const SettingsPanel = ({ onClose, onSave, onReset, userBalance, tokenUsag
                     }, 'Access Token:'),
                     createElement('input', {
                         type: 'text',
-                        id: 'accessToken',
+                        id: 'access-token',
                         defaultValue: config.ACCESS_TOKEN,
                         style: {
                             width: '100%',
+                            boxSizing: 'border-box',
                             padding: '8px 10px',
                             border: '1px solid var(--border-color, #e1e5e9)',
                             borderRadius: '6px',
@@ -216,10 +219,11 @@ export const SettingsPanel = ({ onClose, onSave, onReset, userBalance, tokenUsag
                     }, 'DeepSeek API URL:'),
                     createElement('input', {
                         type: 'text',
-                        id: 'deepseekUrl',
+                        id: 'deepseek-url',
                         defaultValue: config.DEEPSEEK_BASE_URL,
                         style: {
                             width: '100%',
+                            boxSizing: 'border-box',
                             padding: '8px 10px',
                             border: '1px solid var(--border-color, #e1e5e9)',
                             borderRadius: '6px',
@@ -244,10 +248,11 @@ export const SettingsPanel = ({ onClose, onSave, onReset, userBalance, tokenUsag
                     }, 'API Key:'),
                     createElement('input', {
                         type: 'text',
-                        id: 'deepseekKey',
+                        id: 'deepseek-key',
                         defaultValue: config.DEEPSEEK_API_KEY,
                         style: {
                             width: '100%',
+                            boxSizing: 'border-box',
                             padding: '8px 10px',
                             border: '1px solid var(--border-color, #e1e5e9)',
                             borderRadius: '6px',
@@ -271,7 +276,7 @@ export const SettingsPanel = ({ onClose, onSave, onReset, userBalance, tokenUsag
                         }
                     }, '模型:'),
                     createElement('select', {
-                        id: 'deepseekModel',
+                        id: 'deepseek-model',
                         defaultValue: config.DEEPSEEK_MODEL,
                         style: {
                             width: '100%',
@@ -281,7 +286,8 @@ export const SettingsPanel = ({ onClose, onSave, onReset, userBalance, tokenUsag
                             fontSize: '13px',
                             background: 'var(--panel-bg, white)',
                             color: 'var(--text-color, #1d1d1f)',
-                            transition: 'border-color 0.2s ease, background 0.2s ease'
+                            transition: 'border-color 0.2s ease, background 0.2s ease',
+                            boxSizing: 'border-box'
                         }
                     }, [
                         createElement('option', { value: 'deepseek-chat' }, 'deepseek-chat'),
@@ -302,7 +308,7 @@ export const SettingsPanel = ({ onClose, onSave, onReset, userBalance, tokenUsag
                     }, '最大Token数 (100-2000):'),
                     createElement('input', {
                         type: 'number',
-                        id: 'maxTokens',
+                        id: 'max-tokens',
                         defaultValue: config.MAX_TOKENS,
                         min: '100',
                         max: '2000',
@@ -340,7 +346,7 @@ export const SettingsPanel = ({ onClose, onSave, onReset, userBalance, tokenUsag
                 }
             }, [
                 createElement('button', {
-                    id: 'resetSettings',
+                    id: 'reset-settings',
                     onClick: onReset,
                     style: {
                         padding: 'var(--spacing-sm, 8px) var(--spacing-lg, 16px)',
@@ -356,7 +362,7 @@ export const SettingsPanel = ({ onClose, onSave, onReset, userBalance, tokenUsag
                     }
                 }, '重置'),
                 createElement('button', {
-                    id: 'saveSettings',
+                    id: 'save-settings',
                     onClick: onSave,
                     style: {
                         padding: 'var(--spacing-sm, 8px) var(--spacing-lg, 16px)',
@@ -372,17 +378,9 @@ export const SettingsPanel = ({ onClose, onSave, onReset, userBalance, tokenUsag
                     }
                 }, '保存设置')
             ]),
+            // 移除重复的余额显示，避免与ai-panel中的balanceInfo id冲突
             createElement('div', {
-                id: 'balanceInfo',
-                style: {
-                    fontSize: '11px',
-                    color: 'var(--text-muted, #8e8e93)',
-                    textAlign: 'center',
-                    marginBottom: '4px'
-                }
-            }, userBalance ? `余额: ${userBalance.total_balance} ${userBalance.currency}` : '余额信息加载中...'),
-            createElement('div', {
-                id: 'tokenUsage',
+                id: 'token-usage',
                 style: {
                     fontSize: '11px',
                     color: 'var(--text-muted, #8e8e93)',

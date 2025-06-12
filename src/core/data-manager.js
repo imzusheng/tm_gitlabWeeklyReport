@@ -247,6 +247,7 @@ const DataManager = {
                     const retryTableBody = document.getElementById('eventsBody');
                     if (retryTableBody) {
                         DataManager._updateTableContent(retryTableBody);
+                        DataManager._syncSelectAllState();
                     } else {
                         console.error('重试后仍未找到表格主体元素');
                     }
@@ -255,6 +256,8 @@ const DataManager = {
             }
             
             DataManager._updateTableContent(tableBody);
+            // 同步全选框状态
+            DataManager._syncSelectAllState();
         } catch (error) {
             console.error('更新表格失败:', error);
         }
@@ -602,6 +605,22 @@ const DataManager = {
         }
     },
 
+    // 同步全选框状态
+    _syncSelectAllState: () => {
+        try {
+            const selectAll = document.getElementById('selectAll');
+            if (!selectAll) return;
+            
+            const checkboxes = document.querySelectorAll('#eventsTable input[type="checkbox"]:not(#selectAll)');
+            const checkedCheckboxes = document.querySelectorAll('#eventsTable input[type="checkbox"]:checked:not(#selectAll)');
+            
+            // 如果所有行checkbox都选中，则全选框也选中
+            selectAll.checked = checkboxes.length > 0 && checkboxes.length === checkedCheckboxes.length;
+        } catch (error) {
+            console.error('同步全选框状态失败:', error);
+        }
+    },
+
     // 清除筛选
     clearFilters: () => {
         try {
@@ -648,13 +667,11 @@ const DataManager = {
                 selectedEventIds.includes(event.id.toString())
             );
             
-            if (window.UIManager && window.UIManager.showNotification) {
-                window.UIManager.showNotification('正在生成周报...', 'info');
-            }
+            // 移除"正在生成周报..."通知，避免过多无用提示
             
             const reportResult = document.getElementById('reportResult');
             if (reportResult) {
-                reportResult.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-muted, #8e8e93);">正在生成中...</div>';
+                reportResult.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-muted, #8e8e93);">生成中</div>';
             }
             
             const response = await API.generateReport(selectedEvents, config);
