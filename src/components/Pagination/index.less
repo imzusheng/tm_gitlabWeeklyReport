@@ -1,0 +1,149 @@
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+
+  .pagination-info {
+    font-size: 13px;
+    color: #86868b;
+  }
+
+  .pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    .pagination-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #1d1d1f;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+      &:hover:not(.disabled) {
+        border-color: rgba(0, 122, 255, 0.5);
+        background: rgba(0, 122, 255, 0.1);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 122, 255, 0.15);
+      }
+
+      &.active {
+        border-color: #007aff;
+        background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+      }
+
+      &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      span {
+        font-size: 14px;
+      }
+    }
+
+    .pagination-ellipsis {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      color: #86868b;
+      font-size: 13px;
+    }
+  }
+
+  .pagination-size-changer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #86868b;
+
+    .pagination-select {
+      padding: 4px 8px;
+      border: 1px solid #d2d2d7;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #1d1d1f;
+      font-size: 13px;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+
+      &:hover {
+        border-color: #007aff;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: #007aff;
+        box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
+      }
+    }
+  }
+}
+
+// 黑暗模式
+@media (prefers-color-scheme: dark) {
+  .pagination {
+    .pagination-info {
+      color: #8e8e93;
+    }
+
+    .pagination-controls {
+      .pagination-btn {
+        border-color: #48484a;
+        background: #2c2c2e;
+        color: #ffffff;
+
+        &:hover:not(.disabled) {
+          border-color: #007aff;
+          background: rgba(0, 122, 255, 0.1);
+        }
+
+        &.active {
+          border-color: #007aff;
+          background: #007aff;
+        }
+      }
+
+      .pagination-ellipsis {
+        color: #8e8e93;
+      }
+    }
+
+    .pagination-size-changer {
+      color: #8e8e93;
+
+      .pagination-select {
+        border-color: #48484a;
+        background: #2c2c2e;
+        color: #ffffff;
+
+        &:hover {
+          border-color: #007aff;
+        }
+
+        &:focus {
+          border-color: #007aff;
+          box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
+        }
+      }
+    }
+  }
+}

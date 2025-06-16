@@ -1,0 +1,291 @@
+.main-panel {
+  --panel-padding: 16px;
+
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  gap: 16px;
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--panel-padding);
+
+    .header-left {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+
+      h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+        color: #1d1d1f;
+        letter-spacing: -0.02em;
+      }
+
+      .event-count {
+        font-size: 14px;
+        color: #86868b;
+        font-weight: 500;
+      }
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .action-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        background: rgba(0, 122, 255, 0.08);
+        color: #007aff;
+        border: none;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        white-space: nowrap;
+
+        &:hover {
+          background: rgba(0, 122, 255, 0.15);
+          transform: translateY(-1px);
+        }
+
+        .icon {
+          font-size: 14px;
+        }
+
+        &.theme-btn {
+          background: rgba(255, 149, 0, 0.08);
+          color: #ff9500;
+
+          &:hover {
+            background: rgba(255, 149, 0, 0.15);
+          }
+        }
+
+        &.settings-btn {
+          background: rgba(88, 86, 214, 0.08);
+          color: #5856d6;
+
+          &:hover {
+            background: rgba(88, 86, 214, 0.15);
+          }
+        }
+
+        &.ai-btn {
+          background: rgba(52, 199, 89, 0.08);
+          color: #34c759;
+
+          &:hover {
+            background: rgba(52, 199, 89, 0.15);
+          }
+        }
+      }
+    }
+  }
+
+  .filter-section {
+    flex-shrink: 0;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+    .filter-section-content {
+              .filter-group {
+          margin-bottom: 16px;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
+        .filter-label {
+          display: block;
+          font-size: 14px;
+          font-weight: 600;
+          color: #1d1d1f;
+          margin-bottom: 8px;
+        }
+
+                  .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+
+            .filter-option {
+              padding: 6px 12px;
+              border: 1px solid rgba(0, 0, 0, 0.1);
+              border-radius: 8px;
+              background: rgba(255, 255, 255, 0.7);
+              backdrop-filter: blur(10px);
+              -webkit-backdrop-filter: blur(10px);
+              color: #1d1d1f;
+              font-size: 13px;
+              font-weight: 500;
+              cursor: pointer;
+              transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+              &:hover {
+                border-color: rgba(0, 122, 255, 0.5);
+                background: rgba(0, 122, 255, 0.1);
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(0, 122, 255, 0.15);
+              }
+
+              &.active {
+                border-color: #007aff;
+                background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
+                color: white;
+                box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+              }
+            }
+        }
+      }
+    }
+  }
+
+  .events-section {
+    flex: 1;
+    min-height: 0;
+  }
+}
+
+// 黑暗模式
+@media (prefers-color-scheme: dark) {
+  .main-panel {
+    background: #1c1c1e;
+
+    .panel-header {
+      background: #2c2c2e;
+      border-bottom-color: #48484a;
+
+      .header-left {
+        h1 {
+          color: #ffffff;
+        }
+
+        .event-count {
+          color: #8e8e93;
+          background: #48484a;
+        }
+      }
+
+      .header-right {
+        .action-btn {
+          &.theme-btn {
+            background: rgba(255, 149, 0, 0.15);
+            color: #ff9f0a;
+
+            &:hover {
+              background: rgba(255, 149, 0, 0.25);
+            }
+          }
+
+          &.settings-btn {
+            background: rgba(88, 86, 214, 0.15);
+            color: #5e5ce6;
+
+            &:hover {
+              background: rgba(88, 86, 214, 0.25);
+            }
+          }
+
+          &.ai-btn {
+            background: rgba(52, 199, 89, 0.15);
+            color: #32d74b;
+
+            &:hover {
+              background: rgba(52, 199, 89, 0.25);
+            }
+          }
+
+          background: rgba(0, 122, 255, 0.15);
+          color: #0a84ff;
+
+          &:hover {
+            background: rgba(0, 122, 255, 0.25);
+          }
+        }
+      }
+    }
+
+    .filter-section {
+      background: #1c1c1e;
+      border-bottom-color: #48484a;
+
+      .filter-section-content {
+        .filter-group {
+          .filter-label {
+            color: #ffffff;
+          }
+
+          .filter-options {
+            .filter-option {
+              border-color: #48484a;
+              background: #2c2c2e;
+              color: #ffffff;
+
+              &:hover {
+                border-color: #007aff;
+                background: rgba(0, 122, 255, 0.1);
+              }
+
+              &.active {
+                border-color: #007aff;
+                background: #007aff;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  .main-panel {
+    padding: 16px;
+    gap: 12px;
+
+    .panel-header {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+
+      .header-left {
+        justify-content: center;
+
+        h1 {
+          font-size: 24px;
+        }
+      }
+
+      .header-right {
+        justify-content: center;
+        flex-wrap: wrap;
+
+        .action-btn {
+          font-size: 12px;
+          padding: 6px 10px;
+
+          .icon {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+} 

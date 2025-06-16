@@ -1,0 +1,6 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+1. 更新UI时需要同时兼容深色/浅色模式
