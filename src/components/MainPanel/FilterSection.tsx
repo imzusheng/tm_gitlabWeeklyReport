@@ -14,18 +14,29 @@ const timeRangeOptions = [
   { value: '365d', label: '最近365天' }
 ]
 
-const eventTypeOptions = [
-  { value: 'MergeRequest', label: 'Merge Request' },
-  { value: 'Issue', label: 'Issue' },
-  { value: 'Commit', label: 'Commit' },
-  { value: 'Push', label: 'Push' },
-  { value: 'Note', label: 'Comment' }
+const targetTypeOptions = [
+  { value: 'epic', label: 'Epic' },
+  { value: 'issue', label: 'Issue' },
+  { value: 'merge_request', label: 'Merge Request' },
+  { value: 'milestone', label: 'Milestone' },
+  { value: 'note', label: 'Note' },
+  { value: 'project', label: 'Project' },
+  { value: 'snippet', label: 'Snippet' },
+  { value: 'user', label: 'User' }
 ]
 
-const eventStatusOptions = [
-  { value: 'opened', label: 'Open' },
+const actionOptions = [
+  { value: 'created', label: 'Created' },
+  { value: 'updated', label: 'Updated' },
   { value: 'closed', label: 'Closed' },
-  { value: 'merged', label: 'Merged' }
+  { value: 'reopened', label: 'Reopened' },
+  { value: 'pushed', label: 'Pushed' },
+  { value: 'commented', label: 'Commented' },
+  { value: 'merged', label: 'Merged' },
+  { value: 'approved', label: 'Approved' },
+  { value: 'joined', label: 'Joined' },
+  { value: 'left', label: 'Left' },
+  { value: 'deleted', label: 'Deleted' }
 ]
 
 
@@ -41,25 +52,25 @@ const FilterSection: React.FC<FilterSectionProps> = ({
     })
   }
 
-  const handleEventTypesChange = (eventType: string, checked: boolean) => {
-    const newEventTypes = checked
-      ? [...filterConditions.eventTypes, eventType]
-      : filterConditions.eventTypes.filter(type => type !== eventType)
+  const handleTargetTypeChange = (targetType: string, checked: boolean) => {
+    const newTargetType = checked
+      ? [...filterConditions.targetType, targetType as any]
+      : filterConditions.targetType.filter(type => type !== targetType)
     
     onFilterChange({
       ...filterConditions,
-      eventTypes: newEventTypes
+      targetType: newTargetType
     })
   }
 
-  const handleEventStatusChange = (status: string, checked: boolean) => {
-    const newEventStatus = checked
-      ? [...filterConditions.eventStatus, status]
-      : filterConditions.eventStatus.filter(s => s !== status)
+  const handleActionChange = (action: string, checked: boolean) => {
+    const newAction = checked
+      ? [...filterConditions.action, action as any]
+      : filterConditions.action.filter(a => a !== action)
     
     onFilterChange({
       ...filterConditions,
-      eventStatus: newEventStatus
+      action: newAction
     })
   }
 
@@ -81,21 +92,21 @@ const FilterSection: React.FC<FilterSectionProps> = ({
         </div>
       </div>
 
-      {/* 事件类型 */}
+      {/* 目标类型 */}
       <div className="filter-group">
-        <label className="filter-label">事件类型</label>
+        <label className="filter-label">目标类型</label>
         <div className="filter-options">
           <button
-            className={`filter-option ${filterConditions.eventTypes.length === 0 ? 'active' : ''}`}
-            onClick={() => onFilterChange({ ...filterConditions, eventTypes: [] })}
+            className={`filter-option ${filterConditions.targetType.length === 0 ? 'active' : ''}`}
+            onClick={() => onFilterChange({ ...filterConditions, targetType: [] })}
           >
             全部
           </button>
-          {eventTypeOptions.map(option => (
+          {targetTypeOptions.map(option => (
             <button
               key={option.value}
-              className={`filter-option ${filterConditions.eventTypes.includes(option.value) ? 'active' : ''}`}
-              onClick={() => handleEventTypesChange(option.value, !filterConditions.eventTypes.includes(option.value))}
+              className={`filter-option ${filterConditions.targetType.includes(option.value as any) ? 'active' : ''}`}
+              onClick={() => handleTargetTypeChange(option.value, !filterConditions.targetType.includes(option.value as any))}
             >
               {option.label}
             </button>
@@ -103,21 +114,21 @@ const FilterSection: React.FC<FilterSectionProps> = ({
         </div>
       </div>
 
-      {/* 事件状态 */}
+      {/* 操作类型 */}
       <div className="filter-group">
-        <label className="filter-label">事件状态</label>
+        <label className="filter-label">操作类型</label>
         <div className="filter-options">
           <button
-            className={`filter-option ${filterConditions.eventStatus.length === 0 ? 'active' : ''}`}
-            onClick={() => onFilterChange({ ...filterConditions, eventStatus: [] })}
+            className={`filter-option ${filterConditions.action.length === 0 ? 'active' : ''}`}
+            onClick={() => onFilterChange({ ...filterConditions, action: [] })}
           >
             全部
           </button>
-          {eventStatusOptions.map(option => (
+          {actionOptions.map(option => (
             <button
               key={option.value}
-              className={`filter-option ${filterConditions.eventStatus.includes(option.value) ? 'active' : ''}`}
-              onClick={() => handleEventStatusChange(option.value, !filterConditions.eventStatus.includes(option.value))}
+              className={`filter-option ${filterConditions.action.includes(option.value as any) ? 'active' : ''}`}
+              onClick={() => handleActionChange(option.value, !filterConditions.action.includes(option.value as any))}
             >
               {option.label}
             </button>
@@ -128,4 +139,4 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   )
 }
 
-export default FilterSection 
+export default FilterSection

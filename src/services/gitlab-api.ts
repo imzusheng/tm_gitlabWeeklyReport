@@ -1,5 +1,6 @@
 import { GitLabEvent, GitLabProject } from '@/types'
 import { API_CONFIG } from '@/constants'
+import { request } from '@/utils/request'
 
 export class GitLabApiService {
   private baseUrl: string
@@ -10,21 +11,33 @@ export class GitLabApiService {
     this.token = token
   }
 
-  private async request<T>(endpoint: string, options?: RequestInit): Promise<T> {
-    const url = `${this.baseUrl}/api/${API_CONFIG.GITLAB_API_VERSION}${endpoint}`
-    
-    const response = await fetch(url, {
-      ...options,
+  private async request<T>(
+    endpoint: string,
+    options: { method?: string; body?: string } = {},
+  ): Promise<T> {
+    // 构建URL，将access_token作为查询参数添加
+    const url = new URL(`${this.baseUrl}${endpoint}`)
+    url.searchParams.set('access_token', this.token)
+
+    const requestOptions: any = {
+      method: options.method || 'GET',
       headers: {
-        'Authorization': `Bearer ${this.token}`,
         'Content-Type': 'application/json',
-        ...options?.headers,
       },
-      signal: AbortSignal.timeout(API_CONFIG.REQUEST_TIMEOUT),
-    })
+      timeout: API_CONFIG.REQUEST_TIMEOUT,
+    }
+
+    // 只有非GET请求才添加body
+    if (options.body && (options.method && options.method !== 'GET')) {
+      requestOptions.body = options.body
+    }
+
+    const response = await request(url.toString(), requestOptions)
 
     if (!response.ok) {
-      throw new Error(`GitLab API Error: ${response.status} ${response.statusText}`)
+      throw new Error(
+        `GitLab API Error: ${response.status} ${response.statusText}`,
+      )
     }
 
     return response.json()
@@ -51,7 +64,7 @@ export class GitLabApiService {
     startDate: string,
     endDate: string,
     page = 1,
-    perPage = 100
+    perPage = 100,
   ): Promise<GitLabEvent[]> {
     const params = new URLSearchParams({
       after: startDate,
@@ -67,7 +80,10 @@ export class GitLabApiService {
   /**
    * 获取所有相关事件（分页处理）
    */
-  async getAllUserEvents(startDate: string, endDate: string): Promise<GitLabEvent[]> {
+  async getAllUserEvents(
+    startDate: string,
+    endDate: string,
+  ): Promise<GitLabEvent[]> {
     const allEvents: GitLabEvent[] = []
     let page = 1
     let hasMore = true
@@ -75,13 +91,13 @@ export class GitLabApiService {
     while (hasMore) {
       try {
         const events = await this.getUserEvents(startDate, endDate, page, 100)
-        
+
         if (events.length === 0) {
           hasMore = false
         } else {
           allEvents.push(...events)
           page++
-          
+
           // 防止无限循环，最多获取10页
           if (page > 10) {
             hasMore = false
@@ -120,6 +136,9 @@ export class GitLabApiService {
 /**
  * 创建GitLab API服务实例
  */
-export function createGitLabApiService(baseUrl: string, token: string): GitLabApiService {
+export function createGitLabApiService(
+  baseUrl: string,
+  token: string,
+): GitLabApiService {
   return new GitLabApiService(baseUrl, token)
-} 
+}

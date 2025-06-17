@@ -309,7 +309,7 @@ npm run type-check
 
 ### 🔧 推荐开发工具
 
-- **编辑器**: VS Code + Volar 插件
+- **编辑器**: VS Code
 - **浏览器**: Chrome DevTools / Firefox Developer Tools
 - **版本控制**: Git + GitHub/GitLab
 - **包管理**: npm (推荐) / yarn / pnpm
@@ -398,20 +398,6 @@ npm run type-check
 ## 📄 许可证
 
 本项目基于 [MIT License](LICENSE) 开源协议。
-
-## 🙏 致谢
-
-- [React](https://reactjs.org/) - 用户界面构建框架
-- [TypeScript](https://www.typescriptlang.org/) - JavaScript 的超集
-- [Vite](https://vitejs.dev/) - 现代化构建工具
-- [DeepSeek](https://platform.deepseek.com/) - AI 模型服务提供商
-- [GitLab](https://gitlab.com/) - 代码托管和协作平台
-
-## 📞 联系我们
-
-- **项目主页**: [GitHub Repository](https://github.com/your-username/tm_gitlabWeeklyReport_v2)
-- **问题反馈**: [GitHub Issues](https://github.com/your-username/tm_gitlabWeeklyReport_v2/issues)
-- **功能建议**: [GitHub Discussions](https://github.com/your-username/tm_gitlabWeeklyReport_v2/discussions)
 
 ---
 

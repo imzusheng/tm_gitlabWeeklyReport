@@ -1,6 +1,6 @@
 import React from 'react'
 import { AppConfig } from '@/types'
-import { urlUtils, dateUtils } from '@/utils'
+import { urlUtils } from '@/utils'
 import './index.less'
 
 interface ConfigFormProps {
@@ -30,8 +30,6 @@ const ConfigForm: React.FC<ConfigFormProps> = ({
   }
 
   const isGitLabUrlValid = config.gitlabUrl ? urlUtils.isValidGitLabUrl(config.gitlabUrl) : true
-  const isStartDateValid = config.startDate ? dateUtils.isValidDate(config.startDate) : true
-  const isEndDateValid = config.endDate ? dateUtils.isValidDate(config.endDate) : true
 
   return (
     <form className="config-form" onSubmit={handleSubmit}>
@@ -85,32 +83,6 @@ const ConfigForm: React.FC<ConfigFormProps> = ({
         <span className="help-text">
           在 DeepSeek 控制台获取 API Key
         </span>
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="date-range">时间范围 <span className="required">*</span></label>
-        <div className="date-range">
-          <input
-            type="date"
-            id="start-date"
-            value={config.startDate}
-            onChange={handleInputChange('startDate')}
-            disabled={disabled}
-            className={!isStartDateValid ? 'invalid' : ''}
-          />
-          <span>至</span>
-          <input
-            type="date"
-            id="end-date"
-            value={config.endDate}
-            onChange={handleInputChange('endDate')}
-            disabled={disabled}
-            className={!isEndDateValid ? 'invalid' : ''}
-          />
-        </div>
-        {(!isStartDateValid || !isEndDateValid) && (
-          <span className="error-message">请选择有效的日期范围</span>
-        )}
       </div>
 
       <div className="form-group">

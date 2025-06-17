@@ -1,23 +1,48 @@
 // API 配置
 export const API_CONFIG = {
   DEEPSEEK_BASE_URL: 'https://api.deepseek.com/v1',
-  GITLAB_API_VERSION: 'v4',
   REQUEST_TIMEOUT: 30000,
   MAX_RETRY_ATTEMPTS: 3,
 }
 
-// 默认提示词
-export const DEFAULT_PROMPT = `
-请根据以下GitLab活动数据生成一份专业的工作周报。要求：
+// 默认配置
+export const DEFAULT_CONFIG = {
+  gitlabUrl: 'https://www.lejuhub.com/api/v4',
+  gitlabToken: '',
+  deepseekApiKey: '',
+  defaultPrompt: '你是一名前端工程师, 现在需要提交一份100字左右的周报, 请根据Git提交记录生成一份简洁的周报;请使用中文回答; 请使用简单文本, 不要使用markdown格式;减少笼统的描述;不需要下周计划;',
+  tokenLimit: 1000,
+  model: 'deepseek-chat',
+  customPrompt: '',
+}
 
-1. **工作总结**：整理本周的主要工作内容和成果
-2. **项目进展**：按项目分类展示具体进展
-3. **代码贡献**：统计提交、合并请求等代码相关活动
-4. **问题处理**：总结处理的问题和bug修复情况
-5. **下周计划**：基于当前进展制定下周工作重点
+// 配置占位符
+export const CONFIG_PLACEHOLDERS = {
+  gitlabUrl: 'https://gitlab.example.com',
+  gitlabToken: 'glpat-xxxxxxxxxxxxxxxxxxxx',
+  deepseekApiKey: 'sk-xxxxxxxxxxxxxxxxxxxxxxxx',
+  defaultPrompt: '请根据以下GitLab事件数据生成工作周报...',
+}
 
-请用中文输出，格式清晰，重点突出。
-`
+// 筛选条件默认值
+export const DEFAULT_FILTER_CONDITIONS = {
+  timeRange: '7d' as const,
+  targetType: [],
+  action: [],
+}
+
+// 排序选项默认值
+export const DEFAULT_SORT_OPTIONS = {
+  field: 'created_at' as const,
+  order: 'desc' as const,
+}
+
+// 分页选项默认值
+export const DEFAULT_PAGINATION_OPTIONS = {
+  page: 1,
+  pageSize: 20,
+  total: 0,
+}
 
 // 存储键名
 export const STORAGE_KEYS = {
@@ -62,4 +87,4 @@ export const SUCCESS_MESSAGES = {
   CONFIG_SAVED: '配置保存成功',
   REPORT_GENERATED: '周报生成成功',
   DATA_EXPORTED: '数据导出成功',
-} 
+}

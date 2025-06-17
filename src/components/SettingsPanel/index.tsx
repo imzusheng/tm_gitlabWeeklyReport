@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { AppConfig } from '@/types'
 import Modal from '../Modal'
+import { CONFIG_PLACEHOLDERS } from '@/constants'
 import './index.less'
 
 interface SettingsPanelProps {
@@ -18,6 +19,18 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
 }) => {
   const [formData, setFormData] = useState<AppConfig>(config)
   const [activeTab, setActiveTab] = useState<'gitlab' | 'deepseek'>('gitlab')
+
+  // 当配置更新时，同步表单数据
+  useEffect(() => {
+    setFormData(config)
+  }, [config])
+
+  // 当面板打开时，重置表单数据为当前配置
+  useEffect(() => {
+    if (visible) {
+      setFormData(config)
+    }
+  }, [visible, config])
 
   const handleInputChange = (field: keyof AppConfig, value: string | number) => {
     setFormData(prev => ({
@@ -100,7 +113,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <input
                   type="text"
                   className="form-input"
-                  placeholder="https://gitlab.example.com/group/project"
+                  placeholder={CONFIG_PLACEHOLDERS.gitlabUrl}
                   value={formData.gitlabUrl}
                   onChange={(e) => handleInputChange('gitlabUrl', e.target.value)}
                 />
@@ -116,13 +129,13 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <input
                   type="password"
                   className="form-input"
-                  placeholder="glpat-xxxxxxxxxxxxxxxxxxxx"
+                  placeholder={CONFIG_PLACEHOLDERS.gitlabToken}
                   value={formData.gitlabToken}
                   onChange={(e) => handleInputChange('gitlabToken', e.target.value)}
                 />
-                                 <div className="form-hint">
-                   在 GitLab 个人设置 &gt; 访问令牌 中创建，需要 read_api 权限
-                 </div>
+                <div className="form-hint">
+                  在 GitLab 个人设置 → 访问令牌 中创建，需要 read_api 权限
+                </div>
               </div>
             </div>
           )}
@@ -136,7 +149,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <input
                   type="password"
                   className="form-input"
-                  placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxx"
+                  placeholder={CONFIG_PLACEHOLDERS.deepseekApiKey}
                   value={formData.deepseekApiKey}
                   onChange={(e) => handleInputChange('deepseekApiKey', e.target.value)}
                 />
@@ -168,6 +181,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   className="form-input"
                   min="1000"
                   max="10000"
+                  placeholder="4000"
                   value={formData.tokenLimit}
                   onChange={(e) => handleInputChange('tokenLimit', parseInt(e.target.value))}
                 />
@@ -183,7 +197,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <textarea
                   className="form-textarea"
                   rows={6}
-                  placeholder="请根据以下GitLab事件数据生成工作周报..."
+                  placeholder={CONFIG_PLACEHOLDERS.defaultPrompt}
                   value={formData.defaultPrompt}
                   onChange={(e) => handleInputChange('defaultPrompt', e.target.value)}
                 />

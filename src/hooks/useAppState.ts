@@ -1,45 +1,23 @@
 import { useState, useEffect, useCallback } from 'react'
 import { AppConfig, WeeklyReportData, AppState, FilterConditions, SortOptions, PaginationOptions, AIGenerationConfig, PanelType } from '@/types'
 import { storageUtils } from '@/utils'
-
-const initialConfig: AppConfig = {
-  gitlabUrl: '',
-  gitlabToken: '',
-  deepseekApiKey: '',
-  defaultPrompt: '请根据以下GitLab事件数据生成工作周报，包括本周主要工作内容、完成的任务、遇到的问题以及下周计划。请使用专业的语言和清晰的结构。',
-  tokenLimit: 4000,
-  model: 'deepseek-chat',
-  customPrompt: '',
-}
-
-const initialFilterConditions: FilterConditions = {
-  timeRange: '7d',
-  eventTypes: [],
-  eventStatus: [],
-  eventLabels: [],
-}
-
-const initialSortOptions: SortOptions = {
-  field: 'created_at',
-  order: 'desc',
-}
-
-const initialPaginationOptions: PaginationOptions = {
-  page: 1,
-  pageSize: 20,
-  total: 0,
-}
+import { 
+  DEFAULT_CONFIG, 
+  DEFAULT_FILTER_CONDITIONS, 
+  DEFAULT_SORT_OPTIONS, 
+  DEFAULT_PAGINATION_OPTIONS 
+} from '@/constants'
 
 const initialState: AppState = {
-  config: initialConfig,
+  config: DEFAULT_CONFIG,
   reportData: null,
   isLoading: false,
   error: null,
   theme: 'system',
   activePanel: 'main',
-  filterConditions: initialFilterConditions,
-  sortOptions: initialSortOptions,
-  paginationOptions: initialPaginationOptions,
+  filterConditions: DEFAULT_FILTER_CONDITIONS,
+  sortOptions: DEFAULT_SORT_OPTIONS,
+  paginationOptions: DEFAULT_PAGINATION_OPTIONS,
   events: [],
   aiGenerationConfig: null,
 }
@@ -49,13 +27,22 @@ export function useAppState() {
 
   // 加载保存的配置
   useEffect(() => {
-    const savedConfig = storageUtils.loadConfig()
-    if (savedConfig) {
-      setState(prev => ({
-        ...prev,
-        config: { ...prev.config, ...savedConfig }
-      }))
+    const loadSavedConfig = async () => {
+      try {
+        const savedConfig = await storageUtils.loadConfig()
+        if (savedConfig) {
+          setState(prev => ({
+            ...prev,
+            config: { ...DEFAULT_CONFIG, ...savedConfig }
+          }))
+        }
+      } catch (error) {
+        console.error('加载保存的配置失败:', error)
+      }
     }
+
+    loadSavedConfig()
+    // 如果没有保存的配置，保持使用 DEFAULT_CONFIG 作为默认值
   }, [])
 
   // 更新配置

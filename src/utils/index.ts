@@ -1,39 +1,70 @@
-import { STORAGE_KEYS } from '@/constants'
-import { AppConfig } from '@/types'
+
+
+import { storageAdapter } from './request'
 
 /**
  * 日期工具函数
  */
 export const dateUtils = {
   /**
-   * 获取当前日期的字符串表示 (YYYY-MM-DD)
+   * 格式化日期
    */
-  getCurrentDate(): string {
-    return new Date().toISOString().split('T')[0]
+  formatDate: (date: Date | string, format = 'YYYY-MM-DD HH:mm:ss'): string => {
+    const d = new Date(date)
+    const year = d.getFullYear()
+    const month = String(d.getMonth() + 1).padStart(2, '0')
+    const day = String(d.getDate()).padStart(2, '0')
+    const hours = String(d.getHours()).padStart(2, '0')
+    const minutes = String(d.getMinutes()).padStart(2, '0')
+    const seconds = String(d.getSeconds()).padStart(2, '0')
+
+    return format
+      .replace('YYYY', String(year))
+      .replace('MM', month)
+      .replace('DD', day)
+      .replace('HH', hours)
+      .replace('mm', minutes)
+      .replace('ss', seconds)
   },
 
   /**
-   * 获取一周前的日期
+   * 相对时间
    */
-  getWeekAgo(): string {
-    const date = new Date()
-    date.setDate(date.getDate() - 7)
-    return date.toISOString().split('T')[0]
+  timeAgo: (date: Date | string): string => {
+    const now = new Date()
+    const target = new Date(date)
+    const diff = now.getTime() - target.getTime()
+
+    const seconds = Math.floor(diff / 1000)
+    const minutes = Math.floor(seconds / 60)
+    const hours = Math.floor(minutes / 60)
+    const days = Math.floor(hours / 24)
+
+    if (days > 0) return `${days}天前`
+    if (hours > 0) return `${hours}小时前`
+    if (minutes > 0) return `${minutes}分钟前`
+    return '刚刚'
   },
 
   /**
-   * 格式化日期为可读格式
+   * 验证日期
    */
-  formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString('zh-CN')
+  isValidDate: (date: string): boolean => {
+    return !isNaN(Date.parse(date))
   },
 
   /**
-   * 验证日期格式
+   * 获取日期范围
    */
-  isValidDate(dateString: string): boolean {
-    const date = new Date(dateString)
-    return !isNaN(date.getTime()) && dateString.match(/^\d{4}-\d{2}-\d{2}$/) !== null
+  getDateRange: (days: number): { start: string; end: string } => {
+    const end = new Date()
+    const start = new Date()
+    start.setDate(start.getDate() - days)
+
+    return {
+      start: start.toISOString().split('T')[0],
+      end: end.toISOString().split('T')[0],
+    }
   },
 }
 
@@ -42,64 +73,53 @@ export const dateUtils = {
  */
 export const storageUtils = {
   /**
-   * 保存配置到存储
+   * 保存配置
    */
-  saveConfig(config: AppConfig): void {
-    if (typeof window !== 'undefined') {
-      try {
-        if (typeof GM_setValue !== 'undefined') {
-          // 油猴脚本环境
-          GM_setValue(STORAGE_KEYS.CONFIG, JSON.stringify(config))
-        } else {
-          // Web环境
-          localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(config))
-        }
-      } catch (error) {
-        console.error('保存配置失败:', error)
+  saveConfig: (config: any): void => {
+    try {
+      storageAdapter.setItem('gitlab-weekly-config', JSON.stringify(config))
+    } catch (error) {
+      console.error('保存配置失败:', error)
+      // 降级到 localStorage
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('gitlab-weekly-config', JSON.stringify(config))
       }
     }
   },
 
   /**
-   * 从存储读取配置
+   * 加载配置
    */
-  loadConfig(): AppConfig | null {
-    if (typeof window !== 'undefined') {
+  loadConfig: (): any | null => {
+    try {
+      const config = storageAdapter.getItem('gitlab-weekly-config')
+      return config ? JSON.parse(config) : null
+    } catch (error) {
+      console.error('加载配置失败:', error)
+      // 降级到 localStorage
       try {
-        let configStr: string | null = null
-        
-        if (typeof GM_getValue !== 'undefined') {
-          // 油猴脚本环境
-          configStr = GM_getValue(STORAGE_KEYS.CONFIG, null)
-        } else {
-          // Web环境
-          configStr = localStorage.getItem(STORAGE_KEYS.CONFIG)
+        if (typeof localStorage !== 'undefined') {
+          const config = localStorage.getItem('gitlab-weekly-config')
+          return config ? JSON.parse(config) : null
         }
-
-        return configStr ? JSON.parse(configStr) : null
-      } catch (error) {
-        console.error('读取配置失败:', error)
-        return null
+      } catch (fallbackError) {
+        console.error('降级存储加载失败:', fallbackError)
       }
+      return null
     }
-    return null
   },
 
   /**
-   * 清除存储的配置
+   * 清除配置
    */
-  clearConfig(): void {
-    if (typeof window !== 'undefined') {
-      try {
-        if (typeof GM_deleteValue !== 'undefined') {
-          // 油猴脚本环境
-          GM_deleteValue(STORAGE_KEYS.CONFIG)
-        } else {
-          // Web环境
-          localStorage.removeItem(STORAGE_KEYS.CONFIG)
-        }
-      } catch (error) {
-        console.error('清除配置失败:', error)
+  clearConfig: (): void => {
+    try {
+      storageAdapter.removeItem('gitlab-weekly-config')
+    } catch (error) {
+      console.error('清除配置失败:', error)
+      // 降级到 localStorage
+      if (typeof localStorage !== 'undefined') {
+        localStorage.removeItem('gitlab-weekly-config')
       }
     }
   },
@@ -110,22 +130,22 @@ export const storageUtils = {
  */
 export const urlUtils = {
   /**
-   * 验证GitLab URL格式
+   * 验证GitLab URL
    */
-  isValidGitLabUrl(url: string): boolean {
+  isValidGitLabUrl: (url: string): boolean => {
     try {
-      const parsedUrl = new URL(url)
-      return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:'
+      const urlObj = new URL(url)
+      return urlObj.protocol === 'http:' || urlObj.protocol === 'https:'
     } catch {
       return false
     }
   },
 
   /**
-   * 标准化GitLab URL（移除末尾斜杠）
+   * 规范化URL
    */
-  normalizeGitLabUrl(url: string): string {
-    return url.replace(/\/$/, '')
+  normalizeUrl: (url: string): string => {
+    return url.replace(/\/+$/, '')
   },
 }
 
@@ -198,12 +218,12 @@ export function debounce<T extends (...args: any[]) => any>(
   delay: number
 ): (...args: Parameters<T>) => void {
   let timeoutId: NodeJS.Timeout | null = null
-  
+
   return (...args: Parameters<T>) => {
     if (timeoutId) {
       clearTimeout(timeoutId)
     }
-    
+
     timeoutId = setTimeout(() => {
       func(...args)
     }, delay)
@@ -218,13 +238,15 @@ export function throttle<T extends (...args: any[]) => any>(
   delay: number
 ): (...args: Parameters<T>) => void {
   let lastExecTime = 0
-  
+
   return (...args: Parameters<T>) => {
     const currentTime = Date.now()
-    
+
     if (currentTime - lastExecTime >= delay) {
       func(...args)
       lastExecTime = currentTime
     }
   }
-} 
+}
+
+ 

@@ -3,6 +3,14 @@ description: GitLab 周报生成器项目开发规范
 globs: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '**/*.less', '**/*.css']
 alwaysApply: true
 ---
+---
+description: GitLab 周报生成器项目开发规范
+globs: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '**/*.less', '**/*.css']
+alwaysApply: true
+---
+
+- 修改完成后运行npm run build检查错误
+- 不需要运行npm run dev
 
 # GitLab 周报生成器开发规范
 

@@ -99,9 +99,29 @@ export interface DeepSeekResponse {
 // 筛选条件类型
 export interface FilterConditions {
   timeRange: '7d' | '30d' | '90d' | '180d' | '365d'
-  eventTypes: string[]
-  eventStatus: string[]
-  eventLabels: string[]
+  targetType: (
+    | 'epic'
+    | 'issue'
+    | 'merge_request'
+    | 'milestone'
+    | 'note'
+    | 'project'
+    | 'snippet'
+    | 'user'
+  )[]
+  action: (
+    | 'created'
+    | 'updated'
+    | 'closed'
+    | 'reopened'
+    | 'pushed'
+    | 'commented'
+    | 'merged'
+    | 'approved'
+    | 'joined'
+    | 'left'
+    | 'deleted'
+  )[]
 }
 
 // 排序类型
@@ -162,4 +182,4 @@ export interface AppState {
   paginationOptions: PaginationOptions
   events: GitLabEvent[]
   aiGenerationConfig: AIGenerationConfig | null
-} 
+}
