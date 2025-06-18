@@ -36,7 +36,7 @@
         background: transparent;
       }
 
-      .login-status {
+      .config-status {
         .status-indicator {
           display: flex;
           align-items: center;
@@ -64,12 +64,12 @@
             font-weight: 400;
           }
 
-          &.logged-in {
+          &.config-valid {
             background: rgba(52, 199, 89, 0.1);
             color: #34c759;
           }
 
-          &.logged-out {
+          &.config-invalid {
             background: rgba(255, 59, 48, 0.1);
             color: #ff3b30;
           }
@@ -213,20 +213,16 @@
           background: transparent;
         }
 
-        .login-status {
+        .config-status {
           .status-indicator {
-            &.logged-in {
+            &.config-valid {
               background: rgba(52, 199, 89, 0.2);
               color: #32d74b;
             }
 
-            &.logged-out {
+            &.config-invalid {
               background: rgba(255, 69, 58, 0.2);
               color: #ff453a;
-            }
-
-            .user-name {
-              color: #8e8e93;
             }
           }
         }

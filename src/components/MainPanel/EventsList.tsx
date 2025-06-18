@@ -1,5 +1,6 @@
 import React from 'react'
 import { GitLabEvent, SortOptions, PaginationOptions } from '@/types'
+import { errorUtils } from '@/utils'
 import Pagination from '../Pagination'
 import './EventsList.less'
 
@@ -215,7 +216,7 @@ const EventsList: React.FC<EventsListProps> = ({
           <div className="empty-state">
             <div className="empty-icon">📄</div>
             <p>暂无事件数据</p>
-            <span>请检查筛选条件或GitLab配置</span>
+            <span>{errorUtils.configErrors.INVALID_FILTER_OR_CONFIG}</span>
           </div>
         ) : (
           events.map(event => {

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { AppConfig, WeeklyReportData, AppState, FilterConditions, SortOptions, PaginationOptions, AIGenerationConfig, PanelType, GitLabEvent, UserSession } from '@/types'
+import { AppConfig, WeeklyReportData, AppState, FilterConditions, SortOptions, PaginationOptions, AIGenerationConfig, PanelType, GitLabEvent } from '@/types'
 import { storageUtils } from '@/utils'
 import { 
   DEFAULT_CONFIG, 
@@ -10,7 +10,6 @@ import {
 
 const initialState: AppState = {
   config: DEFAULT_CONFIG,
-  userSession: null,
   reportData: null,
   isLoading: false,
   error: null,
@@ -27,19 +26,15 @@ const initialState: AppState = {
 export function useAppState() {
   const [state, setState] = useState<AppState>(initialState)
 
-  // 加载保存的配置和用户会话
+  // 加载保存的配置
   useEffect(() => {
     const loadSavedData = async () => {
       try {
-        const [savedConfig, savedSession] = await Promise.all([
-          storageUtils.loadConfig(),
-          storageUtils.loadUserSession()
-        ])
+        const savedConfig = await storageUtils.loadConfig()
         
         setState(prev => ({
           ...prev,
-          config: savedConfig ? { ...DEFAULT_CONFIG, ...savedConfig } : DEFAULT_CONFIG,
-          userSession: savedSession
+          config: savedConfig ? { ...DEFAULT_CONFIG, ...savedConfig } : DEFAULT_CONFIG
         }))
       } catch (error) {
         console.error('加载保存的数据失败:', error)
@@ -61,49 +56,7 @@ export function useAppState() {
     })
   }, [])
 
-  // 设置用户会话
-  const setUserSession = useCallback((session: UserSession | null) => {
-    setState(prev => ({
-      ...prev,
-      userSession: session
-    }))
-    
-    if (session) {
-      storageUtils.saveUserSession(session)
-    } else {
-      storageUtils.clearUserSession()
-    }
-  }, [])
 
-  // 更新会话活跃时间
-  const updateSessionActivity = useCallback(() => {
-    setState(prev => {
-      if (prev.userSession) {
-        const updatedSession = {
-          ...prev.userSession,
-          lastActiveTime: new Date().toISOString()
-        }
-        storageUtils.saveUserSession(updatedSession)
-        return {
-          ...prev,
-          userSession: updatedSession
-        }
-      }
-      return prev
-    })
-  }, [])
-
-  // 检查会话是否有效
-  const isSessionValid = useCallback(() => {
-    const session = state.userSession
-    if (!session) return false
-    
-    const loginTime = new Date(session.loginTime)
-    const now = new Date()
-    const hoursDiff = (now.getTime() - loginTime.getTime()) / (1000 * 60 * 60)
-    
-    return hoursDiff <= 24
-  }, [state.userSession])
 
   // 设置活动面板
   const setActivePanel = useCallback((panel: PanelType) => {
@@ -112,7 +65,6 @@ export function useAppState() {
 
   // 更新筛选条件
   const updateFilterConditions = useCallback((filters: FilterConditions) => {
-
     setState(prev => ({
       ...prev,
       filterConditions: filters,
@@ -201,7 +153,6 @@ export function useAppState() {
   const resetState = useCallback(() => {
     setState(initialState)
     storageUtils.clearConfig()
-    storageUtils.clearUserSession()
   }, [])
 
   // 验证配置完整性
@@ -214,11 +165,6 @@ export function useAppState() {
       defaultPrompt.trim()
     )
   }, [state.config])
-
-  // 验证是否已登录
-  const isLoggedIn = useCallback(() => {
-    return state.userSession !== null && isSessionValid()
-  }, [state.userSession, isSessionValid])
 
   // 获取时间范围
   const getTimeRange = useCallback(() => {
@@ -244,10 +190,6 @@ export function useAppState() {
   return {
     state,
     updateConfig,
-    setUserSession,
-    updateSessionActivity,
-    isSessionValid,
-    isLoggedIn,
     setActivePanel,
     updateFilterConditions,
     updateSortOptions,

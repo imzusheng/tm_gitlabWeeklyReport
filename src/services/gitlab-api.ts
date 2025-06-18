@@ -1,7 +1,7 @@
-import { GitLabEvent, GitLabProject, GitLabUser, UserSession } from '@/types'
+import { GitLabEvent, GitLabProject, GitLabUser } from '@/types'
 import { API_CONFIG } from '@/constants'
 import { request, isUserscriptEnvironment } from '@/utils/request'
-import { storageUtils } from '@/utils'
+import { errorUtils } from '@/utils'
 
 export class GitLabApiService {
   private baseUrl: string
@@ -43,7 +43,7 @@ export class GitLabApiService {
 
     if (!response.ok) {
       const errorText = await response.text()
-      throw new Error(`HTTP ${response.status}: ${errorText || response.statusText}`)
+      throw errorUtils.createApiError(response.status, errorText || response.statusText, 'GitLab API')
     }
 
     return response.json()
@@ -80,7 +80,7 @@ export class GitLabApiService {
     
     // 验证Token格式
     if (!this.validateToken()) {
-      throw new Error('Token格式无效')
+      throw errorUtils.createResponseError('Token格式无效', 'GitLab API')
     }
     
     const user = await this.request<GitLabUser>('/user')
@@ -89,32 +89,16 @@ export class GitLabApiService {
   }
 
   /**
-   * 登录并创建用户会话
+   * 初始化GitLab服务
    */
-  async login(): Promise<UserSession> {
-    const user = await this.getCurrentUser()
-    const now = new Date().toISOString()
-    
-    const session: UserSession = {
-      user,
-      token: this.token,
-      gitlabUrl: this.baseUrl,
-      loginTime: now,
-      lastActiveTime: now
+  async init(): Promise<void> {
+    try {
+      // 验证当前配置是否有效
+      await this.getCurrentUser()
+    } catch (error) {
+      console.error('GitLab服务初始化失败:', error)
+      throw new Error('GitLab服务初始化失败，请检查GitLab URL和Token是否正确')
     }
-
-    // 持久化保存用户会话
-    storageUtils.saveUserSession(session)
-    
-    return session
-  }
-
-  /**
-   * 登出并清除用户会话
-   */
-  logout(): void {
-    this.currentUser = null
-    storageUtils.clearUserSession()
   }
 
   /**
@@ -163,9 +147,6 @@ export class GitLabApiService {
       `/users/${userId}/events?${queryString}` : 
       `/users/${userId}/events`
 
-    // 更新用户会话活跃时间
-    storageUtils.updateUserSessionActivity()
-
     return this.request(endpoint)
   }
 
@@ -183,17 +164,7 @@ export class GitLabApiService {
     return this.currentUser
   }
 
-  /**
-   * 从会话恢复用户信息
-   */
-  restoreFromSession(): UserSession | null {
-    const session = storageUtils.loadUserSession()
-    if (session && session.token === this.token && session.gitlabUrl === this.baseUrl) {
-      this.currentUser = session.user
-      return session
-    }
-    return null
-  }
+
 }
 
 /**
@@ -203,10 +174,5 @@ export function createGitLabApiService(
   baseUrl: string,
   token: string,
 ): GitLabApiService {
-  const service = new GitLabApiService(baseUrl, token)
-  
-  // 尝试从会话恢复用户信息
-  service.restoreFromSession()
-  
-  return service
+  return new GitLabApiService(baseUrl, token)
 }

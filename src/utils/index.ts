@@ -1,4 +1,4 @@
-import { AppConfig, UserSession } from '@/types'
+import { AppConfig } from '@/types'
 import { storageAdapter } from './request'
 import { STORAGE_KEYS } from '@/constants'
 
@@ -124,83 +124,7 @@ export const storageUtils = {
     }
   },
 
-  /**
-   * 保存用户会话
-   */
-  saveUserSession: (session: UserSession): void => {
-    try {
-      storageAdapter.setItem(STORAGE_KEYS.USER_SESSION, JSON.stringify(session))
-    } catch (error) {
-      console.error('保存用户会话失败:', error)
-      // 降级到 localStorage
-      if (typeof localStorage !== 'undefined') {
-        localStorage.setItem(STORAGE_KEYS.USER_SESSION, JSON.stringify(session))
-      }
-    }
-  },
 
-  /**
-   * 加载用户会话
-   */
-  loadUserSession: (): UserSession | null => {
-    try {
-      const session = storageAdapter.getItem(STORAGE_KEYS.USER_SESSION)
-      if (session) {
-        const parsedSession = JSON.parse(session)
-        // 检查会话是否过期（24小时）
-        const loginTime = new Date(parsedSession.loginTime)
-        const now = new Date()
-        const hoursDiff = (now.getTime() - loginTime.getTime()) / (1000 * 60 * 60)
-        
-        if (hoursDiff > 24) {
-          // 会话过期，清除
-          storageUtils.clearUserSession()
-          return null
-        }
-        
-        return parsedSession
-      }
-      return null
-    } catch (error) {
-      console.error('加载用户会话失败:', error)
-      // 降级到 localStorage
-      try {
-        if (typeof localStorage !== 'undefined') {
-          const session = localStorage.getItem(STORAGE_KEYS.USER_SESSION)
-          return session ? JSON.parse(session) : null
-        }
-      } catch (fallbackError) {
-        console.error('降级存储加载失败:', fallbackError)
-      }
-      return null
-    }
-  },
-
-  /**
-   * 清除用户会话
-   */
-  clearUserSession: (): void => {
-    try {
-      storageAdapter.removeItem(STORAGE_KEYS.USER_SESSION)
-    } catch (error) {
-      console.error('清除用户会话失败:', error)
-      // 降级到 localStorage
-      if (typeof localStorage !== 'undefined') {
-        localStorage.removeItem(STORAGE_KEYS.USER_SESSION)
-      }
-    }
-  },
-
-  /**
-   * 更新用户会话的最后活跃时间
-   */
-  updateUserSessionActivity: (): void => {
-    const session = storageUtils.loadUserSession()
-    if (session) {
-      session.lastActiveTime = new Date().toISOString()
-      storageUtils.saveUserSession(session)
-    }
-  },
 }
 
 /**
@@ -286,6 +210,92 @@ export const errorUtils = {
            message.includes('timeout') ||
            message.includes('连接')
   },
+
+  /**
+   * 处理GitLab API错误
+   */
+  handleGitLabError(error: unknown): string {
+    const message = this.getErrorMessage(error)
+    
+    if (message.includes('429')) {
+      return '请求过于频繁，请稍后再试'
+    }
+    
+    if (message.includes('401') || message.includes('403')) {
+      return 'GitLab Token 无效或权限不足，请检查配置'
+    }
+    
+    if (message.includes('404')) {
+      return 'GitLab API 地址不正确，请检查配置'
+    }
+    
+    if (this.isNetworkError(error)) {
+      return '网络连接失败，请检查网络设置'
+    }
+    
+    return `加载失败: ${message}`
+  },
+
+  /**
+   * 处理DeepSeek API错误
+   */
+  handleDeepSeekError(error: unknown): string {
+    const message = this.getErrorMessage(error)
+    
+    if (message.includes('401') || message.includes('403')) {
+      return 'DeepSeek API Key 无效或权限不足，请检查配置'
+    }
+    
+    if (message.includes('429')) {
+      return 'DeepSeek API 请求过于频繁，请稍后再试'
+    }
+    
+    if (message.includes('500') || message.includes('502') || message.includes('503')) {
+      return 'DeepSeek API 服务暂时不可用，请稍后再试'
+    }
+    
+    if (this.isNetworkError(error)) {
+      return '网络连接失败，请检查网络设置'
+    }
+    
+    return `DeepSeek API 调用失败: ${message}`
+  },
+
+  /**
+   * 通用错误处理
+   */
+  handleGenericError(error: unknown, defaultMessage = '操作失败'): string {
+    if (this.isNetworkError(error)) {
+      return '网络连接失败，请检查网络设置'
+    }
+    
+    const message = this.getErrorMessage(error)
+    return message || defaultMessage
+  },
+
+  /**
+   * 创建标准化的API错误
+   */
+  createApiError(status: number, statusText: string, apiName = 'API'): Error {
+    return new Error(`${apiName} Error: ${status} ${statusText}`)
+  },
+
+  /**
+   * 创建标准化的响应错误
+   */
+  createResponseError(message: string, apiName = 'API'): Error {
+    return new Error(`${apiName} 返回了${message}`)
+  },
+
+  /**
+   * 配置验证错误消息
+   */
+  configErrors: {
+    INCOMPLETE_GITLAB_DEEPSEEK: '请先完善GitLab和DeepSeek配置信息',
+    INCOMPLETE_CONFIG: '请先完善配置信息',
+    NO_EVENTS_SELECTED: '请至少选择一个事件来生成周报',
+    INVALID_FILTER_OR_CONFIG: '请检查筛选条件或GitLab配置'
+  } as const,
 }
 
 /**

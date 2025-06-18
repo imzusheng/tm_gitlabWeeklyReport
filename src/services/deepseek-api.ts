@@ -1,6 +1,7 @@
 import { DeepSeekMessage, DeepSeekResponse } from '@/types'
 import { API_CONFIG } from '@/constants'
 import { request } from '@/utils/request'
+import { errorUtils } from '@/utils'
 
 export class DeepSeekApiService {
   private apiKey: string
@@ -33,13 +34,13 @@ export class DeepSeekApiService {
     })
 
     if (!response.ok) {
-      throw new Error(`DeepSeek API Error: ${response.status} ${response.statusText}`)
+      throw errorUtils.createApiError(response.status, response.statusText, 'DeepSeek API')
     }
 
     const data: DeepSeekResponse = await response.json()
     
     if (!data.choices || data.choices.length === 0) {
-      throw new Error('DeepSeek API 返回了空的响应')
+      throw errorUtils.createResponseError('空的响应', 'DeepSeek API')
     }
 
     return data.choices[0].message.content
@@ -81,13 +82,13 @@ export class DeepSeekApiService {
     })
 
     if (!response.ok) {
-      throw new Error(`DeepSeek API Error: ${response.status} ${response.statusText}`)
+      throw errorUtils.createApiError(response.status, response.statusText, 'DeepSeek API')
     }
 
     const data: DeepSeekResponse = await response.json()
     
     if (!data.choices || data.choices.length === 0) {
-      throw new Error('DeepSeek API 返回了空的响应')
+      throw errorUtils.createResponseError('空的响应', 'DeepSeek API')
     }
 
     return {
@@ -117,4 +118,4 @@ export class DeepSeekApiService {
  */
 export function createDeepSeekApiService(apiKey: string): DeepSeekApiService {
   return new DeepSeekApiService(apiKey)
-} 
+}

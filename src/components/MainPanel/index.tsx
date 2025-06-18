@@ -40,7 +40,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
   onOpenSettings,
   onOpenAI
 }) => {
-  const { state, isLoggedIn } = useAppState()
+  const { isConfigValid } = useAppState()
 
 
   return (
@@ -52,28 +52,17 @@ const MainPanel: React.FC<MainPanelProps> = ({
           <span className="event-count">
             {selectedEventIds.length}/{paginationOptions.total} 个事件
           </span>
-          {/* 登录状态显示 */}
-          <div className="login-status">
-            {isLoggedIn() ? (
-              <span className="status-indicator logged-in">
-                {state.userSession?.user?.avatar_url ? (
-                  <img 
-                    src={state.userSession.user.avatar_url} 
-                    alt={state.userSession.user.name}
-                    className="user-avatar"
-                  />
-                ) : (
-                  <span className="status-icon">✅</span>
-                )}
-                已登录
-                {state.userSession?.user?.name && (
-                  <span className="user-name">({state.userSession.user.name})</span>
-                )}
+          {/* 配置状态显示 */}
+          <div className="config-status">
+            {isConfigValid() ? (
+              <span className="status-indicator config-valid">
+                <span className="status-icon">✅</span>
+                配置完整
               </span>
             ) : (
-              <span className="status-indicator logged-out">
+              <span className="status-indicator config-invalid">
                 <span className="status-icon">❌</span>
-                未登录
+                配置不完整
               </span>
             )}
           </div>

@@ -5,7 +5,7 @@ import SettingsPanel from '@/components/SettingsPanel'
 import AIPanel from '@/components/AIPanel'
 import EventDetailModal from '@/components/Modal/EventDetailModal'
 import { GitLabEvent, PaginationOptions, FilterConditions } from '@/types'
-
+import { errorUtils } from '@/utils'
 import { createGitLabApiService } from '@/services/gitlab-api'
 import './App.less'
 
@@ -28,16 +28,20 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     setError,
     toggleTheme,
     isConfigValid,
-    isSessionValid,
     getTimeRange,
-    setUserSession,
-    isLoggedIn,
   } = useAppState()
+
+  const gitlabService = useMemo(() => {
+    return createGitLabApiService(
+      state.config.gitlabUrl,
+      state.config.gitlabToken,
+    )
+  }, [state.config.gitlabUrl, state.config.gitlabToken])
 
   // 事件详情状态
   const [selectedEvent, setSelectedEvent] = useState<GitLabEvent | null>(null)
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false)
-  
+
   // 事件选择状态
   const [selectedEventIds, setSelectedEventIds] = useState<number[]>([])
 
@@ -67,160 +71,126 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
 
   /**
    * 加载GitLab事件数据
-   * 包含数据获取、筛选、排序和分页逻辑
    */
-  const loadEvents = useCallback(async () => {
-    if (!isConfigValid()) {
-      return
-    }
-
-    setLoading(true)
-    setError(null)
-
-    try {
-      const gitlabService = createGitLabApiService(
-        state.config.gitlabUrl,
-        state.config.gitlabToken,
-      )
-
-      // 检查是否已有有效会话，如果没有则登录
-      if (!state.userSession || !isSessionValid()) {
-        const session = await gitlabService.login()
-        setUserSession(session)
+  const loadEvents = useCallback(
+    async (filterConditions?: FilterConditions) => {
+      if (!isConfigValid()) {
+        setError(errorUtils.configErrors.INVALID_FILTER_OR_CONFIG)
+        return
       }
 
-      const { startDate, endDate } = getTimeRange()
+      setLoading(true)
+      setError(null)
 
-      // 准备筛选参数
-      const targetTypes = state.filterConditions.targetType?.length > 0
-        ? state.filterConditions.targetType
-        : undefined
-      const actions = state.filterConditions.action?.length > 0
-        ? state.filterConditions.action
-        : undefined
+      try {
+        // 确保GitLab服务已初始化
+        await gitlabService.init()
 
-      // 准备排序参数 - 目前接口只支持created_at字段的排序
-      const sort = state.sortOptions.field === 'created_at' ? state.sortOptions.order : 'desc'
+        const { startDate, endDate } = getTimeRange()
+        const currentFilters = filterConditions || state.filterConditions
+        const targetTypes =
+          currentFilters.targetType?.length > 0
+            ? currentFilters.targetType
+            : undefined
 
-      // 获取当前用户信息
-      const currentUser = await gitlabService.getCurrentUser()
+        console.log('📤 最终传递的 targetTypes:', targetTypes)
+        const actions =
+          currentFilters.action?.length > 0 ? currentFilters.action : undefined
 
-      // 获取用户事件数据
-      const events = await gitlabService.getUserEvents(currentUser.id, {
-        after: startDate,
-        before: endDate,
-        target_type: targetTypes,
-        action: actions,
-        sort,
-        page: state.paginationOptions.page,
-        per_page: state.paginationOptions.pageSize,
-      })
+        // 准备排序参数 - 目前接口只支持created_at字段的排序
+        const sort =
+          state.sortOptions.field === 'created_at'
+            ? state.sortOptions.order
+            : 'desc'
 
-      // 对于非created_at字段的排序，在本地处理
-      let sortedEvents = events
-      if (state.sortOptions.field !== 'created_at') {
-        sortedEvents = [...events].sort((a, b) => {
-          const { field, order } = state.sortOptions
-          let aValue: any
-          let bValue: any
-
-          switch (field) {
-            case 'title':
-              aValue = a.title || a.target_title || ''
-              bValue = b.title || b.target_title || ''
-              break
-            case 'action_name':
-              aValue = a.action_name
-              bValue = b.action_name
-              break
-            case 'target_type':
-              aValue = a.target_type
-              bValue = b.target_type
-              break
-            default:
-              aValue = new Date(a.created_at).getTime()
-              bValue = new Date(b.created_at).getTime()
-          }
-
-          if (order === 'asc') {
-            return aValue > bValue ? 1 : -1
-          } else {
-            return aValue < bValue ? 1 : -1
-          }
-        })
-      }
-
-      setEvents(sortedEvents)
-      // 默认选中所有事件
-      setSelectedEventIds(sortedEvents.map(event => event.id))
-      // 由于使用了后端分页，这里设置一个估算的总数
-      setTotal(
-        events.length === state.paginationOptions.pageSize
-          ? state.paginationOptions.page * state.paginationOptions.pageSize + 1
-          : (state.paginationOptions.page - 1) *
-              state.paginationOptions.pageSize +
-              events.length,
-      )
-    } catch (error) {
-      console.error('❌ 加载事件数据失败:', error)
-
-      let errorMessage = '加载事件数据失败'
-
-      if (error instanceof Error) {
-        if (error.message.includes('429')) {
-          errorMessage = '请求过于频繁，请稍后再试'
-        } else if (
-          error.message.includes('401') ||
-          error.message.includes('403')
-        ) {
-          errorMessage = 'GitLab Token 无效或权限不足，请检查配置'
-        } else if (error.message.includes('404')) {
-          errorMessage = 'GitLab API 地址不正确，请检查配置'
-        } else if (error.message.includes('Network')) {
-          errorMessage = '网络连接失败，请检查网络设置'
-        } else {
-          errorMessage = `加载失败: ${error.message}`
+        // 获取当前用户信息
+        const currentUser = await gitlabService.getCurrentUser()
+        const params = {
+          after: startDate,
+          before: endDate,
+          target_type: targetTypes,
+          action: actions,
+          page: state.paginationOptions.page,
+          per_page: state.paginationOptions.pageSize,
+          sort,
         }
-      } else {
-        errorMessage = '未知错误，请检查GitLab配置或网络连接'
+        // 获取用户事件数据
+        const events = await gitlabService.getUserEvents(currentUser.id, params)
+
+        // 对于非created_at字段的排序，在本地处理
+        let sortedEvents = events
+        // if (state.sortOptions.field !== 'created_at') {
+        //   sortedEvents = [...events].sort((a, b) => {
+        //     const { field, order } = state.sortOptions
+        //     let aValue: any
+        //     let bValue: any
+
+        //     switch (field) {
+        //       case 'title':
+        //         aValue = a.title || a.target_title || ''
+        //         bValue = b.title || b.target_title || ''
+        //         break
+        //       case 'action_name':
+        //         aValue = a.action_name
+        //         bValue = b.action_name
+        //         break
+        //       case 'target_type':
+        //         aValue = a.target_type
+        //         bValue = b.target_type
+        //         break
+        //       default:
+        //         aValue = new Date(a.created_at).getTime()
+        //         bValue = new Date(b.created_at).getTime()
+        //     }
+
+        //     if (order === 'asc') {
+        //       return aValue > bValue ? 1 : -1
+        //     } else {
+        //       return aValue < bValue ? 1 : -1
+        //     }
+        //   })
+        // }
+
+        setEvents(sortedEvents)
+        // 默认选中所有事件
+        setSelectedEventIds(sortedEvents.map(event => event.id))
+        // 由于使用了后端分页，这里设置一个估算的总数
+        setTotal(
+          events.length === state.paginationOptions.pageSize
+            ? state.paginationOptions.page * state.paginationOptions.pageSize +
+                1
+            : (state.paginationOptions.page - 1) *
+                state.paginationOptions.pageSize +
+                events.length,
+        )
+      } catch (error) {
+        console.error('❌ 加载事件数据失败:', error)
+        const errorMessage = errorUtils.handleGitLabError(error)
+        setError(errorMessage)
+        setEvents([])
+        setTotal(0)
+      } finally {
+        setLoading(false)
       }
+    },
+    [
+      state.config,
+      state.paginationOptions.page,
+      state.paginationOptions.pageSize,
+      getTimeRange,
+      setEvents,
+      setTotal,
+      setLoading,
+      setError,
+      isConfigValid,
+    ],
+  )
 
-      setError(errorMessage)
-      setEvents([])
-      setTotal(0)
-    } finally {
-      setLoading(false)
-    }
-  }, [
-    state.config.gitlabUrl,
-    state.config.gitlabToken,
-    state.paginationOptions.page,
-    state.paginationOptions.pageSize,
-    getTimeRange,
-    setEvents,
-    setTotal,
-    setLoading,
-    setError,
-    setUserSession,
-    isLoggedIn,
-    isConfigValid,
-  ])
-
-  // 监听配置和筛选条件变化，自动重新加载数据
   useEffect(() => {
     if (isConfigValid()) {
       loadEvents()
     }
-  }, [
-    state.filterConditions.timeRange,
-    state.filterConditions.targetType,
-    state.filterConditions.action,
-    state.sortOptions.field,
-    state.sortOptions.order,
-    state.paginationOptions.page,
-    loadEvents,
-    isConfigValid,
-  ])
+  }, [isConfigValid, loadEvents])
 
   // 处理设置面板的打开和关闭
   const handleOpenSettings = () => {
@@ -238,7 +208,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   // 处理AI面板的打开和关闭
   const handleOpenAI = () => {
     if (!isConfigValid()) {
-      setError('请先完善GitLab和DeepSeek配置信息')
+      setError(errorUtils.configErrors.INCOMPLETE_GITLAB_DEEPSEEK)
       return
     }
     setActivePanel('ai')
@@ -251,12 +221,12 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   // 处理AI周报生成
   const handleGenerateReport = async (prompt: string) => {
     if (!isConfigValid()) {
-      setError('请先完善配置信息')
+      setError(errorUtils.configErrors.INCOMPLETE_CONFIG)
       return
     }
 
     if (selectedEventIds.length === 0) {
-      setError('请至少选择一个事件来生成周报')
+      setError(errorUtils.configErrors.NO_EVENTS_SELECTED)
       return
     }
 
@@ -265,8 +235,8 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
 
     try {
       // 使用已选中的事件数据
-      const selectedEvents = state.events.filter(event => 
-        selectedEventIds.includes(event.id)
+      const selectedEvents = state.events.filter(event =>
+        selectedEventIds.includes(event.id),
       )
 
       // 格式化事件数据为字符串
@@ -300,9 +270,8 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
       setLoading(false)
     } catch (error) {
       console.error('生成周报失败:', error)
-      setError(
-        error instanceof Error ? error.message : '生成周报时发生错误，请重试',
-      )
+      const errorMessage = errorUtils.handleDeepSeekError(error)
+      setError(errorMessage)
       setLoading(false)
     }
   }
@@ -322,6 +291,8 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   // 处理筛选条件变化
   const handleFilterChange = (filters: FilterConditions) => {
     updateFilterConditions(filters)
+    // 立即使用新的筛选条件加载事件
+    loadEvents(filters)
   }
 
   // 处理排序变化
@@ -331,10 +302,8 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
 
   // 处理事件选择
   const handleEventSelect = (eventId: number, selected: boolean) => {
-    setSelectedEventIds(prev => 
-      selected 
-        ? [...prev, eventId]
-        : prev.filter(id => id !== eventId)
+    setSelectedEventIds(prev =>
+      selected ? [...prev, eventId] : prev.filter(id => id !== eventId),
     )
   }
 

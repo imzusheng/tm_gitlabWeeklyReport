@@ -169,19 +169,9 @@ export type Environment = 'web' | 'userscript'
 // 面板类型
 export type PanelType = 'main' | 'settings' | 'ai'
 
-// 用户登录状态类型
-export interface UserSession {
-  user: GitLabUser
-  token: string
-  gitlabUrl: string
-  loginTime: string
-  lastActiveTime: string
-}
-
 // 应用状态类型
 export interface AppState {
   config: AppConfig
-  userSession: UserSession | null  // 用户登录状态
   reportData: WeeklyReportData | null
   isLoading: boolean
   error: string | null
