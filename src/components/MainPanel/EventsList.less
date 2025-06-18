@@ -33,6 +33,16 @@
         color: #007aff;
       }
 
+      &.checkbox-cell {
+        width: 40px;
+        justify-content: center;
+        cursor: default;
+        
+        &:hover {
+          color: #1d1d1f;
+        }
+      }
+
       &.content-cell {
         flex: 1;
         min-width: 0;
@@ -82,6 +92,14 @@
         background: rgba(0, 122, 255, 0.04);
       }
 
+      &.selected {
+        background: rgba(0, 122, 255, 0.08);
+        
+        &:hover {
+          background: rgba(0, 122, 255, 0.12);
+        }
+      }
+
       &:last-child {
         border-bottom: none;
       }
@@ -89,6 +107,11 @@
       .cell {
         display: flex;
         align-items: center;
+
+        &.checkbox-cell {
+          width: 40px;
+          justify-content: center;
+        }
 
         &.content-cell {
           flex: 1;
@@ -343,6 +366,77 @@
       }
     }
   }
+
+  // Checkbox 样式
+  .checkbox-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+    
+    input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+    
+    .checkmark {
+      position: relative;
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background-color: #ffffff;
+      border: 1.5px solid #d1d1d6;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+      
+      &:after {
+        content: "";
+        position: absolute;
+        display: none;
+        left: 4px;
+        top: 1px;
+        width: 4px;
+        height: 8px;
+        border: solid #ffffff;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+    }
+    
+    &:hover .checkmark {
+      border-color: #007aff;
+      background-color: rgba(0, 122, 255, 0.05);
+    }
+    
+    input:checked ~ .checkmark {
+      background-color: #007aff;
+      border-color: #007aff;
+      
+      &:after {
+        display: block;
+      }
+    }
+    
+    input:indeterminate ~ .checkmark {
+      background-color: #007aff;
+      border-color: #007aff;
+      
+      &:after {
+        display: block;
+        left: 2px;
+        top: 6px;
+        width: 8px;
+        height: 2px;
+        border: none;
+        background-color: #ffffff;
+        transform: none;
+        border-radius: 1px;
+      }
+    }
+  }
 }
 
 // 深色模式适配
@@ -578,4 +672,4 @@
       border-top-color: #48484a;
     }
   }
-} 
+}

@@ -5,22 +5,30 @@ import './EventsList.less'
 
 interface EventsListProps {
   events: GitLabEvent[]
+  totalCount: number
+  loading: boolean
   sortOptions: SortOptions
+  onSortChange: (sortOptions: SortOptions) => void
   paginationOptions: PaginationOptions
-  onSortChange: (sort: SortOptions) => void
-  onPageChange: (page: number) => void
-  onEventDetail: (event: GitLabEvent) => void
-  isLoading: boolean
+  onPaginationChange: (paginationOptions: PaginationOptions) => void
+  selectedEventIds: number[] // 选中的事件ID列表
+  onEventSelect: (eventId: number, selected: boolean) => void // 事件选择回调
+  onSelectAll: (selected: boolean) => void // 全选/取消全选回调
+  onEventDetail: (event: GitLabEvent) => void // 查看事件详情回调
 }
 
 const EventsList: React.FC<EventsListProps> = ({
   events,
+  totalCount,
+  loading,
   sortOptions,
-  paginationOptions,
   onSortChange,
-  onPageChange,
-  onEventDetail,
-  isLoading
+  paginationOptions,
+  onPaginationChange,
+  selectedEventIds,
+  onEventSelect,
+  onSelectAll,
+  onEventDetail
 }) => {
   const handleSort = (field: SortOptions['field']) => {
     const newOrder = sortOptions.field === field && sortOptions.order === 'desc' ? 'asc' : 'desc'
@@ -30,6 +38,31 @@ const EventsList: React.FC<EventsListProps> = ({
   const getSortIcon = (field: SortOptions['field']) => {
     if (sortOptions.field !== field) return ''
     return sortOptions.order === 'desc' ? '↓' : '↑'
+  }
+
+  /**
+   * 检查是否全选
+   */
+  const isAllSelected = events.length > 0 && events.every(event => selectedEventIds.includes(event.id))
+  
+  /**
+   * 检查是否部分选中
+   */
+  const isIndeterminate = selectedEventIds.length > 0 && !isAllSelected
+
+  /**
+   * 处理全选/取消全选
+   */
+  const handleSelectAll = () => {
+    onSelectAll(!isAllSelected)
+  }
+
+  /**
+   * 处理单个事件选择
+   */
+  const handleEventSelect = (eventId: number) => {
+    const isSelected = selectedEventIds.includes(eventId)
+    onEventSelect(eventId, !isSelected)
   }
 
   const formatDate = (dateString: string) => {
@@ -132,7 +165,7 @@ const EventsList: React.FC<EventsListProps> = ({
     }
   }
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="events-list-loading">
         <div className="loading-spinner"></div>
@@ -145,6 +178,20 @@ const EventsList: React.FC<EventsListProps> = ({
     <div className="events-list">
       {/* 表头 */}
       <div className="events-list-header">
+        <div className="header-cell checkbox-cell">
+          <label className="checkbox-container">
+            <input
+              type="checkbox"
+              checked={isAllSelected}
+              ref={input => {
+                if (input) input.indeterminate = isIndeterminate
+              }}
+              onChange={handleSelectAll}
+              title={isAllSelected ? '取消全选' : '全选'}
+            />
+            <span className="checkmark"></span>
+          </label>
+        </div>
         <div className="header-cell content-cell" onClick={() => handleSort('title')}>
           <span>标题和内容</span>
           <span className="sort-icon">{getSortIcon('title')}</span>
@@ -171,47 +218,61 @@ const EventsList: React.FC<EventsListProps> = ({
             <span>请检查筛选条件或GitLab配置</span>
           </div>
         ) : (
-          events.map(event => (
-            <div key={event.id} className="event-row">
-              <div className="cell content-cell">
-                <div className="event-icon">
-                  {getEventTypeIcon(event.action_name, event.target_type)}
+          events.map(event => {
+            const isSelected = selectedEventIds.includes(event.id)
+            return (
+              <div key={event.id} className={`event-row ${isSelected ? 'selected' : ''}`}>
+                <div className="cell checkbox-cell">
+                  <label className="checkbox-container">
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      onChange={() => handleEventSelect(event.id)}
+                      title={isSelected ? '取消选择' : '选择此事件'}
+                    />
+                    <span className="checkmark"></span>
+                  </label>
                 </div>
-                <div className="event-content">
-                  <div className="event-title">{getEventTitle(event)}</div>
-                  <div className="event-description">{getEventContent(event)}</div>
+                <div className="cell content-cell">
+                  <div className="event-icon">
+                    {getEventTypeIcon(event.action_name, event.target_type)}
+                  </div>
+                  <div className="event-content">
+                    <div className="event-title">{getEventTitle(event)}</div>
+                    <div className="event-description">{getEventContent(event)}</div>
+                  </div>
                 </div>
-              </div>
-              <div className="cell action-cell">
-                <span className="action-tag">
-                  {getActionDisplayName(event.action_name, event.target_type)}
-                </span>
-              </div>
-              <div className="cell time-cell">
-                <span className="event-time">{formatDate(event.created_at)}</span>
-              </div>
-              <div className="cell detail-cell">
-                <button 
-                  className="detail-btn"
-                  onClick={() => onEventDetail(event)}
-                  title="查看详情"
-                >
-                  <span className="detail-icon">🔍</span>
-                </button>
-                {getSourceUrl(event) && (
-                  <a 
-                    href={getSourceUrl(event)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="source-btn"
-                    title="打开源页面"
+                <div className="cell action-cell">
+                  <span className="action-tag">
+                    {getActionDisplayName(event.action_name, event.target_type)}
+                  </span>
+                </div>
+                <div className="cell time-cell">
+                  <span className="event-time">{formatDate(event.created_at)}</span>
+                </div>
+                <div className="cell detail-cell">
+                  <button 
+                    className="detail-btn"
+                    onClick={() => onEventDetail(event)}
+                    title="查看详情"
                   >
-                    <span className="source-icon">🔗</span>
-                  </a>
-                )}
+                    <span className="detail-icon">🔍</span>
+                  </button>
+                  {getSourceUrl(event) && (
+                    <a 
+                      href={getSourceUrl(event)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="source-btn"
+                      title="打开源页面"
+                    >
+                      <span className="source-icon">🔗</span>
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
-          ))
+            )
+          })
         )}
       </div>
 
@@ -220,12 +281,12 @@ const EventsList: React.FC<EventsListProps> = ({
         <Pagination
           current={paginationOptions.page}
           pageSize={paginationOptions.pageSize}
-          total={paginationOptions.total}
-          onChange={onPageChange}
+          total={totalCount}
+          onChange={(page) => onPaginationChange({ ...paginationOptions, page })}
         />
       </div>
     </div>
   )
 }
 
-export default EventsList 
+export default EventsList

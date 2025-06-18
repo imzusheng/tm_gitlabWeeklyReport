@@ -7,18 +7,22 @@ import './index.less'
 interface SettingsPanelProps {
   visible: boolean
   config: AppConfig
+  theme: 'light' | 'dark' | 'system'
   onClose: () => void
   onSave: (config: AppConfig) => void
+  onThemeChange: (theme: 'light' | 'dark' | 'system') => void
 }
 
 const SettingsPanel: React.FC<SettingsPanelProps> = ({
   visible,
   config,
+  theme,
   onClose,
-  onSave
+  onSave,
+  onThemeChange
 }) => {
   const [formData, setFormData] = useState<AppConfig>(config)
-  const [activeTab, setActiveTab] = useState<'gitlab' | 'deepseek'>('gitlab')
+  const [activeTab, setActiveTab] = useState<'gitlab' | 'deepseek' | 'appearance'>('gitlab')
 
   // 当配置更新时，同步表单数据
   useEffect(() => {
@@ -100,6 +104,13 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
             <span className="tab-icon">🤖</span>
             DeepSeek 配置
           </button>
+          <button
+            className={`tab-button ${activeTab === 'appearance' ? 'active' : ''}`}
+            onClick={() => setActiveTab('appearance')}
+          >
+            <span className="tab-icon">🎨</span>
+            外观设置
+          </button>
         </div>
 
         {/* 标签页内容 */}
@@ -127,7 +138,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   个人访问令牌 <span className="required">*</span>
                 </label>
                 <input
-                  type="password"
+                  type="text"
                   className="form-input"
                   placeholder={CONFIG_PLACEHOLDERS.gitlabToken}
                   value={formData.gitlabToken}
@@ -147,7 +158,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   DeepSeek API Key <span className="required">*</span>
                 </label>
                 <input
-                  type="password"
+                  type="text"
                   className="form-input"
                   placeholder={CONFIG_PLACEHOLDERS.deepseekApiKey}
                   value={formData.deepseekApiKey}
@@ -207,10 +218,32 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
               </div>
             </div>
           )}
+
+          {activeTab === 'appearance' && (
+            <div className="tab-panel">
+              <div className="form-group">
+                <label className="form-label">
+                  主题模式
+                </label>
+                <select
+                  className="form-select"
+                  value={theme}
+                  onChange={(e) => onThemeChange(e.target.value as 'light' | 'dark' | 'system')}
+                >
+                  <option value="system">🔄 跟随系统</option>
+                  <option value="light">☀️ 浅色模式</option>
+                  <option value="dark">🌙 深色模式</option>
+                </select>
+                <div className="form-hint">
+                  选择应用的主题模式，跟随系统将根据系统设置自动切换
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </Modal>
   )
 }
 
-export default SettingsPanel 
+export default SettingsPanel

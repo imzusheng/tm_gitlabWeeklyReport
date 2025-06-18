@@ -47,6 +47,7 @@ export const DEFAULT_PAGINATION_OPTIONS = {
 // 存储键名
 export const STORAGE_KEYS = {
   CONFIG: 'gitlab_weekly_report_config',
+  USER_SESSION: 'gitlab_weekly_report_user_session',
   THEME: 'gitlab_weekly_report_theme',
   LAST_REPORT: 'gitlab_weekly_report_last',
 }

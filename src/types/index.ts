@@ -169,9 +169,19 @@ export type Environment = 'web' | 'userscript'
 // 面板类型
 export type PanelType = 'main' | 'settings' | 'ai'
 
+// 用户登录状态类型
+export interface UserSession {
+  user: GitLabUser
+  token: string
+  gitlabUrl: string
+  loginTime: string
+  lastActiveTime: string
+}
+
 // 应用状态类型
 export interface AppState {
   config: AppConfig
+  userSession: UserSession | null  // 用户登录状态
   reportData: WeeklyReportData | null
   isLoading: boolean
   error: string | null
@@ -181,5 +191,41 @@ export interface AppState {
   sortOptions: SortOptions
   paginationOptions: PaginationOptions
   events: GitLabEvent[]
+  totalCount: number
   aiGenerationConfig: AIGenerationConfig | null
+}
+
+// GitLab 用户事件获取选项
+export interface UserEventsOptions {
+  startDate: string
+  endDate: string
+  userId?: string | number
+  targetTypes?: string[]
+  actions?: string[]
+  sort?: 'asc' | 'desc'
+  page?: number
+  perPage?: number
+  useUserIdApi?: boolean // 是否强制使用 /users/:id/events 接口
+}
+
+// GitLab API 接口类型
+export type GitLabApiMethod = 'events' | 'users-events'
+
+// 用户信息类型
+export interface GitLabUser {
+  id: number
+  username: string
+  name: string
+  state: string
+  avatar_url: string
+  web_url: string
+  created_at?: string
+  bio?: string
+  location?: string
+  public_email?: string
+  skype?: string
+  linkedin?: string
+  twitter?: string
+  website_url?: string
+  organization?: string
 }

@@ -1,13 +1,22 @@
-import { GitLabEvent, GitLabProject } from '@/types'
+import { GitLabEvent, GitLabProject, GitLabUser, UserSession } from '@/types'
 import { API_CONFIG } from '@/constants'
-import { request } from '@/utils/request'
+import { request, isUserscriptEnvironment } from '@/utils/request'
+import { storageUtils } from '@/utils'
 
 export class GitLabApiService {
   private baseUrl: string
   private token: string
+  private currentUser: GitLabUser | null = null
 
   constructor(baseUrl: string, token: string) {
-    this.baseUrl = baseUrl.replace(/\/$/, '') // 移除末尾斜杠
+    // 在开发环境中且不是油猴脚本环境时，使用代理URL
+    const isDev = process.env.NODE_ENV === 'development'
+    if (isDev && !isUserscriptEnvironment()) {
+      // 将GitLab URL转换为代理URL
+      this.baseUrl = '/proxy/api/v4'
+    } else {
+      this.baseUrl = baseUrl.replace(/\/$/, '') // 移除末尾斜杠
+    }
     this.token = token
   }
 
@@ -15,114 +24,149 @@ export class GitLabApiService {
     endpoint: string,
     options: { method?: string; body?: string } = {},
   ): Promise<T> {
-    // 构建URL，将access_token作为查询参数添加
-    const url = new URL(`${this.baseUrl}${endpoint}`)
-    url.searchParams.set('access_token', this.token)
+    // 构建URL
+    const url = `${this.baseUrl}${endpoint}`
+    
 
-    const requestOptions: any = {
+
+    const requestOptions = {
       method: options.method || 'GET',
       headers: {
         'Content-Type': 'application/json',
+        'PRIVATE-TOKEN': this.token,
       },
       timeout: API_CONFIG.REQUEST_TIMEOUT,
+      body: options.body,
     }
 
-    // 只有非GET请求才添加body
-    if (options.body && (options.method && options.method !== 'GET')) {
-      requestOptions.body = options.body
-    }
-
-    const response = await request(url.toString(), requestOptions)
+    const response = await request(url, requestOptions)
 
     if (!response.ok) {
-      throw new Error(
-        `GitLab API Error: ${response.status} ${response.statusText}`,
-      )
+      const errorText = await response.text()
+      throw new Error(`HTTP ${response.status}: ${errorText || response.statusText}`)
     }
 
     return response.json()
   }
 
   /**
-   * 获取用户信息
+   * 验证Token格式
    */
-  async getCurrentUser() {
-    return this.request('/user')
+  private validateToken(): boolean {
+    if (!this.token) {
+      console.error('❌ Token为空')
+      return false
+    }
+    
+    if (!this.token.startsWith('glpat-')) {
+      console.warn('⚠️ Token格式可能不正确，应以glpat-开头')
+    }
+    
+    if (this.token.length < 20) {
+      console.error('❌ Token长度太短')
+      return false
+    }
+    
+    return true
   }
 
   /**
-   * 获取用户的项目列表
+   * 获取当前用户信息
+   */
+  async getCurrentUser(): Promise<GitLabUser> {
+    if (this.currentUser) {
+      return this.currentUser
+    }
+    
+    // 验证Token格式
+    if (!this.validateToken()) {
+      throw new Error('Token格式无效')
+    }
+    
+    const user = await this.request<GitLabUser>('/user')
+    this.currentUser = user
+    return user
+  }
+
+  /**
+   * 登录并创建用户会话
+   */
+  async login(): Promise<UserSession> {
+    const user = await this.getCurrentUser()
+    const now = new Date().toISOString()
+    
+    const session: UserSession = {
+      user,
+      token: this.token,
+      gitlabUrl: this.baseUrl,
+      loginTime: now,
+      lastActiveTime: now
+    }
+
+    // 持久化保存用户会话
+    storageUtils.saveUserSession(session)
+    
+    return session
+  }
+
+  /**
+   * 登出并清除用户会话
+   */
+  logout(): void {
+    this.currentUser = null
+    storageUtils.clearUserSession()
+  }
+
+  /**
+   * 获取用户项目列表
    */
   async getUserProjects(): Promise<GitLabProject[]> {
     return this.request('/projects?membership=true&per_page=100')
   }
 
   /**
-   * 获取用户的活动事件
+   * 获取用户事件（统一使用 /users/:id/events 接口）
+   * @param userId 用户ID
+   * @param options 筛选和分页选项（由后端处理）
    */
   async getUserEvents(
-    startDate: string,
-    endDate: string,
-    page = 1,
-    perPage = 100,
+    userId: number,
+    options: {
+      after?: string        // 开始日期
+      before?: string       // 结束日期
+      action?: string[]     // 操作类型筛选
+      target_type?: string[] // 目标类型筛选
+      sort?: 'asc' | 'desc' // 排序方式
+      page?: number         // 页码
+      per_page?: number     // 每页数量
+    } = {}
   ): Promise<GitLabEvent[]> {
-    const params = new URLSearchParams({
-      after: startDate,
-      before: endDate,
-      page: page.toString(),
-      per_page: perPage.toString(),
-      sort: 'desc',
-    })
+    const params = new URLSearchParams()
 
-    return this.request(`/events?${params}`)
-  }
+    // 添加所有筛选参数，交给后端处理
+    if (options.after) params.set('after', options.after)
+    if (options.before) params.set('before', options.before)
+    if (options.sort) params.set('sort', options.sort)
+    if (options.page) params.set('page', options.page.toString())
+    if (options.per_page) params.set('per_page', options.per_page.toString())
 
-  /**
-   * 获取所有相关事件（分页处理）
-   */
-  async getAllUserEvents(
-    startDate: string,
-    endDate: string,
-  ): Promise<GitLabEvent[]> {
-    const allEvents: GitLabEvent[] = []
-    let page = 1
-    let hasMore = true
-
-    while (hasMore) {
-      try {
-        const events = await this.getUserEvents(startDate, endDate, page, 100)
-
-        if (events.length === 0) {
-          hasMore = false
-        } else {
-          allEvents.push(...events)
-          page++
-
-          // 防止无限循环，最多获取10页
-          if (page > 10) {
-            hasMore = false
-          }
-        }
-      } catch (error) {
-        console.error(`获取第${page}页事件失败:`, error)
-        hasMore = false
-      }
+    // 添加数组类型的筛选参数
+    if (options.action) {
+      options.action.forEach(action => params.append('action', action))
+    }
+    if (options.target_type) {
+      options.target_type.forEach(type => params.append('target_type', type))
     }
 
-    return allEvents
-  }
+    const queryString = params.toString()
+    const endpoint = queryString ? 
+      `/users/${userId}/events?${queryString}` : 
+      `/users/${userId}/events`
 
-  /**
-   * 验证连接和Token有效性
-   */
-  async validateConnection(): Promise<boolean> {
-    try {
-      await this.getCurrentUser()
-      return true
-    } catch (error) {
-      console.error('GitLab连接验证失败:', error)
-      return false
-    }
+    // 更新用户会话活跃时间
+    storageUtils.updateUserSessionActivity()
+
+    return this.request(endpoint)
   }
 
   /**
@@ -130,6 +174,25 @@ export class GitLabApiService {
    */
   async getProject(projectId: number): Promise<GitLabProject> {
     return this.request(`/projects/${projectId}`)
+  }
+
+  /**
+   * 获取缓存的用户信息
+   */
+  getCachedUser(): GitLabUser | null {
+    return this.currentUser
+  }
+
+  /**
+   * 从会话恢复用户信息
+   */
+  restoreFromSession(): UserSession | null {
+    const session = storageUtils.loadUserSession()
+    if (session && session.token === this.token && session.gitlabUrl === this.baseUrl) {
+      this.currentUser = session.user
+      return session
+    }
+    return null
   }
 }
 
@@ -140,5 +203,10 @@ export function createGitLabApiService(
   baseUrl: string,
   token: string,
 ): GitLabApiService {
-  return new GitLabApiService(baseUrl, token)
+  const service = new GitLabApiService(baseUrl, token)
+  
+  // 尝试从会话恢复用户信息
+  service.restoreFromSession()
+  
+  return service
 }

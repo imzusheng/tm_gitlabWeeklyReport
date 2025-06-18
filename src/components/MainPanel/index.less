@@ -35,6 +35,46 @@
         font-weight: 500;
         background: transparent;
       }
+
+      .login-status {
+        .status-indicator {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          font-size: 12px;
+          font-weight: 500;
+          padding: 4px 8px;
+          border-radius: 6px;
+          white-space: nowrap;
+
+          .status-icon {
+            font-size: 10px;
+          }
+
+          .user-avatar {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(52, 199, 89, 0.3);
+          }
+
+          .user-name {
+            color: #86868b;
+            font-weight: 400;
+          }
+
+          &.logged-in {
+            background: rgba(52, 199, 89, 0.1);
+            color: #34c759;
+          }
+
+          &.logged-out {
+            background: rgba(255, 59, 48, 0.1);
+            color: #ff3b30;
+          }
+        }
+      }
     }
 
     .header-right {
@@ -64,15 +104,6 @@
 
         .icon {
           font-size: 14px;
-        }
-
-        &.theme-btn {
-          background: rgba(255, 149, 0, 0.08);
-          color: #ff9500;
-
-          &:hover {
-            background: rgba(255, 149, 0, 0.15);
-          }
         }
 
         &.settings-btn {
@@ -181,19 +212,28 @@
           color: #8e8e93;
           background: transparent;
         }
+
+        .login-status {
+          .status-indicator {
+            &.logged-in {
+              background: rgba(52, 199, 89, 0.2);
+              color: #32d74b;
+            }
+
+            &.logged-out {
+              background: rgba(255, 69, 58, 0.2);
+              color: #ff453a;
+            }
+
+            .user-name {
+              color: #8e8e93;
+            }
+          }
+        }
       }
 
       .header-right {
         .action-btn {
-          &.theme-btn {
-            background: rgba(255, 149, 0, 0.15);
-            color: #ff9f0a;
-
-            &:hover {
-              background: rgba(255, 149, 0, 0.25);
-            }
-          }
-
           &.settings-btn {
             background: rgba(88, 86, 214, 0.15);
             color: #5e5ce6;
@@ -289,4 +329,4 @@
       }
     }
   }
-} 
+}

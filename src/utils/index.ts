@@ -1,6 +1,6 @@
-
-
+import { AppConfig, UserSession } from '@/types'
 import { storageAdapter } from './request'
+import { STORAGE_KEYS } from '@/constants'
 
 /**
  * 日期工具函数
@@ -75,14 +75,14 @@ export const storageUtils = {
   /**
    * 保存配置
    */
-  saveConfig: (config: any): void => {
+  saveConfig: (config: AppConfig): void => {
     try {
-      storageAdapter.setItem('gitlab-weekly-config', JSON.stringify(config))
+      storageAdapter.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(config))
     } catch (error) {
       console.error('保存配置失败:', error)
       // 降级到 localStorage
       if (typeof localStorage !== 'undefined') {
-        localStorage.setItem('gitlab-weekly-config', JSON.stringify(config))
+        localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(config))
       }
     }
   },
@@ -90,16 +90,16 @@ export const storageUtils = {
   /**
    * 加载配置
    */
-  loadConfig: (): any | null => {
+  loadConfig: (): AppConfig | null => {
     try {
-      const config = storageAdapter.getItem('gitlab-weekly-config')
+      const config = storageAdapter.getItem(STORAGE_KEYS.CONFIG)
       return config ? JSON.parse(config) : null
     } catch (error) {
       console.error('加载配置失败:', error)
       // 降级到 localStorage
       try {
         if (typeof localStorage !== 'undefined') {
-          const config = localStorage.getItem('gitlab-weekly-config')
+          const config = localStorage.getItem(STORAGE_KEYS.CONFIG)
           return config ? JSON.parse(config) : null
         }
       } catch (fallbackError) {
@@ -114,13 +114,91 @@ export const storageUtils = {
    */
   clearConfig: (): void => {
     try {
-      storageAdapter.removeItem('gitlab-weekly-config')
+      storageAdapter.removeItem(STORAGE_KEYS.CONFIG)
     } catch (error) {
       console.error('清除配置失败:', error)
       // 降级到 localStorage
       if (typeof localStorage !== 'undefined') {
-        localStorage.removeItem('gitlab-weekly-config')
+        localStorage.removeItem(STORAGE_KEYS.CONFIG)
       }
+    }
+  },
+
+  /**
+   * 保存用户会话
+   */
+  saveUserSession: (session: UserSession): void => {
+    try {
+      storageAdapter.setItem(STORAGE_KEYS.USER_SESSION, JSON.stringify(session))
+    } catch (error) {
+      console.error('保存用户会话失败:', error)
+      // 降级到 localStorage
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(STORAGE_KEYS.USER_SESSION, JSON.stringify(session))
+      }
+    }
+  },
+
+  /**
+   * 加载用户会话
+   */
+  loadUserSession: (): UserSession | null => {
+    try {
+      const session = storageAdapter.getItem(STORAGE_KEYS.USER_SESSION)
+      if (session) {
+        const parsedSession = JSON.parse(session)
+        // 检查会话是否过期（24小时）
+        const loginTime = new Date(parsedSession.loginTime)
+        const now = new Date()
+        const hoursDiff = (now.getTime() - loginTime.getTime()) / (1000 * 60 * 60)
+        
+        if (hoursDiff > 24) {
+          // 会话过期，清除
+          storageUtils.clearUserSession()
+          return null
+        }
+        
+        return parsedSession
+      }
+      return null
+    } catch (error) {
+      console.error('加载用户会话失败:', error)
+      // 降级到 localStorage
+      try {
+        if (typeof localStorage !== 'undefined') {
+          const session = localStorage.getItem(STORAGE_KEYS.USER_SESSION)
+          return session ? JSON.parse(session) : null
+        }
+      } catch (fallbackError) {
+        console.error('降级存储加载失败:', fallbackError)
+      }
+      return null
+    }
+  },
+
+  /**
+   * 清除用户会话
+   */
+  clearUserSession: (): void => {
+    try {
+      storageAdapter.removeItem(STORAGE_KEYS.USER_SESSION)
+    } catch (error) {
+      console.error('清除用户会话失败:', error)
+      // 降级到 localStorage
+      if (typeof localStorage !== 'undefined') {
+        localStorage.removeItem(STORAGE_KEYS.USER_SESSION)
+      }
+    }
+  },
+
+  /**
+   * 更新用户会话的最后活跃时间
+   */
+  updateUserSessionActivity: (): void => {
+    const session = storageUtils.loadUserSession()
+    if (session) {
+      session.lastActiveTime = new Date().toISOString()
+      storageUtils.saveUserSession(session)
     }
   },
 }

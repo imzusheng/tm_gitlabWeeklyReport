@@ -52,9 +52,14 @@ const FilterSection: React.FC<FilterSectionProps> = ({
     })
   }
 
+  /**
+   * 处理目标类型筛选条件变化
+   * @param targetType 目标类型值
+   * @param checked 是否选中
+   */
   const handleTargetTypeChange = (targetType: string, checked: boolean) => {
     const newTargetType = checked
-      ? [...filterConditions.targetType, targetType as any]
+      ? [...filterConditions.targetType, targetType as FilterConditions['targetType'][0]]
       : filterConditions.targetType.filter(type => type !== targetType)
     
     onFilterChange({
@@ -63,9 +68,14 @@ const FilterSection: React.FC<FilterSectionProps> = ({
     })
   }
 
+  /**
+   * 处理操作类型筛选条件变化
+   * @param action 操作类型值
+   * @param checked 是否选中
+   */
   const handleActionChange = (action: string, checked: boolean) => {
     const newAction = checked
-      ? [...filterConditions.action, action as any]
+      ? [...filterConditions.action, action as FilterConditions['action'][0]]
       : filterConditions.action.filter(a => a !== action)
     
     onFilterChange({
