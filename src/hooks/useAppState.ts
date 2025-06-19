@@ -172,15 +172,18 @@ export function useAppState() {
     const timeRange = state.filterConditions.timeRange
     
     let days = 7
-    switch (timeRange) {
-      case '30d': days = 30; break
-      case '90d': days = 90; break
-      case '180d': days = 180; break
-      case '365d': days = 365; break
-      default: days = 7
-    }
+    const TIME_RANGE_DAYS = {
+      '7d': 7,
+      '30d': 30,
+      '90d': 90,
+      '180d': 180,
+      '365d': 365
+    } as const
     
-    const startDate = new Date(now.getTime() - (days * 24 * 60 * 60 * 1000))
+    days = TIME_RANGE_DAYS[timeRange] || 7
+    
+    const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000
+    const startDate = new Date(now.getTime() - (days * MILLISECONDS_PER_DAY))
     return {
       startDate: startDate.toISOString().split('T')[0],
       endDate: now.toISOString().split('T')[0]

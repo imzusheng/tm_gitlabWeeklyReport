@@ -64,7 +64,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
   return (
     <Modal
       visible={visible}
-      title="设置"
+      title="系统设置"
       width={600}
       onClose={onClose}
       footer={

@@ -1,7 +1,7 @@
 // API 配置
 export const API_CONFIG = {
   DEEPSEEK_BASE_URL: 'https://api.deepseek.com/v1',
-  REQUEST_TIMEOUT: 30000,
+  REQUEST_TIMEOUT: 30 * 1000, // 30秒
   MAX_RETRY_ATTEMPTS: 3,
 }
 
@@ -11,7 +11,7 @@ export const DEFAULT_CONFIG = {
   gitlabToken: '',
   deepseekApiKey: '',
   defaultPrompt: '你是一名前端工程师, 现在需要提交一份100字左右的周报, 请根据Git提交记录生成一份简洁的周报;请使用中文回答; 请使用简单文本, 不要使用markdown格式;减少笼统的描述;不需要下周计划;',
-  tokenLimit: 1000,
+  tokenLimit: 1000, // 默认token限制
   model: 'deepseek-chat',
   customPrompt: '',
 }
@@ -19,8 +19,8 @@ export const DEFAULT_CONFIG = {
 // 配置占位符
 export const CONFIG_PLACEHOLDERS = {
   gitlabUrl: 'https://gitlab.example.com',
-  gitlabToken: 'glpat-xxxxxxxxxxxxxxxxxxxx',
-  deepseekApiKey: 'sk-xxxxxxxxxxxxxxxxxxxxxxxx',
+  gitlabToken: '请输入您的GitLab Personal Access Token',
+  deepseekApiKey: '请输入您的DeepSeek API Key',
   defaultPrompt: '请根据以下GitLab事件数据生成工作周报...',
 }
 
@@ -40,7 +40,7 @@ export const DEFAULT_SORT_OPTIONS = {
 // 分页选项默认值
 export const DEFAULT_PAGINATION_OPTIONS = {
   page: 1,
-  pageSize: 20,
+  pageSize: 20, // 每页显示数量
   total: 0,
 }
 
@@ -58,7 +58,7 @@ export const DATE_FORMAT = 'YYYY-MM-DD'
 export const USERSCRIPT_CONFIG = {
   CONTAINER_ID: 'gitlab-weekly-report-container',
   TRIGGER_SELECTOR: '.navbar-nav',
-  INJECT_DELAY: 1000,
+  INJECT_DELAY: 1000, // 注入延迟时间(ms)
 }
 
 // 主题颜色

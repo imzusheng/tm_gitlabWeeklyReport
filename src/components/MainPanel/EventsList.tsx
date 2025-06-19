@@ -70,7 +70,8 @@ const EventsList: React.FC<EventsListProps> = ({
     const date = new Date(dateString)
     const now = new Date()
     const diffTime = Math.abs(now.getTime() - date.getTime())
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24
+  const diffDays = Math.ceil(diffTime / MILLISECONDS_PER_DAY)
     
     if (diffDays === 1) {
       return `今天 ${date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}`
@@ -111,8 +112,9 @@ const EventsList: React.FC<EventsListProps> = ({
     }
     
     if (event.note) {
-      const noteBody = event.note.body.replace(/\n/g, ' ').substring(0, 50)
-      return `评论: ${noteBody}${event.note.body.length > 50 ? '...' : ''}`
+      const MAX_NOTE_LENGTH = 50
+    const noteBody = event.note.body.replace(/\n/g, ' ').substring(0, MAX_NOTE_LENGTH)
+    return `评论: ${noteBody}${event.note.body.length > MAX_NOTE_LENGTH ? '...' : ''}`
     }
     
     return event.title || event.target_title || '无标题'

@@ -66,7 +66,7 @@ function isGitLabPage(): boolean {
 // 初始化函数
 function init() {
   if (!isGitLabPage()) {
-    console.log('GitLab 周报生成器: 当前页面不是GitLab页面，跳过注入')
+    // 非GitLab页面，跳过注入
     return
   }
 
@@ -88,4 +88,4 @@ new MutationObserver(() => {
     lastUrl = url
     setTimeout(init, 1000) // 延迟1秒等待页面加载
   }
-}).observe(document, { subtree: true, childList: true }) 
+}).observe(document, { subtree: true, childList: true })

@@ -93,7 +93,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
             ? currentFilters.targetType
             : undefined
 
-        console.log('📤 最终传递的 targetTypes:', targetTypes)
+        // 调试信息已移除
         const actions =
           currentFilters.action?.length > 0 ? currentFilters.action : undefined
 

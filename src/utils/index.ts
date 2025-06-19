@@ -35,10 +35,15 @@ export const dateUtils = {
     const target = new Date(date)
     const diff = now.getTime() - target.getTime()
 
-    const seconds = Math.floor(diff / 1000)
-    const minutes = Math.floor(seconds / 60)
-    const hours = Math.floor(minutes / 60)
-    const days = Math.floor(hours / 24)
+    const SECONDS_PER_MINUTE = 60
+  const MINUTES_PER_HOUR = 60
+  const HOURS_PER_DAY = 24
+  const MILLISECONDS_PER_SECOND = 1000
+  
+  const seconds = Math.floor(diff / MILLISECONDS_PER_SECOND)
+  const minutes = Math.floor(seconds / SECONDS_PER_MINUTE)
+  const hours = Math.floor(minutes / MINUTES_PER_HOUR)
+  const days = Math.floor(hours / HOURS_PER_DAY)
 
     if (days > 0) return `${days}天前`
     if (hours > 0) return `${hours}小时前`

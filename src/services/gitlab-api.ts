@@ -54,17 +54,15 @@ export class GitLabApiService {
    */
   private validateToken(): boolean {
     if (!this.token) {
-      console.error('❌ Token为空')
-      return false
+      throw new Error('GitLab Token为空')
     }
     
     if (!this.token.startsWith('glpat-')) {
-      console.warn('⚠️ Token格式可能不正确，应以glpat-开头')
+      // Token格式可能不正确，但仍然尝试使用
     }
     
     if (this.token.length < 20) {
-      console.error('❌ Token长度太短')
-      return false
+      throw new Error('GitLab Token长度太短')
     }
     
     return true
