@@ -18,7 +18,7 @@ const Modal: React.FC<ModalProps> = ({
   children,
   footer,
   onClose,
-  maskClosable = true
+  maskClosable = true,
 }) => {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -61,20 +61,14 @@ const Modal: React.FC<ModalProps> = ({
           </div>
 
           {/* 模态框内容 */}
-          <div className="modal-body">
-            {children}
-          </div>
+          <div className="modal-body">{children}</div>
 
           {/* 模态框底部 */}
-          {footer && (
-            <div className="modal-footer">
-              {footer}
-            </div>
-          )}
+          {footer && <div className="modal-footer">{footer}</div>}
         </div>
       </div>
     </div>
   )
 }
 
-export default Modal 
+export default Modal

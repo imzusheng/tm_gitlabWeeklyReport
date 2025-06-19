@@ -1,11 +1,21 @@
 import { useState, useEffect, useCallback } from 'react'
-import { AppConfig, WeeklyReportData, AppState, FilterConditions, SortOptions, PaginationOptions, AIGenerationConfig, PanelType, GitLabEvent } from '@/types'
+import {
+  AppConfig,
+  WeeklyReportData,
+  AppState,
+  FilterConditions,
+  SortOptions,
+  PaginationOptions,
+  AIGenerationConfig,
+  PanelType,
+  GitLabEvent,
+} from '@/types'
 import { storageUtils } from '@/utils'
-import { 
-  DEFAULT_CONFIG, 
-  DEFAULT_FILTER_CONDITIONS, 
-  DEFAULT_SORT_OPTIONS, 
-  DEFAULT_PAGINATION_OPTIONS 
+import {
+  DEFAULT_CONFIG,
+  DEFAULT_FILTER_CONDITIONS,
+  DEFAULT_SORT_OPTIONS,
+  DEFAULT_PAGINATION_OPTIONS,
 } from '@/constants'
 
 const initialState: AppState = {
@@ -31,10 +41,12 @@ export function useAppState() {
     const loadSavedData = async () => {
       try {
         const savedConfig = await storageUtils.loadConfig()
-        
+
         setState(prev => ({
           ...prev,
-          config: savedConfig ? { ...DEFAULT_CONFIG, ...savedConfig } : DEFAULT_CONFIG
+          config: savedConfig
+            ? { ...DEFAULT_CONFIG, ...savedConfig }
+            : DEFAULT_CONFIG,
         }))
       } catch (error) {
         // 静默处理配置加载失败，使用默认配置
@@ -51,12 +63,10 @@ export function useAppState() {
       storageUtils.saveConfig(newConfig)
       return {
         ...prev,
-        config: newConfig
+        config: newConfig,
       }
     })
   }, [])
-
-
 
   // 设置活动面板
   const setActivePanel = useCallback((panel: PanelType) => {
@@ -70,8 +80,8 @@ export function useAppState() {
       filterConditions: filters,
       paginationOptions: {
         ...prev.paginationOptions,
-        page: 1
-      }
+        page: 1,
+      },
     }))
   }, [])
 
@@ -81,18 +91,21 @@ export function useAppState() {
   }, [])
 
   // 更新分页选项
-  const updatePaginationOptions = useCallback((pagination: Partial<PaginationOptions>) => {
-    setState(prev => ({
-      ...prev,
-      paginationOptions: { ...prev.paginationOptions, ...pagination }
-    }))
-  }, [])
+  const updatePaginationOptions = useCallback(
+    (pagination: Partial<PaginationOptions>) => {
+      setState(prev => ({
+        ...prev,
+        paginationOptions: { ...prev.paginationOptions, ...pagination },
+      }))
+    },
+    [],
+  )
 
   // 设置事件数据
   const setEvents = useCallback((events: GitLabEvent[]) => {
     setState(prev => ({
       ...prev,
-      events
+      events,
     }))
   }, [])
 
@@ -103,15 +116,18 @@ export function useAppState() {
       totalCount: total,
       paginationOptions: {
         ...prev.paginationOptions,
-        total: total
-      }
+        total: total,
+      },
     }))
   }, [])
 
   // 设置AI生成配置
-  const setAIGenerationConfig = useCallback((config: AIGenerationConfig | null) => {
-    setState(prev => ({ ...prev, aiGenerationConfig: config }))
-  }, [])
+  const setAIGenerationConfig = useCallback(
+    (config: AIGenerationConfig | null) => {
+      setState(prev => ({ ...prev, aiGenerationConfig: config }))
+    },
+    [],
+  )
 
   // 设置加载状态
   const setLoading = useCallback((loading: boolean) => {
@@ -145,7 +161,7 @@ export function useAppState() {
       }
       return {
         ...prev,
-        theme: newTheme
+        theme: newTheme,
       }
     })
   }, [])
@@ -158,7 +174,8 @@ export function useAppState() {
 
   // 验证配置完整性
   const isConfigValid = useCallback(() => {
-    const { gitlabUrl, gitlabToken, deepseekApiKey, defaultPrompt } = state.config
+    const { gitlabUrl, gitlabToken, deepseekApiKey, defaultPrompt } =
+      state.config
     return !!(
       gitlabUrl.trim() &&
       gitlabToken.trim() &&
@@ -171,23 +188,23 @@ export function useAppState() {
   const getTimeRange = useCallback(() => {
     const now = new Date()
     const timeRange = state.filterConditions.timeRange
-    
+
     let days = 7
     const TIME_RANGE_DAYS = {
       '7d': 7,
       '30d': 30,
       '90d': 90,
       '180d': 180,
-      '365d': 365
+      '365d': 365,
     } as const
-    
+
     days = TIME_RANGE_DAYS[timeRange] || 7
-    
+
     const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000
-    const startDate = new Date(now.getTime() - (days * MILLISECONDS_PER_DAY))
+    const startDate = new Date(now.getTime() - days * MILLISECONDS_PER_DAY)
     return {
       startDate: startDate.toISOString().split('T')[0],
-      endDate: now.toISOString().split('T')[0]
+      endDate: now.toISOString().split('T')[0],
     }
   }, [state.filterConditions.timeRange])
 

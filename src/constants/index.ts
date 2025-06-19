@@ -10,7 +10,8 @@ export const DEFAULT_CONFIG = {
   gitlabUrl: 'https://www.lejuhub.com/api/v4',
   gitlabToken: '',
   deepseekApiKey: '',
-  defaultPrompt: '你是一名前端工程师, 现在需要提交一份100字左右的周报, 请根据Git提交记录生成一份简洁的周报;请使用中文回答; 请使用简单文本, 不要使用markdown格式;减少笼统的描述;不需要下周计划;',
+  defaultPrompt:
+    '你是一名前端工程师, 现在需要提交一份100字左右的周报, 请根据Git提交记录生成一份简洁的周报;请使用中文回答; 请使用简单文本, 不要使用markdown格式;减少笼统的描述;不需要下周计划;',
   tokenLimit: 1000, // 默认token限制
   model: 'deepseek-chat',
   customPrompt: '',

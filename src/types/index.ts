@@ -6,7 +6,7 @@ export interface GitLabEvent {
   action_name: string
   target_id?: number
   target_iid?: number
-  target_type: string
+  target_type: string | null
   target_title?: string
   author_id?: number
   created_at: string

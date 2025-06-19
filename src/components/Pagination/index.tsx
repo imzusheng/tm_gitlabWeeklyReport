@@ -18,7 +18,7 @@ const Pagination: React.FC<PaginationProps> = ({
   onChange,
   showSizeChanger = true,
   pageSizeOptions = [20, 50, 100, 200],
-  onShowSizeChange
+  onShowSizeChange,
 }) => {
   const totalPages = Math.ceil(total / pageSize)
   const startItem = (current - 1) * pageSize + 1
@@ -54,7 +54,9 @@ const Pagination: React.FC<PaginationProps> = ({
       const start = Math.max(2, current - showRange)
       const end = Math.min(totalPages - 1, current + showRange)
 
-      pages.push(...Array.from({ length: end - start + 1 }, (_, i) => start + i))
+      pages.push(
+        ...Array.from({ length: end - start + 1 }, (_, i) => start + i),
+      )
 
       if (current < totalPages - showRange - 1) {
         pages.push('...')
@@ -120,7 +122,7 @@ const Pagination: React.FC<PaginationProps> = ({
           <span>每页</span>
           <select
             value={pageSize}
-            onChange={(e) => handlePageSizeChange(Number(e.target.value))}
+            onChange={e => handlePageSizeChange(Number(e.target.value))}
             className="pagination-select"
           >
             {pageSizeOptions.map(size => (

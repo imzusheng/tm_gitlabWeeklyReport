@@ -36,14 +36,14 @@ export const dateUtils = {
     const diff = now.getTime() - target.getTime()
 
     const SECONDS_PER_MINUTE = 60
-  const MINUTES_PER_HOUR = 60
-  const HOURS_PER_DAY = 24
-  const MILLISECONDS_PER_SECOND = 1000
-  
-  const seconds = Math.floor(diff / MILLISECONDS_PER_SECOND)
-  const minutes = Math.floor(seconds / SECONDS_PER_MINUTE)
-  const hours = Math.floor(minutes / MINUTES_PER_HOUR)
-  const days = Math.floor(hours / HOURS_PER_DAY)
+    const MINUTES_PER_HOUR = 60
+    const HOURS_PER_DAY = 24
+    const MILLISECONDS_PER_SECOND = 1000
+
+    const seconds = Math.floor(diff / MILLISECONDS_PER_SECOND)
+    const minutes = Math.floor(seconds / SECONDS_PER_MINUTE)
+    const hours = Math.floor(minutes / MINUTES_PER_HOUR)
+    const days = Math.floor(hours / HOURS_PER_DAY)
 
     if (days > 0) return `${days}天前`
     if (hours > 0) return `${hours}小时前`
@@ -125,8 +125,6 @@ export const storageUtils = {
       }
     }
   },
-
-
 }
 
 /**
@@ -160,17 +158,21 @@ export const exportUtils = {
   /**
    * 导出文本内容为文件
    */
-  exportTextAsFile(content: string, filename: string, mimeType = 'text/plain'): void {
+  exportTextAsFile(
+    content: string,
+    filename: string,
+    mimeType = 'text/plain',
+  ): void {
     const blob = new Blob([content], { type: mimeType })
     const url = URL.createObjectURL(blob)
-    
+
     const link = document.createElement('a')
     link.href = url
     link.download = filename
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
-    
+
     URL.revokeObjectURL(url)
   },
 
@@ -180,7 +182,7 @@ export const exportUtils = {
   exportReportAsMarkdown(report: string, dateRange: string): void {
     const filename = `gitlab-weekly-report-${dateRange}.md`
     const content = `# GitLab 周报\n\n**时间范围**: ${dateRange}\n**生成时间**: ${new Date().toLocaleString('zh-CN')}\n\n---\n\n${report}`
-    
+
     this.exportTextAsFile(content, filename, 'text/markdown')
   },
 }
@@ -207,10 +209,12 @@ export const errorUtils = {
    */
   isNetworkError(error: unknown): boolean {
     const message = this.getErrorMessage(error).toLowerCase()
-    return message.includes('network') || 
-           message.includes('fetch') || 
-           message.includes('timeout') ||
-           message.includes('连接')
+    return (
+      message.includes('network') ||
+      message.includes('fetch') ||
+      message.includes('timeout') ||
+      message.includes('连接')
+    )
   },
 
   /**
@@ -218,23 +222,23 @@ export const errorUtils = {
    */
   handleGitLabError(error: unknown): string {
     const message = this.getErrorMessage(error)
-    
+
     if (message.includes('429')) {
       return '请求过于频繁，请稍后再试'
     }
-    
+
     if (message.includes('401') || message.includes('403')) {
       return 'GitLab Token 无效或权限不足，请检查配置'
     }
-    
+
     if (message.includes('404')) {
       return 'GitLab API 地址不正确，请检查配置'
     }
-    
+
     if (this.isNetworkError(error)) {
       return '网络连接失败，请检查网络设置'
     }
-    
+
     return `加载失败: ${message}`
   },
 
@@ -243,23 +247,27 @@ export const errorUtils = {
    */
   handleDeepSeekError(error: unknown): string {
     const message = this.getErrorMessage(error)
-    
+
     if (message.includes('401') || message.includes('403')) {
       return 'DeepSeek API Key 无效或权限不足，请检查配置'
     }
-    
+
     if (message.includes('429')) {
       return 'DeepSeek API 请求过于频繁，请稍后再试'
     }
-    
-    if (message.includes('500') || message.includes('502') || message.includes('503')) {
+
+    if (
+      message.includes('500') ||
+      message.includes('502') ||
+      message.includes('503')
+    ) {
       return 'DeepSeek API 服务暂时不可用，请稍后再试'
     }
-    
+
     if (this.isNetworkError(error)) {
       return '网络连接失败，请检查网络设置'
     }
-    
+
     return `DeepSeek API 调用失败: ${message}`
   },
 
@@ -270,7 +278,7 @@ export const errorUtils = {
     if (this.isNetworkError(error)) {
       return '网络连接失败，请检查网络设置'
     }
-    
+
     const message = this.getErrorMessage(error)
     return message || defaultMessage
   },
@@ -296,7 +304,7 @@ export const errorUtils = {
     INCOMPLETE_GITLAB_DEEPSEEK: '请先完善GitLab和DeepSeek配置信息',
     INCOMPLETE_CONFIG: '请先完善配置信息',
     NO_EVENTS_SELECTED: '请至少选择一个事件来生成周报',
-    INVALID_FILTER_OR_CONFIG: '请检查筛选条件或GitLab配置'
+    INVALID_FILTER_OR_CONFIG: '请检查筛选条件或GitLab配置',
   } as const,
 }
 
@@ -305,7 +313,7 @@ export const errorUtils = {
  */
 export function debounce<T extends (...args: any[]) => any>(
   func: T,
-  delay: number
+  delay: number,
 ): (...args: Parameters<T>) => void {
   let timeoutId: NodeJS.Timeout | null = null
 
@@ -325,7 +333,7 @@ export function debounce<T extends (...args: any[]) => any>(
  */
 export function throttle<T extends (...args: any[]) => any>(
   func: T,
-  delay: number
+  delay: number,
 ): (...args: Parameters<T>) => void {
   let lastExecTime = 0
 
@@ -338,5 +346,3 @@ export function throttle<T extends (...args: any[]) => any>(
     }
   }
 }
-
- 

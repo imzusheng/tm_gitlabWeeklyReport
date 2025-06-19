@@ -1,0 +1,992 @@
+[
+  {
+    "id": 1132159,
+    "project_id": 1426,
+    "action_name": "commented on",
+    "target_id": 1219855,
+    "target_iid": 1219855,
+    "target_type": "DiscussionNote",
+    "author_id": 1172,
+    "target_title": "定期更新 Changelog",
+    "created_at": "2025-06-18T19:18:58.976+08:00",
+    "note": {
+      "id": 1219855,
+      "type": "DiscussionNote",
+      "body": "申请延期",
+      "attachment": null,
+      "author": {
+        "id": 1172,
+        "username": "lizusheng",
+        "name": "李祖昇",
+        "state": "active",
+        "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+        "web_url": "https://www.lejuhub.com/lizusheng"
+      },
+      "created_at": "2025-06-18T19:18:58.310+08:00",
+      "updated_at": "2025-06-18T19:18:58.310+08:00",
+      "system": false,
+      "noteable_id": 76566,
+      "noteable_type": "Issue",
+      "project_id": 1426,
+      "resolvable": false,
+      "confidential": false,
+      "internal": false,
+      "noteable_iid": 5,
+      "commands_changes": {}
+    },
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1131958,
+    "project_id": 175,
+    "action_name": "pushed to",
+    "target_id": null,
+    "target_iid": null,
+    "target_type": null,
+    "author_id": 1172,
+    "target_title": null,
+    "created_at": "2025-06-18T15:49:01.450+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "push_data": {
+      "commit_count": 1,
+      "action": "pushed",
+      "ref_type": "branch",
+      "commit_from": "3a0475d10f7ba962dab2e35fc306465bbf1dead9",
+      "commit_to": "3afcbd2adb528e727577e34ce36c71fce901cc47",
+      "ref": "changelog-0618",
+      "commit_title": "docs: update kuavo desktop software changelog",
+      "ref_count": null
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1131955,
+    "project_id": 175,
+    "action_name": "commented on",
+    "target_id": 1219654,
+    "target_iid": 1219654,
+    "target_type": "DiffNote",
+    "author_id": 1172,
+    "target_title": "docs: update kuavo desktop software changelog",
+    "created_at": "2025-06-18T15:40:40.367+08:00",
+    "note": {
+      "id": 1219654,
+      "type": "DiffNote",
+      "body": "@yebao  已修改 https://www.lejuhub.com/carlos/Changelog/-/merge_requests/4/diffs?commit_id=3a0475d10f7ba962dab2e35fc306465bbf1dead9",
+      "attachment": null,
+      "author": {
+        "id": 1172,
+        "username": "lizusheng",
+        "name": "李祖昇",
+        "state": "active",
+        "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+        "web_url": "https://www.lejuhub.com/lizusheng"
+      },
+      "created_at": "2025-06-18T15:40:40.073+08:00",
+      "updated_at": "2025-06-18T15:40:40.073+08:00",
+      "system": false,
+      "noteable_id": 33270,
+      "noteable_type": "MergeRequest",
+      "project_id": 175,
+      "commit_id": null,
+      "position": {
+        "base_sha": "b8302cc4a8899d982022cabbae50f446a50a619b",
+        "start_sha": "b8302cc4a8899d982022cabbae50f446a50a619b",
+        "head_sha": "e7364eafce61b91a618e14393125fdc54efdecbc",
+        "old_path": "kuavo-desktop/CHANGELOG.md",
+        "new_path": "kuavo-desktop/CHANGELOG.md",
+        "position_type": "text",
+        "old_line": null,
+        "new_line": 61,
+        "line_range": {
+          "start": {
+            "line_code": "a602990d17a24ff1332ff0b3e969c9bca6e5b1fd_61_61",
+            "type": "new",
+            "old_line": null,
+            "new_line": 61
+          },
+          "end": {
+            "line_code": "a602990d17a24ff1332ff0b3e969c9bca6e5b1fd_61_61",
+            "type": "new",
+            "old_line": null,
+            "new_line": 61
+          }
+        }
+      },
+      "resolvable": true,
+      "resolved": true,
+      "resolved_by": {
+        "id": 1172,
+        "username": "lizusheng",
+        "name": "李祖昇",
+        "state": "active",
+        "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+        "web_url": "https://www.lejuhub.com/lizusheng"
+      },
+      "resolved_at": "2025-06-18T15:40:41.416+08:00",
+      "confidential": false,
+      "internal": false,
+      "noteable_iid": 4,
+      "commands_changes": {}
+    },
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1131954,
+    "project_id": 175,
+    "action_name": "pushed to",
+    "target_id": null,
+    "target_iid": null,
+    "target_type": null,
+    "author_id": 1172,
+    "target_title": null,
+    "created_at": "2025-06-18T15:40:04.578+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "push_data": {
+      "commit_count": 1,
+      "action": "pushed",
+      "ref_type": "branch",
+      "commit_from": "e7364eafce61b91a618e14393125fdc54efdecbc",
+      "commit_to": "3a0475d10f7ba962dab2e35fc306465bbf1dead9",
+      "ref": "changelog-0618",
+      "commit_title": "docs: update kuavo desktop software changelog",
+      "ref_count": null
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1131779,
+    "project_id": 1366,
+    "action_name": "pushed to",
+    "target_id": null,
+    "target_iid": null,
+    "target_type": null,
+    "author_id": 1172,
+    "target_title": null,
+    "created_at": "2025-06-18T13:51:28.916+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "push_data": {
+      "commit_count": 1,
+      "action": "pushed",
+      "ref_type": "branch",
+      "commit_from": "52c23253e0025eb80b8b1fd1c7699008625fd9df",
+      "commit_to": "85135cf50edb2851265945e464f68aca951d2c91",
+      "ref": "lzs/feat-dev-log",
+      "commit_title": "feat: 优化并启用devlog面板",
+      "ref_count": null
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1131775,
+    "project_id": 1366,
+    "action_name": "pushed new",
+    "target_id": null,
+    "target_iid": null,
+    "target_type": null,
+    "author_id": 1172,
+    "target_title": null,
+    "created_at": "2025-06-18T13:32:37.438+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "push_data": {
+      "commit_count": 69,
+      "action": "created",
+      "ref_type": "branch",
+      "commit_from": null,
+      "commit_to": "52c23253e0025eb80b8b1fd1c7699008625fd9df",
+      "ref": "lzs/feat-dev-log",
+      "commit_title": "feat: 优化并启用devlog面板",
+      "ref_count": null
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1131696,
+    "project_id": 1426,
+    "action_name": "commented on",
+    "target_id": 1219406,
+    "target_iid": 1219406,
+    "target_type": "Note",
+    "author_id": 1172,
+    "target_title": "BUG -> 处理 https://www.lejuhub.com/highlydynamic/kuavodevlab/-/issues/1180 标题: 桌面软件积木块接口需要维护一个接口文档 #add-by-emacs",
+    "created_at": "2025-06-18T10:15:32.820+08:00",
+    "note": {
+      "id": 1219406,
+      "type": null,
+      "body": "#work @lizusheng @softdev-global",
+      "attachment": null,
+      "author": {
+        "id": 1172,
+        "username": "lizusheng",
+        "name": "李祖昇",
+        "state": "active",
+        "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+        "web_url": "https://www.lejuhub.com/lizusheng"
+      },
+      "created_at": "2025-06-18T10:15:32.048+08:00",
+      "updated_at": "2025-06-18T10:15:32.048+08:00",
+      "system": false,
+      "noteable_id": 77207,
+      "noteable_type": "Issue",
+      "project_id": 1426,
+      "resolvable": false,
+      "confidential": false,
+      "internal": false,
+      "noteable_iid": 29,
+      "commands_changes": {}
+    },
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1131694,
+    "project_id": 1426,
+    "action_name": "commented on",
+    "target_id": 1219403,
+    "target_iid": 1219403,
+    "target_type": "Note",
+    "author_id": 1172,
+    "target_title": "定期更新 Changelog",
+    "created_at": "2025-06-18T10:14:18.476+08:00",
+    "note": {
+      "id": 1219403,
+      "type": "DiscussionNote",
+      "body": "#work @lizusheng @softdev-global \n\n@yebao changelog 已更新 https://www.lejuhub.com/carlos/Changelog/-/merge_requests/4",
+      "attachment": null,
+      "author": {
+        "id": 1172,
+        "username": "lizusheng",
+        "name": "李祖昇",
+        "state": "active",
+        "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+        "web_url": "https://www.lejuhub.com/lizusheng"
+      },
+      "created_at": "2025-06-18T10:14:17.687+08:00",
+      "updated_at": "2025-06-18T19:18:58.370+08:00",
+      "system": false,
+      "noteable_id": 76566,
+      "noteable_type": "Issue",
+      "project_id": 1426,
+      "resolvable": false,
+      "confidential": false,
+      "internal": false,
+      "noteable_iid": 5,
+      "commands_changes": {}
+    },
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1131693,
+    "project_id": 175,
+    "action_name": "opened",
+    "target_id": 33270,
+    "target_iid": 4,
+    "target_type": "MergeRequest",
+    "author_id": 1172,
+    "target_title": "docs: update kuavo desktop software changelog",
+    "created_at": "2025-06-18T10:13:50.801+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1131692,
+    "project_id": 175,
+    "action_name": "pushed new",
+    "target_id": null,
+    "target_iid": null,
+    "target_type": null,
+    "author_id": 1172,
+    "target_title": null,
+    "created_at": "2025-06-18T10:13:14.275+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "push_data": {
+      "commit_count": 1,
+      "action": "created",
+      "ref_type": "branch",
+      "commit_from": null,
+      "commit_to": "e7364eafce61b91a618e14393125fdc54efdecbc",
+      "ref": "changelog-0618",
+      "commit_title": "docs: update kuavo desktop software changelog",
+      "ref_count": null
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1131682,
+    "project_id": 1426,
+    "action_name": "commented on",
+    "target_id": 1219393,
+    "target_iid": 1219393,
+    "target_type": "Note",
+    "author_id": 1172,
+    "target_title": "BUG -> 处理 https://www.lejuhub.com/highlydynamic/kuavodevlab/-/issues/1180 标题: 桌面软件积木块接口需要维护一个接口文档 #add-by-emacs",
+    "created_at": "2025-06-18T10:07:28.629+08:00",
+    "note": {
+      "id": 1219393,
+      "type": null,
+      "body": "@zhongxu @yebao \n\n- 动作积木块接口已根据文档同步更新: https://www.lejuhub.com/pc/kuavo-desktop/-/commits/lzs/29-feat-blockly-api-sync\n- 等待联调",
+      "attachment": null,
+      "author": {
+        "id": 1172,
+        "username": "lizusheng",
+        "name": "李祖昇",
+        "state": "active",
+        "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+        "web_url": "https://www.lejuhub.com/lizusheng"
+      },
+      "created_at": "2025-06-18T10:07:28.376+08:00",
+      "updated_at": "2025-06-18T10:07:28.376+08:00",
+      "system": false,
+      "noteable_id": 77207,
+      "noteable_type": "Issue",
+      "project_id": 1426,
+      "resolvable": false,
+      "confidential": false,
+      "internal": false,
+      "noteable_iid": 29,
+      "commands_changes": {}
+    },
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1131680,
+    "project_id": 1426,
+    "action_name": "pushed new",
+    "target_id": null,
+    "target_iid": null,
+    "target_type": null,
+    "author_id": 1172,
+    "target_title": null,
+    "created_at": "2025-06-18T10:05:33.183+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "push_data": {
+      "commit_count": 9,
+      "action": "created",
+      "ref_type": "branch",
+      "commit_from": null,
+      "commit_to": "a0e4aff0c0cfcbcf0fd9793775bb232b80032652",
+      "ref": "lzs/29-feat-blockly-api-sync",
+      "commit_title": "feat(blockly): 同步更新积木块接口信息",
+      "ref_count": null
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1131375,
+    "project_id": 1137,
+    "action_name": "opened",
+    "target_id": 77246,
+    "target_iid": 289,
+    "target_type": "Issue",
+    "author_id": 1172,
+    "target_title": "桌面软件 运行后点击停止 提示失败",
+    "created_at": "2025-06-17T17:22:59.085+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1131369,
+    "project_id": 1426,
+    "action_name": "opened",
+    "target_id": 33262,
+    "target_iid": 217,
+    "target_type": "MergeRequest",
+    "author_id": 1172,
+    "target_title": "feat(routines): 联调例程-人脸识别的接口和UI",
+    "created_at": "2025-06-17T17:19:32.477+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1131368,
+    "project_id": 1426,
+    "action_name": "pushed new",
+    "target_id": null,
+    "target_iid": null,
+    "target_type": null,
+    "author_id": 1172,
+    "target_title": null,
+    "created_at": "2025-06-17T17:18:41.590+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "push_data": {
+      "commit_count": 6,
+      "action": "created",
+      "ref_type": "branch",
+      "commit_from": null,
+      "commit_to": "8b2558ce6f24c75093563b76a6477990008f4d1c",
+      "ref": "lzs/32-add-feat-routines-ws-testing",
+      "commit_title": "feat(routines): 联调例程-人脸识别的接口和UI",
+      "ref_count": null
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1131265,
+    "project_id": 1426,
+    "action_name": "opened",
+    "target_id": 33258,
+    "target_iid": 216,
+    "target_type": "MergeRequest",
+    "author_id": 1172,
+    "target_title": "feat(routines): 实现例程-人脸识别的接口和UI",
+    "created_at": "2025-06-17T14:55:56.570+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1131264,
+    "project_id": 1426,
+    "action_name": "pushed new",
+    "target_id": null,
+    "target_iid": null,
+    "target_type": null,
+    "author_id": 1172,
+    "target_title": null,
+    "created_at": "2025-06-17T14:47:01.182+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "push_data": {
+      "commit_count": 5,
+      "action": "created",
+      "ref_type": "branch",
+      "commit_from": null,
+      "commit_to": "f0dc0429ca46afddc7fc315738e5cb21fb978a9a",
+      "ref": "lzs/32-add-feat-routines-ws",
+      "commit_title": "feat(routines): 实现例程-人脸识别的接口和UI",
+      "ref_count": null
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1131066,
+    "project_id": 1529,
+    "action_name": "joined",
+    "target_id": null,
+    "target_iid": null,
+    "target_type": null,
+    "author_id": 1172,
+    "target_title": null,
+    "created_at": "2025-06-17T11:12:32.674+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1130259,
+    "project_id": 1366,
+    "action_name": "opened",
+    "target_id": 33242,
+    "target_iid": 45,
+    "target_type": "MergeRequest",
+    "author_id": 1172,
+    "target_title": "feat(explain): 实现前往任务点讲解相关 WebSocket 功能和函数",
+    "created_at": "2025-06-16T11:28:14.254+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1130258,
+    "project_id": 1366,
+    "action_name": "pushed new",
+    "target_id": null,
+    "target_iid": null,
+    "target_type": null,
+    "author_id": 1172,
+    "target_title": null,
+    "created_at": "2025-06-16T11:26:56.304+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "push_data": {
+      "commit_count": 67,
+      "action": "created",
+      "ref_type": "branch",
+      "commit_from": null,
+      "commit_to": "069b41e41fef8310de69e75fece48003df26d9c2",
+      "ref": "lzs/add-explain-to-taskpoint-ws",
+      "commit_title": "feat(explain): 实现前往任务点讲解相关 WebSocket 功能和函数",
+      "ref_count": null
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1129877,
+    "project_id": 1366,
+    "action_name": "pushed to",
+    "target_id": null,
+    "target_iid": null,
+    "target_type": null,
+    "author_id": 1172,
+    "target_title": null,
+    "created_at": "2025-06-14T18:02:10.236+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "push_data": {
+      "commit_count": 1,
+      "action": "pushed",
+      "ref_type": "branch",
+      "commit_from": "2c68b46260255716f0088698c8d7cde76bc51312",
+      "commit_to": "63a0d9ee8c3e0ca03e434b39fc6096817943010f",
+      "ref": "lzs/add-explain-taskpoint",
+      "commit_title": "chore(explain): 移除多余注释和log, 添加多语言",
+      "ref_count": null
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1129862,
+    "project_id": 1366,
+    "action_name": "opened",
+    "target_id": 33234,
+    "target_iid": 44,
+    "target_type": "MergeRequest",
+    "author_id": 1172,
+    "target_title": "feat(explain): 实现点击任务点显示 是否前往该点位讲解 按钮",
+    "created_at": "2025-06-14T17:53:41.233+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1129860,
+    "project_id": 1366,
+    "action_name": "pushed new",
+    "target_id": null,
+    "target_iid": null,
+    "target_type": null,
+    "author_id": 1172,
+    "target_title": null,
+    "created_at": "2025-06-14T17:53:14.250+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "push_data": {
+      "commit_count": 64,
+      "action": "created",
+      "ref_type": "branch",
+      "commit_from": null,
+      "commit_to": "2c68b46260255716f0088698c8d7cde76bc51312",
+      "ref": "lzs/add-explain-taskpoint",
+      "commit_title": "feat(explain): 实现点击任务点显示 是否前往该点位讲解 按钮",
+      "ref_count": null
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1129779,
+    "project_id": 1137,
+    "action_name": "opened",
+    "target_id": 77183,
+    "target_iid": 284,
+    "target_type": "Issue",
+    "author_id": 1172,
+    "target_title": "展厅版APP 地图手势放大的原点不对",
+    "created_at": "2025-06-14T15:57:13.116+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1129652,
+    "project_id": 1366,
+    "action_name": "opened",
+    "target_id": 33227,
+    "target_iid": 43,
+    "target_type": "MergeRequest",
+    "author_id": 1172,
+    "target_title": "feat(explain): 实现非 disabled 状态下的开始讲解逻辑",
+    "created_at": "2025-06-14T11:15:03.960+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1129651,
+    "project_id": 1366,
+    "action_name": "pushed new",
+    "target_id": null,
+    "target_iid": null,
+    "target_type": null,
+    "author_id": 1172,
+    "target_title": null,
+    "created_at": "2025-06-14T11:14:08.220+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "push_data": {
+      "commit_count": 62,
+      "action": "created",
+      "ref_type": "branch",
+      "commit_from": null,
+      "commit_to": "4d6de2303d722837238e6a841be4d208668cce8f",
+      "ref": "lzs/42-add-explain-enabled-press",
+      "commit_title": "style(explain): 移除开始讲解按钮绿色边框",
+      "ref_count": null
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1129575,
+    "project_id": 1366,
+    "action_name": "opened",
+    "target_id": 33224,
+    "target_iid": 42,
+    "target_type": "MergeRequest",
+    "author_id": 1172,
+    "target_title": "feat(explain): 实现 disabled 状态下的按钮提示 请将机器人校准且移动到目标点后开始讲解",
+    "created_at": "2025-06-14T10:00:05.442+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1129572,
+    "project_id": 1366,
+    "action_name": "pushed new",
+    "target_id": null,
+    "target_iid": null,
+    "target_type": null,
+    "author_id": 1172,
+    "target_title": null,
+    "created_at": "2025-06-14T09:59:37.817+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "push_data": {
+      "commit_count": 59,
+      "action": "created",
+      "ref_type": "branch",
+      "commit_from": null,
+      "commit_to": "3ec3ba59121da92e216fae78795a815146919a42",
+      "ref": "lzs/39-add-explain-disabled-press",
+      "commit_title": "feat(explain): 实现 disabled 状态下的按钮提示 请将机器人校准且移动到目标点后开始讲解",
+      "ref_count": null
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1129244,
+    "project_id": 1137,
+    "action_name": "opened",
+    "target_id": 77165,
+    "target_iid": 280,
+    "target_type": "Issue",
+    "author_id": 1172,
+    "target_title": "yolo 训练上传的图片标题文字溢出",
+    "created_at": "2025-06-13T16:08:36.501+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1129003,
+    "project_id": 1366,
+    "action_name": "opened",
+    "target_id": 33209,
+    "target_iid": 39,
+    "target_type": "MergeRequest",
+    "author_id": 1172,
+    "target_title": "feat(explain): 实现异常情况下，监听机器人讲解状态，恢复讲解状态",
+    "created_at": "2025-06-13T11:12:37.647+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1129002,
+    "project_id": 1366,
+    "action_name": "pushed new",
+    "target_id": null,
+    "target_iid": null,
+    "target_type": null,
+    "author_id": 1172,
+    "target_title": null,
+    "created_at": "2025-06-13T11:12:07.620+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "push_data": {
+      "commit_count": 53,
+      "action": "created",
+      "ref_type": "branch",
+      "commit_from": null,
+      "commit_to": "d1b54eee2a477d5a571ad3b7704d5591e9ded160",
+      "ref": "lzs/49-add-explain-error-restore",
+      "commit_title": "feat(explain): 实现异常情况下，监听机器人讲解状态，恢复讲解状态",
+      "ref_count": null
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1128944,
+    "project_id": 1366,
+    "action_name": "opened",
+    "target_id": 33206,
+    "target_iid": 38,
+    "target_type": "MergeRequest",
+    "author_id": 1172,
+    "target_title": "feat(explain): 实现继续功能及相关 WebSocket 功能和函数",
+    "created_at": "2025-06-13T09:54:03.488+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1128941,
+    "project_id": 1366,
+    "action_name": "closed",
+    "target_id": 33202,
+    "target_iid": 36,
+    "target_type": "MergeRequest",
+    "author_id": 1172,
+    "target_title": "feat(explain): 实现继续功能及相关 WebSocket 功能和函数",
+    "created_at": "2025-06-13T09:53:24.316+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "author_username": "lizusheng"
+  },
+  {
+    "id": 1128939,
+    "project_id": 1366,
+    "action_name": "pushed new",
+    "target_id": null,
+    "target_iid": null,
+    "target_type": null,
+    "author_id": 1172,
+    "target_title": null,
+    "created_at": "2025-06-13T09:52:33.722+08:00",
+    "author": {
+      "id": 1172,
+      "username": "lizusheng",
+      "name": "李祖昇",
+      "state": "active",
+      "avatar_url": "https://www.lejuhub.com/uploads/-/system/user/avatar/1172/avatar.png",
+      "web_url": "https://www.lejuhub.com/lizusheng"
+    },
+    "push_data": {
+      "commit_count": 49,
+      "action": "created",
+      "ref_type": "branch",
+      "commit_from": null,
+      "commit_to": "d14e1eb4c10a9222002e630b84253140f7f7baee",
+      "ref": "lzs/33-add-explain-resume-ws",
+      "commit_title": "feat(explain): 实现继续功能及相关 WebSocket 功能和函数",
+      "ref_count": null
+    },
+    "author_username": "lizusheng"
+  }
+]

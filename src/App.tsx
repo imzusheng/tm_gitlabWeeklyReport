@@ -116,7 +116,10 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
           sort,
         }
         // 获取用户事件数据和总数
-        const { events, total } = await gitlabService.getUserEventsWithTotal(currentUser.id, params)
+        const { events, total } = await gitlabService.getUserEventsWithTotal(
+          currentUser.id,
+          params,
+        )
 
         // 对于非created_at字段的排序，在本地处理
         let sortedEvents = events
@@ -311,14 +314,21 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     }
 
     try {
-       // 获取所有页面的事件ID
-       const { startDate, endDate } = getTimeRange()
-       const currentFilters = state.filterConditions
-       const targetTypes = currentFilters.targetType?.length > 0 ? currentFilters.targetType : undefined
-       const actions = currentFilters.action?.length > 0 ? currentFilters.action : undefined
-       const sort = state.sortOptions.field === 'created_at' ? state.sortOptions.order : 'desc'
-       const currentUser = await gitlabService.getCurrentUser()
-      
+      // 获取所有页面的事件ID
+      const { startDate, endDate } = getTimeRange()
+      const currentFilters = state.filterConditions
+      const targetTypes =
+        currentFilters.targetType?.length > 0
+          ? currentFilters.targetType
+          : undefined
+      const actions =
+        currentFilters.action?.length > 0 ? currentFilters.action : undefined
+      const sort =
+        state.sortOptions.field === 'created_at'
+          ? state.sortOptions.order
+          : 'desc'
+      const currentUser = await gitlabService.getCurrentUser()
+
       // 获取所有事件（不分页）
       const allEventsParams = {
         after: startDate,
@@ -328,8 +338,11 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
         per_page: 1000, // 设置一个较大的数值来获取所有事件
         sort,
       }
-      
-      const { events: allEvents } = await gitlabService.getUserEventsWithTotal(currentUser.id, allEventsParams)
+
+      const { events: allEvents } = await gitlabService.getUserEventsWithTotal(
+        currentUser.id,
+        allEventsParams,
+      )
       const allEventIds = allEvents.map(event => event.id)
       setSelectedEventIds(allEventIds)
     } catch (error) {

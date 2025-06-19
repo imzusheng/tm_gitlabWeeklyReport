@@ -16,29 +16,36 @@ export class DeepSeekApiService {
   async generateChat(
     messages: DeepSeekMessage[],
     model = 'deepseek-chat',
-    maxTokens = 4000
+    maxTokens = 4000,
   ): Promise<string> {
-    const response = await request(`${API_CONFIG.DEEPSEEK_BASE_URL}/chat/completions`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${this.apiKey}`,
-        'Content-Type': 'application/json',
+    const response = await request(
+      `${API_CONFIG.DEEPSEEK_BASE_URL}/chat/completions`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${this.apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model,
+          messages,
+          max_tokens: maxTokens,
+          temperature: 0.7,
+        }),
+        timeout: API_CONFIG.REQUEST_TIMEOUT,
       },
-      body: JSON.stringify({
-        model,
-        messages,
-        max_tokens: maxTokens,
-        temperature: 0.7,
-      }),
-      timeout: API_CONFIG.REQUEST_TIMEOUT,
-    })
+    )
 
     if (!response.ok) {
-      throw errorUtils.createApiError(response.status, response.statusText, 'DeepSeek API')
+      throw errorUtils.createApiError(
+        response.status,
+        response.statusText,
+        'DeepSeek API',
+      )
     }
 
     const data: DeepSeekResponse = await response.json()
-    
+
     if (!data.choices || data.choices.length === 0) {
       throw errorUtils.createResponseError('空的响应', 'DeepSeek API')
     }
@@ -53,47 +60,54 @@ export class DeepSeekApiService {
     eventsData: string,
     prompt: string,
     model = 'deepseek-chat',
-    maxTokens = 4000
+    maxTokens = 4000,
   ): Promise<{ content: string; tokensUsed: number }> {
     const messages: DeepSeekMessage[] = [
       {
         role: 'system',
-        content: prompt
+        content: prompt,
       },
       {
         role: 'user',
-        content: `以下是GitLab事件数据：\n\n${eventsData}\n\n请根据这些数据生成工作周报。`
-      }
+        content: `以下是GitLab事件数据：\n\n${eventsData}\n\n请根据这些数据生成工作周报。`,
+      },
     ]
 
-    const response = await request(`${API_CONFIG.DEEPSEEK_BASE_URL}/chat/completions`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${this.apiKey}`,
-        'Content-Type': 'application/json',
+    const response = await request(
+      `${API_CONFIG.DEEPSEEK_BASE_URL}/chat/completions`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${this.apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model,
+          messages,
+          max_tokens: maxTokens,
+          temperature: 0.7,
+        }),
+        timeout: API_CONFIG.REQUEST_TIMEOUT,
       },
-      body: JSON.stringify({
-        model,
-        messages,
-        max_tokens: maxTokens,
-        temperature: 0.7,
-      }),
-      timeout: API_CONFIG.REQUEST_TIMEOUT,
-    })
+    )
 
     if (!response.ok) {
-      throw errorUtils.createApiError(response.status, response.statusText, 'DeepSeek API')
+      throw errorUtils.createApiError(
+        response.status,
+        response.statusText,
+        'DeepSeek API',
+      )
     }
 
     const data: DeepSeekResponse = await response.json()
-    
+
     if (!data.choices || data.choices.length === 0) {
       throw errorUtils.createResponseError('空的响应', 'DeepSeek API')
     }
 
     return {
       content: data.choices[0].message.content,
-      tokensUsed: data.usage?.total_tokens || 0
+      tokensUsed: data.usage?.total_tokens || 0,
     }
   }
 
@@ -102,9 +116,11 @@ export class DeepSeekApiService {
    */
   async validateApiKey(): Promise<boolean> {
     try {
-      await this.generateChat([
-        { role: 'user', content: 'Hello' }
-      ], 'deepseek-chat', 10)
+      await this.generateChat(
+        [{ role: 'user', content: 'Hello' }],
+        'deepseek-chat',
+        10,
+      )
       return true
     } catch (error) {
       return false

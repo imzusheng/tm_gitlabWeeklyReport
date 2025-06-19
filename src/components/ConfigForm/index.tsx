@@ -17,18 +17,20 @@ const ConfigForm: React.FC<ConfigFormProps> = ({
   isLoading,
   disabled = false,
 }) => {
-  const handleInputChange = (field: keyof AppConfig) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    onConfigChange({ [field]: e.target.value })
-  }
+  const handleInputChange =
+    (field: keyof AppConfig) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      onConfigChange({ [field]: e.target.value })
+    }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onSubmit()
   }
 
-  const isGitLabUrlValid = config.gitlabUrl ? urlUtils.isValidGitLabUrl(config.gitlabUrl) : true
+  const isGitLabUrlValid = config.gitlabUrl
+    ? urlUtils.isValidGitLabUrl(config.gitlabUrl)
+    : true
 
   return (
     <form className="config-form" onSubmit={handleSubmit}>
@@ -79,9 +81,7 @@ const ConfigForm: React.FC<ConfigFormProps> = ({
           placeholder="输入您的 DeepSeek API Key"
           disabled={disabled}
         />
-        <span className="help-text">
-          在 DeepSeek 控制台获取 API Key
-        </span>
+        <span className="help-text">在 DeepSeek 控制台获取 API Key</span>
       </div>
 
       <div className="form-group">

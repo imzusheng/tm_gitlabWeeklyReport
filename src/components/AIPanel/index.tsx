@@ -20,7 +20,7 @@ const AIPanel: React.FC<AIPanelProps> = ({
   onClose,
   onGenerate,
   onRegenerate,
-  isLoading
+  isLoading,
 }) => {
   const [prompt, setPrompt] = useState(defaultPrompt)
   const [isExpanded, setIsExpanded] = useState(false)
@@ -54,7 +54,7 @@ const AIPanel: React.FC<AIPanelProps> = ({
           <div className="section-header">
             <h3>提示词</h3>
             <div className="header-actions">
-              <button 
+              <button
                 className="btn-text"
                 onClick={() => setIsExpanded(!isExpanded)}
               >
@@ -65,19 +65,19 @@ const AIPanel: React.FC<AIPanelProps> = ({
               </button>
             </div>
           </div>
-          
+
           <div className={`prompt-editor ${isExpanded ? 'expanded' : ''}`}>
             <textarea
               className="prompt-textarea"
               value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
+              onChange={e => setPrompt(e.target.value)}
               placeholder="请输入用于生成周报的提示词..."
               rows={isExpanded ? 15 : 6}
               disabled={isLoading}
             />
             <div className="prompt-footer">
               <span className="char-count">{prompt.length} 字符</span>
-              <button 
+              <button
                 className="btn-primary"
                 onClick={handleGenerate}
                 disabled={isLoading || !prompt.trim()}
@@ -116,7 +116,7 @@ const AIPanel: React.FC<AIPanelProps> = ({
                 </button>
               </div>
             </div>
-            
+
             <div className="result-content">
               <div className="result-text">
                 {config.result.split('\n').map((line, index) => (
@@ -132,7 +132,10 @@ const AIPanel: React.FC<AIPanelProps> = ({
           <div className="empty-result">
             <div className="empty-icon">🤖</div>
             <h3>准备生成 AI 周报</h3>
-            <p>点击"生成周报"按钮，AI 将基于您的 GitLab 事件数据生成专业的工作周报</p>
+            <p>
+              点击"生成周报"按钮，AI 将基于您的 GitLab
+              事件数据生成专业的工作周报
+            </p>
             <div className="empty-features">
               <div className="feature-item">
                 <span className="feature-icon">📊</span>
@@ -154,4 +157,4 @@ const AIPanel: React.FC<AIPanelProps> = ({
   )
 }
 
-export default AIPanel 
+export default AIPanel

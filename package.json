@@ -9,7 +9,6 @@
     "build": "tsc && vite build",
     "build:userscript": "tsc && vite build --mode userscript",
     "build:web": "tsc && vite build --mode web",
-    "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx --fix",
     "format": "prettier --write .",

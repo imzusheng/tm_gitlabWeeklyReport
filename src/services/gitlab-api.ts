@@ -26,8 +26,6 @@ export class GitLabApiService {
   ): Promise<T> {
     // 构建URL
     const url = `${this.baseUrl}${endpoint}`
-    
-
 
     const requestOptions = {
       method: options.method || 'GET',
@@ -43,7 +41,11 @@ export class GitLabApiService {
 
     if (!response.ok) {
       const errorText = await response.text()
-      throw errorUtils.createApiError(response.status, errorText || response.statusText, 'GitLab API')
+      throw errorUtils.createApiError(
+        response.status,
+        errorText || response.statusText,
+        'GitLab API',
+      )
     }
 
     return response.json()
@@ -56,15 +58,15 @@ export class GitLabApiService {
     if (!this.token) {
       throw new Error('GitLab Token为空')
     }
-    
+
     if (!this.token.startsWith('glpat-')) {
       // Token格式可能不正确，但仍然尝试使用
     }
-    
+
     if (this.token.length < 20) {
       throw new Error('GitLab Token长度太短')
     }
-    
+
     return true
   }
 
@@ -75,12 +77,12 @@ export class GitLabApiService {
     if (this.currentUser) {
       return this.currentUser
     }
-    
+
     // 验证Token格式
     if (!this.validateToken()) {
       throw errorUtils.createResponseError('Token格式无效', 'GitLab API')
     }
-    
+
     const user = await this.request<GitLabUser>('/user')
     this.currentUser = user
     return user
@@ -113,14 +115,14 @@ export class GitLabApiService {
   async getUserEvents(
     userId: number,
     options: {
-      after?: string        // 开始日期
-      before?: string       // 结束日期
-      action?: string[]     // 操作类型筛选
+      after?: string // 开始日期
+      before?: string // 结束日期
+      action?: string[] // 操作类型筛选
       target_type?: string[] // 目标类型筛选
       sort?: 'asc' | 'desc' // 排序方式
-      page?: number         // 页码
-      per_page?: number     // 每页数量
-    } = {}
+      page?: number // 页码
+      per_page?: number // 每页数量
+    } = {},
   ): Promise<GitLabEvent[]> {
     const params = new URLSearchParams()
 
@@ -140,9 +142,9 @@ export class GitLabApiService {
     }
 
     const queryString = params.toString()
-    const endpoint = queryString ? 
-      `/users/${userId}/events?${queryString}` : 
-      `/users/${userId}/events`
+    const endpoint = queryString
+      ? `/users/${userId}/events?${queryString}`
+      : `/users/${userId}/events`
 
     return this.request(endpoint)
   }
@@ -156,14 +158,14 @@ export class GitLabApiService {
   async getUserEventsWithTotal(
     userId: number,
     options: {
-      after?: string        // 开始日期
-      before?: string       // 结束日期
-      action?: string[]     // 操作类型筛选
+      after?: string // 开始日期
+      before?: string // 结束日期
+      action?: string[] // 操作类型筛选
       target_type?: string[] // 目标类型筛选
       sort?: 'asc' | 'desc' // 排序方式
-      page?: number         // 页码
-      per_page?: number     // 每页数量
-    } = {}
+      page?: number // 页码
+      per_page?: number // 每页数量
+    } = {},
   ): Promise<{ events: GitLabEvent[]; total: number }> {
     const params = new URLSearchParams()
 
@@ -183,13 +185,13 @@ export class GitLabApiService {
     }
 
     const queryString = params.toString()
-    const endpoint = queryString ? 
-      `/users/${userId}/events?${queryString}` : 
-      `/users/${userId}/events`
+    const endpoint = queryString
+      ? `/users/${userId}/events?${queryString}`
+      : `/users/${userId}/events`
 
     // 构建URL
     const url = `${this.baseUrl}${endpoint}`
-    
+
     const requestOptions = {
       method: 'GET',
       headers: {
@@ -203,7 +205,11 @@ export class GitLabApiService {
 
     if (!response.ok) {
       const errorText = await response.text()
-      throw errorUtils.createApiError(response.status, errorText || response.statusText, 'GitLab API')
+      throw errorUtils.createApiError(
+        response.status,
+        errorText || response.statusText,
+        'GitLab API',
+      )
     }
 
     const events = await response.json()
@@ -231,8 +237,6 @@ export class GitLabApiService {
   getCachedUser(): GitLabUser | null {
     return this.currentUser
   }
-
-
 }
 
 /**

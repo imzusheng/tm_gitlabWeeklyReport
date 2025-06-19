@@ -1,6 +1,11 @@
 import React from 'react'
 import { useAppState } from '@/hooks/useAppState'
-import type { GitLabEvent, FilterConditions, SortOptions, PaginationOptions } from '@/types'
+import type {
+  GitLabEvent,
+  FilterConditions,
+  SortOptions,
+  PaginationOptions,
+} from '@/types'
 import FilterSection from './FilterSection'
 import EventsList from './EventsList'
 import './index.less'
@@ -38,10 +43,9 @@ const MainPanel: React.FC<MainPanelProps> = ({
   onSelectAll,
   onEventDetail,
   onOpenSettings,
-  onOpenAI
+  onOpenAI,
 }) => {
   const { isConfigValid } = useAppState()
-
 
   return (
     <div className="main-panel">
@@ -103,8 +107,6 @@ const MainPanel: React.FC<MainPanelProps> = ({
           onEventDetail={onEventDetail}
         />
       </div>
-
-
     </div>
   )
 }

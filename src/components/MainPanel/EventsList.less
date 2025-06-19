@@ -37,7 +37,7 @@
         width: 40px;
         justify-content: center;
         cursor: default;
-        
+
         &:hover {
           color: #1d1d1f;
         }
@@ -67,7 +67,7 @@
         width: 80px;
         justify-content: center;
         cursor: default;
-        
+
         &:hover {
           color: #1d1d1f;
         }
@@ -99,7 +99,7 @@
 
       &.selected {
         background: rgba(0, 122, 255, 0.08);
-        
+
         &:hover {
           background: rgba(0, 122, 255, 0.12);
         }
@@ -313,8 +313,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 // 响应式设计
@@ -394,15 +398,15 @@
     display: inline-block;
     cursor: pointer;
     user-select: none;
-    
-    input[type="checkbox"] {
+
+    input[type='checkbox'] {
       position: absolute;
       opacity: 0;
       cursor: pointer;
       height: 0;
       width: 0;
     }
-    
+
     .checkmark {
       position: relative;
       display: inline-block;
@@ -412,9 +416,9 @@
       border: 1.5px solid #d1d1d6;
       border-radius: 3px;
       transition: all 0.2s ease;
-      
+
       &:after {
-        content: "";
+        content: '';
         position: absolute;
         display: none;
         left: 4px;
@@ -426,25 +430,25 @@
         transform: rotate(45deg);
       }
     }
-    
+
     &:hover .checkmark {
       border-color: #007aff;
       background-color: rgba(0, 122, 255, 0.05);
     }
-    
+
     input:checked ~ .checkmark {
       background-color: #007aff;
       border-color: #007aff;
-      
+
       &:after {
         display: block;
       }
     }
-    
+
     input:indeterminate ~ .checkmark {
       background-color: #007aff;
       border-color: #007aff;
-      
+
       &:after {
         display: block;
         left: 2px;

@@ -10,29 +10,37 @@ interface EventDetailModalProps {
 const EventDetailModal: React.FC<EventDetailModalProps> = ({
   event,
   visible,
-  onClose
+  onClose,
 }) => {
   if (!visible || !event) return null
 
-  const getEventTypeDisplay = (targetType: string) => {
+  const getEventTypeDisplay = (targetType: string | null) => {
+    // 处理空值情况
+    if (!targetType || targetType.trim() === '') {
+      return '未知类型'
+    }
+
     const typeMap: Record<string, string> = {
-      'MergeRequest': 'Merge Request',
-      'Issue': 'Issue',
-      'Push': '代码推送',
-      'Note': '评论',
-      'Commit': '提交'
+      MergeRequest: 'Merge Request',
+      Issue: 'Issue',
+      Push: '代码推送',
+      Note: '评论',
+      DiscussionNote: '讨论评论',
+      DiffNote: '代码评论',
+      Commit: '提交',
     }
     return typeMap[targetType] || targetType
   }
 
   const getActionDisplay = (actionName: string) => {
     const actionMap: Record<string, string> = {
-      'opened': '开启',
-      'closed': '关闭',
-      'merged': '合并',
+      opened: '开启',
+      closed: '关闭',
+      merged: '合并',
       'pushed new': '推送新分支',
       'pushed to': '推送到分支',
-      'commented on': '评论'
+      'commented on': '评论',
+      joined: '加入',
     }
     return actionMap[actionName] || actionName
   }
@@ -44,16 +52,21 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
       day: '2-digit',
       hour: '2-digit',
       minute: '2-digit',
-      second: '2-digit'
+      second: '2-digit',
     })
   }
 
   const getSourceUrl = () => {
     if (!event.project) return ''
-    
+
     const baseUrl = 'https://www.lejuhub.com'
     const projectPath = event.project.path_with_namespace
-    
+
+    // 处理空值情况
+    if (!event.target_type || event.target_type.trim() === '') {
+      return `${baseUrl}/${projectPath}`
+    }
+
     switch (event.target_type) {
       case 'MergeRequest':
         return `${baseUrl}/${projectPath}/-/merge_requests/${event.target_iid}`
@@ -92,11 +105,15 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
               </div>
               <div className="detail-item">
                 <span className="label">类型:</span>
-                <span className="value">{getEventTypeDisplay(event.target_type)}</span>
+                <span className="value">
+                  {getEventTypeDisplay(event.target_type)}
+                </span>
               </div>
               <div className="detail-item">
                 <span className="label">操作:</span>
-                <span className="value action-badge">{getActionDisplay(event.action_name)}</span>
+                <span className="value action-badge">
+                  {getActionDisplay(event.action_name)}
+                </span>
               </div>
               <div className="detail-item">
                 <span className="label">时间:</span>
@@ -114,7 +131,9 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
           </div>
 
           {/* 内容信息 */}
-          {(event.title || event.target_title || (event.labels && event.labels.length > 0)) && (
+          {(event.title ||
+            event.target_title ||
+            (event.labels && event.labels.length > 0)) && (
             <div className="detail-section compact">
               <h3>内容</h3>
               <div className="detail-content compact-content">
@@ -135,7 +154,9 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
                     <span className="label">标签:</span>
                     <div className="labels">
                       {event.labels.map((label, index) => (
-                        <span key={index} className="label-tag">{label}</span>
+                        <span key={index} className="label-tag">
+                          {label}
+                        </span>
                       ))}
                     </div>
                   </div>
@@ -158,7 +179,9 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
                 )}
                 <div className="author-details">
                   <div className="author-name">{event.author.name}</div>
-                  <div className="author-username">@{event.author.username}</div>
+                  <div className="author-username">
+                    @{event.author.username}
+                  </div>
                 </div>
               </div>
             </div>
@@ -175,7 +198,9 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
                 </div>
                 <div className="detail-item">
                   <span className="label">路径:</span>
-                  <span className="value">{event.project.path_with_namespace}</span>
+                  <span className="value">
+                    {event.project.path_with_namespace}
+                  </span>
                 </div>
               </div>
             </div>
@@ -200,7 +225,9 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
                 </div>
                 <div className="detail-item">
                   <span className="label">提交哈希:</span>
-                  <span className="value commit-hash">{event.push_data.commit_to}</span>
+                  <span className="value commit-hash">
+                    {event.push_data.commit_to}
+                  </span>
                 </div>
               </div>
             </div>
@@ -211,9 +238,7 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
             <div className="detail-section">
               <h3>评论信息</h3>
               <div className="note-info">
-                <div className="note-body">
-                  {event.note.body}
-                </div>
+                <div className="note-body">{event.note.body}</div>
                 <div className="note-meta">
                   <span>创建时间: {formatDate(event.note.created_at)}</span>
                   {event.note.updated_at !== event.note.created_at && (

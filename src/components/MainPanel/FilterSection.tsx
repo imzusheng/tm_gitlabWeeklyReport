@@ -10,7 +10,7 @@ const timeRangeOptions = [
   { value: '30d', label: '最近30天' },
   { value: '90d', label: '最近90天' },
   { value: '180d', label: '最近180天' },
-  { value: '365d', label: '最近365天' }
+  { value: '365d', label: '最近365天' },
 ]
 
 const targetTypeOptions = [
@@ -21,7 +21,7 @@ const targetTypeOptions = [
   { value: 'note', label: 'Note' },
   { value: 'project', label: 'Project' },
   { value: 'snippet', label: 'Snippet' },
-  { value: 'user', label: 'User' }
+  { value: 'user', label: 'User' },
 ]
 
 const actionOptions = [
@@ -35,19 +35,17 @@ const actionOptions = [
   { value: 'approved', label: 'Approved' },
   { value: 'joined', label: 'Joined' },
   { value: 'left', label: 'Left' },
-  { value: 'deleted', label: 'Deleted' }
+  { value: 'deleted', label: 'Deleted' },
 ]
-
-
 
 const FilterSection: React.FC<FilterSectionProps> = ({
   filterConditions,
-  onFilterChange
+  onFilterChange,
 }) => {
   const handleTimeRangeChange = (timeRange: FilterConditions['timeRange']) => {
     onFilterChange({
       ...filterConditions,
-      timeRange
+      timeRange,
     })
   }
 
@@ -58,12 +56,15 @@ const FilterSection: React.FC<FilterSectionProps> = ({
    */
   const handleTargetTypeChange = (targetType: string, checked: boolean) => {
     const newTargetType = checked
-      ? [...filterConditions.targetType, targetType as FilterConditions['targetType'][0]]
+      ? [
+          ...filterConditions.targetType,
+          targetType as FilterConditions['targetType'][0],
+        ]
       : filterConditions.targetType.filter(type => type !== targetType)
-    
+
     onFilterChange({
       ...filterConditions,
-      targetType: newTargetType
+      targetType: newTargetType,
     })
   }
 
@@ -76,10 +77,10 @@ const FilterSection: React.FC<FilterSectionProps> = ({
     const newAction = checked
       ? [...filterConditions.action, action as FilterConditions['action'][0]]
       : filterConditions.action.filter(a => a !== action)
-    
+
     onFilterChange({
       ...filterConditions,
-      action: newAction
+      action: newAction,
     })
   }
 
@@ -93,7 +94,11 @@ const FilterSection: React.FC<FilterSectionProps> = ({
             <button
               key={option.value}
               className={`filter-option ${filterConditions.timeRange === option.value ? 'active' : ''}`}
-              onClick={() => handleTimeRangeChange(option.value as FilterConditions['timeRange'])}
+              onClick={() =>
+                handleTimeRangeChange(
+                  option.value as FilterConditions['timeRange'],
+                )
+              }
             >
               {option.label}
             </button>
@@ -107,7 +112,9 @@ const FilterSection: React.FC<FilterSectionProps> = ({
         <div className="filter-options">
           <button
             className={`filter-option ${filterConditions.targetType.length === 0 ? 'active' : ''}`}
-            onClick={() => onFilterChange({ ...filterConditions, targetType: [] })}
+            onClick={() =>
+              onFilterChange({ ...filterConditions, targetType: [] })
+            }
           >
             全部
           </button>
@@ -115,7 +122,12 @@ const FilterSection: React.FC<FilterSectionProps> = ({
             <button
               key={option.value}
               className={`filter-option ${filterConditions.targetType.includes(option.value as any) ? 'active' : ''}`}
-              onClick={() => handleTargetTypeChange(option.value, !filterConditions.targetType.includes(option.value as any))}
+              onClick={() =>
+                handleTargetTypeChange(
+                  option.value,
+                  !filterConditions.targetType.includes(option.value as any),
+                )
+              }
             >
               {option.label}
             </button>
@@ -137,7 +149,12 @@ const FilterSection: React.FC<FilterSectionProps> = ({
             <button
               key={option.value}
               className={`filter-option ${filterConditions.action.includes(option.value as any) ? 'active' : ''}`}
-              onClick={() => handleActionChange(option.value, !filterConditions.action.includes(option.value as any))}
+              onClick={() =>
+                handleActionChange(
+                  option.value,
+                  !filterConditions.action.includes(option.value as any),
+                )
+              }
             >
               {option.label}
             </button>

@@ -43,20 +43,18 @@ const initUserscript = () => {
     max-width: 400px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   `
-  
+
   document.body.appendChild(container)
-  
+
   // 渲染React应用
   const root = ReactDOM.createRoot(container)
-  root.render(
-    React.createElement(App, { isUserscript: true })
-  )
+  root.render(React.createElement(App, { isUserscript: true }))
 }
 
 // 检查是否在GitLab页面
 const isGitLabPage = (): boolean => {
   return (
-    window.location.hostname.includes('gitlab') || 
+    window.location.hostname.includes('gitlab') ||
     window.location.pathname.includes('gitlab') ||
     document.querySelector('meta[content*="GitLab"]') !== null ||
     document.querySelector('[data-page*="gitlab"]') !== null

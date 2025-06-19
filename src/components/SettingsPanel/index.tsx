@@ -19,10 +19,12 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
   theme,
   onClose,
   onSave,
-  onThemeChange
+  onThemeChange,
 }) => {
   const [formData, setFormData] = useState<AppConfig>(config)
-  const [activeTab, setActiveTab] = useState<'gitlab' | 'deepseek' | 'appearance'>('gitlab')
+  const [activeTab, setActiveTab] = useState<
+    'gitlab' | 'deepseek' | 'appearance'
+  >('gitlab')
 
   // 当配置更新时，同步表单数据
   useEffect(() => {
@@ -36,10 +38,13 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
     }
   }, [visible, config])
 
-  const handleInputChange = (field: keyof AppConfig, value: string | number) => {
+  const handleInputChange = (
+    field: keyof AppConfig,
+    value: string | number,
+  ) => {
     setFormData(prev => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }))
   }
 
@@ -76,8 +81,8 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
             <button className="btn-secondary" onClick={onClose}>
               取消
             </button>
-            <button 
-              className="btn-primary" 
+            <button
+              className="btn-primary"
               onClick={handleSave}
               disabled={!isFormValid()}
             >
@@ -126,11 +131,9 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   className="form-input"
                   placeholder={CONFIG_PLACEHOLDERS.gitlabUrl}
                   value={formData.gitlabUrl}
-                  onChange={(e) => handleInputChange('gitlabUrl', e.target.value)}
+                  onChange={e => handleInputChange('gitlabUrl', e.target.value)}
                 />
-                <div className="form-hint">
-                  请输入完整的 GitLab 项目 URL
-                </div>
+                <div className="form-hint">请输入完整的 GitLab 项目 URL</div>
               </div>
 
               <div className="form-group">
@@ -142,7 +145,9 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   className="form-input"
                   placeholder={CONFIG_PLACEHOLDERS.gitlabToken}
                   value={formData.gitlabToken}
-                  onChange={(e) => handleInputChange('gitlabToken', e.target.value)}
+                  onChange={e =>
+                    handleInputChange('gitlabToken', e.target.value)
+                  }
                 />
                 <div className="form-hint">
                   在 GitLab 个人设置 → 访问令牌 中创建，需要 read_api 权限
@@ -162,21 +167,19 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   className="form-input"
                   placeholder={CONFIG_PLACEHOLDERS.deepseekApiKey}
                   value={formData.deepseekApiKey}
-                  onChange={(e) => handleInputChange('deepseekApiKey', e.target.value)}
+                  onChange={e =>
+                    handleInputChange('deepseekApiKey', e.target.value)
+                  }
                 />
-                <div className="form-hint">
-                  在 DeepSeek 平台获取 API Key
-                </div>
+                <div className="form-hint">在 DeepSeek 平台获取 API Key</div>
               </div>
 
               <div className="form-group">
-                <label className="form-label">
-                  使用的模型
-                </label>
+                <label className="form-label">使用的模型</label>
                 <select
                   className="form-select"
                   value={formData.model}
-                  onChange={(e) => handleInputChange('model', e.target.value)}
+                  onChange={e => handleInputChange('model', e.target.value)}
                 >
                   <option value="deepseek-chat">deepseek-chat</option>
                   <option value="deepseek-coder">deepseek-coder</option>
@@ -184,9 +187,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
               </div>
 
               <div className="form-group">
-                <label className="form-label">
-                  Token 数量限制
-                </label>
+                <label className="form-label">Token 数量限制</label>
                 <input
                   type="number"
                   className="form-input"
@@ -194,7 +195,9 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   max="10000"
                   placeholder="4000"
                   value={formData.tokenLimit}
-                  onChange={(e) => handleInputChange('tokenLimit', parseInt(e.target.value))}
+                  onChange={e =>
+                    handleInputChange('tokenLimit', parseInt(e.target.value))
+                  }
                 />
                 <div className="form-hint">
                   单次生成的最大 Token 数量（1000-10000）
@@ -210,11 +213,11 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   rows={6}
                   placeholder={CONFIG_PLACEHOLDERS.defaultPrompt}
                   value={formData.defaultPrompt}
-                  onChange={(e) => handleInputChange('defaultPrompt', e.target.value)}
+                  onChange={e =>
+                    handleInputChange('defaultPrompt', e.target.value)
+                  }
                 />
-                <div className="form-hint">
-                  用于生成周报的默认提示词模板
-                </div>
+                <div className="form-hint">用于生成周报的默认提示词模板</div>
               </div>
             </div>
           )}
@@ -222,13 +225,13 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
           {activeTab === 'appearance' && (
             <div className="tab-panel">
               <div className="form-group">
-                <label className="form-label">
-                  主题模式
-                </label>
+                <label className="form-label">主题模式</label>
                 <select
                   className="form-select"
                   value={theme}
-                  onChange={(e) => onThemeChange(e.target.value as 'light' | 'dark' | 'system')}
+                  onChange={e =>
+                    onThemeChange(e.target.value as 'light' | 'dark' | 'system')
+                  }
                 >
                   <option value="system">🔄 跟随系统</option>
                   <option value="light">☀️ 浅色模式</option>

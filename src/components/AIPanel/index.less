@@ -153,15 +153,15 @@
         &::-webkit-scrollbar {
           width: 6px;
         }
-        
+
         &::-webkit-scrollbar-track {
           background: transparent;
         }
-        
+
         &::-webkit-scrollbar-thumb {
           background: #d1d1d6;
           border-radius: 3px;
-          
+
           &:hover {
             background: #b4b4b9;
           }
@@ -224,8 +224,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 // 黑暗模式
@@ -303,7 +307,7 @@
 
           &::-webkit-scrollbar-thumb {
             background: #48484a;
-            
+
             &:hover {
               background: #636366;
             }
@@ -330,4 +334,4 @@
       }
     }
   }
-} 
+}

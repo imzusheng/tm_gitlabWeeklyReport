@@ -5,8 +5,9 @@
 
 // 检测是否在油猴脚本环境中
 export const isUserscriptEnvironment = (): boolean => {
-  return typeof window !== 'undefined' && 
-         typeof GM_xmlhttpRequest !== 'undefined'
+  return (
+    typeof window !== 'undefined' && typeof GM_xmlhttpRequest !== 'undefined'
+  )
 }
 
 // 请求选项接口
@@ -32,13 +33,16 @@ export interface RequestResponse {
  * 统一的网络请求函数
  * 自动检测环境并使用合适的请求方法
  */
-export async function request(url: string, options: RequestOptions = {}): Promise<RequestResponse> {
+export async function request(
+  url: string,
+  options: RequestOptions = {},
+): Promise<RequestResponse> {
   const {
     method = 'GET',
     headers = {},
     body,
     timeout = 30000,
-    signal
+    signal,
   } = options
 
   if (isUserscriptEnvironment()) {
@@ -46,7 +50,7 @@ export async function request(url: string, options: RequestOptions = {}): Promis
     return new Promise((resolve, reject) => {
       const requestHeaders: Record<string, string> = {
         'Content-Type': 'application/json',
-        ...headers
+        ...headers,
       }
 
       let timeoutId: number | undefined
@@ -76,7 +80,7 @@ export async function request(url: string, options: RequestOptions = {}): Promis
         headers: requestHeaders,
         data: body,
         timeout,
-        onload: (response) => {
+        onload: response => {
           if (timeoutId) clearTimeout(timeoutId)
           signal?.removeEventListener('abort', abortHandler)
 
@@ -92,12 +96,12 @@ export async function request(url: string, options: RequestOptions = {}): Promis
                 throw new Error('Invalid JSON response')
               }
             },
-            text: async () => response.responseText
+            text: async () => response.responseText,
           }
 
           resolve(mockResponse)
         },
-        onerror: (error) => {
+        onerror: error => {
           if (timeoutId) clearTimeout(timeoutId)
           signal?.removeEventListener('abort', abortHandler)
           reject(new Error(`Network error: ${error.error || 'Unknown error'}`))
@@ -106,7 +110,7 @@ export async function request(url: string, options: RequestOptions = {}): Promis
           if (timeoutId) clearTimeout(timeoutId)
           signal?.removeEventListener('abort', abortHandler)
           reject(new Error('Request timeout'))
-        }
+        },
       })
     })
   } else {
@@ -115,10 +119,10 @@ export async function request(url: string, options: RequestOptions = {}): Promis
       method,
       headers: {
         'Content-Type': 'application/json',
-        ...headers
+        ...headers,
       },
       body,
-      signal
+      signal,
     }
 
     if (timeout > 0 && !signal) {
@@ -127,14 +131,14 @@ export async function request(url: string, options: RequestOptions = {}): Promis
 
     try {
       const response = await fetch(url, fetchOptions)
-      
+
       return {
         ok: response.ok,
         status: response.status,
         statusText: response.statusText,
         headers: response.headers,
         json: () => response.json(),
-        text: () => response.text()
+        text: () => response.text(),
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -150,7 +154,7 @@ export async function request(url: string, options: RequestOptions = {}): Promis
  */
 const parseResponseHeaders = (headerString: string): Record<string, string> => {
   const headers: Record<string, string> = {}
-  
+
   if (!headerString) return headers
 
   headerString.split('\n').forEach(line => {
@@ -219,7 +223,7 @@ export const storageAdapter = {
     } catch (error) {
       console.error('Storage removeItem failed:', error)
     }
-  }
+  },
 }
 
 // 声明油猴脚本的全局函数类型
