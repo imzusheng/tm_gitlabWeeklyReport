@@ -11,6 +11,11 @@ interface AIPanelProps {
   onGenerate: (prompt: string) => void
   onRegenerate: () => void
   isLoading: boolean
+  selectedEventsCount?: number
+  dateRange?: {
+    startDate: string
+    endDate: string
+  }
 }
 
 const AIPanel: React.FC<AIPanelProps> = ({
@@ -21,6 +26,8 @@ const AIPanel: React.FC<AIPanelProps> = ({
   onGenerate,
   onRegenerate,
   isLoading,
+  selectedEventsCount = 0,
+  dateRange,
 }) => {
   const [prompt, setPrompt] = useState(defaultPrompt)
   const [isExpanded, setIsExpanded] = useState(false)
@@ -49,6 +56,33 @@ const AIPanel: React.FC<AIPanelProps> = ({
       maskClosable={!isLoading}
     >
       <div className="ai-panel">
+        {/* 数据概览信息 */}
+        <div className="data-overview">
+          <div className="overview-header">
+            <h4>📊 数据概览</h4>
+          </div>
+          <div className="overview-content">
+            <div className="overview-item">
+              <span className="overview-label">选中事件：</span>
+              <span className="overview-value">{selectedEventsCount} 条</span>
+            </div>
+            {dateRange && (
+              <div className="overview-item">
+                <span className="overview-label">日期范围：</span>
+                <span className="overview-value">
+                  {dateRange.startDate} 至 {dateRange.endDate}
+                </span>
+              </div>
+            )}
+            <div className="overview-item">
+              <span className="overview-label">状态：</span>
+              <span className={`overview-value ${selectedEventsCount > 0 ? 'ready' : 'waiting'}`}>
+                {selectedEventsCount > 0 ? '✅ 数据就绪' : '⏳ 等待选择事件'}
+              </span>
+            </div>
+          </div>
+        </div>
+
         {/* 提示词编辑区域 */}
         <div className="prompt-section">
           <div className="section-header">

@@ -1,4 +1,130 @@
 .ai-panel {
+  .data-overview {
+    margin-bottom: 24px;
+    border: 1px solid #e5e5e7;
+    border-radius: 8px;
+    background: #f8f9fa;
+    overflow: hidden;
+
+    .overview-header {
+      padding: 12px 16px;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e5e7;
+
+      h4 {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1d1d1f;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+    }
+
+    .overview-content {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .overview-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+
+        .overview-label {
+          color: #86868b;
+          font-weight: 500;
+        }
+
+        .overview-value {
+          color: #1d1d1f;
+          font-weight: 600;
+
+          &.ready {
+            color: #34c759;
+          }
+
+          &.waiting {
+            color: #ff9500;
+          }
+        }
+      }
+    }
+
+    // 深色主题支持
+    .dark & {
+      border-color: #424245;
+      background: #2c2c2e;
+
+      .overview-header {
+        background: #1c1c1e;
+        border-bottom-color: #424245;
+
+        h4 {
+          color: #f2f2f7;
+        }
+      }
+
+      .overview-content {
+        .overview-item {
+          .overview-label {
+            color: #98989d;
+          }
+
+          .overview-value {
+            color: #f2f2f7;
+
+            &.ready {
+              color: #30d158;
+            }
+
+            &.waiting {
+              color: #ff9f0a;
+            }
+          }
+        }
+      }
+    }
+
+    // 系统深色主题支持
+    @media (prefers-color-scheme: dark) {
+      border-color: #424245;
+      background: #2c2c2e;
+
+      .overview-header {
+        background: #1c1c1e;
+        border-bottom-color: #424245;
+
+        h4 {
+          color: #f2f2f7;
+        }
+      }
+
+      .overview-content {
+        .overview-item {
+          .overview-label {
+            color: #98989d;
+          }
+
+          .overview-value {
+            color: #f2f2f7;
+
+            &.ready {
+              color: #30d158;
+            }
+
+            &.waiting {
+              color: #ff9f0a;
+            }
+          }
+        }
+      }
+    }
+  }
+
   .prompt-section,
   .result-section {
     margin-bottom: 24px;

@@ -419,6 +419,8 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
         onGenerate={handleGenerateReport}
         onRegenerate={handleRegenerate}
         isLoading={state.isLoading}
+        selectedEventsCount={selectedEventIds.length}
+        dateRange={getTimeRange()}
       />
     </div>
   )
