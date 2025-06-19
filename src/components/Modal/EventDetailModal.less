@@ -157,6 +157,16 @@
             --section-hover-border: rgba(255, 255, 255, 0.12);
           }
         }
+        
+        &.compact {
+          margin-bottom: 20px;
+          padding: 16px;
+          
+          h3 {
+            margin-bottom: 12px;
+            font-size: 15px;
+          }
+        }
 
         h3 {
           margin: 0 0 18px 0;
@@ -189,6 +199,15 @@
           flex-direction: column;
           gap: 12px;
         }
+        
+        .compact-content,
+        .compact-project {
+          gap: 8px;
+        }
+        
+        .compact-author {
+          gap: 8px;
+        }
 
         .detail-item {
           display: flex;
@@ -204,6 +223,27 @@
           &:last-child {
             border-bottom: none;
           }
+        }
+        
+        .compact-content .detail-item,
+        .compact-project .detail-item {
+          padding: 8px 0;
+          gap: 12px;
+          
+          .label {
+            min-width: 60px;
+            font-size: 13px;
+          }
+          
+          .value {
+            font-size: 13px;
+          }
+        }
+        
+        .compact-author .detail-item {
+          padding: 6px 0;
+          gap: 10px;
+        }
 
           .label {
             font-size: 14px;
@@ -445,7 +485,6 @@
       }
     }
   }
-}
 
 // 动画效果
 @keyframes fadeIn {

@@ -1,6 +1,6 @@
 import React from 'react'
-import { FilterConditions, SortOptions, PaginationOptions, GitLabEvent } from '@/types'
 import { useAppState } from '@/hooks/useAppState'
+import type { GitLabEvent, FilterConditions, SortOptions, PaginationOptions } from '@/types'
 import FilterSection from './FilterSection'
 import EventsList from './EventsList'
 import './index.less'
@@ -17,7 +17,7 @@ interface MainPanelProps {
   onSortChange: (sort: SortOptions) => void
   onPaginationChange: (paginationOptions: PaginationOptions) => void
   onEventSelect: (eventId: number, selected: boolean) => void
-  onSelectAll: (selected: boolean) => void
+  onSelectAll: (selected: boolean) => void | Promise<void>
   onEventDetail: (event: GitLabEvent) => void
   onOpenSettings: () => void
   onOpenAI: () => void

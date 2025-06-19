@@ -1,4 +1,3 @@
-import React from 'react'
 import { GitLabEvent, SortOptions, PaginationOptions } from '@/types'
 import { errorUtils } from '@/utils'
 import Pagination from '../Pagination'
@@ -14,7 +13,7 @@ interface EventsListProps {
   onPaginationChange: (paginationOptions: PaginationOptions) => void
   selectedEventIds: number[] // 选中的事件ID列表
   onEventSelect: (eventId: number, selected: boolean) => void // 事件选择回调
-  onSelectAll: (selected: boolean) => void // 全选/取消全选回调
+  onSelectAll: (selected: boolean) => void | Promise<void> // 全选/取消全选回调
   onEventDetail: (event: GitLabEvent) => void // 查看事件详情回调
 }
 
@@ -145,6 +144,23 @@ const EventsList: React.FC<EventsListProps> = ({
     return actionMap[actionName] || actionName
   }
 
+  const getTargetTypeDisplayName = (targetType: string) => {
+    const typeMap: Record<string, string> = {
+      'MergeRequest': 'MR',
+      'Issue': 'Issue',
+      'Commit': '提交',
+      'Push': '推送',
+      'Note': '评论',
+      'Project': '项目',
+      'Milestone': '里程碑',
+      'Epic': 'Epic',
+      'Snippet': '代码片段',
+      'User': '用户'
+    }
+    
+    return typeMap[targetType] || targetType
+  }
+
   const getSourceUrl = (event: GitLabEvent) => {
     if (!event.project) return ''
     
@@ -203,6 +219,10 @@ const EventsList: React.FC<EventsListProps> = ({
           <span>操作</span>
           <span className="sort-icon">{getSortIcon('action_name')}</span>
         </div>
+        <div className="header-cell target-type-cell" onClick={() => handleSort('target_type')}>
+          <span>目标类型</span>
+          <span className="sort-icon">{getSortIcon('target_type')}</span>
+        </div>
         <div className="header-cell time-cell" onClick={() => handleSort('created_at')}>
           <span>时间</span>
           <span className="sort-icon">{getSortIcon('created_at')}</span>
@@ -250,6 +270,11 @@ const EventsList: React.FC<EventsListProps> = ({
                     {getActionDisplayName(event.action_name, event.target_type)}
                   </span>
                 </div>
+                <div className="cell target-type-cell">
+                  <span className="target-type-tag">
+                    {getTargetTypeDisplayName(event.target_type)}
+                  </span>
+                </div>
                 <div className="cell time-cell">
                   <span className="event-time">{formatDate(event.created_at)}</span>
                 </div>
@@ -286,6 +311,8 @@ const EventsList: React.FC<EventsListProps> = ({
           pageSize={paginationOptions.pageSize}
           total={totalCount}
           onChange={(page) => onPaginationChange({ ...paginationOptions, page })}
+          showSizeChanger={true}
+          onShowSizeChange={(page, pageSize) => onPaginationChange({ page, pageSize, total: totalCount })}
         />
       </div>
     </div>

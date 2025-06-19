@@ -1,4 +1,3 @@
-import React from 'react'
 import { FilterConditions } from '@/types'
 
 interface FilterSectionProps {

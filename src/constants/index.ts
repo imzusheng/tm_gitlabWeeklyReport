@@ -40,7 +40,7 @@ export const DEFAULT_SORT_OPTIONS = {
 // 分页选项默认值
 export const DEFAULT_PAGINATION_OPTIONS = {
   page: 1,
-  pageSize: 20, // 每页显示数量
+  pageSize: 50, // 每页显示数量
   total: 0,
 }
 
@@ -61,17 +61,6 @@ export const USERSCRIPT_CONFIG = {
   INJECT_DELAY: 1000, // 注入延迟时间(ms)
 }
 
-// 主题颜色
-export const THEME_COLORS = {
-  primary: '#007bff',
-  success: '#28a745',
-  warning: '#ffc107',
-  danger: '#dc3545',
-  info: '#17a2b8',
-  light: '#f8f9fa',
-  dark: '#343a40',
-}
-
 // 错误消息
 export const ERROR_MESSAGES = {
   INVALID_GITLAB_URL: 'GitLab地址格式不正确',
@@ -80,11 +69,4 @@ export const ERROR_MESSAGES = {
   API_RATE_LIMIT: 'API调用频率超限，请稍后重试',
   INSUFFICIENT_DATA: '数据不足，无法生成周报',
   GENERATION_FAILED: '周报生成失败，请重试',
-}
-
-// 成功消息
-export const SUCCESS_MESSAGES = {
-  CONFIG_SAVED: '配置保存成功',
-  REPORT_GENERATED: '周报生成成功',
-  DATA_EXPORTED: '数据导出成功',
 }

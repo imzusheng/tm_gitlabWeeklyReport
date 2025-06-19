@@ -1,4 +1,3 @@
-import React from 'react'
 import { GitLabEvent } from '@/types'
 import './EventDetailModal.less'
 
@@ -84,11 +83,11 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
 
         <div className="modal-content">
           {/* 基本信息 */}
-          <div className="detail-section">
+          <div className="detail-section compact">
             <h3>基本信息</h3>
-            <div className="detail-grid">
+            <div className="detail-grid compact-grid">
               <div className="detail-item">
-                <span className="label">事件ID:</span>
+                <span className="label">ID:</span>
                 <span className="value">{event.id}</span>
               </div>
               <div className="detail-item">
@@ -115,39 +114,41 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
           </div>
 
           {/* 内容信息 */}
-          <div className="detail-section">
-            <h3>内容信息</h3>
-            <div className="detail-content">
-              {event.title && (
-                <div className="detail-item">
-                  <span className="label">标题:</span>
-                  <span className="value">{event.title}</span>
-                </div>
-              )}
-              {event.target_title && (
-                <div className="detail-item">
-                  <span className="label">目标标题:</span>
-                  <span className="value">{event.target_title}</span>
-                </div>
-              )}
-              {event.labels && event.labels.length > 0 && (
-                <div className="detail-item">
-                  <span className="label">标签:</span>
-                  <div className="labels">
-                    {event.labels.map((label, index) => (
-                      <span key={index} className="label-tag">{label}</span>
-                    ))}
+          {(event.title || event.target_title || (event.labels && event.labels.length > 0)) && (
+            <div className="detail-section compact">
+              <h3>内容</h3>
+              <div className="detail-content compact-content">
+                {event.title && (
+                  <div className="detail-item">
+                    <span className="label">标题:</span>
+                    <span className="value">{event.title}</span>
                   </div>
-                </div>
-              )}
+                )}
+                {event.target_title && (
+                  <div className="detail-item">
+                    <span className="label">目标:</span>
+                    <span className="value">{event.target_title}</span>
+                  </div>
+                )}
+                {event.labels && event.labels.length > 0 && (
+                  <div className="detail-item">
+                    <span className="label">标签:</span>
+                    <div className="labels">
+                      {event.labels.map((label, index) => (
+                        <span key={index} className="label-tag">{label}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* 作者信息 */}
           {event.author && (
-            <div className="detail-section">
-              <h3>作者信息</h3>
-              <div className="author-info">
+            <div className="detail-section compact">
+              <h3>作者</h3>
+              <div className="author-info compact-author">
                 {event.author.avatar_url && (
                   <img
                     src={event.author.avatar_url}
@@ -158,16 +159,6 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
                 <div className="author-details">
                   <div className="author-name">{event.author.name}</div>
                   <div className="author-username">@{event.author.username}</div>
-                  {event.author.web_url && (
-                    <a
-                      href={event.author.web_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="author-link"
-                    >
-                      查看个人主页
-                    </a>
-                  )}
                 </div>
               </div>
             </div>
@@ -175,15 +166,15 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
 
           {/* 项目信息 */}
           {event.project && (
-            <div className="detail-section">
-              <h3>项目信息</h3>
-              <div className="project-info">
+            <div className="detail-section compact">
+              <h3>项目</h3>
+              <div className="project-info compact-project">
                 <div className="detail-item">
-                  <span className="label">项目名称:</span>
+                  <span className="label">名称:</span>
                   <span className="value">{event.project.name}</span>
                 </div>
                 <div className="detail-item">
-                  <span className="label">项目路径:</span>
+                  <span className="label">路径:</span>
                   <span className="value">{event.project.path_with_namespace}</span>
                 </div>
               </div>
@@ -254,4 +245,4 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
   )
 }
 
-export default EventDetailModal 
+export default EventDetailModal

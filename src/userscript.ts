@@ -22,7 +22,7 @@ import App from './App'
 import './index.less'
 
 // 等待页面加载完成后注入应用
-function initUserscript() {
+const initUserscript = () => {
   // 检查是否已经注入过
   if (document.getElementById('gitlab-weekly-report-container')) {
     return
@@ -54,7 +54,7 @@ function initUserscript() {
 }
 
 // 检查是否在GitLab页面
-function isGitLabPage(): boolean {
+const isGitLabPage = (): boolean => {
   return (
     window.location.hostname.includes('gitlab') || 
     window.location.pathname.includes('gitlab') ||
@@ -64,7 +64,7 @@ function isGitLabPage(): boolean {
 }
 
 // 初始化函数
-function init() {
+const init = () => {
   if (!isGitLabPage()) {
     // 非GitLab页面，跳过注入
     return

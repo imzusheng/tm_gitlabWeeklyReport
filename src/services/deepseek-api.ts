@@ -1,4 +1,4 @@
-import { DeepSeekMessage, DeepSeekResponse } from '@/types'
+import type { DeepSeekMessage, DeepSeekResponse } from '@/types'
 import { API_CONFIG } from '@/constants'
 import { request } from '@/utils/request'
 import { errorUtils } from '@/utils'
@@ -107,7 +107,6 @@ export class DeepSeekApiService {
       ], 'deepseek-chat', 10)
       return true
     } catch (error) {
-      console.error('DeepSeek API Key验证失败:', error)
       return false
     }
   }

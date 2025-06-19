@@ -198,9 +198,6 @@ export interface UserEventsOptions {
   useUserIdApi?: boolean // 是否强制使用 /users/:id/events 接口
 }
 
-// GitLab API 接口类型
-export type GitLabApiMethod = 'events' | 'users-events'
-
 // 用户信息类型
 export interface GitLabUser {
   id: number

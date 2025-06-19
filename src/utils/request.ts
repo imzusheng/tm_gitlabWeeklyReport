@@ -148,7 +148,7 @@ export async function request(url: string, options: RequestOptions = {}): Promis
 /**
  * 解析响应头字符串为对象
  */
-function parseResponseHeaders(headerString: string): Record<string, string> {
+const parseResponseHeaders = (headerString: string): Record<string, string> => {
   const headers: Record<string, string> = {}
   
   if (!headerString) return headers
@@ -243,4 +243,4 @@ declare global {
   function GM_setValue(key: string, value: string): void
   function GM_getValue(key: string, defaultValue?: string | null): string | null
   function GM_deleteValue(key: string): void
-} 
+}

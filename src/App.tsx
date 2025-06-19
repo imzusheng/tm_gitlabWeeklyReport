@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { useAppState } from '@/hooks/useAppState'
+
 import MainPanel from '@/components/MainPanel'
 import SettingsPanel from '@/components/SettingsPanel'
 import AIPanel from '@/components/AIPanel'
 import EventDetailModal from '@/components/Modal/EventDetailModal'
-import { GitLabEvent, PaginationOptions, FilterConditions } from '@/types'
+import type { GitLabEvent, FilterConditions, PaginationOptions } from '@/types'
 import { errorUtils } from '@/utils'
 import { createGitLabApiService } from '@/services/gitlab-api'
 import './App.less'
@@ -114,8 +115,8 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
           per_page: state.paginationOptions.pageSize,
           sort,
         }
-        // 获取用户事件数据
-        const events = await gitlabService.getUserEvents(currentUser.id, params)
+        // 获取用户事件数据和总数
+        const { events, total } = await gitlabService.getUserEventsWithTotal(currentUser.id, params)
 
         // 对于非created_at字段的排序，在本地处理
         let sortedEvents = events
@@ -139,32 +140,28 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
         //         bValue = b.target_type
         //         break
         //       default:
-        //         aValue = new Date(a.created_at).getTime()
-        //         bValue = new Date(b.created_at).getTime()
+        //         aValue = a.created_at
+        //         bValue = b.created_at
         //     }
 
-        //     if (order === 'asc') {
-        //       return aValue > bValue ? 1 : -1
-        //     } else {
-        //       return aValue < bValue ? 1 : -1
+        //     if (typeof aValue === 'string' && typeof bValue === 'string') {
+        //       return order === 'asc'
+        //         ? aValue.localeCompare(bValue)
+        //         : bValue.localeCompare(aValue)
         //     }
+
+        //     return order === 'asc'
+        //       ? (aValue > bValue ? 1 : -1)
+        //       : (aValue < bValue ? 1 : -1)
         //   })
         // }
 
         setEvents(sortedEvents)
         // 默认选中所有事件
         setSelectedEventIds(sortedEvents.map(event => event.id))
-        // 由于使用了后端分页，这里设置一个估算的总数
-        setTotal(
-          events.length === state.paginationOptions.pageSize
-            ? state.paginationOptions.page * state.paginationOptions.pageSize +
-                1
-            : (state.paginationOptions.page - 1) *
-                state.paginationOptions.pageSize +
-                events.length,
-        )
+        // 使用响应头中的总数
+        setTotal(total)
       } catch (error) {
-        console.error('❌ 加载事件数据失败:', error)
         const errorMessage = errorUtils.handleGitLabError(error)
         setError(errorMessage)
         setEvents([])
@@ -269,7 +266,6 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
       })
       setLoading(false)
     } catch (error) {
-      console.error('生成周报失败:', error)
       const errorMessage = errorUtils.handleDeepSeekError(error)
       setError(errorMessage)
       setLoading(false)
@@ -308,8 +304,38 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   }
 
   // 处理全选/取消全选
-  const handleSelectAll = (selected: boolean) => {
-    setSelectedEventIds(selected ? state.events.map(event => event.id) : [])
+  const handleSelectAll = async (selected: boolean) => {
+    if (!selected) {
+      setSelectedEventIds([])
+      return
+    }
+
+    try {
+       // 获取所有页面的事件ID
+       const { startDate, endDate } = getTimeRange()
+       const currentFilters = state.filterConditions
+       const targetTypes = currentFilters.targetType?.length > 0 ? currentFilters.targetType : undefined
+       const actions = currentFilters.action?.length > 0 ? currentFilters.action : undefined
+       const sort = state.sortOptions.field === 'created_at' ? state.sortOptions.order : 'desc'
+       const currentUser = await gitlabService.getCurrentUser()
+      
+      // 获取所有事件（不分页）
+      const allEventsParams = {
+        after: startDate,
+        before: endDate,
+        target_type: targetTypes,
+        action: actions,
+        per_page: 1000, // 设置一个较大的数值来获取所有事件
+        sort,
+      }
+      
+      const { events: allEvents } = await gitlabService.getUserEventsWithTotal(currentUser.id, allEventsParams)
+      const allEventIds = allEvents.map(event => event.id)
+      setSelectedEventIds(allEventIds)
+    } catch (error) {
+      // 如果获取所有事件失败，则只选中当前页面的事件
+      setSelectedEventIds(state.events.map(event => event.id))
+    }
   }
 
   // 处理事件详情

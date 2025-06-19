@@ -84,7 +84,6 @@ export const storageUtils = {
     try {
       storageAdapter.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(config))
     } catch (error) {
-      console.error('保存配置失败:', error)
       // 降级到 localStorage
       if (typeof localStorage !== 'undefined') {
         localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(config))
@@ -100,7 +99,6 @@ export const storageUtils = {
       const config = storageAdapter.getItem(STORAGE_KEYS.CONFIG)
       return config ? JSON.parse(config) : null
     } catch (error) {
-      console.error('加载配置失败:', error)
       // 降级到 localStorage
       try {
         if (typeof localStorage !== 'undefined') {
@@ -108,7 +106,7 @@ export const storageUtils = {
           return config ? JSON.parse(config) : null
         }
       } catch (fallbackError) {
-        console.error('降级存储加载失败:', fallbackError)
+        // 静默处理降级存储失败
       }
       return null
     }
@@ -121,7 +119,6 @@ export const storageUtils = {
     try {
       storageAdapter.removeItem(STORAGE_KEYS.CONFIG)
     } catch (error) {
-      console.error('清除配置失败:', error)
       // 降级到 localStorage
       if (typeof localStorage !== 'undefined') {
         localStorage.removeItem(STORAGE_KEYS.CONFIG)

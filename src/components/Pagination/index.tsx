@@ -16,8 +16,8 @@ const Pagination: React.FC<PaginationProps> = ({
   pageSize,
   total,
   onChange,
-  showSizeChanger = false,
-  pageSizeOptions = [10, 20, 50, 100],
+  showSizeChanger = true,
+  pageSizeOptions = [20, 50, 100, 200],
   onShowSizeChange
 }) => {
   const totalPages = Math.ceil(total / pageSize)
@@ -42,9 +42,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
     if (totalPages <= 7) {
       // 总页数少于等于7页，显示所有页
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i)
-      }
+      pages.push(...Array.from({ length: totalPages }, (_, i) => i + 1))
     } else {
       // 总页数多于7页，显示省略号
       pages.push(1)
@@ -56,9 +54,7 @@ const Pagination: React.FC<PaginationProps> = ({
       const start = Math.max(2, current - showRange)
       const end = Math.min(totalPages - 1, current + showRange)
 
-      for (let i = start; i <= end; i++) {
-        pages.push(i)
-      }
+      pages.push(...Array.from({ length: end - start + 1 }, (_, i) => start + i))
 
       if (current < totalPages - showRange - 1) {
         pages.push('...')
@@ -140,4 +136,4 @@ const Pagination: React.FC<PaginationProps> = ({
   )
 }
 
-export default Pagination 
+export default Pagination

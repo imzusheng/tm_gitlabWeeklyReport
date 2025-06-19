@@ -37,7 +37,7 @@ export function useAppState() {
           config: savedConfig ? { ...DEFAULT_CONFIG, ...savedConfig } : DEFAULT_CONFIG
         }))
       } catch (error) {
-        console.error('加载保存的数据失败:', error)
+        // 静默处理配置加载失败，使用默认配置
       }
     }
 
@@ -100,9 +100,10 @@ export function useAppState() {
   const setTotal = useCallback((total: number) => {
     setState(prev => ({
       ...prev,
+      totalCount: total,
       paginationOptions: {
         ...prev.paginationOptions,
-        total
+        total: total
       }
     }))
   }, [])

@@ -94,7 +94,6 @@ export class GitLabApiService {
       // 验证当前配置是否有效
       await this.getCurrentUser()
     } catch (error) {
-      console.error('GitLab服务初始化失败:', error)
       throw new Error('GitLab服务初始化失败，请检查GitLab URL和Token是否正确')
     }
   }
@@ -146,6 +145,77 @@ export class GitLabApiService {
       `/users/${userId}/events`
 
     return this.request(endpoint)
+  }
+
+  /**
+   * 获取用户事件并返回总数信息
+   * @param userId 用户ID
+   * @param options 筛选和分页选项
+   * @returns 包含事件数据和总数的对象
+   */
+  async getUserEventsWithTotal(
+    userId: number,
+    options: {
+      after?: string        // 开始日期
+      before?: string       // 结束日期
+      action?: string[]     // 操作类型筛选
+      target_type?: string[] // 目标类型筛选
+      sort?: 'asc' | 'desc' // 排序方式
+      page?: number         // 页码
+      per_page?: number     // 每页数量
+    } = {}
+  ): Promise<{ events: GitLabEvent[]; total: number }> {
+    const params = new URLSearchParams()
+
+    // 添加所有筛选参数，交给后端处理
+    if (options.after) params.set('after', options.after)
+    if (options.before) params.set('before', options.before)
+    if (options.sort) params.set('sort', options.sort)
+    if (options.page) params.set('page', options.page.toString())
+    if (options.per_page) params.set('per_page', options.per_page.toString())
+
+    // 添加数组类型的筛选参数
+    if (options.action) {
+      options.action.forEach(action => params.append('action', action))
+    }
+    if (options.target_type) {
+      options.target_type.forEach(type => params.append('target_type', type))
+    }
+
+    const queryString = params.toString()
+    const endpoint = queryString ? 
+      `/users/${userId}/events?${queryString}` : 
+      `/users/${userId}/events`
+
+    // 构建URL
+    const url = `${this.baseUrl}${endpoint}`
+    
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'PRIVATE-TOKEN': this.token,
+      },
+      timeout: API_CONFIG.REQUEST_TIMEOUT,
+    }
+
+    const response = await request(url, requestOptions)
+
+    if (!response.ok) {
+      const errorText = await response.text()
+      throw errorUtils.createApiError(response.status, errorText || response.statusText, 'GitLab API')
+    }
+
+    const events = await response.json()
+    // 从响应头获取总数
+    let total = 0
+    if (response.headers instanceof Headers) {
+      total = parseInt(response.headers.get('x-total') || '0', 10)
+    } else {
+      total = parseInt(response.headers['x-total'] || '0', 10)
+    }
+
+    return { events, total }
   }
 
   /**

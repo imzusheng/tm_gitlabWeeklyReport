@@ -1,4 +1,3 @@
-import React from 'react'
 import { AppConfig } from '@/types'
 import { urlUtils } from '@/utils'
 import './index.less'
@@ -110,4 +109,4 @@ const ConfigForm: React.FC<ConfigFormProps> = ({
   )
 }
 
-export default ConfigForm 
+export default ConfigForm
