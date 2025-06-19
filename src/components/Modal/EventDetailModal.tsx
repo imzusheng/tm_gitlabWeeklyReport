@@ -25,8 +25,8 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
       Issue: 'Issue',
       Push: '代码推送',
       Note: '评论',
-      DiscussionNote: '讨论评论',
-      DiffNote: '代码评论',
+      DiscussionNote: '讨论-评论',
+      DiffNote: '代码-评论',
       Commit: '提交',
     }
     return typeMap[targetType] || targetType
@@ -57,9 +57,16 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
   }
 
   const getSourceUrl = () => {
-    if (!event.project) return ''
+    // 如果没有project对象且没有project_id，无法生成URL
+    if (!event.project && !event.project_id) return ''
 
     const baseUrl = 'https://www.lejuhub.com'
+    
+    // 如果没有完整的project对象，只能返回基础URL
+    if (!event.project) {
+      return baseUrl
+    }
+    
     const projectPath = event.project.path_with_namespace
 
     // 处理空值情况
@@ -172,7 +179,7 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
               <div className="author-info compact-author">
                 {event.author.avatar_url && (
                   <img
-                    src={event.author.avatar_url}
+                    src={`${event.author.avatar_url}?width=100`}
                     alt={event.author.name}
                     className="author-avatar"
                   />
@@ -188,20 +195,29 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
           )}
 
           {/* 项目信息 */}
-          {event.project && (
+          {(event.project || event.project_id) && (
             <div className="detail-section compact">
               <h3>项目</h3>
               <div className="project-info compact-project">
-                <div className="detail-item">
-                  <span className="label">名称:</span>
-                  <span className="value">{event.project.name}</span>
-                </div>
-                <div className="detail-item">
-                  <span className="label">路径:</span>
-                  <span className="value">
-                    {event.project.path_with_namespace}
-                  </span>
-                </div>
+                {event.project ? (
+                  <>
+                    <div className="detail-item">
+                      <span className="label">名称:</span>
+                      <span className="value">{event.project.name}</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="label">路径:</span>
+                      <span className="value">
+                        {event.project.path_with_namespace}
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <div className="detail-item">
+                    <span className="label">项目ID:</span>
+                    <span className="value">{event.project_id}</span>
+                  </div>
+                )}
               </div>
             </div>
           )}

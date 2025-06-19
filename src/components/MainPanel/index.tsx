@@ -53,9 +53,6 @@ const MainPanel: React.FC<MainPanelProps> = ({
       <div className="panel-header">
         <div className="header-left">
           <h1>GitLab Events</h1>
-          <span className="event-count">
-            {selectedEventIds.length}/{paginationOptions.total} 个事件
-          </span>
           {/* 配置状态显示 */}
           <div className="config-status">
             {isConfigValid() ? (

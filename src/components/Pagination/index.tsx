@@ -9,6 +9,7 @@ interface PaginationProps {
   showSizeChanger?: boolean
   pageSizeOptions?: number[]
   onShowSizeChange?: (current: number, size: number) => void
+  selectedCount?: number
 }
 
 const Pagination: React.FC<PaginationProps> = ({
@@ -19,6 +20,7 @@ const Pagination: React.FC<PaginationProps> = ({
   showSizeChanger = true,
   pageSizeOptions = [20, 50, 100, 200],
   onShowSizeChange,
+  selectedCount = 0,
 }) => {
   const totalPages = Math.ceil(total / pageSize)
   const startItem = (current - 1) * pageSize + 1
@@ -77,7 +79,7 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <div className="pagination">
       <div className="pagination-info">
-        显示 {startItem}-{endItem} 条，共 {total} 条
+        显示 {startItem}-{endItem} 条，共 {total} 条{selectedCount > 0 ? `，已选中 ${selectedCount} 条` : ''}
       </div>
 
       <div className="pagination-controls">

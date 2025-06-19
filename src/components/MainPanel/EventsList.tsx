@@ -93,37 +93,108 @@ const EventsList: React.FC<EventsListProps> = ({
     }
   }
 
-  const getEventTypeIcon = (_actionName: string, targetType: string | null) => {
-    // 处理空值情况
-    if (!targetType || targetType.trim() === '') {
-      return '❓'
+  /**
+   * 统一的事件显示信息获取方案
+   * 综合考虑 target_type、action_name、push_data 等信息
+   * 返回包含图标、操作类型和标题的统一对象
+   */
+  const getEventDisplayInfo = (event: GitLabEvent) => {
+    const { action_name: actionName, target_type: targetType } = event
+
+    // 1. 优先处理推送事件
+    if (event.push_data) {
+      const { action, ref_type } = event.push_data
+      if (action === 'pushed' && ref_type === 'branch') {
+        return {
+          icon: '⬆️',
+          actionType: '分支推送',
+          title: `推送到分支 ${event.push_data.ref}`
+        }
+      }
+      if (action === 'pushed' && ref_type === 'tag') {
+        return {
+          icon: '🏷️',
+          actionType: '标签推送',
+          title: `推送标签 ${event.push_data.ref}`
+        }
+      }
+      return {
+        icon: '📤',
+        actionType: '推送',
+        title: `推送到分支 ${event.push_data.ref}`
+      }
     }
 
-    switch (targetType) {
-      case 'MergeRequest':
-        return '🔀'
-      case 'Issue':
-        return '🐛'
-      case 'Commit':
-        return '📝'
-      case 'Push':
-        return '🚀'
-      case 'Note':
-        return '💬'
-      case 'DiscussionNote':
-        return '💭'
-      case 'DiffNote':
-        return '📄'
-      default:
-        return '📋'
+    // 2. 根据 target_type 判断目标类型
+    if (targetType && targetType.trim() !== '') {
+      const targetTypeConfig: Record<string, { icon: string; actionType: string }> = {
+        MergeRequest: { icon: '⤴️', actionType: 'MR' },
+        Issue: { icon: '⚠️', actionType: 'Issue' },
+        Commit: { icon: '💾', actionType: '提交' },
+        Note: { icon: '💬', actionType: '评论' },
+        DiscussionNote: { icon: '🗣️', actionType: '讨论-评论' },
+        DiffNote: { icon: '📝', actionType: '代码-评论' },
+        Project: { icon: '📁', actionType: '项目' },
+        Milestone: { icon: '🎯', actionType: '里程碑' },
+        Epic: { icon: '🎪', actionType: 'Epic' },
+        Snippet: { icon: '✂️', actionType: '代码片段' },
+        User: { icon: '👤', actionType: '用户' },
+      }
+
+      const config = targetTypeConfig[targetType]
+      if (config) {
+        return {
+          icon: config.icon,
+          actionType: config.actionType,
+          title: getEventTitleByType(event)
+        }
+      }
+    }
+
+    // 3. 根据 action_name 判断操作类型（当 target_type 为空时）
+    const actionConfig: Record<string, { icon: string; actionType: string }> = {
+      'pushed to': { icon: '⬆️', actionType: '推送' },
+      'pushed new': { icon: '⬆️', actionType: '推送新分支' },
+      opened: { icon: '🆕', actionType: '开启' },
+      closed: { icon: '✅', actionType: '关闭' },
+      merged: { icon: '🔀', actionType: '合并' },
+      'commented on': { icon: '💬', actionType: '评论' },
+      joined: { icon: '👋', actionType: '加入' },
+      left: { icon: '👋', actionType: '离开' },
+      created: { icon: '✨', actionType: '创建' },
+      updated: { icon: '🔄', actionType: '更新' },
+      deleted: { icon: '🗑️', actionType: '删除' },
+      approved: { icon: '✅', actionType: '批准' },
+      unapproved: { icon: '❌', actionType: '取消批准' },
+    }
+
+    const config = actionConfig[actionName]
+    if (config) {
+      return {
+        icon: config.icon,
+        actionType: config.actionType,
+        title: getEventTitleByType(event)
+      }
+    }
+
+    // 4. 兜底情况
+    return {
+      icon: '📋',
+      actionType: targetType || actionName || '未知操作',
+      title: getEventTitleByType(event)
     }
   }
 
-  const getEventTitle = (event: GitLabEvent) => {
+  /**
+   * 根据事件类型获取标题
+   */
+  const getEventTitleByType = (event: GitLabEvent) => {
+    // 推送事件的标题在getEventDisplayInfo中已处理
     if (event.push_data) {
       return `推送到分支 ${event.push_data.ref}`
     }
 
+    // 评论事件
     if (event.note) {
       const MAX_NOTE_LENGTH = 50
       const noteBody = event.note.body
@@ -132,8 +203,16 @@ const EventsList: React.FC<EventsListProps> = ({
       return `评论: ${noteBody}${event.note.body.length > MAX_NOTE_LENGTH ? '...' : ''}`
     }
 
+    // 加入项目事件
+    if (event.action_name === 'joined') {
+      return '加入项目'
+    }
+
+    // 其他事件使用原有标题
     return event.title || event.target_title || '无标题'
   }
+
+
 
   const getEventContent = (event: GitLabEvent) => {
     if (event.push_data) {
@@ -144,54 +223,31 @@ const EventsList: React.FC<EventsListProps> = ({
       return event.target_title
     }
 
-    return event.project?.path_with_namespace || '未知项目'
+    // 优先使用project对象的path_with_namespace，如果没有则使用project_id
+    if (event.project?.path_with_namespace) {
+      return event.project.path_with_namespace
+    }
+    
+    if (event.project_id) {
+      return `项目ID: ${event.project_id}`
+    }
+    
+    return '未知项目'
   }
 
-  const getActionDisplayName = (
-    actionName: string,
-    _targetType: string | null,
-  ) => {
-    const actionMap: Record<string, string> = {
-      opened: '开启',
-      closed: '关闭',
-      merged: '合并',
-      'pushed new': '推送新分支',
-      'pushed to': '推送',
-      'commented on': '评论',
-      joined: '加入',
-    }
 
-    return actionMap[actionName] || actionName
-  }
-
-  const getTargetTypeDisplayName = (targetType: string | null) => {
-    // 处理空值情况
-    if (!targetType || targetType.trim() === '') {
-      return '未知'
-    }
-
-    const typeMap: Record<string, string> = {
-      MergeRequest: 'MR',
-      Issue: 'Issue',
-      Commit: '提交',
-      Push: '推送',
-      Note: '评论',
-      DiscussionNote: '讨论评论',
-      DiffNote: '代码评论',
-      Project: '项目',
-      Milestone: '里程碑',
-      Epic: 'Epic',
-      Snippet: '代码片段',
-      User: '用户',
-    }
-
-    return typeMap[targetType] || targetType
-  }
 
   const getSourceUrl = (event: GitLabEvent) => {
-    if (!event.project) return ''
+    // 如果没有project对象且没有project_id，无法生成URL
+    if (!event.project && !event.project_id) return ''
 
     const baseUrl = 'https://www.lejuhub.com'
+    
+    // 如果没有完整的project对象，只能返回基础URL
+    if (!event.project) {
+      return baseUrl
+    }
+    
     const projectPath = event.project.path_with_namespace
 
     // 处理空值情况
@@ -258,13 +314,6 @@ const EventsList: React.FC<EventsListProps> = ({
           <span className="sort-icon">{getSortIcon('action_name')}</span>
         </div>
         <div
-          className="header-cell target-type-cell"
-          onClick={() => handleSort('target_type')}
-        >
-          <span>目标类型</span>
-          <span className="sort-icon">{getSortIcon('target_type')}</span>
-        </div>
-        <div
           className="header-cell time-cell"
           onClick={() => handleSort('created_at')}
         >
@@ -285,6 +334,7 @@ const EventsList: React.FC<EventsListProps> = ({
         ) : (
           events.map(event => {
             const isSelected = selectedEventIds.includes(event.id)
+            const { icon, title, actionType } = getEventDisplayInfo(event)
             return (
               <div
                 key={event.id}
@@ -303,10 +353,10 @@ const EventsList: React.FC<EventsListProps> = ({
                 </div>
                 <div className="cell content-cell">
                   <div className="event-icon">
-                    {getEventTypeIcon(event.action_name, event.target_type)}
+                    {icon}
                   </div>
                   <div className="event-content">
-                    <div className="event-title">{getEventTitle(event)}</div>
+                    <div className="event-title">{title}</div>
                     <div className="event-description">
                       {getEventContent(event)}
                     </div>
@@ -314,12 +364,7 @@ const EventsList: React.FC<EventsListProps> = ({
                 </div>
                 <div className="cell action-cell">
                   <span className="action-tag">
-                    {getActionDisplayName(event.action_name, event.target_type)}
-                  </span>
-                </div>
-                <div className="cell target-type-cell">
-                  <span className="target-type-tag">
-                    {getTargetTypeDisplayName(event.target_type)}
+                    {actionType}
                   </span>
                 </div>
                 <div className="cell time-cell">
@@ -364,6 +409,7 @@ const EventsList: React.FC<EventsListProps> = ({
           onShowSizeChange={(page, pageSize) =>
             onPaginationChange({ page, pageSize, total: totalCount })
           }
+          selectedCount={selectedEventIds.length}
         />
       </div>
     </div>
