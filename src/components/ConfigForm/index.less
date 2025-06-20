@@ -10,56 +10,43 @@
 
     label {
       font-weight: 500;
-      color: #333;
+      color: var(--text-primary);
       font-size: 14px;
 
       .required {
-        color: #dc3545;
+        color: var(--color-danger);
         margin-left: 2px;
-      }
-
-      @media (prefers-color-scheme: dark) {
-        color: #e2e8f0;
       }
     }
 
     input,
     textarea {
       padding: 10px 12px;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border-primary);
       border-radius: 6px;
       font-size: 14px;
       transition: all 0.2s ease;
-      background: white;
+      background: var(--bg-primary);
+      color: var(--text-primary);
 
       &:focus {
         outline: none;
-        border-color: #007bff;
-        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px var(--color-primary-lighter);
       }
 
       &:disabled {
-        background-color: #f8f9fa;
+        background-color: var(--bg-secondary);
         cursor: not-allowed;
         opacity: 0.6;
       }
 
       &.invalid {
-        border-color: #dc3545;
+        border-color: var(--color-danger);
 
         &:focus {
-          border-color: #dc3545;
-          box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
-        }
-      }
-
-      @media (prefers-color-scheme: dark) {
-        background: #4a5568;
-        border-color: #6b7280;
-        color: #fff;
-
-        &:disabled {
-          background-color: #2d3748;
+          border-color: var(--color-danger);
+          box-shadow: 0 0 0 3px var(--color-danger-lighter);
         }
       }
     }
@@ -72,17 +59,13 @@
 
     .help-text {
       font-size: 12px;
-      color: #6c757d;
+      color: var(--text-secondary);
       margin-top: 4px;
-
-      @media (prefers-color-scheme: dark) {
-        color: #a0aec0;
-      }
     }
 
     .error-message {
       font-size: 12px;
-      color: #dc3545;
+      color: var(--color-danger);
       margin-top: 4px;
     }
   }
@@ -97,7 +80,7 @@
     }
 
     span {
-      color: #666;
+      color: var(--text-secondary);
       font-size: 14px;
       flex-shrink: 0;
 

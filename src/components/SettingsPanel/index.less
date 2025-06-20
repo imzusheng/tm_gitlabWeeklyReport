@@ -1,7 +1,7 @@
 .settings-panel {
   .settings-tabs {
     display: flex;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--border-light);
     margin-bottom: 24px;
 
     .tab-button {
@@ -11,7 +11,7 @@
       padding: 12px 16px;
       border: none;
       background: transparent;
-      color: #86868b;
+      color: var(--text-secondary);
       font-size: 14px;
       font-weight: 500;
       cursor: pointer;
@@ -24,13 +24,13 @@
       }
 
       &:hover {
-        color: #1d1d1f;
-        background: #f8f9fa;
+        color: var(--text-primary);
+        background: var(--bg-secondary);
       }
 
       &.active {
-        color: #007aff;
-        border-bottom-color: #007aff;
+        color: var(--primary-color);
+        border-bottom-color: var(--primary-color);
       }
     }
   }
@@ -50,11 +50,11 @@
           display: block;
           font-size: 14px;
           font-weight: 500;
-          color: #1d1d1f;
+          color: var(--text-primary);
           margin-bottom: 8px;
 
           .required {
-            color: #ff3b30;
+            color: var(--error-color);
             margin-left: 4px;
           }
         }
@@ -64,26 +64,26 @@
         .form-textarea {
           width: 100%;
           padding: 10px 12px;
-          border: 1px solid #d2d2d7;
+          border: 1px solid var(--border-color);
           border-radius: 8px;
           font-size: 14px;
-          color: #1d1d1f;
-          background: #ffffff;
+          color: var(--text-primary);
+          background: var(--bg-primary);
           transition: all 0.2s ease;
           box-sizing: border-box;
 
           &:hover {
-            border-color: #007aff;
+            border-color: var(--primary-color);
           }
 
           &:focus {
             outline: none;
-            border-color: #007aff;
-            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--primary-shadow);
           }
 
           &::placeholder {
-            color: #86868b;
+            color: var(--text-secondary);
           }
         }
 
@@ -96,7 +96,7 @@
 
         .form-hint {
           font-size: 12px;
-          color: #86868b;
+          color: var(--text-secondary);
           margin-top: 6px;
           line-height: 1.4;
         }
@@ -116,64 +116,4 @@
   }
 }
 
-// 黑暗模式
-@media (prefers-color-scheme: dark) {
-  .settings-panel {
-    .settings-tabs {
-      border-bottom-color: #48484a;
-
-      .tab-button {
-        color: #8e8e93;
-
-        &:hover {
-          color: #ffffff;
-          background: #2c2c2e;
-        }
-
-        &.active {
-          color: #64b5f6;
-          border-bottom-color: #64b5f6;
-        }
-      }
-    }
-
-    .settings-content {
-      .tab-panel {
-        .form-group {
-          .form-label {
-            color: #ffffff;
-
-            .required {
-              color: #ff453a;
-            }
-          }
-
-          .form-input,
-          .form-select,
-          .form-textarea {
-            border-color: #48484a;
-            color: #ffffff;
-            background: #2c2c2e;
-
-            &:hover {
-              border-color: #64b5f6;
-            }
-
-            &:focus {
-              border-color: #64b5f6;
-              box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.1);
-            }
-
-            &::placeholder {
-              color: #8e8e93;
-            }
-          }
-
-          .form-hint {
-            color: #8e8e93;
-          }
-        }
-      }
-    }
-  }
-}
+// 深色主题适配已通过CSS变量自动处理

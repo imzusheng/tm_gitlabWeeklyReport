@@ -4,10 +4,10 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: #ffffff;
+  background: var(--bg-primary);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
   gap: 16px;
 
   .panel-header {
@@ -25,14 +25,14 @@
         margin: 0;
         font-size: 28px;
         font-weight: 700;
-        color: #1d1d1f;
+        color: var(--text-primary);
         letter-spacing: -0.02em;
         line-height: 1;
       }
 
       .event-count {
         font-size: 14px;
-        color: #86868b;
+        color: var(--text-secondary);
         font-weight: 500;
         background: transparent;
       }
@@ -57,17 +57,17 @@
             height: 16px;
             border-radius: 50%;
             object-fit: cover;
-            border: 1px solid rgba(52, 199, 89, 0.3);
+            border: 1px solid var(--color-success-light);
           }
 
           &.config-valid {
-            background: rgba(52, 199, 89, 0.1);
-            color: #34c759;
+            background: var(--color-success-light);
+            color: var(--color-success);
           }
 
           &.config-invalid {
-            background: rgba(255, 59, 48, 0.1);
-            color: #ff3b30;
+            background: var(--color-error-light);
+            color: var(--color-error);
           }
         }
       }
@@ -83,8 +83,8 @@
         align-items: center;
         gap: 6px;
         padding: 8px 12px;
-        background: rgba(0, 122, 255, 0.08);
-        color: #007aff;
+        background: var(--color-primary-lighter);
+        color: var(--color-primary);
         border: none;
         border-radius: 8px;
         font-size: 13px;
@@ -94,7 +94,7 @@
         white-space: nowrap;
 
         &:hover {
-          background: rgba(0, 122, 255, 0.15);
+          background: var(--color-primary-light);
           transform: translateY(-1px);
         }
 
@@ -103,8 +103,8 @@
         }
 
         &.settings-btn {
-          background: rgba(88, 86, 214, 0.08);
-          color: #5856d6;
+          background: var(--color-info-light);
+          color: var(--color-info);
 
           &:hover {
             background: rgba(88, 86, 214, 0.15);
@@ -112,8 +112,8 @@
         }
 
         &.ai-btn {
-          background: rgba(52, 199, 89, 0.08);
-          color: #34c759;
+          background: var(--color-success-light);
+          color: var(--color-success);
 
           &:hover {
             background: rgba(52, 199, 89, 0.15);
@@ -126,10 +126,10 @@
   .filter-section {
     flex-shrink: 0;
     padding: 16px 20px;
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--bg-quaternary);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid var(--border-secondary);
 
     .filter-section-content {
       .filter-group {
@@ -143,7 +143,7 @@
           display: block;
           font-size: 14px;
           font-weight: 600;
-          color: #1d1d1f;
+          color: var(--text-primary);
           margin-bottom: 8px;
         }
 
@@ -154,12 +154,12 @@
 
           .filter-option {
             padding: 6px 12px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--btn-border);
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.7);
+            background: var(--input-bg);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            color: #1d1d1f;
+            color: var(--text-primary);
             font-size: 13px;
             font-weight: 500;
             cursor: pointer;
@@ -167,14 +167,14 @@
 
             &:hover {
               border-color: rgba(0, 122, 255, 0.5);
-              background: rgba(0, 122, 255, 0.1);
+              background: var(--color-primary-light);
               transform: translateY(-1px);
               box-shadow: 0 4px 12px rgba(0, 122, 255, 0.15);
             }
 
             &.active {
-              border-color: #007aff;
-              background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
+              border-color: var(--color-primary);
+              background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-info) 100%);
               color: white;
               box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
             }
@@ -190,102 +190,7 @@
   }
 }
 
-// 黑暗模式
-@media (prefers-color-scheme: dark) {
-  .main-panel {
-    background: #1c1c1e;
-
-    .panel-header {
-      background: #2c2c2e;
-      border-bottom-color: #48484a;
-
-      .header-left {
-        h1 {
-          color: #ffffff;
-        }
-
-        .event-count {
-          color: #8e8e93;
-          background: transparent;
-        }
-
-        .config-status {
-          .status-indicator {
-            &.config-valid {
-              background: rgba(52, 199, 89, 0.2);
-              color: #32d74b;
-            }
-
-            &.config-invalid {
-              background: rgba(255, 69, 58, 0.2);
-              color: #ff453a;
-            }
-          }
-        }
-      }
-
-      .header-right {
-        .action-btn {
-          &.settings-btn {
-            background: rgba(88, 86, 214, 0.15);
-            color: #5e5ce6;
-
-            &:hover {
-              background: rgba(88, 86, 214, 0.25);
-            }
-          }
-
-          &.ai-btn {
-            background: rgba(52, 199, 89, 0.15);
-            color: #32d74b;
-
-            &:hover {
-              background: rgba(52, 199, 89, 0.25);
-            }
-          }
-
-          background: rgba(0, 122, 255, 0.15);
-          color: #0a84ff;
-
-          &:hover {
-            background: rgba(0, 122, 255, 0.25);
-          }
-        }
-      }
-    }
-
-    .filter-section {
-      background: #1c1c1e;
-      border-bottom-color: #48484a;
-
-      .filter-section-content {
-        .filter-group {
-          .filter-label {
-            color: #ffffff;
-          }
-
-          .filter-options {
-            .filter-option {
-              border-color: #48484a;
-              background: #2c2c2e;
-              color: #ffffff;
-
-              &:hover {
-                border-color: #007aff;
-                background: rgba(0, 122, 255, 0.1);
-              }
-
-              &.active {
-                border-color: #007aff;
-                background: #007aff;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
+// 深色主题适配已通过CSS变量自动处理
 
 // 响应式设计
 @media (max-width: 768px) {

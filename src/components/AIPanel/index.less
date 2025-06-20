@@ -71,18 +71,18 @@
       .overview-content {
         .overview-item {
           .overview-label {
-            color: #98989d;
+            color: var(--text-secondary);
           }
 
           .overview-value {
-            color: #f2f2f7;
+            color: var(--text-primary);
 
             &.ready {
-              color: #30d158;
+              color: var(--success-color);
             }
 
             &.waiting {
-              color: #ff9f0a;
+              color: var(--warning-color);
             }
           }
         }
@@ -142,7 +142,7 @@
       h3 {
         font-size: 16px;
         font-weight: 600;
-        color: #1d1d1f;
+        color: var(--text-primary);
         margin: 0;
       }
 
@@ -153,8 +153,8 @@
 
         .token-count {
           font-size: 12px;
-          color: #86868b;
-          background: #f5f5f7;
+          color: var(--text-secondary);
+          background: var(--bg-secondary);
           padding: 4px 8px;
           border-radius: 4px;
         }
@@ -162,18 +162,18 @@
     }
 
     .prompt-editor {
-      border: 1px solid #d2d2d7;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
-      background: #ffffff;
+      background: var(--bg-primary);
       transition: all 0.2s ease;
 
       &:hover {
-        border-color: #007aff;
+        border-color: var(--primary-color);
       }
 
       &:focus-within {
-        border-color: #007aff;
-        box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px var(--primary-shadow);
       }
 
       .prompt-textarea {
@@ -182,7 +182,7 @@
         border: none;
         border-radius: 8px 8px 0 0;
         font-size: 14px;
-        color: #1d1d1f;
+        color: var(--text-primary);
         background: transparent;
         resize: none;
         box-sizing: border-box;
@@ -194,7 +194,7 @@
         }
 
         &::placeholder {
-          color: #86868b;
+          color: var(--text-secondary);
         }
       }
 
@@ -203,13 +203,13 @@
         justify-content: space-between;
         align-items: center;
         padding: 8px 12px;
-        border-top: 1px solid #f0f0f0;
-        background: #f8f9fa;
+        border-top: 1px solid var(--border-light);
+        background: var(--bg-secondary);
         border-radius: 0 0 8px 8px;
 
         .char-count {
           font-size: 12px;
-          color: #86868b;
+          color: var(--text-secondary);
         }
       }
 
@@ -233,8 +233,8 @@
     .loading-spinner {
       width: 40px;
       height: 40px;
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #007aff;
+      border: 4px solid var(--border-light);
+      border-top: 4px solid var(--primary-color);
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
@@ -242,27 +242,27 @@
     p {
       font-size: 16px;
       font-weight: 500;
-      color: #1d1d1f;
+      color: var(--text-primary);
       margin: 0;
     }
 
     .loading-tips {
       font-size: 13px;
-      color: #86868b;
+      color: var(--text-secondary);
     }
   }
 
   .result-section {
     .result-content {
-      border: 1px solid #d2d2d7;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
-      background: #ffffff;
+      background: var(--bg-primary);
 
       .result-text {
         padding: 16px;
         font-size: 14px;
         line-height: 1.6;
-        color: #1d1d1f;
+        color: var(--text-primary);
         white-space: pre-wrap;
         max-height: 400px;
         overflow-y: auto;
@@ -285,11 +285,11 @@
         }
 
         &::-webkit-scrollbar-thumb {
-          background: #d1d1d6;
+          background: var(--scrollbar-thumb);
           border-radius: 3px;
 
           &:hover {
-            background: #b4b4b9;
+            background: var(--scrollbar-thumb-hover);
           }
         }
       }
@@ -313,13 +313,13 @@
     h3 {
       font-size: 18px;
       font-weight: 600;
-      color: #1d1d1f;
+      color: var(--text-primary);
       margin: 0;
     }
 
     p {
       font-size: 14px;
-      color: #86868b;
+      color: var(--text-secondary);
       margin: 0;
       max-width: 400px;
       line-height: 1.5;
@@ -342,7 +342,7 @@
 
         span {
           font-size: 12px;
-          color: #86868b;
+          color: var(--text-secondary);
         }
       }
     }
@@ -358,106 +358,3 @@
   }
 }
 
-// 黑暗模式
-@media (prefers-color-scheme: dark) {
-  .ai-panel {
-    .prompt-section,
-    .result-section {
-      .section-header {
-        h3 {
-          color: #ffffff;
-        }
-
-        .header-actions {
-          .token-count {
-            color: #8e8e93;
-            background: #48484a;
-          }
-        }
-      }
-
-      .prompt-editor {
-        border-color: #48484a;
-        background: #2c2c2e;
-
-        &:hover {
-          border-color: #64b5f6;
-        }
-
-        &:focus-within {
-          border-color: #64b5f6;
-          box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.1);
-        }
-
-        .prompt-textarea {
-          color: #ffffff;
-
-          &::placeholder {
-            color: #8e8e93;
-          }
-        }
-
-        .prompt-footer {
-          border-top-color: #48484a;
-          background: #1c1c1e;
-
-          .char-count {
-            color: #8e8e93;
-          }
-        }
-      }
-    }
-
-    .loading-section {
-      .loading-spinner {
-        border-color: #48484a;
-        border-top-color: #64b5f6;
-      }
-
-      p {
-        color: #ffffff;
-      }
-
-      .loading-tips {
-        color: #8e8e93;
-      }
-    }
-
-    .result-section {
-      .result-content {
-        border-color: #48484a;
-        background: #2c2c2e;
-
-        .result-text {
-          color: #ffffff;
-
-          &::-webkit-scrollbar-thumb {
-            background: #48484a;
-
-            &:hover {
-              background: #636366;
-            }
-          }
-        }
-      }
-    }
-
-    .empty-result {
-      h3 {
-        color: #ffffff;
-      }
-
-      p {
-        color: #8e8e93;
-      }
-
-      .empty-features {
-        .feature-item {
-          span {
-            color: #8e8e93;
-          }
-        }
-      }
-    }
-  }
-}
