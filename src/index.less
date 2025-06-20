@@ -45,10 +45,15 @@
   /* 功能色 */
   --color-success: #34c759;
   --color-success-light: rgba(52, 199, 89, 0.1);
+  --color-success-lighter: rgba(52, 199, 89, 0.05);
   --color-warning: #ff9500;
   --color-warning-light: rgba(255, 149, 0, 0.1);
+  --color-warning-lighter: rgba(255, 149, 0, 0.05);
   --color-error: #ff3b30;
   --color-error-light: rgba(255, 59, 48, 0.1);
+  --color-danger: #ff3b30;
+  --color-danger-light: rgba(255, 59, 48, 0.1);
+  --color-danger-lighter: rgba(255, 59, 48, 0.05);
   --color-info: #5856d6;
   --color-info-light: rgba(88, 86, 214, 0.1);
   
@@ -133,6 +138,7 @@ button {
   color: var(--btn-text);
   cursor: pointer;
   transition: border-color 0.25s;
+  outline: none !important;
 }
 
 button:hover {

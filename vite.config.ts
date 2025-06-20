@@ -2,12 +2,50 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 
+// UserScript header
+const userscriptHeader = `// ==UserScript==
+// @name         GitLab 周报生成器
+// @namespace    https://github.com/your-username/gitlab-weekly-report
+// @version      1.0.0
+// @description  基于 DeepSeek AI 的 GitLab 工作周报自动生成工具
+// @author       Your Name
+// @match        *://*/*gitlab*/*
+// @match        *://gitlab.*/*
+// @grant        GM_setValue
+// @grant        GM_getValue
+// @grant        GM_deleteValue
+// @grant        GM_xmlhttpRequest
+// @require      https://unpkg.com/react@18/umd/react.production.min.js
+// @require      https://unpkg.com/react-dom@18/umd/react-dom.production.min.js
+// @updateURL    https://github.com/your-username/gitlab-weekly-report/raw/main/dist/gitlab-weekly-report.user.js
+// @downloadURL  https://github.com/your-username/gitlab-weekly-report/raw/main/dist/gitlab-weekly-report.user.js
+// ==/UserScript==
+
+`
+
+// Custom plugin to add UserScript header
+function userscriptPlugin() {
+  return {
+    name: 'userscript-header',
+    generateBundle(options: any, bundle: any) {
+      for (const fileName in bundle) {
+        if (fileName.endsWith('.user.js')) {
+          const chunk = bundle[fileName]
+          if (chunk.type === 'chunk') {
+            chunk.code = userscriptHeader + chunk.code
+          }
+        }
+      }
+    }
+  }
+}
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const isUserscript = mode === 'userscript'
 
   return {
-    plugins: [react()],
+    plugins: isUserscript ? [react(), userscriptPlugin()] : [react()],
     resolve: {
       alias: {
         '@': resolve(__dirname, 'src'),
@@ -15,8 +53,8 @@ export default defineConfig(({ mode }) => {
     },
     css: {
       preprocessorOptions: {
-        less: {
-          javascriptEnabled: true,
+        scss: {
+          additionalData: `@import "@/styles/variables.scss";`,
         },
       },
     },
@@ -56,11 +94,7 @@ export default defineConfig(({ mode }) => {
               console.log('Sending Request to the Target:', req.method, req.url)
             })
             proxy.on('proxyRes', (proxyRes, req, res) => {
-              console.log(
-                'Received Response from the Target:',
-                proxyRes.statusCode,
-                req.url,
-              )
+              console.log('Received Response from the Target:', proxyRes.statusCode, req.url)
             })
           },
         },

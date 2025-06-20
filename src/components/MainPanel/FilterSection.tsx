@@ -14,7 +14,7 @@ const timeRangeOptions = [
 ]
 
 const targetTypeOptions = [
-  { value: 'epic', label: 'Epic' },
+  { value: 'epic', label: 'Epic (需要启用新外观)' },
   { value: 'issue', label: 'Issue' },
   { value: 'merge_request', label: 'Merge Request' },
   { value: 'milestone', label: 'Milestone' },
