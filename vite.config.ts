@@ -3,22 +3,23 @@ import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 
 // UserScript header
-const userscriptHeader = `// ==UserScript==
+const userscriptHeader = `
+// ==UserScript==
 // @name         GitLab 周报生成器
-// @namespace    https://github.com/your-username/gitlab-weekly-report
+// @namespace    https://github.com/imzusheng/tm_gitlabWeeklyReport
 // @version      1.0.0
 // @description  基于 DeepSeek AI 的 GitLab 工作周报自动生成工具
-// @author       Your Name
-// @match        *://*/*gitlab*/*
-// @match        *://gitlab.*/*
+// @author       lizusheng
+// @match        *://*/*lejuhub*/*
+// @match        *://lejuhub.*/*
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_deleteValue
 // @grant        GM_xmlhttpRequest
 // @require      https://unpkg.com/react@18/umd/react.production.min.js
 // @require      https://unpkg.com/react-dom@18/umd/react-dom.production.min.js
-// @updateURL    https://github.com/your-username/gitlab-weekly-report/raw/main/dist/gitlab-weekly-report.user.js
-// @downloadURL  https://github.com/your-username/gitlab-weekly-report/raw/main/dist/gitlab-weekly-report.user.js
+// @updateURL    https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/gitlab-weekly-report.user.js
+// @downloadURL  https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/gitlab-weekly-report.user.js
 // ==/UserScript==
 
 `

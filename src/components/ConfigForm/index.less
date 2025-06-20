@@ -105,23 +105,24 @@
     .primary-btn {
       width: 100%;
       padding: 12px 24px;
-      background: #007bff;
-      color: white;
+      background: var(--color-primary);
+      color: var(--btn-text);
       border: none;
       border-radius: 6px;
       font-size: 16px;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
 
       &:hover:not(:disabled) {
-        background: #0056b3;
+        background: var(--color-primary-hover);
         transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        box-shadow: var(--shadow-md);
       }
 
       &:disabled {
-        background: #6c757d;
+        opacity: 0.5;
         cursor: not-allowed;
         transform: none;
         box-shadow: none;
@@ -129,6 +130,7 @@
 
       &:active:not(:disabled) {
         transform: translateY(0);
+        box-shadow: var(--shadow-sm);
       }
     }
   }

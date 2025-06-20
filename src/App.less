@@ -217,7 +217,7 @@
   padding: 15px 20px;
   border-bottom: 1px solid #eee;
   background: #f8f9fa;
-  border-radius: 8px 8px 0 0;
+  border-radius: 8px;
 
   h3 {
     margin: 0;
@@ -417,13 +417,20 @@
 }
 
 .primary-btn {
-  background: #007bff;
-  color: white;
+  background: var(--color-primary);
+  color: var(--btn-text);
   border: none;
+  box-shadow: var(--shadow-sm);
 
   &:hover:not(:disabled) {
-    background: #0056b3;
+    background: var(--color-primary-hover);
     transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
   }
 }
 
