@@ -132,17 +132,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
         setLoading(false)
       }
     },
-    [
-      state.config,
-      state.paginationOptions.page,
-      state.paginationOptions.pageSize,
-      getTimeRange,
-      setEvents,
-      setTotal,
-      setLoading,
-      setError,
-      isConfigValid,
-    ],
+    [      state.config,      state.paginationOptions.page,      state.paginationOptions.pageSize,      state.sortOptions,      getTimeRange,      setEvents,      setTotal,      setLoading,      setError,      isConfigValid,    ],
   )
 
   useEffect(() => {
@@ -259,6 +249,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   // 处理排序变化
   const handleSortChange = (sort: SortOptions) => {
     updateSortOptions(sort)
+    // loadEvents会通过useEffect自动触发，因为依赖数组中包含了state.sortOptions
   }
 
   // 处理事件选择
@@ -269,47 +260,13 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   }
 
   // 处理全选/取消全选
-  const handleSelectAll = async (selected: boolean) => {
-    if (!selected) {
-      setSelectedEventIds([])
-      return
-    }
-
-    try {
-      // 获取所有页面的事件ID
-      const { startDate, endDate } = getTimeRange()
-      const currentFilters = state.filterConditions
-      const targetTypes =
-        currentFilters.targetType?.length > 0
-          ? currentFilters.targetType
-          : undefined
-      const actions =
-        currentFilters.action?.length > 0 ? currentFilters.action : undefined
-      const sort =
-        state.sortOptions.field === 'created_at'
-          ? state.sortOptions.order
-          : 'desc'
-      const currentUser = await gitlabService.getCurrentUser()
-
-      // 获取所有事件（不分页）
-      const allEventsParams = {
-        after: startDate,
-        before: endDate,
-        target_type: targetTypes,
-        action: actions,
-        per_page: 1000, // 设置一个较大的数值来获取所有事件
-        sort,
-      }
-
-      const { events: allEvents } = await gitlabService.getUserEventsWithTotal(
-        currentUser.id,
-        allEventsParams,
-      )
-      const allEventIds = allEvents.map(event => event.id)
-      setSelectedEventIds(allEventIds)
-    } catch (error) {
-      // 如果获取所有事件失败，则只选中当前页面的事件
+  const handleSelectAll = (selected: boolean) => {
+    if (selected) {
+      // 选中当前页面的所有事件
       setSelectedEventIds(state.events.map(event => event.id))
+    } else {
+      // 取消选中所有事件
+      setSelectedEventIds([])
     }
   }
 
