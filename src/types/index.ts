@@ -30,7 +30,11 @@ export interface GitLabEvent {
     id: number
     type?: string
     body: string
-    attachment?: any
+    attachment?: {
+      url?: string
+      filename?: string
+      size?: number
+    } | null
     author: {
       id: number
       username: string
@@ -47,13 +51,27 @@ export interface GitLabEvent {
     project_id?: number
     resolvable?: boolean
     resolved?: boolean
-    resolved_by?: any
+    resolved_by?: {
+      id: number
+      username: string
+      name: string
+      avatar_url: string
+    } | null
     resolved_at?: string
     confidential?: boolean
     internal?: boolean
     noteable_iid?: number
-    commands_changes?: any
-    position?: any
+    commands_changes?: Record<string, unknown>
+    position?: {
+      base_sha?: string
+      start_sha?: string
+      head_sha?: string
+      old_path?: string
+      new_path?: string
+      position_type?: string
+      old_line?: number
+      new_line?: number
+    } | null
   }
   // 推送相关
   push_data?: {

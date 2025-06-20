@@ -5,7 +5,7 @@ import MainPanel from '@/components/MainPanel'
 import SettingsPanel from '@/components/SettingsPanel'
 import AIPanel from '@/components/AIPanel'
 import EventDetailModal from '@/components/Modal/EventDetailModal'
-import type { GitLabEvent, FilterConditions, PaginationOptions } from '@/types'
+import type { GitLabEvent, FilterConditions, PaginationOptions, AppConfig, SortOptions } from '@/types'
 import { errorUtils } from '@/utils'
 import { createGitLabApiService } from '@/services/gitlab-api'
 import './App.less'
@@ -160,7 +160,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     setActivePanel('main')
   }
 
-  const handleSaveSettings = (config: any, theme: 'light' | 'dark' | 'system') => {
+  const handleSaveSettings = (config: AppConfig, theme: 'light' | 'dark' | 'system') => {
     // 更新配置
     updateConfig(config)
     // 更新主题
@@ -257,7 +257,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   }
 
   // 处理排序变化
-  const handleSortChange = (sort: any) => {
+  const handleSortChange = (sort: SortOptions) => {
     updateSortOptions(sort)
   }
 

@@ -76,23 +76,33 @@ const EventsList: React.FC<EventsListProps> = ({
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     const now = new Date()
-    const diffTime = Math.abs(now.getTime() - date.getTime())
-    const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24
-    const diffDays = Math.ceil(diffTime / MILLISECONDS_PER_DAY)
-
-    if (diffDays === 1) {
+    
+    // 获取今天的开始时间（00:00:00）
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    // 获取昨天的开始时间
+    const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000)
+    // 获取事件日期的开始时间
+    const eventDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+    
+    if (eventDate.getTime() === today.getTime()) {
       return `今天 ${date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}`
-    } else if (diffDays === 2) {
+    } else if (eventDate.getTime() === yesterday.getTime()) {
       return `昨天 ${date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}`
-    } else if (diffDays <= 7) {
-      return `${diffDays}天前`
     } else {
-      return date.toLocaleDateString('zh-CN', {
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-      })
+      // 计算天数差
+      const diffTime = today.getTime() - eventDate.getTime()
+      const diffDays = Math.floor(diffTime / (24 * 60 * 60 * 1000))
+      
+      if (diffDays > 0 && diffDays <= 7) {
+        return `${diffDays}天前`
+      } else {
+        return date.toLocaleDateString('zh-CN', {
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+        })
+      }
     }
   }
 
