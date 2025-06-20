@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { useAppState } from '@/hooks/useAppState'
+import { useAbortableRequest } from '@/hooks/useAbortableRequest'
 
 import MainPanel from '@/components/MainPanel'
 import SettingsPanel from '@/components/SettingsPanel'
 import AIPanel from '@/components/AIPanel'
 import EventDetailModal from '@/components/Modal/EventDetailModal'
-import type { GitLabEvent, FilterConditions, PaginationOptions, AppConfig, SortOptions } from '@/types'
+import type {
+  GitLabEvent,
+  FilterConditions,
+  PaginationOptions,
+  AppConfig,
+  SortOptions,
+} from '@/types'
 import { errorUtils } from '@/utils'
 import { createGitLabApiService } from '@/services/gitlab-api'
 import './App.less'
@@ -31,6 +38,14 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     isConfigValid,
     getTimeRange,
   } = useAppState()
+
+  // 使用可取消请求Hook
+  const {
+    createRequest,
+    isRequestCancelled,
+    cleanupRequest,
+    isAbortError,
+  } = useAbortableRequest()
 
   const gitlabService = useMemo(() => {
     return createGitLabApiService(
@@ -80,6 +95,9 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
         return
       }
 
+      // 创建新请求并取消之前的请求
+      const abortController = createRequest()
+
       setLoading(true)
       setError(null)
 
@@ -94,7 +112,6 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
             ? currentFilters.targetType
             : undefined
 
-        // 调试信息已移除
         const actions =
           currentFilters.action?.length > 0 ? currentFilters.action : undefined
 
@@ -111,12 +128,19 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
           page: state.paginationOptions.page,
           per_page: state.paginationOptions.pageSize,
           sort,
+          signal: abortController.signal, // 传递 abort signal
         }
+        
         // 获取用户事件数据和总数
         const { events, total } = await gitlabService.getUserEventsWithTotal(
           currentUser.id,
           params,
         )
+
+        // 检查请求是否被取消
+        if (isRequestCancelled(abortController)) {
+          return
+        }
 
         setEvents(events)
         // 默认选中所有事件
@@ -124,15 +148,38 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
         // 使用响应头中的总数
         setTotal(total)
       } catch (error) {
+        // 忽略被取消的请求错误
+        if (isAbortError(error)) {
+          return
+        }
+        
         const errorMessage = errorUtils.handleGitLabError(error)
         setError(errorMessage)
         setEvents([])
         setTotal(0)
       } finally {
-        setLoading(false)
+        // 只有当前请求才设置 loading 为 false
+        if (!isRequestCancelled(abortController)) {
+          setLoading(false)
+        }
+        
+        // 清理引用
+        cleanupRequest(abortController)
       }
     },
-    [      state.config,      state.paginationOptions.page,      state.paginationOptions.pageSize,      state.sortOptions,      getTimeRange,      setEvents,      setTotal,      setLoading,      setError,      isConfigValid,    ],
+    [
+      state.config,
+      state.paginationOptions.page,
+      state.paginationOptions.pageSize,
+      state.sortOptions,
+      getTimeRange,
+      setEvents,
+      setTotal,
+      setLoading,
+      setError,
+      isConfigValid,
+      gitlabService,
+    ],
   )
 
   useEffect(() => {
@@ -140,6 +187,8 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
       loadEvents()
     }
   }, [isConfigValid, loadEvents])
+
+  // useAbortableRequest Hook 已经处理了组件卸载时的请求取消
 
   // 处理设置面板的打开和关闭
   const handleOpenSettings = () => {
@@ -150,7 +199,10 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     setActivePanel('main')
   }
 
-  const handleSaveSettings = (config: AppConfig, theme: 'light' | 'dark' | 'system') => {
+  const handleSaveSettings = (
+    config: AppConfig,
+    theme: 'light' | 'dark' | 'system',
+  ) => {
     // 更新配置
     updateConfig(config)
     // 更新主题

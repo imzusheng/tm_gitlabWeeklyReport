@@ -165,6 +165,7 @@ export class GitLabApiService {
       sort?: 'asc' | 'desc' // 排序方式
       page?: number // 页码
       per_page?: number // 每页数量
+      signal?: AbortSignal // 取消信号
     } = {},
   ): Promise<{ events: GitLabEvent[]; total: number }> {
     const params = new URLSearchParams()
@@ -199,6 +200,7 @@ export class GitLabApiService {
         'PRIVATE-TOKEN': this.token,
       },
       timeout: API_CONFIG.REQUEST_TIMEOUT,
+      signal: options.signal, // 传递取消信号
     }
 
     const response = await request(url, requestOptions)
