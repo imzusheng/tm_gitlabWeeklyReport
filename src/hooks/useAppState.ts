@@ -23,7 +23,7 @@ const initialState: AppState = {
   reportData: null,
   isLoading: false,
   error: null,
-  theme: 'system',
+  theme: DEFAULT_CONFIG.theme,
   activePanel: 'main',
   filterConditions: DEFAULT_FILTER_CONDITIONS,
   sortOptions: DEFAULT_SORT_OPTIONS,
@@ -42,12 +42,16 @@ export function useAppState() {
       try {
         const savedConfig = await storageUtils.loadConfig()
 
-        setState(prev => ({
-          ...prev,
-          config: savedConfig
+        setState(prev => {
+          const mergedConfig = savedConfig
             ? { ...DEFAULT_CONFIG, ...savedConfig }
-            : DEFAULT_CONFIG,
-        }))
+            : DEFAULT_CONFIG
+          return {
+            ...prev,
+            config: mergedConfig,
+            theme: mergedConfig.theme || DEFAULT_CONFIG.theme,
+          }
+        })
       } catch (error) {
         // 静默处理配置加载失败，使用默认配置
       }
@@ -144,6 +148,26 @@ export function useAppState() {
     setState(prev => ({ ...prev, reportData }))
   }, [])
 
+  // 设置主题
+  const setTheme = useCallback((theme: 'light' | 'dark' | 'system') => {
+    setState(prev => {
+      const newConfig = { ...prev.config, theme }
+      
+      // 保存主题设置到localStorage
+      try {
+        storageUtils.saveConfig(newConfig)
+      } catch (error) {
+        console.error('Failed to save theme:', error)
+      }
+      
+      return {
+        ...prev,
+        config: newConfig,
+        theme,
+      }
+    })
+  }, [])
+
   // 切换主题
   const toggleTheme = useCallback(() => {
     setState(prev => {
@@ -159,8 +183,19 @@ export function useAppState() {
           newTheme = 'light'
           break
       }
+      
+      const newConfig = { ...prev.config, theme: newTheme }
+      
+      // 保存主题设置到localStorage
+      try {
+        storageUtils.saveConfig(newConfig)
+      } catch (error) {
+        console.error('Failed to save theme:', error)
+      }
+      
       return {
         ...prev,
+        config: newConfig,
         theme: newTheme,
       }
     })
@@ -221,6 +256,7 @@ export function useAppState() {
     setLoading,
     setError,
     setReportData,
+    setTheme,
     toggleTheme,
     resetState,
     isConfigValid,

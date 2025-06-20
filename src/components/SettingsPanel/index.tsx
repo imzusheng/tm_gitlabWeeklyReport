@@ -5,23 +5,22 @@ import { CONFIG_PLACEHOLDERS } from '@/constants'
 import './index.less'
 
 interface SettingsPanelProps {
-  visible: boolean
+  isOpen: boolean
   config: AppConfig
   theme: 'light' | 'dark' | 'system'
   onClose: () => void
-  onSave: (config: AppConfig) => void
-  onThemeChange: (theme: 'light' | 'dark' | 'system') => void
+  onSave: (config: AppConfig, theme: 'light' | 'dark' | 'system') => void
 }
 
 const SettingsPanel: React.FC<SettingsPanelProps> = ({
-  visible,
-  config,
-  theme,
+  isOpen,
   onClose,
+  config,
   onSave,
-  onThemeChange,
+  theme,
 }) => {
   const [formData, setFormData] = useState<AppConfig>(config)
+  const [localTheme, setLocalTheme] = useState<'light' | 'dark' | 'system'>(theme)
   const [activeTab, setActiveTab] = useState<
     'gitlab' | 'deepseek' | 'appearance'
   >('gitlab')
@@ -31,12 +30,18 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
     setFormData(config)
   }, [config])
 
-  // 当面板打开时，重置表单数据为当前配置
+  // 当主题更新时，同步本地主题状态
   useEffect(() => {
-    if (visible) {
+    setLocalTheme(theme)
+  }, [theme])
+
+  // 当面板打开时，重置表单数据和主题为当前配置
+  useEffect(() => {
+    if (isOpen) {
       setFormData(config)
+      setLocalTheme(theme)
     }
-  }, [visible, config])
+  }, [isOpen, config, theme])
 
   const handleInputChange = (
     field: keyof AppConfig,
@@ -49,12 +54,13 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
   }
 
   const handleSave = () => {
-    onSave(formData)
+    onSave(formData, localTheme)
     onClose()
   }
 
   const handleReset = () => {
     setFormData(config)
+    setLocalTheme(theme)
   }
 
   const isFormValid = () => {
@@ -68,7 +74,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
 
   return (
     <Modal
-      visible={visible}
+      visible={isOpen}
       title="系统设置"
       width={600}
       onClose={onClose}
@@ -228,9 +234,9 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <label className="form-label">主题模式</label>
                 <select
                   className="form-select"
-                  value={theme}
+                  value={localTheme}
                   onChange={e =>
-                    onThemeChange(e.target.value as 'light' | 'dark' | 'system')
+                    setLocalTheme(e.target.value as 'light' | 'dark' | 'system')
                   }
                 >
                   <option value="system">🔄 跟随系统</option>

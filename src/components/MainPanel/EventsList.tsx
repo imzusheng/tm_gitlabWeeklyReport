@@ -31,6 +31,9 @@ const EventsList: React.FC<EventsListProps> = ({
   onEventDetail,
 }) => {
   const handleSort = (field: SortOptions['field']) => {
+    // 只允许对时间字段进行排序
+    if (field !== 'created_at') return
+    
     const newOrder =
       sortOptions.field === field && sortOptions.order === 'desc'
         ? 'asc'
@@ -299,19 +302,11 @@ const EventsList: React.FC<EventsListProps> = ({
             <span className="checkmark"></span>
           </label>
         </div>
-        <div
-          className="header-cell content-cell"
-          onClick={() => handleSort('title')}
-        >
+        <div className="header-cell content-cell">
           <span>标题和内容</span>
-          <span className="sort-icon">{getSortIcon('title')}</span>
         </div>
-        <div
-          className="header-cell action-cell"
-          onClick={() => handleSort('action_name')}
-        >
+        <div className="header-cell action-cell">
           <span>操作</span>
-          <span className="sort-icon">{getSortIcon('action_name')}</span>
         </div>
         <div
           className="header-cell time-cell"

@@ -126,7 +126,7 @@ export interface FilterConditions {
 
 // 排序类型
 export interface SortOptions {
-  field: 'created_at' | 'title' | 'action_name' | 'target_type'
+  field: 'created_at'
   order: 'asc' | 'desc'
 }
 
@@ -146,6 +146,7 @@ export interface AppConfig {
   tokenLimit: number
   model: string
   customPrompt?: string
+  theme?: 'light' | 'dark' | 'system'
 }
 
 // AI生成配置类型

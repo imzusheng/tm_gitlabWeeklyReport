@@ -18,6 +18,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   const {
     state,
     updateConfig,
+    setTheme,
     setActivePanel,
     updateFilterConditions,
     updateSortOptions,
@@ -27,7 +28,6 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     setAIGenerationConfig,
     setLoading,
     setError,
-    toggleTheme,
     isConfigValid,
     getTimeRange,
   } = useAppState()
@@ -98,11 +98,8 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
         const actions =
           currentFilters.action?.length > 0 ? currentFilters.action : undefined
 
-        // 准备排序参数 - 目前接口只支持created_at字段的排序
-        const sort =
-          state.sortOptions.field === 'created_at'
-            ? state.sortOptions.order
-            : 'desc'
+        // 只支持created_at字段的排序
+        const sort = state.sortOptions.order || 'desc'
 
         // 获取当前用户信息
         const currentUser = await gitlabService.getCurrentUser()
@@ -121,47 +118,9 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
           params,
         )
 
-        // 对于非created_at字段的排序，在本地处理
-        let sortedEvents = events
-        // if (state.sortOptions.field !== 'created_at') {
-        //   sortedEvents = [...events].sort((a, b) => {
-        //     const { field, order } = state.sortOptions
-        //     let aValue: any
-        //     let bValue: any
-
-        //     switch (field) {
-        //       case 'title':
-        //         aValue = a.title || a.target_title || ''
-        //         bValue = b.title || b.target_title || ''
-        //         break
-        //       case 'action_name':
-        //         aValue = a.action_name
-        //         bValue = b.action_name
-        //         break
-        //       case 'target_type':
-        //         aValue = a.target_type
-        //         bValue = b.target_type
-        //         break
-        //       default:
-        //         aValue = a.created_at
-        //         bValue = b.created_at
-        //     }
-
-        //     if (typeof aValue === 'string' && typeof bValue === 'string') {
-        //       return order === 'asc'
-        //         ? aValue.localeCompare(bValue)
-        //         : bValue.localeCompare(aValue)
-        //     }
-
-        //     return order === 'asc'
-        //       ? (aValue > bValue ? 1 : -1)
-        //       : (aValue < bValue ? 1 : -1)
-        //   })
-        // }
-
-        setEvents(sortedEvents)
+        setEvents(events)
         // 默认选中所有事件
-        setSelectedEventIds(sortedEvents.map(event => event.id))
+        setSelectedEventIds(events.map(event => event.id))
         // 使用响应头中的总数
         setTotal(total)
       } catch (error) {
@@ -201,8 +160,11 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     setActivePanel('main')
   }
 
-  const handleSaveSettings = (config: any) => {
+  const handleSaveSettings = (config: any, theme: 'light' | 'dark' | 'system') => {
+    // 更新配置
     updateConfig(config)
+    // 更新主题
+    setTheme(theme)
   }
 
   // 处理AI面板的打开和关闭
@@ -402,12 +364,11 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
 
       {/* 设置面板 */}
       <SettingsPanel
-        visible={state.activePanel === 'settings'}
+        isOpen={state.activePanel === 'settings'}
         config={state.config}
         theme={state.theme}
         onClose={handleCloseSettings}
         onSave={handleSaveSettings}
-        onThemeChange={toggleTheme}
       />
 
       {/* AI面板 */}
