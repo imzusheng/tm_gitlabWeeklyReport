@@ -54,8 +54,26 @@
     }
   }
 
-  .prompt-section,
+  .config-section,
   .result-section {
+    background: var(--bg-secondary);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 24px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      color: var(--text-primary);
+      font-size: 1.3em;
+    }
+  }
+
+  .prompt-section {
     margin-bottom: 24px;
 
     &:last-child {
