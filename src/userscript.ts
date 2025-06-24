@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         GitLab 周报生成器
-// @namespace    https://github.com/your-username/gitlab-weekly-report
+// @namespace    https://github.com/imzusheng/tm_gitlabWeeklyReport
 // @version      1.0.0
 // @description  基于 DeepSeek AI 的 GitLab 工作周报自动生成工具
-// @author       Your Name
+// @author       imzusheng
 // @match        *://*/*gitlab*/*
 // @match        *://gitlab.*/*
 // @grant        GM_setValue
@@ -12,8 +12,8 @@
 // @grant        GM_xmlhttpRequest
 // @require      https://unpkg.com/react@18/umd/react.production.min.js
 // @require      https://unpkg.com/react-dom@18/umd/react-dom.production.min.js
-// @updateURL    https://github.com/your-username/gitlab-weekly-report/raw/main/dist/gitlab-weekly-report.user.js
-// @downloadURL  https://github.com/your-username/gitlab-weekly-report/raw/main/dist/gitlab-weekly-report.user.js
+// @updateURL    https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/gitlab-weekly-report.user.js
+// @downloadURL  https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/gitlab-weekly-report.user.js
 // ==/UserScript==
 
 import React from 'react'
@@ -24,7 +24,7 @@ import './index.less'
 // 等待页面加载完成后注入应用
 const initUserscript = () => {
   // 检查是否已经注入过
-  if (document.getElementById('gitlab-weekly-report-container')) {
+  if (document.getElementById('gitlab-weekly-report-app')) {
     return
   }
 
@@ -44,7 +44,7 @@ const initUserscript = () => {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 10001;
+    z-index: 999998;
     box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
     font-size: 20px;
     transition: all 0.3s ease;
@@ -53,20 +53,21 @@ const initUserscript = () => {
 
   // 创建应用容器（默认隐藏）
   const container = document.createElement('div')
-  container.id = 'gitlab-weekly-report-container'
+  container.id = 'gitlab-weekly-report-app'
   container.style.cssText = `
     position: fixed;
     top: 60px;
     left: 60px;
     right: 60px;
     bottom: 60px;
-    z-index: 10000;
+    z-index: 999999;
     background: white;
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
     display: none;
     overflow: hidden;
+    isolation: isolate;
   `
 
   // 创建遮罩层
@@ -79,7 +80,7 @@ const initUserscript = () => {
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
+    z-index: 999997;
     display: none;
   `
 

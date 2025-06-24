@@ -1,7 +1,7 @@
 import { GitLabEvent, SortOptions, PaginationOptions } from '@/types'
 import { errorUtils } from '@/utils'
 import Pagination from '../Pagination'
-import './EventsList.less'
+import styles from './EventsList.module.less'
 
 interface EventsListProps {
   events: GitLabEvent[]
@@ -255,19 +255,19 @@ const EventsList: React.FC<EventsListProps> = ({
 
   if (loading) {
     return (
-      <div className="events-list-loading">
-        <div className="loading-spinner"></div>
+      <div className={styles['events-list-loading']}>
+        <div className={styles['loading-spinner']}></div>
         <p>正在加载事件数据...</p>
       </div>
     )
   }
 
   return (
-    <div className="events-list">
+    <div className={styles['events-list']}>
       {/* 表头 */}
-      <div className="events-list-header">
-        <div className="header-cell checkbox-cell">
-          <label className="checkbox-container">
+      <div className={styles['events-list-header']}>
+        <div className={`${styles['header-cell']} ${styles['checkbox-cell']}`}>
+          <label className={styles['checkbox-container']}>
             <input
               type="checkbox"
               checked={isAllSelected}
@@ -277,30 +277,30 @@ const EventsList: React.FC<EventsListProps> = ({
               onChange={handleSelectAll}
               title={isAllSelected ? '取消全选' : '全选'}
             />
-            <span className="checkmark"></span>
+            <span className={styles.checkmark}></span>
           </label>
         </div>
-        <div className="header-cell content-cell">
+        <div className={`${styles['header-cell']} ${styles['content-cell']}`}>
           <span>标题和内容</span>
         </div>
-        <div className="header-cell action-cell">
+        <div className={`${styles['header-cell']} ${styles['action-cell']}`}>
           <span>操作</span>
         </div>
         <div
-          className="header-cell time-cell"
+          className={`${styles['header-cell']} ${styles['time-cell']}`}
           onClick={() => handleSort('created_at')}
         >
           <span>时间</span>
-          <span className="sort-icon">{getSortIcon('created_at')}</span>
+          <span className={styles['sort-icon']}>{getSortIcon('created_at')}</span>
         </div>
-        <div className="header-cell detail-cell">详情</div>
+        <div className={`${styles['header-cell']} ${styles['detail-cell']}`}>详情</div>
       </div>
 
       {/* 事件列表 */}
-      <div className="events-list-body">
+      <div className={styles['events-list-body']}>
         {events.length === 0 ? (
-          <div className="empty-state">
-            <div className="empty-icon">📄</div>
+          <div className={styles['empty-state']}>
+            <div className={styles['empty-icon']}>📄</div>
             <p>暂无事件数据</p>
             <span>{errorUtils.configErrors.INVALID_FILTER_OR_CONFIG}</span>
           </div>
@@ -311,43 +311,43 @@ const EventsList: React.FC<EventsListProps> = ({
             return (
               <div
                 key={event.id}
-                className={`event-row ${isSelected ? 'selected' : ''}`}
+                className={`${styles['event-row']} ${isSelected ? styles.selected : ''}`}
               >
-                <div className="cell checkbox-cell">
-                  <label className="checkbox-container">
+                <div className={`${styles.cell} ${styles['checkbox-cell']}`}>
+                  <label className={styles['checkbox-container']}>
                     <input
                       type="checkbox"
                       checked={isSelected}
                       onChange={() => handleEventSelect(event.id)}
                       title={isSelected ? '取消选择' : '选择此事件'}
                     />
-                    <span className="checkmark"></span>
+                    <span className={styles.checkmark}></span>
                   </label>
                 </div>
-                <div className="cell content-cell">
-                  <div className="event-icon">{icon}</div>
-                  <div className="event-content">
-                    <div className="event-title">{title}</div>
-                    <div className="event-description">
+                <div className={`${styles.cell} ${styles['content-cell']}`}>
+                  <div className={styles['event-icon']}>{icon}</div>
+                  <div className={styles['event-content']}>
+                    <div className={styles['event-title']}>{title}</div>
+                    <div className={styles['event-description']}>
                       {getEventContent(event)}
                     </div>
                   </div>
                 </div>
-                <div className="cell action-cell">
-                  <span className="action-tag">{actionType}</span>
+                <div className={`${styles.cell} ${styles['action-cell']}`}>
+                  <span className={styles['action-tag']}>{actionType}</span>
                 </div>
-                <div className="cell time-cell">
-                  <span className="event-time">
+                <div className={`${styles.cell} ${styles['time-cell']}`}>
+                  <span className={styles['event-time']}>
                     {formatDate(event.created_at)}
                   </span>
                 </div>
-                <div className="cell detail-cell">
+                <div className={`${styles.cell} ${styles['detail-cell']}`}>
                   <button
-                    className="detail-btn"
+                    className={styles['detail-btn']}
                     onClick={() => onEventDetail(event)}
                     title="查看详情"
                   >
-                    <span className="detail-icon">🔍</span>
+                    <span className={styles['detail-icon']}>🔍</span>
                   </button>
                 </div>
               </div>
@@ -357,7 +357,7 @@ const EventsList: React.FC<EventsListProps> = ({
       </div>
 
       {/* 分页器 */}
-      <div className="events-list-footer">
+      <div className={styles['events-list-footer']}>
         <Pagination
           current={paginationOptions.page}
           pageSize={paginationOptions.pageSize}

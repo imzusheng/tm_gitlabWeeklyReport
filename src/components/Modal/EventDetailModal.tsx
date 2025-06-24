@@ -1,5 +1,5 @@
 import { GitLabEvent } from '@/types'
-import './EventDetailModal.less'
+import styles from './EventDetailModal.module.less'
 
 interface EventDetailModalProps {
   event: GitLabEvent | null
@@ -92,44 +92,44 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
   }
 
   return (
-    <div className="event-detail-modal-overlay" onClick={onClose}>
-      <div className="event-detail-modal" onClick={e => e.stopPropagation()}>
-        <div className="modal-header">
+    <div className={styles['event-detail-modal-overlay']} onClick={onClose}>
+      <div className={styles['event-detail-modal']} onClick={e => e.stopPropagation()}>
+        <div className={styles['modal-header']}>
           <h2>事件详情</h2>
-          <button className="close-btn" onClick={onClose}>
-            ✕
+          <button className={styles['close-btn']} onClick={onClose}>
+            ×
           </button>
         </div>
 
-        <div className="modal-content">
+        <div className={styles['modal-content']}>
           {/* 基本信息 */}
-          <div className="detail-section compact">
+          <div className={`${styles['detail-section']} ${styles.compact}`}>
             <h3>基本信息</h3>
-            <div className="detail-grid compact-grid">
-              <div className="detail-item">
-                <span className="label">ID:</span>
-                <span className="value">{event.id}</span>
+            <div className={`${styles['detail-grid']} ${styles['compact-grid']}`}>
+              <div className={styles['detail-item']}>
+                <span className={styles.label}>ID:</span>
+                <span className={styles.value}>{event.id}</span>
               </div>
-              <div className="detail-item">
-                <span className="label">类型:</span>
-                <span className="value">
+              <div className={styles['detail-item']}>
+                <span className={styles.label}>类型:</span>
+                <span className={styles.value}>
                   {getEventTypeDisplay(event.target_type)}
                 </span>
               </div>
-              <div className="detail-item">
-                <span className="label">操作:</span>
-                <span className="value action-badge">
+              <div className={styles['detail-item']}>
+                <span className={styles.label}>操作:</span>
+                <span className={`${styles.value} ${styles['action-badge']}`}>
                   {getActionDisplay(event.action_name)}
                 </span>
               </div>
-              <div className="detail-item">
-                <span className="label">时间:</span>
-                <span className="value">{formatDate(event.created_at)}</span>
+              <div className={styles['detail-item']}>
+                <span className={styles.label}>时间:</span>
+                <span className={styles.value}>{formatDate(event.created_at)}</span>
               </div>
               {event.state && (
-                <div className="detail-item">
-                  <span className="label">状态:</span>
-                  <span className={`value status-badge status-${event.state}`}>
+                <div className={styles['detail-item']}>
+                  <span className={styles.label}>状态:</span>
+                  <span className={`${styles.value} ${styles['status-badge']} ${styles[`status-${event.state}`]}`}>
                     {event.state}
                   </span>
                 </div>
@@ -141,27 +141,27 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
           {(event.title ||
             event.target_title ||
             (event.labels && event.labels.length > 0)) && (
-            <div className="detail-section compact">
+            <div className={`${styles['detail-section']} ${styles.compact}`}>
               <h3>内容</h3>
-              <div className="detail-content compact-content">
+              <div className={`${styles['detail-content']} ${styles['compact-content']}`}>
                 {event.title && (
-                  <div className="detail-item">
-                    <span className="label">标题:</span>
-                    <span className="value">{event.title}</span>
+                  <div className={styles['detail-item']}>
+                    <span className={styles.label}>标题:</span>
+                    <span className={styles.value}>{event.title}</span>
                   </div>
                 )}
                 {event.target_title && (
-                  <div className="detail-item">
-                    <span className="label">目标:</span>
-                    <span className="value">{event.target_title}</span>
+                  <div className={styles['detail-item']}>
+                    <span className={styles.label}>目标:</span>
+                    <span className={styles.value}>{event.target_title}</span>
                   </div>
                 )}
                 {event.labels && event.labels.length > 0 && (
-                  <div className="detail-item">
-                    <span className="label">标签:</span>
-                    <div className="labels">
+                  <div className={styles['detail-item']}>
+                    <span className={styles.label}>标签:</span>
+                    <div className={styles.labels}>
                       {event.labels.map((label, index) => (
-                        <span key={index} className="label-tag">
+                        <span key={index} className={styles['label-tag']}>
                           {label}
                         </span>
                       ))}
@@ -174,19 +174,19 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
 
           {/* 作者信息 */}
           {event.author && (
-            <div className="detail-section compact">
+            <div className={`${styles['detail-section']} ${styles.compact}`}>
               <h3>作者</h3>
-              <div className="author-info compact-author">
+              <div className={`${styles['author-info']} ${styles['compact-author']}`}>
                 {event.author.avatar_url && (
                   <img
                     src={`${event.author.avatar_url}?width=100`}
                     alt={event.author.name}
-                    className="author-avatar"
+                    className={styles['author-avatar']}
                   />
                 )}
-                <div className="author-details">
-                  <div className="author-name">{event.author.name}</div>
-                  <div className="author-username">
+                <div className={styles['author-details']}>
+                  <div className={styles['author-name']}>{event.author.name}</div>
+                  <div className={styles['author-username']}>
                     @{event.author.username}
                   </div>
                 </div>
@@ -196,26 +196,26 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
 
           {/* 项目信息 */}
           {(event.project || event.project_id) && (
-            <div className="detail-section compact">
+            <div className={`${styles['detail-section']} ${styles.compact}`}>
               <h3>项目</h3>
-              <div className="project-info compact-project">
+              <div className={`${styles['project-info']} ${styles['compact-project']}`}>
                 {event.project ? (
                   <>
-                    <div className="detail-item">
-                      <span className="label">名称:</span>
-                      <span className="value">{event.project.name}</span>
+                    <div className={styles['detail-item']}>
+                      <span className={styles.label}>名称:</span>
+                      <span className={styles.value}>{event.project.name}</span>
                     </div>
-                    <div className="detail-item">
-                      <span className="label">路径:</span>
-                      <span className="value">
+                    <div className={styles['detail-item']}>
+                      <span className={styles.label}>路径:</span>
+                      <span className={styles.value}>
                         {event.project.path_with_namespace}
                       </span>
                     </div>
                   </>
                 ) : (
-                  <div className="detail-item">
-                    <span className="label">项目ID:</span>
-                    <span className="value">{event.project_id}</span>
+                  <div className={styles['detail-item']}>
+                    <span className={styles.label}>项目ID:</span>
+                    <span className={styles.value}>{event.project_id}</span>
                   </div>
                 )}
               </div>
@@ -224,24 +224,24 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
 
           {/* 推送信息 */}
           {event.push_data && (
-            <div className="detail-section">
+            <div className={styles['detail-section']}>
               <h3>推送信息</h3>
-              <div className="push-info">
-                <div className="detail-item">
-                  <span className="label">分支:</span>
-                  <span className="value">{event.push_data.ref}</span>
+              <div className={styles['push-info']}>
+                <div className={styles['detail-item']}>
+                  <span className={styles.label}>分支:</span>
+                  <span className={styles.value}>{event.push_data.ref}</span>
                 </div>
-                <div className="detail-item">
-                  <span className="label">提交数量:</span>
-                  <span className="value">{event.push_data.commit_count}</span>
+                <div className={styles['detail-item']}>
+                  <span className={styles.label}>提交数量:</span>
+                  <span className={styles.value}>{event.push_data.commit_count}</span>
                 </div>
-                <div className="detail-item">
-                  <span className="label">提交标题:</span>
-                  <span className="value">{event.push_data.commit_title}</span>
+                <div className={styles['detail-item']}>
+                  <span className={styles.label}>提交标题:</span>
+                  <span className={styles.value}>{event.push_data.commit_title}</span>
                 </div>
-                <div className="detail-item">
-                  <span className="label">提交哈希:</span>
-                  <span className="value commit-hash">
+                <div className={styles['detail-item']}>
+                  <span className={styles.label}>提交哈希:</span>
+                  <span className={`${styles.value} ${styles['commit-hash']}`}>
                     {event.push_data.commit_to}
                   </span>
                 </div>
@@ -251,11 +251,11 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
 
           {/* 评论信息 */}
           {event.note && (
-            <div className="detail-section">
+            <div className={styles['detail-section']}>
               <h3>评论信息</h3>
-              <div className="note-info">
-                <div className="note-body">{event.note.body}</div>
-                <div className="note-meta">
+              <div className={styles['note-info']}>
+                <div className={styles['note-body']}>{event.note.body}</div>
+                <div className={styles['note-meta']}>
                   <span>创建时间: {formatDate(event.note.created_at)}</span>
                   {event.note.updated_at !== event.note.created_at && (
                     <span>更新时间: {formatDate(event.note.updated_at)}</span>
@@ -266,18 +266,18 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
           )}
         </div>
 
-        <div className="modal-footer">
+        <div className={styles['modal-footer']}>
           {getSourceUrl() && (
             <a
               href={getSourceUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="source-link-btn"
+              className={styles['source-link-btn']}
             >
               打开源页面
             </a>
           )}
-          <button className="close-modal-btn" onClick={onClose}>
+          <button className={styles['close-modal-btn']} onClick={onClose}>
             关闭
           </button>
         </div>

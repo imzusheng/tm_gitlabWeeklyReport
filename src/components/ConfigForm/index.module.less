@@ -1,0 +1,159 @@
+.configForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    label {
+      font-weight: 500;
+      color: var(--text-primary);
+      font-size: 14px;
+
+      .required {
+        color: var(--color-danger);
+        margin-left: 2px;
+      }
+    }
+
+    input,
+    textarea {
+      padding: 10px 12px;
+      border: 1px solid var(--border-primary);
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+
+      &:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px var(--color-primary-lighter);
+      }
+
+      &:disabled {
+        background-color: var(--bg-secondary);
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+
+      &.invalid {
+        border-color: var(--color-danger);
+
+        &:focus {
+          border-color: var(--color-danger);
+          box-shadow: 0 0 0 3px var(--color-danger-lighter);
+        }
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+      font-family: inherit;
+    }
+
+    .helpText {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .errorMessage {
+      font-size: 12px;
+      color: var(--color-danger);
+      margin-top: 4px;
+    }
+  }
+
+  .dateRange {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    input {
+      flex: 1;
+    }
+
+    span {
+      color: var(--text-secondary);
+      font-size: 14px;
+      flex-shrink: 0;
+
+      @media (prefers-color-scheme: dark) {
+        color: #ccc;
+      }
+    }
+
+    @media (width <= 600px) {
+      flex-direction: column;
+      gap: 8px;
+
+      span {
+        display: none;
+      }
+    }
+  }
+
+  .formActions {
+    margin-top: 10px;
+
+    .primaryBtn {
+      width: 100%;
+      padding: 12px 24px;
+      background: var(--color-primary);
+      color: var(--btn-text);
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+
+      &:hover:not(:disabled) {
+        background: var(--color-primary-hover);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      &:active:not(:disabled) {
+        transform: translateY(0);
+        box-shadow: var(--shadow-sm);
+      }
+    }
+  }
+}
+
+/* 响应式调整 */
+@media (width <= 480px) {
+  .configForm {
+    gap: 16px;
+
+    .formGroup {
+      gap: 6px;
+
+      input,
+      textarea {
+        padding: 8px 10px;
+        font-size: 13px;
+      }
+    }
+
+    .formActions .primaryBtn {
+      padding: 10px 20px;
+      font-size: 15px;
+    }
+  }
+}

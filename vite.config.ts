@@ -59,6 +59,12 @@ export default defineConfig(({ mode }) => {
           additionalData: `@import "@/styles/variables.scss";`,
         },
       },
+      modules: {
+        // 启用CSS模块化，为所有.less和.css文件添加hash
+        localsConvention: 'camelCaseOnly',
+        generateScopedName: '[name]__[local]__[hash:base64:5]',
+        hashPrefix: 'gitlab-weekly-report',
+      },
     },
     build: {
       outDir: isUserscript ? 'dist/userscript' : 'dist/web',

@@ -10,7 +10,7 @@
   overflow: hidden;
 
   /* 网页模式 */
-  &.web-mode {
+  &.webMode {
     display: flex;
     align-items: stretch;
     justify-content: center;
@@ -22,7 +22,7 @@
   }
 
   /* 油猴脚本模式 */
-  &.userscript-mode {
+  &.userscriptMode {
     position: relative;
     width: 100%;
     height: 100%;
@@ -31,15 +31,36 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    isolation: isolate;
+    contain: layout style;
 
     > * {
       width: 100%;
       height: 100%;
     }
+
+    /* 确保分页器在油猴脚本模式下正确显示 */
+    .events-list-footer {
+      flex-shrink: 0 !important;
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      position: relative !important;
+      z-index: 1 !important;
+    }
+
+    /* 确保分页组件在油猴脚本模式下正确显示 */
+    .pagination {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      position: relative !important;
+      z-index: 1 !important;
+    }
   }
 
   /* 错误提示 */
-  .error-toast {
+  .errorToast {
     position: fixed;
     top: 20px;
     left: 50%;
@@ -97,7 +118,7 @@
     background: var(--bg-primary);
     color: var(--text-primary);
 
-    .error-toast {
+    .errorToast {
       height: unset;
       background: var(--color-error);
       box-shadow: 0 4px 16px var(--color-error-light);
@@ -119,13 +140,13 @@
 /* 响应式设计 */
 @media (width <= 768px) {
   .app {
-    &.web-mode {
+    &.webMode {
       > * {
         height: 100vh;
       }
     }
 
-    &.userscript-mode {
+    &.userscriptMode {
       top: 10px;
       right: 10px;
       left: 10px;
@@ -134,7 +155,7 @@
     }
   }
 
-  .error-toast {
+  .errorToast {
     left: 20px;
     right: 20px;
     transform: none;

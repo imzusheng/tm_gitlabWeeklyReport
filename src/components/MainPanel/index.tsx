@@ -8,7 +8,7 @@ import type {
 } from '@/types'
 import FilterSection from './FilterSection'
 import EventsList from './EventsList'
-import './index.less'
+import styles from './index.module.less'
 
 interface MainPanelProps {
   events: GitLabEvent[]
@@ -48,40 +48,40 @@ const MainPanel: React.FC<MainPanelProps> = ({
   const { isConfigValid } = useAppState()
 
   return (
-    <div className="main-panel">
+    <div className={styles.mainPanel}>
       {/* 标题栏 */}
-      <div className="panel-header">
-        <div className="header-left">
+      <div className={styles.panelHeader}>
+        <div className={styles.headerLeft}>
           <h1>GitLab Events</h1>
           {/* 配置状态显示 */}
-          <div className="config-status">
+          <div className={styles.configStatus}>
             {isConfigValid() ? (
-              <span className="status-indicator config-valid">
-                <span className="status-icon">✅</span>
+              <span className={`${styles.statusIndicator} ${styles.configValid}`}>
+                <span className={styles.statusIcon}>✅</span>
                 配置完整
               </span>
             ) : (
-              <span className="status-indicator config-invalid">
-                <span className="status-icon">❌</span>
+              <span className={`${styles.statusIndicator} ${styles.configInvalid}`}>
+                <span className={styles.statusIcon}>❌</span>
                 配置不完整
               </span>
             )}
           </div>
         </div>
-        <div className="header-right">
-          <button className="action-btn settings-btn" onClick={onOpenSettings}>
-            <span className="icon">⚙️</span>
+        <div className={styles.headerRight}>
+          <button className={`${styles.actionBtn} ${styles.settingsBtn}`} onClick={onOpenSettings}>
+            <span className={styles.icon}>⚙️</span>
             设置
           </button>
-          <button className="action-btn ai-btn" onClick={onOpenAI}>
-            <span className="icon">🤖</span>
+          <button className={`${styles.actionBtn} ${styles.aiBtn}`} onClick={onOpenAI}>
+            <span className={styles.icon}>🤖</span>
             AI 周报
           </button>
         </div>
       </div>
 
       {/* 筛选条件部分 */}
-      <div className="filter-section">
+      <div className={styles.filterSection}>
         <FilterSection
           filterConditions={filterConditions}
           onFilterChange={onFilterChange}
@@ -89,7 +89,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
       </div>
 
       {/* 事件列表部分 */}
-      <div className="events-section">
+      <div className={styles.eventsSection}>
         <EventsList
           events={events}
           totalCount={totalCount}

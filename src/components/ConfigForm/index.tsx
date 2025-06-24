@@ -1,6 +1,6 @@
 import { AppConfig } from '@/types'
 import { urlUtils } from '@/utils'
-import './index.less'
+import styles from './index.module.less'
 
 interface ConfigFormProps {
   config: AppConfig
@@ -33,10 +33,10 @@ const ConfigForm: React.FC<ConfigFormProps> = ({
     : true
 
   return (
-    <form className="config-form" onSubmit={handleSubmit}>
-      <div className="form-group">
+    <form className={styles.configForm} onSubmit={handleSubmit}>
+      <div className={styles.formGroup}>
         <label htmlFor="gitlab-url">
-          GitLab 地址 <span className="required">*</span>
+          GitLab 地址 <span className={styles.required}>*</span>
         </label>
         <input
           type="url"
@@ -45,16 +45,16 @@ const ConfigForm: React.FC<ConfigFormProps> = ({
           onChange={handleInputChange('gitlabUrl')}
           placeholder="https://gitlab.example.com"
           disabled={disabled}
-          className={!isGitLabUrlValid ? 'invalid' : ''}
+          className={!isGitLabUrlValid ? styles.invalid : ''}
         />
         {!isGitLabUrlValid && (
-          <span className="error-message">请输入有效的GitLab地址</span>
+          <span className={styles.errorMessage}>请输入有效的GitLab地址</span>
         )}
       </div>
 
-      <div className="form-group">
+      <div className={styles.formGroup}>
         <label htmlFor="gitlab-token">
-          GitLab Token <span className="required">*</span>
+          GitLab Token <span className={styles.required}>*</span>
         </label>
         <input
           type="password"
@@ -64,14 +64,14 @@ const ConfigForm: React.FC<ConfigFormProps> = ({
           placeholder="输入您的 GitLab 访问令牌"
           disabled={disabled}
         />
-        <span className="help-text">
+        <span className={styles.helpText}>
           在 GitLab 设置 → 访问令牌 中创建，需要 read_api 权限
         </span>
       </div>
 
-      <div className="form-group">
+      <div className={styles.formGroup}>
         <label htmlFor="deepseek-token">
-          DeepSeek API Key <span className="required">*</span>
+          DeepSeek API Key <span className={styles.required}>*</span>
         </label>
         <input
           type="password"
@@ -81,10 +81,10 @@ const ConfigForm: React.FC<ConfigFormProps> = ({
           placeholder="输入您的 DeepSeek API Key"
           disabled={disabled}
         />
-        <span className="help-text">在 DeepSeek 控制台获取 API Key</span>
+        <span className={styles.helpText}>在 DeepSeek 控制台获取 API Key</span>
       </div>
 
-      <div className="form-group">
+      <div className={styles.formGroup}>
         <label htmlFor="custom-prompt">自定义提示词（可选）</label>
         <textarea
           id="custom-prompt"
@@ -96,10 +96,10 @@ const ConfigForm: React.FC<ConfigFormProps> = ({
         />
       </div>
 
-      <div className="form-actions">
+      <div className={styles.formActions}>
         <button
           type="submit"
-          className="primary-btn"
+          className={styles.primaryBtn}
           disabled={isLoading || disabled}
         >
           {isLoading ? '生成中...' : '生成周报'}

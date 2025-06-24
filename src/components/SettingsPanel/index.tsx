@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { AppConfig } from '@/types'
 import Modal from '../Modal'
 import { CONFIG_PLACEHOLDERS } from '@/constants'
-import './index.less'
+import styles from './index.module.less'
 
 interface SettingsPanelProps {
   isOpen: boolean
@@ -79,16 +79,16 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
       width={600}
       onClose={onClose}
       footer={
-        <div className="settings-footer">
-          <button className="btn-secondary" onClick={handleReset}>
+        <div className={styles['settings-footer']}>
+          <button className={styles['btn-secondary']} onClick={handleReset}>
             重置
           </button>
-          <div className="footer-right">
-            <button className="btn-secondary" onClick={onClose}>
+          <div className={styles['footer-right']}>
+            <button className={styles['btn-secondary']} onClick={onClose}>
               取消
             </button>
             <button
-              className="btn-primary"
+              className={styles['btn-primary']}
               onClick={handleSave}
               disabled={!isFormValid()}
             >
@@ -98,64 +98,64 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
         </div>
       }
     >
-      <div className="settings-panel">
+      <div className={styles['settings-panel']}>
         {/* 标签页导航 */}
-        <div className="settings-tabs">
+        <div className={styles['settings-tabs']}>
           <button
-            className={`tab-button ${activeTab === 'gitlab' ? 'active' : ''}`}
+            className={`${styles['tab-button']} ${activeTab === 'gitlab' ? styles.active : ''}`}
             onClick={() => setActiveTab('gitlab')}
           >
-            <span className="tab-icon">🦊</span>
+            <span className={styles['tab-icon']}>🦊</span>
             GitLab 配置
           </button>
           <button
-            className={`tab-button ${activeTab === 'deepseek' ? 'active' : ''}`}
+            className={`${styles['tab-button']} ${activeTab === 'deepseek' ? styles.active : ''}`}
             onClick={() => setActiveTab('deepseek')}
           >
-            <span className="tab-icon">🤖</span>
+            <span className={styles['tab-icon']}>🤖</span>
             DeepSeek 配置
           </button>
           <button
-            className={`tab-button ${activeTab === 'appearance' ? 'active' : ''}`}
+            className={`${styles['tab-button']} ${activeTab === 'appearance' ? styles.active : ''}`}
             onClick={() => setActiveTab('appearance')}
           >
-            <span className="tab-icon">🎨</span>
+            <span className={styles['tab-icon']}>🎨</span>
             外观设置
           </button>
         </div>
 
         {/* 标签页内容 */}
-        <div className="settings-content">
+        <div className={styles['settings-content']}>
           {activeTab === 'gitlab' && (
-            <div className="tab-panel">
-              <div className="form-group">
-                <label className="form-label">
-                  GitLab 项目地址 <span className="required">*</span>
+            <div className={styles['tab-panel']}>
+              <div className={styles['form-group']}>
+                <label className={styles['form-label']}>
+                  GitLab 项目地址 <span className={styles.required}>*</span>
                 </label>
                 <input
                   type="text"
-                  className="form-input"
+                  className={styles['form-input']}
                   placeholder={CONFIG_PLACEHOLDERS.gitlabUrl}
                   value={formData.gitlabUrl}
                   onChange={e => handleInputChange('gitlabUrl', e.target.value)}
                 />
-                <div className="form-hint">请输入完整的 GitLab 项目 URL</div>
+                <div className={styles['form-hint']}>请输入完整的 GitLab 项目 URL</div>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">
-                  个人访问令牌 <span className="required">*</span>
+              <div className={styles['form-group']}>
+                <label className={styles['form-label']}>
+                  个人访问令牌 <span className={styles.required}>*</span>
                 </label>
                 <input
                   type="text"
-                  className="form-input"
+                  className={styles['form-input']}
                   placeholder={CONFIG_PLACEHOLDERS.gitlabToken}
                   value={formData.gitlabToken}
                   onChange={e =>
                     handleInputChange('gitlabToken', e.target.value)
                   }
                 />
-                <div className="form-hint">
+                <div className={styles['form-hint']}>
                   在 GitLab 个人设置 → 访问令牌 中创建，需要 read_api 权限
                 </div>
               </div>
@@ -163,27 +163,27 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
           )}
 
           {activeTab === 'deepseek' && (
-            <div className="tab-panel">
-              <div className="form-group">
-                <label className="form-label">
-                  DeepSeek API Key <span className="required">*</span>
+            <div className={styles['tab-panel']}>
+              <div className={styles['form-group']}>
+                <label className={styles['form-label']}>
+                  DeepSeek API Key <span className={styles.required}>*</span>
                 </label>
                 <input
                   type="text"
-                  className="form-input"
+                  className={styles['form-input']}
                   placeholder={CONFIG_PLACEHOLDERS.deepseekApiKey}
                   value={formData.deepseekApiKey}
                   onChange={e =>
                     handleInputChange('deepseekApiKey', e.target.value)
                   }
                 />
-                <div className="form-hint">在 DeepSeek 平台获取 API Key</div>
+                <div className={styles['form-hint']}>在 DeepSeek 平台获取 API Key</div>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">使用的模型</label>
+              <div className={styles['form-group']}>
+                <label className={styles['form-label']}>使用的模型</label>
                 <select
-                  className="form-select"
+                  className={styles['form-select']}
                   value={formData.model}
                   onChange={e => handleInputChange('model', e.target.value)}
                 >
@@ -192,11 +192,11 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 </select>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Token 数量限制</label>
+              <div className={styles['form-group']}>
+                <label className={styles['form-label']}>Token 数量限制</label>
                 <input
                   type="number"
-                  className="form-input"
+                  className={styles['form-input']}
                   min="1000"
                   max="10000"
                   placeholder="4000"
@@ -205,17 +205,17 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     handleInputChange('tokenLimit', parseInt(e.target.value))
                   }
                 />
-                <div className="form-hint">
+                <div className={styles['form-hint']}>
                   单次生成的最大 Token 数量（1000-10000）
                 </div>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">
-                  默认提示词 <span className="required">*</span>
+              <div className={styles['form-group']}>
+                <label className={styles['form-label']}>
+                  默认提示词 <span className={styles.required}>*</span>
                 </label>
                 <textarea
-                  className="form-textarea"
+                  className={styles['form-textarea']}
                   rows={6}
                   placeholder={CONFIG_PLACEHOLDERS.defaultPrompt}
                   value={formData.defaultPrompt}
@@ -223,17 +223,17 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     handleInputChange('defaultPrompt', e.target.value)
                   }
                 />
-                <div className="form-hint">用于生成周报的默认提示词模板</div>
+                <div className={styles['form-hint']}>用于生成周报的默认提示词模板</div>
               </div>
             </div>
           )}
 
           {activeTab === 'appearance' && (
-            <div className="tab-panel">
-              <div className="form-group">
-                <label className="form-label">主题模式</label>
+            <div className={styles['tab-panel']}>
+              <div className={styles['form-group']}>
+                <label className={styles['form-label']}>主题模式</label>
                 <select
-                  className="form-select"
+                  className={styles['form-select']}
                   value={localTheme}
                   onChange={e =>
                     setLocalTheme(e.target.value as 'light' | 'dark' | 'system')
@@ -243,7 +243,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   <option value="light">☀️ 浅色模式</option>
                   <option value="dark">🌙 深色模式</option>
                 </select>
-                <div className="form-hint">
+                <div className={styles['form-hint']}>
                   选择应用的主题模式，跟随系统将根据系统设置自动切换
                 </div>
               </div>

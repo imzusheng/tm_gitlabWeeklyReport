@@ -1,5 +1,5 @@
 import React from 'react'
-import './index.less'
+import styles from './index.module.less'
 
 interface PaginationProps {
   current: number
@@ -73,19 +73,25 @@ const Pagination: React.FC<PaginationProps> = ({
   }
 
   if (total === 0) {
-    return null
+    return (
+      <div className={styles.pagination}>
+        <div className={styles.paginationInfo}>
+          暂无数据
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="pagination">
-      <div className="pagination-info">
+    <div className={styles.pagination}>
+      <div className={styles.paginationInfo}>
         显示 {startItem}-{endItem} 条，共 {total} 条{selectedCount > 0 ? `，已选中 ${selectedCount} 条` : ''}
       </div>
 
-      <div className="pagination-controls">
+      <div className={styles.paginationControls}>
         {/* 上一页 */}
         <button
-          className={`pagination-btn ${current === 1 ? 'disabled' : ''}`}
+          className={`${styles.paginationBtn} ${current === 1 ? styles.disabled : ''}`}
           onClick={() => handlePageChange(current - 1)}
           disabled={current === 1}
         >
@@ -97,20 +103,20 @@ const Pagination: React.FC<PaginationProps> = ({
           <React.Fragment key={index}>
             {typeof page === 'number' ? (
               <button
-                className={`pagination-btn ${current === page ? 'active' : ''}`}
+                className={`${styles.paginationBtn} ${current === page ? styles.active : ''}`}
                 onClick={() => handlePageChange(page)}
               >
                 {page}
               </button>
             ) : (
-              <span className="pagination-ellipsis">{page}</span>
+              <span className={styles.paginationEllipsis}>{page}</span>
             )}
           </React.Fragment>
         ))}
 
         {/* 下一页 */}
         <button
-          className={`pagination-btn ${current === totalPages ? 'disabled' : ''}`}
+          className={`${styles.paginationBtn} ${current === totalPages ? styles.disabled : ''}`}
           onClick={() => handlePageChange(current + 1)}
           disabled={current === totalPages}
         >
@@ -120,12 +126,12 @@ const Pagination: React.FC<PaginationProps> = ({
 
       {/* 每页显示数量选择器 */}
       {showSizeChanger && (
-        <div className="pagination-size-changer">
+        <div className={styles.paginationSizeChanger}>
           <span>每页</span>
           <select
             value={pageSize}
             onChange={e => handlePageSizeChange(Number(e.target.value))}
-            className="pagination-select"
+            className={styles.paginationSelect}
           >
             {pageSizeOptions.map(size => (
               <option key={size} value={size}>

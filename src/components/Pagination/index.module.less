@@ -1,0 +1,118 @@
+.pagination {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 16px !important;
+  position: relative !important;
+  z-index: 1 !important;
+  isolation: isolate !important;
+  contain: layout style !important;
+  box-sizing: border-box !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+
+  .paginationInfo {
+    font-size: 13px !important;
+    color: var(--text-secondary) !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .paginationControls {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+
+    .paginationBtn {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 32px !important;
+      height: 32px !important;
+      border: 1px solid var(--border-color) !important;
+      background: var(--bg-primary) !important;
+      backdrop-filter: blur(10px) !important;
+      border-radius: 8px !important;
+      font-size: 13px !important;
+      font-weight: 500 !important;
+      color: var(--text-primary) !important;
+      cursor: pointer !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      box-sizing: border-box !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      outline: none !important;
+      text-decoration: none !important;
+      font-family: inherit !important;
+
+      &:hover:not(.disabled) {
+        border-color: var(--primary-color);
+        background: var(--primary-bg-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px var(--primary-shadow);
+      }
+
+      &.active {
+        border-color: var(--primary-color);
+        background: var(--primary-color);
+        color: white;
+        box-shadow: 0 4px 12px var(--primary-shadow);
+      }
+
+      &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      span {
+        font-size: 14px;
+      }
+    }
+
+    .paginationEllipsis {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+  }
+
+  .paginationSizeChanger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+
+    .paginationSelect {
+      padding: 4px 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 13px;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+
+      &:hover {
+        border-color: var(--primary-color);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px var(--primary-shadow);
+      }
+    }
+  }
+}
+
+/* 深色主题适配已通过CSS变量自动处理 */

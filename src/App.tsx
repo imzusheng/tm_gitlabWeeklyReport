@@ -15,7 +15,7 @@ import type {
 } from '@/types'
 import { errorUtils } from '@/utils'
 import { createGitLabApiService } from '@/services/gitlab-api'
-import './App.less'
+import styles from './App.module.less'
 
 interface AppProps {
   isUserscript?: boolean
@@ -335,11 +335,12 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
 
   return (
     <div
-      className={`app ${isUserscript ? 'userscript-mode' : 'web-mode'} ${actualTheme}`}
+      id="gitlab-weekly-report-app"
+      className={`${styles.app} ${isUserscript ? styles.userscriptMode : styles.webMode} ${styles[actualTheme]}`}
     >
       {/* 错误提示 */}
       {state.error && (
-        <div className="error-toast">
+        <div className={styles.errorToast}>
           <span>{state.error}</span>
           <button onClick={() => setError(null)}>×</button>
         </div>

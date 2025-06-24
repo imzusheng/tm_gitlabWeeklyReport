@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import './index.less'
+import styles from './index.module.less'
 
 interface ModalProps {
   visible: boolean
@@ -49,22 +49,22 @@ const Modal: React.FC<ModalProps> = ({
   }
 
   return (
-    <div className="modal-mask" onClick={handleMaskClick}>
-      <div className="modal-wrapper">
-        <div className="modal" style={{ width }}>
+    <div id="gitlab-weekly-report-container" className={styles.modalMask} onClick={handleMaskClick}>
+      <div className={styles.modalWrapper}>
+        <div className={styles.modal} style={{ width }}>
           {/* 模态框头部 */}
-          <div className="modal-header">
-            <div className="modal-title">{title}</div>
-            <button className="modal-close" onClick={onClose}>
+          <div className={styles.modalHeader}>
+            <div className={styles.modalTitle}>{title}</div>
+            <button className={styles.modalClose} onClick={onClose}>
               <span>×</span>
             </button>
           </div>
 
           {/* 模态框内容 */}
-          <div className="modal-body">{children}</div>
+          <div className={styles.modalBody}>{children}</div>
 
           {/* 模态框底部 */}
-          {footer && <div className="modal-footer">{footer}</div>}
+          {footer && <div className={styles.modalFooter}>{footer}</div>}
         </div>
       </div>
     </div>
