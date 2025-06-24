@@ -25,7 +25,7 @@ export interface RequestResponse {
   status: number
   statusText: string
   headers: Headers | Record<string, string>
-  json: () => Promise<any>
+  json: () => Promise<unknown>
   text: () => Promise<string>
 }
 

@@ -1,4 +1,4 @@
-import type { DeepSeekMessage, DeepSeekResponse } from '@/types'
+import { DeepSeekMessage, DeepSeekResponse } from '@/types'
 import { API_CONFIG } from '@/constants'
 import { request } from '@/utils/request'
 import { errorUtils } from '@/utils'
@@ -44,7 +44,7 @@ export class DeepSeekApiService {
       )
     }
 
-    const data: DeepSeekResponse = await response.json()
+    const data: DeepSeekResponse = await response.json() as DeepSeekResponse
 
     if (!data.choices || data.choices.length === 0) {
       throw errorUtils.createResponseError('空的响应', 'DeepSeek API')
@@ -99,7 +99,7 @@ export class DeepSeekApiService {
       )
     }
 
-    const data: DeepSeekResponse = await response.json()
+    const data: DeepSeekResponse = await response.json() as DeepSeekResponse
 
     if (!data.choices || data.choices.length === 0) {
       throw errorUtils.createResponseError('空的响应', 'DeepSeek API')

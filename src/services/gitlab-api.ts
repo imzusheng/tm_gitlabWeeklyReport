@@ -48,7 +48,7 @@ export class GitLabApiService {
       )
     }
 
-    return response.json()
+    return response.json() as Promise<T>
   }
 
   /**
@@ -214,7 +214,7 @@ export class GitLabApiService {
       )
     }
 
-    const events = await response.json()
+    const events = await response.json() as GitLabEvent[]
     // 从响应头获取总数
     let total = 0
     if (response.headers instanceof Headers) {

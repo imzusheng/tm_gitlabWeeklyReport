@@ -4,7 +4,6 @@
   height: 100%;
   background: var(--bg-quaternary);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
@@ -259,7 +258,6 @@
     border-top: 1px solid var(--border-secondary);
     background: var(--bg-tertiary);
     backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
   }
 }
 
@@ -271,7 +269,6 @@
   height: 300px;
   background: var(--bg-quaternary);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border-radius: 12px;
 
   .loading-spinner {
@@ -300,8 +297,8 @@
   }
 }
 
-// 响应式设计
-@media (max-width: 768px) {
+/* 响应式设计 */
+@media (width <= 768px) {
   .events-list {
     .events-list-header,
     .events-list-body .event-row {
@@ -371,7 +368,7 @@
     }
   }
 
-  // Checkbox 样式
+  /* Checkbox 样式 */
   .checkbox-container {
     position: relative;
     display: inline-block;
@@ -396,7 +393,7 @@
       border-radius: 3px;
       transition: all 0.2s ease;
 
-      &:after {
+      &::after {
         content: '';
         position: absolute;
         display: none;
@@ -419,7 +416,7 @@
       background-color: var(--color-primary);
       border-color: var(--color-primary);
 
-      &:after {
+      &::after {
         display: block;
       }
     }
@@ -428,7 +425,7 @@
       background-color: var(--color-primary);
       border-color: var(--color-primary);
 
-      &:after {
+      &::after {
         display: block;
         left: 2px;
         top: 6px;
@@ -443,4 +440,4 @@
   }
 }
 
-// 深色主题适配已通过CSS变量自动处理
+/* 深色主题适配已通过CSS变量自动处理 */

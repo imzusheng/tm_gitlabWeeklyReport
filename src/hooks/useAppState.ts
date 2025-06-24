@@ -223,6 +223,28 @@ export function useAppState() {
   const getTimeRange = useCallback(() => {
     const now = new Date()
     const timeRange = state.filterConditions.timeRange
+    const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000
+
+    // before日期需要往后一天，以确保能获取到当天的数据
+    const endDate = new Date(now.getTime() + MILLISECONDS_PER_DAY)
+
+    if (timeRange === 'week') {
+      // 获取本周的开始日期（周一）
+      const currentDay = now.getDay() // 0=周日, 1=周一, ..., 6=周六
+      let daysFromMonday = currentDay === 0 ? 6 : currentDay - 1 // 计算距离周一的天数
+      
+      // 当今天是周一时，需要将after日期提前一天
+      if (currentDay === 1) {
+        daysFromMonday += 1
+      }
+      
+      const startDate = new Date(now.getTime() - daysFromMonday * MILLISECONDS_PER_DAY)
+      
+      return {
+        startDate: startDate.toISOString().split('T')[0],
+        endDate: endDate.toISOString().split('T')[0],
+      }
+    }
 
     let days = 7
     const TIME_RANGE_DAYS = {
@@ -235,11 +257,10 @@ export function useAppState() {
 
     days = TIME_RANGE_DAYS[timeRange] || 7
 
-    const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000
     const startDate = new Date(now.getTime() - days * MILLISECONDS_PER_DAY)
     return {
       startDate: startDate.toISOString().split('T')[0],
-      endDate: now.toISOString().split('T')[0],
+      endDate: endDate.toISOString().split('T')[0],
     }
   }, [state.filterConditions.timeRange])
 

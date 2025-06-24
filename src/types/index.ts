@@ -116,7 +116,7 @@ export interface DeepSeekResponse {
 
 // 筛选条件类型
 export interface FilterConditions {
-  timeRange: '7d' | '30d' | '90d' | '180d' | '365d'
+  timeRange: 'week' | '7d' | '30d' | '90d' | '180d' | '365d'
   targetType: (
     | 'epic'
     | 'issue'

@@ -33,7 +33,7 @@ const EventsList: React.FC<EventsListProps> = ({
   const handleSort = (field: SortOptions['field']) => {
     // 只允许对时间字段进行排序
     if (field !== 'created_at') return
-    
+
     const newOrder =
       sortOptions.field === field && sortOptions.order === 'desc'
         ? 'asc'
@@ -76,14 +76,18 @@ const EventsList: React.FC<EventsListProps> = ({
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     const now = new Date()
-    
+
     // 获取今天的开始时间（00:00:00）
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
     // 获取昨天的开始时间
     const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000)
     // 获取事件日期的开始时间
-    const eventDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
-    
+    const eventDate = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+    )
+
     if (eventDate.getTime() === today.getTime()) {
       return `今天 ${date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}`
     } else if (eventDate.getTime() === yesterday.getTime()) {
@@ -92,7 +96,7 @@ const EventsList: React.FC<EventsListProps> = ({
       // 计算天数差
       const diffTime = today.getTime() - eventDate.getTime()
       const diffDays = Math.floor(diffTime / (24 * 60 * 60 * 1000))
-      
+
       if (diffDays > 0 && diffDays <= 7) {
         return `${diffDays}天前`
       } else {
@@ -121,26 +125,29 @@ const EventsList: React.FC<EventsListProps> = ({
         return {
           icon: '⬆️',
           actionType: '分支推送',
-          title: `推送到分支 ${event.push_data.ref}`
+          title: `推送到分支 ${event.push_data.ref}`,
         }
       }
       if (action === 'pushed' && ref_type === 'tag') {
         return {
           icon: '🏷️',
           actionType: '标签推送',
-          title: `推送标签 ${event.push_data.ref}`
+          title: `推送标签 ${event.push_data.ref}`,
         }
       }
       return {
         icon: '📤',
         actionType: '推送',
-        title: `推送到分支 ${event.push_data.ref}`
+        title: `推送到分支 ${event.push_data.ref}`,
       }
     }
 
     // 2. 根据 target_type 判断目标类型
     if (targetType && targetType.trim() !== '') {
-      const targetTypeConfig: Record<string, { icon: string; actionType: string }> = {
+      const targetTypeConfig: Record<
+        string,
+        { icon: string; actionType: string }
+      > = {
         MergeRequest: { icon: '⤴️', actionType: 'MR' },
         Issue: { icon: '⚠️', actionType: 'Issue' },
         Commit: { icon: '💾', actionType: '提交' },
@@ -159,7 +166,7 @@ const EventsList: React.FC<EventsListProps> = ({
         return {
           icon: config.icon,
           actionType: config.actionType,
-          title: getEventTitleByType(event)
+          title: getEventTitleByType(event),
         }
       }
     }
@@ -186,7 +193,7 @@ const EventsList: React.FC<EventsListProps> = ({
       return {
         icon: config.icon,
         actionType: config.actionType,
-        title: getEventTitleByType(event)
+        title: getEventTitleByType(event),
       }
     }
 
@@ -194,7 +201,7 @@ const EventsList: React.FC<EventsListProps> = ({
     return {
       icon: '📋',
       actionType: targetType || actionName || '未知操作',
-      title: getEventTitleByType(event)
+      title: getEventTitleByType(event),
     }
   }
 
@@ -225,8 +232,6 @@ const EventsList: React.FC<EventsListProps> = ({
     return event.title || event.target_title || '无标题'
   }
 
-
-
   const getEventContent = (event: GitLabEvent) => {
     if (event.push_data) {
       return `${event.push_data.commit_count} 个提交: ${event.push_data.commit_title}`
@@ -240,49 +245,12 @@ const EventsList: React.FC<EventsListProps> = ({
     if (event.project?.path_with_namespace) {
       return event.project.path_with_namespace
     }
-    
+
     if (event.project_id) {
       return `项目ID: ${event.project_id}`
     }
-    
+
     return '未知项目'
-  }
-
-
-
-  const getSourceUrl = (event: GitLabEvent) => {
-    // 如果没有project对象且没有project_id，无法生成URL
-    if (!event.project && !event.project_id) return ''
-
-    const baseUrl = 'https://www.lejuhub.com'
-    
-    // 如果没有完整的project对象，只能返回基础URL
-    if (!event.project) {
-      return baseUrl
-    }
-    
-    const projectPath = event.project.path_with_namespace
-
-    // 处理空值情况
-    if (!event.target_type || event.target_type.trim() === '') {
-      return `${baseUrl}/${projectPath}`
-    }
-
-    switch (event.target_type) {
-      case 'MergeRequest':
-        return `${baseUrl}/${projectPath}/-/merge_requests/${event.target_iid}`
-      case 'Issue':
-        return `${baseUrl}/${projectPath}/-/issues/${event.target_iid}`
-      case 'Note':
-        if (event.note?.noteable_type === 'Issue') {
-          return `${baseUrl}/${projectPath}/-/issues/${event.note.noteable_iid}`
-        } else if (event.note?.noteable_type === 'MergeRequest') {
-          return `${baseUrl}/${projectPath}/-/merge_requests/${event.note.noteable_iid}`
-        }
-        return `${baseUrl}/${projectPath}`
-      default:
-        return `${baseUrl}/${projectPath}`
-    }
   }
 
   if (loading) {
@@ -357,9 +325,7 @@ const EventsList: React.FC<EventsListProps> = ({
                   </label>
                 </div>
                 <div className="cell content-cell">
-                  <div className="event-icon">
-                    {icon}
-                  </div>
+                  <div className="event-icon">{icon}</div>
                   <div className="event-content">
                     <div className="event-title">{title}</div>
                     <div className="event-description">
@@ -368,9 +334,7 @@ const EventsList: React.FC<EventsListProps> = ({
                   </div>
                 </div>
                 <div className="cell action-cell">
-                  <span className="action-tag">
-                    {actionType}
-                  </span>
+                  <span className="action-tag">{actionType}</span>
                 </div>
                 <div className="cell time-cell">
                   <span className="event-time">
@@ -385,17 +349,6 @@ const EventsList: React.FC<EventsListProps> = ({
                   >
                     <span className="detail-icon">🔍</span>
                   </button>
-                  {getSourceUrl(event) && (
-                    <a
-                      href={getSourceUrl(event)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="source-btn"
-                      title="打开源页面"
-                    >
-                      <span className="source-icon">🔗</span>
-                    </a>
-                  )}
                 </div>
               </div>
             )

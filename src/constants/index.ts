@@ -28,7 +28,7 @@ export const CONFIG_PLACEHOLDERS = {
 
 // 筛选条件默认值
 export const DEFAULT_FILTER_CONDITIONS = {
-  timeRange: '7d' as const,
+  timeRange: 'week' as const,
   targetType: [],
   action: [],
 }

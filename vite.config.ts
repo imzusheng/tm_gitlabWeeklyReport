@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite'
+import type { OutputBundle, OutputChunk } from 'rollup'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 
@@ -10,7 +11,7 @@ const userscriptHeader = `
 // @version      1.0.0
 // @description  基于 DeepSeek AI 的 GitLab 工作周报自动生成工具
 // @author       lizusheng
-// @match        *://*/*lejuhub*/*
+// @match        *://www.lejuhub.com/*
 // @match        *://lejuhub.*/*
 // @grant        GM_setValue
 // @grant        GM_getValue
@@ -28,12 +29,12 @@ const userscriptHeader = `
 function userscriptPlugin() {
   return {
     name: 'userscript-header',
-    generateBundle(options: any, bundle: any) {
+    generateBundle(_options: unknown, bundle: OutputBundle) {
       for (const fileName in bundle) {
         if (fileName.endsWith('.user.js')) {
           const chunk = bundle[fileName]
           if (chunk.type === 'chunk') {
-            chunk.code = userscriptHeader + chunk.code
+            (chunk as OutputChunk).code = userscriptHeader + (chunk as OutputChunk).code
           }
         }
       }
@@ -87,14 +88,14 @@ export default defineConfig(({ mode }) => {
           target: 'https://www.lejuhub.com',
           changeOrigin: true,
           rewrite: path => path.replace(/^\/proxy/, ''),
-          configure: (proxy, options) => {
-            proxy.on('error', (err, req, res) => {
+          configure: (proxy, _options) => {
+            proxy.on('error', (err, _req, _res) => {
               console.log('proxy error', err)
             })
-            proxy.on('proxyReq', (proxyReq, req, res) => {
+            proxy.on('proxyReq', (proxyReq, req, _res) => {
               console.log('Sending Request to the Target:', req.method, req.url)
             })
-            proxy.on('proxyRes', (proxyRes, req, res) => {
+            proxy.on('proxyRes', (proxyRes, req, _res) => {
               console.log('Received Response from the Target:', proxyRes.statusCode, req.url)
             })
           },

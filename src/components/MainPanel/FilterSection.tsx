@@ -6,6 +6,7 @@ interface FilterSectionProps {
 }
 
 const timeRangeOptions = [
+  { value: 'week', label: '本周' },
   { value: '7d', label: '最近7天' },
   { value: '30d', label: '最近30天' },
   { value: '90d', label: '最近90天' },
@@ -121,11 +122,11 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           {targetTypeOptions.map(option => (
             <button
               key={option.value}
-              className={`filter-option ${filterConditions.targetType.includes(option.value as any) ? 'active' : ''}`}
+              className={`filter-option ${filterConditions.targetType.includes(option.value as FilterConditions['targetType'][number]) ? 'active' : ''}`}
               onClick={() =>
                 handleTargetTypeChange(
                   option.value,
-                  !filterConditions.targetType.includes(option.value as any),
+                  !filterConditions.targetType.includes(option.value as FilterConditions['targetType'][number]),
                 )
               }
             >
@@ -148,11 +149,11 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           {actionOptions.map(option => (
             <button
               key={option.value}
-              className={`filter-option ${filterConditions.action.includes(option.value as any) ? 'active' : ''}`}
+              className={`filter-option ${filterConditions.action.includes(option.value as FilterConditions['action'][number]) ? 'active' : ''}`}
               onClick={() =>
                 handleActionChange(
                   option.value,
-                  !filterConditions.action.includes(option.value as any),
+                  !filterConditions.action.includes(option.value as FilterConditions['action'][number]),
                 )
               }
             >

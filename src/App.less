@@ -9,7 +9,7 @@
   position: relative;
   overflow: hidden;
 
-  // 网页模式
+  /* 网页模式 */
   &.web-mode {
     display: flex;
     align-items: stretch;
@@ -21,17 +21,16 @@
     }
   }
 
-  // 油猴脚本模式
+  /* 油猴脚本模式 */
   &.userscript-mode {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 400px;
-    height: 600px;
+    position: relative;
+    width: 100%;
+    height: 100%;
     z-index: 999999;
-    box-shadow: var(--shadow-lg);
     border-radius: 12px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 
     > * {
       width: 100%;
@@ -39,7 +38,7 @@
     }
   }
 
-  // 错误提示
+  /* 错误提示 */
   .error-toast {
     position: fixed;
     top: 20px;
@@ -57,7 +56,7 @@
     max-width: 500px;
     min-width: 300px;
     height: unset;
-    animation: errorToastSlideIn 0.3s ease-out;
+    animation: error-toast-slide-in 0.3s ease-out;
 
     span {
       font-size: 14px;
@@ -88,7 +87,7 @@
     }
   }
 
-  // 主题样式
+  /* 主题样式 */
   &.light {
     background: var(--bg-secondary);
     color: var(--text-primary);
@@ -106,7 +105,7 @@
   }
 }
 
-@keyframes errorToastSlideIn {
+@keyframes error-toast-slide-in {
   from {
     opacity: 0;
     transform: translateX(-50%) translateY(-20px);
@@ -117,8 +116,8 @@
   }
 }
 
-// 响应式设计
-@media (max-width: 768px) {
+/* 响应式设计 */
+@media (width <= 768px) {
   .app {
     &.web-mode {
       > * {
@@ -144,7 +143,7 @@
   }
 }
 
-// 全局滚动条样式
+/* 全局滚动条样式 */
 * {
   &::-webkit-scrollbar {
     width: 8px;
@@ -165,8 +164,8 @@
   }
 }
 
-// 通用动画
-@keyframes fadeIn {
+/* 通用动画 */
+@keyframes fade-in {
   from {
     opacity: 0;
   }
@@ -175,7 +174,7 @@
   }
 }
 
-@keyframes slideInUp {
+@keyframes slide-in-up {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -186,7 +185,7 @@
   }
 }
 
-@keyframes slideInDown {
+@keyframes slide-in-down {
   from {
     opacity: 0;
     transform: translateY(-20px);
@@ -197,17 +196,17 @@
   }
 }
 
-// 通用工具类
+/* 通用工具类 */
 .fade-in {
-  animation: fadeIn 0.3s ease-out;
+  animation: fade-in 0.3s ease-out;
 }
 
 .slide-in-up {
-  animation: slideInUp 0.3s ease-out;
+  animation: slide-in-up 0.3s ease-out;
 }
 
 .slide-in-down {
-  animation: slideInDown 0.3s ease-out;
+  animation: slide-in-down 0.3s ease-out;
 }
 
 .userscript-header {
@@ -344,7 +343,7 @@
     &:focus {
       outline: none;
       border-color: #007bff;
-      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+      box-shadow: 0 0 0 2px rgb(0 123 255 / 25%);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -499,7 +498,7 @@
         }
       }
 
-      @media (max-width: 600px) {
+      @media (width <= 600px) {
         flex-direction: column;
         gap: 5px;
         align-items: flex-start;
@@ -524,7 +523,7 @@
 }
 
 /* 响应式设计 */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .app {
     padding: 15px;
 

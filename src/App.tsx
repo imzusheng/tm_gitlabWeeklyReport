@@ -40,12 +40,8 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   } = useAppState()
 
   // 使用可取消请求Hook
-  const {
-    createRequest,
-    isRequestCancelled,
-    cleanupRequest,
-    isAbortError,
-  } = useAbortableRequest()
+  const { createRequest, isRequestCancelled, cleanupRequest, isAbortError } =
+    useAbortableRequest()
 
   const gitlabService = useMemo(() => {
     return createGitLabApiService(
@@ -130,7 +126,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
           sort,
           signal: abortController.signal, // 传递 abort signal
         }
-        
+
         // 获取用户事件数据和总数
         const { events, total } = await gitlabService.getUserEventsWithTotal(
           currentUser.id,
@@ -152,7 +148,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
         if (isAbortError(error)) {
           return
         }
-        
+
         const errorMessage = errorUtils.handleGitLabError(error)
         setError(errorMessage)
         setEvents([])
@@ -162,16 +158,16 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
         if (!isRequestCancelled(abortController)) {
           setLoading(false)
         }
-        
+
         // 清理引用
         cleanupRequest(abortController)
       }
     },
     [
-      state.config,
       state.paginationOptions.page,
       state.paginationOptions.pageSize,
       state.sortOptions,
+      state.filterConditions,
       getTimeRange,
       setEvents,
       setTotal,
@@ -179,6 +175,10 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
       setError,
       isConfigValid,
       gitlabService,
+      createRequest,
+      isRequestCancelled,
+      isAbortError,
+      cleanupRequest,
     ],
   )
 
