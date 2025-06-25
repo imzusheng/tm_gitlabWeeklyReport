@@ -1,7 +1,12 @@
 {
   "extends": ["stylelint-config-standard"],
   "rules": {
-    "selector-class-pattern": null,
+    "selector-class-pattern": [
+      "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+      {
+        "message": "Class selectors should be written in kebab-case (e.g. my-class-name)"
+      }
+    ],
     "custom-property-pattern": null,
     "no-descending-specificity": null,
     "declaration-empty-line-before": null,

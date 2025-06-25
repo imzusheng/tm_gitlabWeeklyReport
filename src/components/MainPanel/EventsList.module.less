@@ -367,78 +367,76 @@
       }
     }
   }
+}
 
-  /* Checkbox 样式 */
-  .checkbox-container {
+/* Checkbox 样式 */
+.checkbox-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  user-select: none;
+  margin: 0;
+
+  input[type='checkbox'] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  .checkmark {
     position: relative;
     display: inline-block;
-    cursor: pointer;
-    user-select: none;
-    margin: 0;
+    width: 16px;
+    height: 16px;
+    background-color: var(--bg-primary);
+    border: 1.5px solid var(--border-primary);
+    border-radius: 3px;
+    transition: all 0.2s ease;
 
-    input[type='checkbox'] {
+    &::after {
+      content: '';
       position: absolute;
-      opacity: 0;
-      cursor: pointer;
-      height: 0;
-      width: 0;
+      display: none;
+      left: 4px;
+      top: 1px;
+      width: 4px;
+      height: 8px;
+      border: solid var(--bg-primary);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
     }
+  }
 
-    .checkmark {
-      position: relative;
-      display: inline-block;
-      width: 16px;
-      height: 16px;
+  &:hover .checkmark {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-lighter);
+  }
+
+  input:checked ~ .checkmark {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+
+    &::after {
+      display: block;
+    }
+  }
+
+  input:indeterminate ~ .checkmark {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+
+    &::after {
+      display: block;
+      left: 2px;
+      top: 6px;
+      width: 8px;
+      height: 2px;
+      border: none;
       background-color: var(--bg-primary);
-      border: 1.5px solid var(--border-primary);
-      border-radius: 3px;
-      transition: all 0.2s ease;
-
-      &::after {
-        content: '';
-        position: absolute;
-        display: none;
-        left: 4px;
-        top: 1px;
-        width: 4px;
-        height: 8px;
-        border: solid var(--bg-primary);
-        border-width: 0 2px 2px 0;
-        transform: rotate(45deg);
-      }
-    }
-
-    &:hover .checkmark {
-      border-color: var(--color-primary);
-      background-color: var(--color-primary-lighter);
-    }
-
-    input:checked ~ .checkmark {
-      background-color: var(--color-primary);
-      border-color: var(--color-primary);
-
-      &::after {
-        display: block;
-      }
-    }
-
-    input:indeterminate ~ .checkmark {
-      background-color: var(--color-primary);
-      border-color: var(--color-primary);
-
-      &::after {
-        display: block;
-        left: 2px;
-        top: 6px;
-        width: 8px;
-        height: 2px;
-        border: none;
-        background-color: var(--bg-primary);
-        transform: none;
-        border-radius: 1px;
-      }
+      transform: none;
+      border-radius: 1px;
     }
   }
 }
-
-/* 深色主题适配已通过CSS变量自动处理 */

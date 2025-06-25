@@ -1,9 +1,9 @@
-.configForm {
+.config-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
 
-  .formGroup {
+  .form-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -57,20 +57,20 @@
       font-family: inherit;
     }
 
-    .helpText {
+    .help-text {
       font-size: 12px;
       color: var(--text-secondary);
       margin-top: 4px;
     }
 
-    .errorMessage {
+    .error-message {
       font-size: 12px;
       color: var(--color-danger);
       margin-top: 4px;
     }
   }
 
-  .dateRange {
+  .date-range {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -99,10 +99,10 @@
     }
   }
 
-  .formActions {
+  .form-actions {
     margin-top: 10px;
 
-    .primaryBtn {
+    .primary-btn {
       width: 100%;
       padding: 12px 24px;
       background: var(--color-primary);
@@ -138,10 +138,10 @@
 
 /* 响应式调整 */
 @media (width <= 480px) {
-  .configForm {
+  .config-form {
     gap: 16px;
 
-    .formGroup {
+    .form-group {
       gap: 6px;
 
       input,
@@ -151,7 +151,7 @@
       }
     }
 
-    .formActions .primaryBtn {
+    .form-actions .primary-btn {
       padding: 10px 20px;
       font-size: 15px;
     }

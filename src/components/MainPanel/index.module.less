@@ -1,4 +1,4 @@
-.mainPanel {
+.main-panel {
   --panel-padding: 16px;
 
   height: 100%;
@@ -10,13 +10,13 @@
   box-shadow: var(--shadow-md);
   gap: 16px;
 
-  .panelHeader {
+  .panel-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: var(--panel-padding);
 
-    .headerLeft {
+    .header-left {
       display: flex;
       align-items: flex-end;
       gap: 12px;
@@ -30,15 +30,15 @@
         line-height: 1;
       }
 
-      .eventCount {
+      .event-count {
         font-size: 14px;
         color: var(--text-secondary);
         font-weight: 500;
         background: transparent;
       }
 
-      .configStatus {
-        .statusIndicator {
+      .config-status {
+        .status-indicator {
           display: flex;
           align-items: center;
           gap: 4px;
@@ -48,11 +48,11 @@
           border-radius: 6px;
           white-space: nowrap;
 
-          .statusIcon {
+          .status-icon {
             font-size: 10px;
           }
 
-          .userAvatar {
+          .user-avatar {
             width: 16px;
             height: 16px;
             border-radius: 50%;
@@ -60,12 +60,12 @@
             border: 1px solid var(--color-success-light);
           }
 
-          &.configValid {
+          &.config-valid {
             background: var(--color-success-light);
             color: var(--color-success);
           }
 
-          &.configInvalid {
+          &.config-invalid {
             background: var(--color-error-light);
             color: var(--color-error);
           }
@@ -73,12 +73,12 @@
       }
     }
 
-    .headerRight {
+    .header-right {
       display: flex;
       align-items: center;
       gap: 8px;
 
-      .actionBtn {
+      .action-btn {
         display: flex;
         align-items: center;
         gap: 6px;
@@ -103,7 +103,7 @@
           font-size: 14px;
         }
 
-        &.settingsBtn {
+        &.settings-btn {
           background: var(--color-info-light);
           color: var(--color-info);
 
@@ -112,7 +112,7 @@
           }
         }
 
-        &.aiBtn {
+        &.ai-btn {
           background: var(--color-success-light);
           color: var(--color-success);
 
@@ -124,22 +124,22 @@
     }
   }
 
-  .filterSection {
+  .filter-section {
     flex-shrink: 0;
     padding: 16px 20px;
     background: var(--bg-quaternary);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border-secondary);
 
-    .filterSectionContent {
-      .filterGroup {
+    .filter-section-content {
+      .filter-group {
         margin-bottom: 16px;
 
         &:last-child {
           margin-bottom: 0;
         }
 
-        .filterLabel {
+        .filter-label {
           display: block;
           font-size: 14px;
           font-weight: 600;
@@ -147,12 +147,12 @@
           margin-bottom: 8px;
         }
 
-        .filterOptions {
+        .filter-options {
           display: flex;
           flex-wrap: wrap;
           gap: 8px;
 
-          .filterOption {
+          .filter-option {
             padding: 6px 12px;
             border: 1px solid var(--btn-border);
             border-radius: 8px;
@@ -184,7 +184,7 @@
     }
   }
 
-  .eventsSection {
+  .events-section {
     flex: 1;
     min-height: 0;
   }
@@ -194,16 +194,16 @@
 
 /* 响应式设计 */
 @media (width <= 768px) {
-  .mainPanel {
+  .main-panel {
     padding: 16px;
     gap: 12px;
 
-    .panelHeader {
+    .panel-header {
       flex-direction: column;
       align-items: stretch;
       gap: 12px;
 
-      .headerLeft {
+      .header-left {
         justify-content: center;
 
         h1 {
@@ -211,11 +211,11 @@
         }
       }
 
-      .headerRight {
+      .header-right {
         justify-content: center;
         flex-wrap: wrap;
 
-        .actionBtn {
+        .action-btn {
           font-size: 12px;
           padding: 6px 10px;
 

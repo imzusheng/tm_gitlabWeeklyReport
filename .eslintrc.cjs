@@ -16,11 +16,12 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    'dot-notation': ['error', { allowPattern: '^[a-zA-Z_$][a-zA-Z0-9_$]*$' }],
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off', // 使用TypeScript，不需要prop-types
     '@typescript-eslint/no-explicit-any': 'warn', // 降低any类型的严格程度
     'react/no-unescaped-entities': 'off', // 允许在JSX中使用引号
-    '@typescript-eslint/no-unused-vars': ['warn', { 'argsIgnorePattern': '^_' }], // 允许以_开头的未使用变量
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }], // 允许以_开头的未使用变量
   },
   settings: {
     react: {

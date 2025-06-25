@@ -6,7 +6,7 @@
   "packageManager": "npm@10.9.2",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/update-version.cjs patch && tsc && vite build --mode userscript && vite build --mode web",
+    "build": "tsc && vite build --mode userscript && vite build --mode web",
     "build:userscript": "tsc && vite build --mode userscript",
     "build:web": "tsc && vite build --mode web",
     "build:major": "node scripts/update-version.cjs major && tsc && vite build --mode userscript && vite build --mode web",
@@ -16,12 +16,11 @@
     "version:major": "node scripts/update-version.cjs major",
     "version:minor": "node scripts/update-version.cjs minor",
     "version:patch": "node scripts/update-version.cjs patch",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "lint:fix": "eslint . --ext ts,tsx --fix",
     "format": "prettier --write .",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "stylelint": "stylelint 'src/**/*.less'",
-    "stylelint:fix": "stylelint 'src/**/*.less' --fix",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "check": "npm run lint && npm run stylelint && npm run type-check"
   },
   "dependencies": {
     "@types/tampermonkey": "^5.0.4",

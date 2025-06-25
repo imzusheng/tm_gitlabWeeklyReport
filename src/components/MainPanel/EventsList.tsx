@@ -255,19 +255,19 @@ const EventsList: React.FC<EventsListProps> = ({
 
   if (loading) {
     return (
-      <div className={styles['events-list-loading']}>
-        <div className={styles['loading-spinner']}></div>
+      <div className={styles.eventsListLoading}>
+        <div className={styles.loadingSpinner}></div>
         <p>正在加载事件数据...</p>
       </div>
     )
   }
 
   return (
-    <div className={styles['events-list']}>
+    <div className={styles.eventsList}>
       {/* 表头 */}
-      <div className={styles['events-list-header']}>
-        <div className={`${styles['header-cell']} ${styles['checkbox-cell']}`}>
-          <label className={styles['checkbox-container']}>
+      <div className={styles.eventsListHeader}>
+        <div className={`${styles.headerCell} ${styles.checkboxCell}`}>
+          <label className={styles.checkboxContainer}>
             <input
               type="checkbox"
               checked={isAllSelected}
@@ -280,27 +280,27 @@ const EventsList: React.FC<EventsListProps> = ({
             <span className={styles.checkmark}></span>
           </label>
         </div>
-        <div className={`${styles['header-cell']} ${styles['content-cell']}`}>
+        <div className={`${styles.headerCell} ${styles.contentCell}`}>
           <span>标题和内容</span>
         </div>
-        <div className={`${styles['header-cell']} ${styles['action-cell']}`}>
+        <div className={`${styles.headerCell} ${styles.actionCell}`}>
           <span>操作</span>
         </div>
         <div
-          className={`${styles['header-cell']} ${styles['time-cell']}`}
+          className={`${styles.headerCell} ${styles.timeCell}`}
           onClick={() => handleSort('created_at')}
         >
           <span>时间</span>
-          <span className={styles['sort-icon']}>{getSortIcon('created_at')}</span>
+          <span className={styles.sortIcon}>{getSortIcon('created_at')}</span>
         </div>
-        <div className={`${styles['header-cell']} ${styles['detail-cell']}`}>详情</div>
+        <div className={`${styles.headerCell} ${styles.detailCell}`}>详情</div>
       </div>
 
       {/* 事件列表 */}
-      <div className={styles['events-list-body']}>
+      <div className={styles.eventsListBody}>
         {events.length === 0 ? (
-          <div className={styles['empty-state']}>
-            <div className={styles['empty-icon']}>📄</div>
+          <div className={styles.emptyState}>
+            <div className={styles.emptyIcon}>📄</div>
             <p>暂无事件数据</p>
             <span>{errorUtils.configErrors.INVALID_FILTER_OR_CONFIG}</span>
           </div>
@@ -311,10 +311,10 @@ const EventsList: React.FC<EventsListProps> = ({
             return (
               <div
                 key={event.id}
-                className={`${styles['event-row']} ${isSelected ? styles.selected : ''}`}
+                className={`${styles.eventRow} ${isSelected ? styles.selected : ''}`}
               >
-                <div className={`${styles.cell} ${styles['checkbox-cell']}`}>
-                  <label className={styles['checkbox-container']}>
+                <div className={`${styles.cell} ${styles.checkboxCell}`}>
+                  <label className={styles.checkboxContainer}>
                     <input
                       type="checkbox"
                       checked={isSelected}
@@ -324,30 +324,30 @@ const EventsList: React.FC<EventsListProps> = ({
                     <span className={styles.checkmark}></span>
                   </label>
                 </div>
-                <div className={`${styles.cell} ${styles['content-cell']}`}>
-                  <div className={styles['event-icon']}>{icon}</div>
-                  <div className={styles['event-content']}>
-                    <div className={styles['event-title']}>{title}</div>
-                    <div className={styles['event-description']}>
+                <div className={`${styles.cell} ${styles.contentCell}`}>
+                  <div className={styles.eventIcon}>{icon}</div>
+                  <div className={styles.eventContent}>
+                    <div className={styles.eventTitle}>{title}</div>
+                    <div className={styles.eventDescription}>
                       {getEventContent(event)}
                     </div>
                   </div>
                 </div>
-                <div className={`${styles.cell} ${styles['action-cell']}`}>
-                  <span className={styles['action-tag']}>{actionType}</span>
+                <div className={`${styles.cell} ${styles.actionCell}`}>
+                  <span className={styles.actionTag}>{actionType}</span>
                 </div>
-                <div className={`${styles.cell} ${styles['time-cell']}`}>
-                  <span className={styles['event-time']}>
+                <div className={`${styles.cell} ${styles.timeCell}`}>
+                  <span className={styles.eventTime}>
                     {formatDate(event.created_at)}
                   </span>
                 </div>
-                <div className={`${styles.cell} ${styles['detail-cell']}`}>
+                <div className={`${styles.cell} ${styles.detailCell}`}>
                   <button
-                    className={styles['detail-btn']}
+                    className={styles.detailBtn}
                     onClick={() => onEventDetail(event)}
                     title="查看详情"
                   >
-                    <span className={styles['detail-icon']}>🔍</span>
+                    <span className={styles.detailIcon}>🔍</span>
                   </button>
                 </div>
               </div>
@@ -357,7 +357,7 @@ const EventsList: React.FC<EventsListProps> = ({
       </div>
 
       {/* 分页器 */}
-      <div className={styles['events-list-footer']}>
+      <div className={styles.eventsListFooter}>
         <Pagination
           current={paginationOptions.page}
           pageSize={paginationOptions.pageSize}
