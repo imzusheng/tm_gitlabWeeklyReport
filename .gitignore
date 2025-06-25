@@ -71,7 +71,6 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 
 # Gatsby files
 .cache/
@@ -124,5 +123,4 @@ temp-*
 *.temp
 
 # Build outputs
-/dist
 /build
