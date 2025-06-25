@@ -7,9 +7,7 @@ on:
     branches: [ v2 ]
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 jobs:
   build:
@@ -53,20 +51,17 @@ jobs:
           !dist/**/*.map
         retention-days: 30
 
-  deploy:
+  deploy-build:
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/v2' && github.event_name == 'push'
-    
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
     
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -80,14 +75,10 @@ jobs:
     - name: Build project
       run: npm run build
     
-    - name: Setup Pages
-      uses: actions/configure-pages@v4
-    
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: './dist/web'
-    
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+    - name: Commit and push build artifacts
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add dist/
+        git diff --staged --quiet || git commit -m "chore: update build artifacts [skip ci]"
+        git push origin v2

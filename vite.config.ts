@@ -19,8 +19,8 @@ const userscriptHeader = `
 // @grant        GM_xmlhttpRequest
 // @require      https://unpkg.com/react@18/umd/react.production.min.js
 // @require      https://unpkg.com/react-dom@18/umd/react-dom.production.min.js
-// @updateURL    https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/gitlab-weekly-report.user.js
-// @downloadURL  https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/gitlab-weekly-report.user.js
+// @updateURL    https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/userscript/gitlab-weekly-report.user.js
+// @downloadURL  https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/userscript/gitlab-weekly-report.user.js
 // ==/UserScript==
 
 `
