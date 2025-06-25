@@ -11,8 +11,7 @@ const userscriptHeader = `
 // @version      1.1.0
 // @description  基于 DeepSeek AI 的 GitLab 工作周报自动生成工具
 // @author       lizusheng
-// @match        *://www.lejuhub.com/*
-// @match        *://lejuhub.*/*
+// @match        *://www.lejuhub.com/dashboard
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_deleteValue
@@ -61,7 +60,7 @@ export default defineConfig(({ mode }) => {
       },
       modules: {
         // 启用CSS模块化，为所有.less和.css文件添加hash
-        localsConvention: 'camelCaseOnly',
+        localsConvention: 'camelCase',
         generateScopedName: '[name]__[local]__[hash:base64:5]',
         hashPrefix: 'gitlab-weekly-report',
       },

@@ -16,7 +16,14 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
-    'dot-notation': ['error', { allowPattern: '^[a-zA-Z_$][a-zA-Z0-9_$]*$' }],
+    'no-restricted-syntax': [
+      'error',
+      {
+        selector:
+          'MemberExpression[object.name="styles"][property.type="Literal"]',
+        message: '请使用styles.propertyName而不是styles["property-name"]的写法',
+      },
+    ],
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off', // 使用TypeScript，不需要prop-types
     '@typescript-eslint/no-explicit-any': 'warn', // 降低any类型的严格程度
