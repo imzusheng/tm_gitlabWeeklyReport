@@ -87,15 +87,15 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   }
 
   return (
-    <div className={styles['filter-section-content']}>
+    <div className={styles.filterSectionContent}>
       {/* 时间范围 */}
-      <div className={styles['filter-group']}>
-        <label className={styles['filter-label']}>时间范围</label>
-        <div className={styles['filter-options']}>
+      <div className={styles.filterGroup}>
+        <label className={styles.filterLabel}>时间范围</label>
+        <div className={styles.filterOptions}>
           {timeRangeOptions.map(option => (
             <button
               key={option.value}
-              className={`${styles['filter-option']} ${filterConditions.timeRange === option.value ? styles.active : ''}`}
+              className={`${styles.filterOption} ${filterConditions.timeRange === option.value ? styles.active : ''}`}
               onClick={() =>
                 handleTimeRangeChange(
                   option.value as FilterConditions['timeRange'],
@@ -109,11 +109,11 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       </div>
 
       {/* 目标类型 */}
-      <div className={styles['filter-group']}>
-        <label className={styles['filter-label']}>目标类型</label>
-        <div className={styles['filter-options']}>
+      <div className={styles.filterGroup}>
+        <label className={styles.filterLabel}>目标类型</label>
+        <div className={styles.filterOptions}>
           <button
-            className={`${styles['filter-option']} ${filterConditions.targetType.length === 0 ? styles.active : ''}`}
+            className={`${styles.filterOption} ${filterConditions.targetType.length === 0 ? styles.active : ''}`}
             onClick={() =>
               onFilterChange({ ...filterConditions, targetType: [] })
             }
@@ -123,7 +123,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           {targetTypeOptions.map(option => (
             <button
               key={option.value}
-              className={`${styles['filter-option']} ${filterConditions.targetType.includes(option.value as FilterConditions['targetType'][number]) ? styles.active : ''}`}
+              className={`${styles.filterOption} ${filterConditions.targetType.includes(option.value as FilterConditions['targetType'][number]) ? styles.active : ''}`}
               onClick={() =>
                 handleTargetTypeChange(
                   option.value,
@@ -138,11 +138,11 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       </div>
 
       {/* 操作类型 */}
-      <div className={styles['filter-group']}>
-        <label className={styles['filter-label']}>操作类型</label>
-        <div className={styles['filter-options']}>
+      <div className={styles.filterGroup}>
+        <label className={styles.filterLabel}>操作类型</label>
+        <div className={styles.filterOptions}>
           <button
-            className={`${styles['filter-option']} ${filterConditions.action.length === 0 ? styles.active : ''}`}
+            className={`${styles.filterOption} ${filterConditions.action.length === 0 ? styles.active : ''}`}
             onClick={() => onFilterChange({ ...filterConditions, action: [] })}
           >
             全部
@@ -150,7 +150,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           {actionOptions.map(option => (
             <button
               key={option.value}
-              className={`${styles['filter-option']} ${filterConditions.action.includes(option.value as FilterConditions['action'][number]) ? styles.active : ''}`}
+              className={`${styles.filterOption} ${filterConditions.action.includes(option.value as FilterConditions['action'][number]) ? styles.active : ''}`}
               onClick={() =>
                 handleActionChange(
                   option.value,
