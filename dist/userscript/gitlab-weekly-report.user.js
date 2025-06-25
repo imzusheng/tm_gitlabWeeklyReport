@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         GitLab 周报生成器
 // @namespace    https://github.com/imzusheng/tm_gitlabWeeklyReport
-// @version      1.0.0
+// @version      1.1.1
 // @description  基于 DeepSeek AI 的 GitLab 工作周报自动生成工具
 // @author       lizusheng
 // @match        *://www.lejuhub.com/*
