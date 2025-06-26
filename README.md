@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Version](https://img.shields.io/github/package-json/v/your-username/tm_gitlabWeeklyReport_v2)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.2+-blue.svg)
 ![React](https://img.shields.io/badge/React-18.2+-61dafb.svg)
 ![Vite](https://img.shields.io/badge/Vite-5.2+-646cff.svg)
@@ -450,6 +450,53 @@ npm run type-check
 - `refactor`: 代码重构
 - `test`: 测试相关
 - `chore`: 构建工具或辅助工具的变动
+
+## 🚀 语义化发布
+
+本项目采用 **语义化发布 (Semantic Release)** 和 **约定式提交 (Conventional Commits)** 来自动管理版本号和生成发布记录。
+
+### 📝 提交信息规范
+
+提交信息必须遵循以下格式：
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+**示例：**
+
+```bash
+# 新功能 (会增加 minor 版本)
+git commit -m "feat: add weekly report export functionality"
+
+# 修复 bug (会增加 patch 版本)
+git commit -m "fix: resolve date parsing issue in report generation"
+
+# 破坏性变更 (会增加 major 版本)
+git commit -m "feat!: change API response format"
+
+# 文档更新 (不会触发版本发布)
+git commit -m "docs: update installation instructions"
+```
+
+### 🔄 自动化流程
+
+当代码推送到主分支时，CI/CD 会自动：
+
+1. 🧪 运行测试和代码检查
+2. 📊 分析提交信息确定版本类型
+3. 🏷️ 自动生成版本号和 Git 标签
+4. 📝 更新 CHANGELOG.md
+5. 🚀 创建 GitHub Release
+6. 📦 更新相关文件中的版本号
+
+### 📖 详细开发指南
+
+查看 [CONTRIBUTING.md](CONTRIBUTING.md) 了解完整的开发流程和规范。
 
 ## ❓ 常见问题
 

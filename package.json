@@ -4,18 +4,23 @@
   "description": "GitLab 周报生成器 - 基于 DeepSeek AI 的现代化 Tampermonkey 脚本",
   "type": "module",
   "packageManager": "npm@10.9.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/tm_gitlabWeeklyReport_v2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/tm_gitlabWeeklyReport_v2/issues"
+  },
+  "homepage": "https://github.com/your-username/tm_gitlabWeeklyReport_v2#readme",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build --mode userscript && vite build --mode web",
     "build:userscript": "tsc && vite build --mode userscript",
     "build:web": "tsc && vite build --mode web",
-    "build:major": "node scripts/update-version.cjs major && tsc && vite build --mode userscript && vite build --mode web",
-    "build:minor": "node scripts/update-version.cjs minor && tsc && vite build --mode userscript && vite build --mode web",
-    "build:patch": "node scripts/update-version.cjs patch && tsc && vite build --mode userscript && vite build --mode web",
-    "version:update": "node scripts/update-version.cjs",
-    "version:major": "node scripts/update-version.cjs major",
-    "version:minor": "node scripts/update-version.cjs minor",
-    "version:patch": "node scripts/update-version.cjs patch",
+    "release": "semantic-release",
+    "release:dry-run": "semantic-release --dry-run",
+    "commitlint": "commitlint --edit",
+    "prepare": "husky install",
     "format": "prettier --write .",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "stylelint": "stylelint 'src/**/*.less'",
@@ -28,6 +33,11 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
     "@types/node": "^24.0.1",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
@@ -40,8 +50,10 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "husky": "^8.0.3",
     "less": "^4.2.0",
     "prettier": "^3.2.5",
+    "semantic-release": "^22.0.12",
     "stylelint": "^16.3.1",
     "stylelint-config-standard": "^36.0.0",
     "typescript": "^5.2.2",

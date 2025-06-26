@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { AppConfig } from '@/types'
 import Modal from '../Modal'
-import { CONFIG_PLACEHOLDERS } from '@/constants'
+import { CONFIG_PLACEHOLDERS, APP_VERSION } from '@/constants'
 import styles from './index.module.less'
 
 interface SettingsPanelProps {
@@ -249,6 +249,11 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
               </div>
             </div>
           )}
+        </div>
+        
+        {/* 版本信息 */}
+        <div className={styles.versionInfo}>
+          <span className={styles.versionText}>v{APP_VERSION}</span>
         </div>
       </div>
     </Modal>

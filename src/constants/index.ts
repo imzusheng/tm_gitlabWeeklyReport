@@ -1,4 +1,7 @@
-// API 配置
+// 应用版本信息
+export const APP_VERSION = '1.1.1'
+
+// API配置
 export const API_CONFIG = {
   DEEPSEEK_BASE_URL: 'https://api.deepseek.com/v1',
   REQUEST_TIMEOUT: 30 * 1000, // 30秒
