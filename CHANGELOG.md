@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.0.1...v1.1.0) (2025-06-26)
+
+
+### Features
+
+* **SettingsPanel:** 移除固定高度以改进布局灵活性 ([83aa120](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/83aa12005f3a98ba41499b944d55a72063c846b6))
+
 ## [1.0.1](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.0.0...v1.0.1) (2025-06-26)
 
 
