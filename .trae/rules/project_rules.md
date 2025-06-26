@@ -4,6 +4,8 @@ globs: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '**/*.less', '**/*.css']
 alwaysApply: true
 ---
 
+油猴下载地址: https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/userscript/gitlab-weekly-report.user.js
+
 # GitLab 周报生成器开发规范
 
 ## 🎨 UI/UX 设计规范

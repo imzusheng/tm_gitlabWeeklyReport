@@ -2,12 +2,6 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/github/package-json/v/your-username/tm_gitlabWeeklyReport_v2)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.2+-blue.svg)
-![React](https://img.shields.io/badge/React-18.2+-61dafb.svg)
-![Vite](https://img.shields.io/badge/Vite-5.2+-646cff.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-
 一个基于 **DeepSeek AI** 的现代化 GitLab 工作周报自动生成工具
 
 </div>
@@ -189,7 +183,7 @@ tm_gitlabWeeklyReport_v2/
 #### 1. 克隆项目
 
 ```bash
-git clone https://github.com/your-username/tm_gitlabWeeklyReport_v2.git
+git clone https://github.com/imzusheng/tm_gitlabWeeklyReport_v2.git
 cd tm_gitlabWeeklyReport_v2
 ```
 
@@ -421,7 +415,7 @@ npm run type-check
 ## 🤝 贡献指南
 ### 🐛 报告问题
 
-- 使用 [GitHub Issues](https://github.com/your-username/tm_gitlabWeeklyReport_v2/issues) 报告 Bug
+- 使用 [GitHub Issues](https://github.com/imzusheng/tm_gitlabWeeklyReport_v2/issues) 报告 Bug
 - 提供详细的复现步骤和环境信息
 - 包含错误截图或日志信息
 

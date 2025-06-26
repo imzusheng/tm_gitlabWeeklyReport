@@ -6,12 +6,12 @@
   "packageManager": "npm@10.9.2",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/tm_gitlabWeeklyReport_v2.git"
+    "url": "https://github.com/imzusheng/tm_gitlabWeeklyReport_v2.git"
   },
   "bugs": {
-    "url": "https://github.com/your-username/tm_gitlabWeeklyReport_v2/issues"
+    "url": "https://github.com/imzusheng/tm_gitlabWeeklyReport_v2/issues"
   },
-  "homepage": "https://github.com/your-username/tm_gitlabWeeklyReport_v2#readme",
+  "homepage": "https://github.com/imzusheng/tm_gitlabWeeklyReport_v2#readme",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build --mode userscript && vite build --mode web",
