@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import type { OutputBundle, OutputChunk } from 'rollup'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 
 // UserScript header
 const userscriptHeader = `
@@ -46,7 +47,7 @@ export default defineConfig(({ mode }) => {
   const isUserscript = mode === 'userscript'
 
   return {
-    plugins: isUserscript ? [react(), userscriptPlugin()] : [react()],
+    plugins: isUserscript ? [react(), cssInjectedByJsPlugin(), userscriptPlugin()] : [react()],
     resolve: {
       alias: {
         '@': resolve(__dirname, 'src'),
@@ -67,6 +68,7 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       outDir: isUserscript ? 'dist/userscript' : 'dist/web',
+      cssCodeSplit: !isUserscript, // 在油猴脚本模式下不分割CSS
       rollupOptions: {
         input: isUserscript
           ? resolve(__dirname, 'src/userscript.ts')
@@ -76,6 +78,8 @@ export default defineConfig(({ mode }) => {
               format: 'iife',
               entryFileNames: 'gitlab-weekly-report.user.js',
               assetFileNames: '[name].[ext]',
+              // 在油猴脚本模式下内联所有资源
+              inlineDynamicImports: true,
             }
           : {
               entryFileNames: 'assets/[name]-[hash].js',
