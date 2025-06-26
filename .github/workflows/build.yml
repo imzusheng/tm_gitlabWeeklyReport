@@ -81,5 +81,5 @@ jobs:
     - name: Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_REPOSITORY: imzusheng/tm_gitlabWeeklyReport_v2
+        GITHUB_REPOSITORY: imzusheng/tm_gitlabWeeklyReport
       run: npm run release

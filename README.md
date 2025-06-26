@@ -183,7 +183,7 @@ tm_gitlabWeeklyReport_v2/
 #### 1. 克隆项目
 
 ```bash
-git clone https://github.com/imzusheng/tm_gitlabWeeklyReport_v2.git
+git clone https://github.com/imzusheng/tm_gitlabWeeklyReport.git
 cd tm_gitlabWeeklyReport_v2
 ```
 
@@ -415,7 +415,7 @@ npm run type-check
 ## 🤝 贡献指南
 ### 🐛 报告问题
 
-- 使用 [GitHub Issues](https://github.com/imzusheng/tm_gitlabWeeklyReport_v2/issues) 报告 Bug
+- 使用 [GitHub Issues](https://github.com/imzusheng/tm_gitlabWeeklyReport/issues) 报告 Bug
 - 提供详细的复现步骤和环境信息
 - 包含错误截图或日志信息
 
