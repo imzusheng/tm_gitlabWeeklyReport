@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.0.0...v1.0.1) (2025-06-26)
+
+
+### Bug Fixes
+
+* **userscript:** 更新匹配规则以包含dashboard下的所有页面 ([d837648](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/d837648c07a15b659a98ef1abd0cba934cc5115a))
+
 # 1.0.0 (2025-06-26)
 
 
