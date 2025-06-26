@@ -1,49 +1,43 @@
-# 版本更新脚本
+# 脚本说明
 
-这个脚本用于自动更新项目中的版本号，遵循语义化版本控制 (Semantic Versioning) 规范。
+## semantic-version-update.cjs
 
-## 功能特性
+这个脚本用于语义化发布过程中自动更新项目中的版本号，配合 semantic-release 使用。
 
-- ✅ 自动更新 `package.json` 中的版本号
+### 功能特性
+
 - ✅ 自动更新 `vite.config.ts` 中 userscript 的版本号
 - ✅ 自动更新已构建的 userscript 文件中的版本号
 - ✅ 支持语义化版本控制 (MAJOR.MINOR.PATCH)
-- ✅ 提供友好的命令行界面和错误处理
+- ✅ 与 semantic-release 集成，自动化版本管理
 
-## 使用方法
+### 工作原理
 
-### 直接使用脚本
+该脚本在 semantic-release 的 `prepare` 阶段被调用，接收新版本号作为参数：
 
-```bash
-# 查看帮助信息
-node scripts/update-version.cjs --help
+1. 读取传入的新版本号
+2. 更新 `vite.config.ts` 中 userscript 头部的版本号
+3. 如果存在已构建的 userscript 文件，同时更新其版本号
+4. 输出更新结果
 
-# 更新修订版本号 (1.0.0 → 1.0.1)
-node scripts/update-version.cjs patch
+### 配置说明
 
-# 更新次版本号 (1.0.0 → 1.1.0)
-node scripts/update-version.cjs minor
+脚本在 `.releaserc.json` 中的 `@semantic-release/exec` 插件中配置：
 
-# 更新主版本号 (1.0.0 → 2.0.0)
-node scripts/update-version.cjs major
+```json
+{
+  "plugins": [
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "node scripts/semantic-version-update.cjs ${nextRelease.version}"
+      }
+    ]
+  ]
+}
 ```
 
-### 使用 npm 脚本
-
-```bash
-# 仅更新版本号
-npm run version:patch   # 更新修订版本
-npm run version:minor   # 更新次版本
-npm run version:major   # 更新主版本
-
-# 更新版本号并构建项目
-npm run build:patch    # 更新修订版本并构建
-npm run build:minor    # 更新次版本并构建
-npm run build:major    # 更新主版本并构建
-npm run build          # 默认更新修订版本并构建
-```
-
-## 版本号规范
+### 版本号规范
 
 本项目遵循 [语义化版本控制](https://semver.org/lang/zh-CN/) 规范：
 
@@ -51,29 +45,19 @@ npm run build          # 默认更新修订版本并构建
 - **次版本号 (MINOR)**：当你做了向下兼容的功能性新增
 - **修订版本号 (PATCH)**：当你做了向下兼容的问题修正
 
-## 脚本工作流程
+### 自动化发布
 
-1. 读取 `package.json` 中的当前版本号
-2. 根据指定的版本类型计算新版本号
-3. 更新 `package.json` 中的版本号
-4. 更新 `vite.config.ts` 中 userscript 头部的版本号
-5. 如果存在已构建的 userscript 文件，同时更新其版本号
-6. 输出更新结果和提示信息
+版本更新完全自动化，通过以下方式触发：
 
-## 注意事项
+1. 提交符合约定式提交规范的代码到 `v2` 分支
+2. CI/CD 自动运行 semantic-release
+3. 自动分析提交信息，确定版本号类型
+4. 调用此脚本更新相关文件中的版本号
+5. 自动创建 Git 标签和 GitHub 发布
+
+### 注意事项
 
 - 脚本会自动验证版本号格式的有效性
-- 如果当前版本号格式不正确，脚本会报错并退出
-- 更新版本号后，建议运行 `npm run build` 重新构建项目
+- 如果文件不存在或格式不正确，脚本会报错并退出
 - 脚本使用 CommonJS 格式 (`.cjs` 扩展名) 以兼容项目的 ES 模块配置
-
-## 错误处理
-
-脚本包含完善的错误处理机制：
-
-- 无效的版本类型参数
-- 文件读取/写入错误
-- 版本号格式验证
-- 正则表达式匹配失败
-
-所有错误都会显示友好的错误信息并正确退出。
+- 不要手动调用此脚本，它应该只在 semantic-release 过程中被调用

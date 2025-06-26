@@ -126,12 +126,34 @@ npm run release
 4. **版本号完全由提交信息自动确定**，无需手动修改
 5. **CHANGELOG.md 会自动生成和更新**
 
-## 迁移说明
+## 开发工作流
 
-从旧的手动版本管理迁移到语义化发布后：
+1. **克隆仓库并安装依赖**
+   ```bash
+   git clone https://github.com/imzusheng/tm_gitlabWeeklyReport.git
+   cd tm_gitlabWeeklyReport
+   npm install
+   ```
 
-- ❌ 不再使用 `npm run build:patch/minor/major`
-- ❌ 不再手动修改 `package.json` 中的版本号
-- ❌ 不再手动更新 `vite.config.ts` 中的版本号
-- ✅ 使用规范的提交信息格式
-- ✅ 让 CI/CD 自动处理版本和发布
+2. **创建功能分支**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+3. **开发和测试**
+   ```bash
+   npm run dev      # 启动开发服务器
+   npm run check    # 运行代码检查
+   npm run build    # 构建项目
+   ```
+
+4. **提交代码**
+   ```bash
+   git add .
+   git commit -m "feat: add new feature description"
+   ```
+
+5. **推送并创建 Pull Request**
+   ```bash
+   git push origin feature/your-feature-name
+   ```
