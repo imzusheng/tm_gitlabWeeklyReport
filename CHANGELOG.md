@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.1.0...v1.2.0) (2025-06-27)
+
+
+### Features
+
+* **Modal:** 移除模态框最大宽度限制并增加最大高度配置 ([7658bab](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/7658bab42051f9d58af04cb380ad489e48725515))
+
 # [1.1.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.0.1...v1.1.0) (2025-06-26)
 
 
