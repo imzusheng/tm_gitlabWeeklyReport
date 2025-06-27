@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.2.0...v1.3.0) (2025-06-27)
+
+
+### Features
+
+* **AIPanel:** 添加按钮样式并实现DeepSeek API服务 ([0977bc2](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/0977bc284cd4c582397400dce5f7f8a773ddbaca))
+
 # [1.2.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.1.0...v1.2.0) (2025-06-27)
 
 
