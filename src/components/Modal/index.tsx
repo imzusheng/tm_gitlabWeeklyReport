@@ -5,6 +5,7 @@ interface ModalProps {
   visible: boolean
   title?: string
   width?: number
+  maxHeight?: number
   children: React.ReactNode
   footer?: React.ReactNode
   onClose: () => void
@@ -15,6 +16,7 @@ const Modal: React.FC<ModalProps> = ({
   visible,
   title,
   width = 520,
+  maxHeight = window.innerHeight - 180, // 面板高度(100vh-120px)再减去60px上下边距
   children,
   footer,
   onClose,
@@ -51,7 +53,7 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <div id="gitlab-weekly-report-container" className={styles.modalMask} onClick={handleMaskClick}>
       <div className={styles.modalWrapper}>
-        <div className={styles.modal} style={{ width }}>
+        <div className={styles.modal} style={{ width, maxHeight }}>
           {/* 模态框头部 */}
           <div className={styles.modalHeader}>
             <div className={styles.modalTitle}>{title}</div>

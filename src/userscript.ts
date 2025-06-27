@@ -6,7 +6,7 @@ import './index.less'
 // 等待页面加载完成后注入应用
 const initUserscript = () => {
   // 检查是否已经注入过
-  if (document.getElementById('gitlab-weekly-report-app')) {
+  if (document.getElementById('gitlab-weekly-report-userscript-container')) {
     return
   }
 
@@ -35,7 +35,7 @@ const initUserscript = () => {
 
   // 创建应用容器（默认隐藏）
   const container = document.createElement('div')
-  container.id = 'gitlab-weekly-report-app'
+  container.id = 'gitlab-weekly-report-userscript-container'
   container.style.cssText = `
     position: fixed;
     top: 60px;
