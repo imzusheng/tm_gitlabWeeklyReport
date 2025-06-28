@@ -6,8 +6,10 @@ import type {
   SortOptions,
   PaginationOptions,
 } from '@/types'
+import { APP_VERSION } from '@/constants'
 import FilterSection from './FilterSection'
 import EventsList from './EventsList'
+import VersionUpdateNotification from '@/components/VersionUpdateNotification'
 import styles from './index.module.less'
 
 interface MainPanelProps {
@@ -56,12 +58,16 @@ const MainPanel: React.FC<MainPanelProps> = ({
           {/* 配置状态显示 */}
           <div className={styles.configStatus}>
             {isConfigValid() ? (
-              <span className={`${styles.statusIndicator} ${styles.configValid}`}>
+              <span
+                className={`${styles.statusIndicator} ${styles.configValid}`}
+              >
                 <span className={styles.statusIcon}>✅</span>
                 配置完整
               </span>
             ) : (
-              <span className={`${styles.statusIndicator} ${styles.configInvalid}`}>
+              <span
+                className={`${styles.statusIndicator} ${styles.configInvalid}`}
+              >
                 <span className={styles.statusIcon}>❌</span>
                 配置不完整
               </span>
@@ -69,11 +75,20 @@ const MainPanel: React.FC<MainPanelProps> = ({
           </div>
         </div>
         <div className={styles.headerRight}>
-          <button className={`${styles.actionBtn} ${styles.settingsBtn}`} onClick={onOpenSettings}>
+          <VersionUpdateNotification
+            currentVersion={APP_VERSION}
+          />
+          <button
+            className={`${styles.actionBtn} ${styles.settingsBtn}`}
+            onClick={onOpenSettings}
+          >
             <span className={styles.icon}>⚙️</span>
             设置
           </button>
-          <button className={`${styles.actionBtn} ${styles.aiBtn}`} onClick={onOpenAI}>
+          <button
+            className={`${styles.actionBtn} ${styles.aiBtn}`}
+            onClick={onOpenAI}
+          >
             <span className={styles.icon}>🤖</span>
             AI 周报
           </button>

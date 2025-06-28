@@ -1,13 +1,21 @@
 import { DeepSeekMessage, DeepSeekResponse } from '@/types'
 import { API_CONFIG } from '@/constants'
-import { request } from '@/utils/request'
+import { request, isUserscriptEnvironment } from '@/utils/request'
 import { errorUtils } from '@/utils'
 
 export class DeepSeekApiService {
   private apiKey: string
+  private baseUrl: string
 
   constructor(apiKey: string) {
     this.apiKey = apiKey
+    // 在开发环境中且不是油猴脚本环境时，使用代理URL
+    const isDev = process.env.NODE_ENV === 'development'
+    if (isDev && !isUserscriptEnvironment()) {
+      this.baseUrl = '/api/deepseek/v1'
+    } else {
+      this.baseUrl = API_CONFIG.DEEPSEEK_BASE_URL
+    }
   }
 
   /**
@@ -19,7 +27,7 @@ export class DeepSeekApiService {
     maxTokens = 4000,
   ): Promise<string> {
     const response = await request(
-      `${API_CONFIG.DEEPSEEK_BASE_URL}/chat/completions`,
+      `${this.baseUrl}/chat/completions`,
       {
         method: 'POST',
         headers: {

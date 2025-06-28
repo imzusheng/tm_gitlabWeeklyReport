@@ -96,21 +96,77 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 3000,
       open: true,
+      cors: true,
       proxy: {
         // 代理GitLab API请求
         '/proxy': {
           target: 'https://www.lejuhub.com',
           changeOrigin: true,
+          secure: true,
           rewrite: path => path.replace(/^\/proxy/, ''),
           configure: (proxy, _options) => {
             proxy.on('error', (err, _req, _res) => {
-              console.log('proxy error', err)
+              console.log('GitLab Proxy Error:', err)
             })
             proxy.on('proxyReq', (proxyReq, req, _res) => {
-              console.log('Sending Request to the Target:', req.method, req.url)
+              console.log('GitLab Request:', req.method, req.url)
+              // 添加必要的请求头
+              proxyReq.setHeader('User-Agent', 'GitLab-Weekly-Report/1.0')
             })
             proxy.on('proxyRes', (proxyRes, req, _res) => {
-              console.log('Received Response from the Target:', proxyRes.statusCode, req.url)
+              console.log('GitLab Response:', proxyRes.statusCode, req.url)
+              // 添加CORS头
+              proxyRes.headers['Access-Control-Allow-Origin'] = '*'
+              proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+              proxyRes.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, PRIVATE-TOKEN'
+            })
+          },
+        },
+        // 代理DeepSeek API请求
+        '/api/deepseek': {
+          target: 'https://api.deepseek.com',
+          changeOrigin: true,
+          secure: true,
+          rewrite: path => path.replace(/^\/api\/deepseek/, ''),
+          configure: (proxy, _options) => {
+            proxy.on('error', (err, _req, _res) => {
+              console.log('DeepSeek Proxy Error:', err)
+            })
+            proxy.on('proxyReq', (proxyReq, req, _res) => {
+              console.log('DeepSeek Request:', req.method, req.url)
+              // 添加必要的请求头
+              proxyReq.setHeader('User-Agent', 'GitLab-Weekly-Report/1.0')
+            })
+            proxy.on('proxyRes', (proxyRes, req, _res) => {
+              console.log('DeepSeek Response:', proxyRes.statusCode, req.url)
+              // 添加CORS头
+              proxyRes.headers['Access-Control-Allow-Origin'] = '*'
+              proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+              proxyRes.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+            })
+          },
+        },
+        // 代理GitHub Raw请求
+        '/api/github': {
+          target: 'https://raw.githubusercontent.com',
+          changeOrigin: true,
+          secure: true,
+          rewrite: path => path.replace(/^\/api\/github/, ''),
+          configure: (proxy, _options) => {
+            proxy.on('error', (err, _req, _res) => {
+              console.log('GitHub Proxy Error:', err)
+            })
+            proxy.on('proxyReq', (proxyReq, req, _res) => {
+              console.log('GitHub Request:', req.method, req.url)
+              // 添加必要的请求头
+              proxyReq.setHeader('User-Agent', 'GitLab-Weekly-Report/1.0')
+            })
+            proxy.on('proxyRes', (proxyRes, req, _res) => {
+              console.log('GitHub Response:', proxyRes.statusCode, req.url)
+              // 添加CORS头
+              proxyRes.headers['Access-Control-Allow-Origin'] = '*'
+              proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+              proxyRes.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Accept'
             })
           },
         },

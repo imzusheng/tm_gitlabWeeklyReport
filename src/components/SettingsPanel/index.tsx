@@ -45,7 +45,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
 
   const handleInputChange = (
     field: keyof AppConfig,
-    value: string | number,
+    value: string | number | boolean,
   ) => {
     setFormData(prev => ({
       ...prev,
@@ -245,6 +245,48 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 </select>
                 <div className={styles.formHint}>
                   选择应用的主题模式，跟随系统将根据系统设置自动切换
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label className={styles.formLabel}>自动检查更新</label>
+                <div className={styles.switchContainer}>
+                  <input
+                    type="checkbox"
+                    id="autoCheckUpdate"
+                    className={styles.switchInput}
+                    checked={formData.autoCheckUpdate ?? true}
+                    onChange={e =>
+                      handleInputChange('autoCheckUpdate', e.target.checked)
+                    }
+                  />
+                  <label htmlFor="autoCheckUpdate" className={styles.switchLabel}>
+                    <span className={styles.switchSlider}></span>
+                  </label>
+                </div>
+                <div className={styles.formHint}>
+                  开启后将自动检查版本更新并提醒
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label className={styles.formLabel}>检查更新间隔</label>
+                <select
+                  className={styles.formSelect}
+                  value={formData.updateCheckInterval ?? 300000}
+                  onChange={e =>
+                    handleInputChange('updateCheckInterval', parseInt(e.target.value))
+                  }
+                  disabled={!(formData.autoCheckUpdate ?? true)}
+                >
+                  <option value={60000}>1分钟</option>
+                  <option value={300000}>5分钟</option>
+                  <option value={600000}>10分钟</option>
+                  <option value={1800000}>30分钟</option>
+                  <option value={3600000}>1小时</option>
+                </select>
+                <div className={styles.formHint}>
+                  设置自动检查版本更新的时间间隔
                 </div>
               </div>
             </div>
