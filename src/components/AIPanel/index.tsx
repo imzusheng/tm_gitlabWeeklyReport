@@ -9,7 +9,6 @@ interface AIPanelProps {
   defaultPrompt: string
   onClose: () => void
   onGenerate: (prompt: string) => void
-  onRegenerate: () => void
   isLoading: boolean
   selectedEventsCount?: number
   dateRange?: {
@@ -24,7 +23,6 @@ const AIPanel: React.FC<AIPanelProps> = ({
   defaultPrompt,
   onClose,
   onGenerate,
-  onRegenerate,
   isLoading,
   selectedEventsCount = 0,
   dateRange,
@@ -64,7 +62,9 @@ const AIPanel: React.FC<AIPanelProps> = ({
           <div className={styles.overviewContent}>
             <div className={styles.overviewItem}>
               <span className={styles.overviewLabel}>选中事件：</span>
-              <span className={styles.overviewValue}>{selectedEventsCount} 条</span>
+              <span className={styles.overviewValue}>
+                {selectedEventsCount} 条
+              </span>
             </div>
             {dateRange && (
               <div className={styles.overviewItem}>
@@ -76,7 +76,9 @@ const AIPanel: React.FC<AIPanelProps> = ({
             )}
             <div className={styles.overviewItem}>
               <span className={styles.overviewLabel}>状态：</span>
-              <span className={`${styles.overviewValue} ${selectedEventsCount > 0 ? styles.ready : styles.waiting}`}>
+              <span
+                className={`${styles.overviewValue} ${selectedEventsCount > 0 ? styles.ready : styles.waiting}`}
+              >
                 {selectedEventsCount > 0 ? '✅ 数据就绪' : '⏳ 等待选择事件'}
               </span>
             </div>
@@ -100,7 +102,9 @@ const AIPanel: React.FC<AIPanelProps> = ({
             </div>
           </div>
 
-          <div className={`${styles.promptEditor} ${isExpanded ? styles.expanded : ''}`}>
+          <div
+            className={`${styles.promptEditor} ${isExpanded ? styles.expanded : ''}`}
+          >
             <textarea
               className={styles.promptTextarea}
               value={prompt}
@@ -112,11 +116,11 @@ const AIPanel: React.FC<AIPanelProps> = ({
             <div className={styles.promptFooter}>
               <span className={styles.charCount}>{prompt.length} 字符</span>
               <button
-                className={styles.btnPrimary}
+                className={`${styles.btnPrimary} ${config?.result ? styles.regenerate : ''}`}
                 onClick={handleGenerate}
                 disabled={isLoading || !prompt.trim()}
               >
-                {isLoading ? '生成中...' : '生成周报'}
+                {isLoading ? '生成中...' : config?.result ? '重新生成' : '生成周报'}
               </button>
             </div>
           </div>
@@ -134,28 +138,39 @@ const AIPanel: React.FC<AIPanelProps> = ({
         )}
 
         {/* 生成结果区域 */}
-        {config && !isLoading && (
+        {config?.result && (
           <div className={styles.resultSection}>
-            <div className={styles.sectionHeader}>
-              <h3>生成结果</h3>
-              <div className={styles.headerActions}>
-                <span className={styles.tokenCount}>
-                  Token 使用量: {config.tokensUsed}
-                </span>
-                <button className={styles.btnSecondary} onClick={onRegenerate}>
-                  重新生成
-                </button>
-                <button className={styles.btnPrimary} onClick={handleCopyResult}>
-                  一键复制
+            <div className={styles.resultHeader}>
+              <h3 className={styles.resultTitle}>
+                <span className={styles.titleIcon}>✨</span>
+                生成结果
+              </h3>
+              <div className={styles.resultActions}>
+                <button 
+                  className={styles.actionBtn}
+                  onClick={handleCopyResult}
+                  title="一键复制"
+                >
+                  <span className={styles.btnIcon}>📋</span>
+                  复制
                 </button>
               </div>
             </div>
-
+            
             <div className={styles.resultContent}>
               <div className={styles.resultText}>
-                {config.result.split('\n').map((line, index) => (
-                  <p key={index}>{line}</p>
-                ))}
+                {config.result}
+              </div>
+            </div>
+            
+            <div className={styles.resultMeta}>
+              <div className={styles.metaLeft}>
+                <div className={styles.metaItem}>
+                  <span>{config.result.split('\n').length} 行</span>
+                </div>
+                <div className={styles.metaItem}>
+                  <span>{config.result.length} 字符</span>
+                </div>
               </div>
             </div>
           </div>

@@ -283,13 +283,6 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     }
   }
 
-  // 处理重新生成
-  const handleRegenerate = () => {
-    if (state.aiGenerationConfig) {
-      handleGenerateReport(state.aiGenerationConfig.prompt)
-    }
-  }
-
   // 处理分页变化
   const handlePaginationChange = (paginationOptions: PaginationOptions) => {
     updatePaginationOptions(paginationOptions)
@@ -386,7 +379,6 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
         defaultPrompt={state.config.defaultPrompt}
         onClose={handleCloseAI}
         onGenerate={handleGenerateReport}
-        onRegenerate={handleRegenerate}
         isLoading={state.isLoading}
         selectedEventsCount={selectedEventIds.length}
         dateRange={getTimeRange()}
