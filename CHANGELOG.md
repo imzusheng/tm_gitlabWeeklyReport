@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.3.4...v1.4.0) (2025-06-28)
+
+
+### Features
+
+* **版本更新:** 添加自动版本检查功能 ([20b7c35](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/20b7c35ecbd6a0adbbdde15329119379f81c0ceb))
+
 ## [1.3.4](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.3.3...v1.3.4) (2025-06-28)
 
 ## [1.3.3](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.3.2...v1.3.3) (2025-06-28)
