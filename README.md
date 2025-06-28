@@ -199,6 +199,252 @@ tm_gitlabWeeklyReport_v2/
 - **浏览器**: Chrome/Firefox/Safari/Edge (支持 ES2020+)
 - **Tampermonkey**: >= 4.0 (仅油猴脚本模式需要)
 
+### 🛠️ 安装与运行
+
+#### 方式一：使用油猴脚本（推荐）
+
+1. **安装 Tampermonkey 浏览器扩展**
+   - [Chrome 扩展商店](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
+   - [Firefox 附加组件](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/)
+   - [Edge 扩展商店](https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd)
+
+2. **安装脚本**
+   
+   点击下面的链接自动安装：
+   
+   **[📥 安装 GitLab 周报生成器](https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/userscript/gitlab-weekly-report.user.js)**
+
+3. **使用脚本**
+   - 访问你的 GitLab 项目页面
+   - 脚本会自动在页面上添加周报生成器入口
+   - 首次使用需要配置 GitLab Token 和 DeepSeek API Key
+
+#### 方式二：本地开发运行
+
+```bash
+# 1. 克隆项目
+git clone https://github.com/imzusheng/tm_gitlabWeeklyReport.git
+cd tm_gitlabWeeklyReport_v2
+
+# 2. 安装依赖
+npm install
+
+# 3. 启动开发服务器
+npm run dev
+
+# 4. 打开浏览器访问
+# http://localhost:3000
+```
+
+### ⚙️ 配置说明
+
+#### GitLab 个人访问令牌
+
+1. 登录你的 GitLab 实例
+2. 进入 **Settings** → **Access Tokens**
+3. 创建新的个人访问令牌，需要以下权限：
+   - `read_api` - 读取 API 数据
+   - `read_repository` - 读取仓库信息
+   - `read_user` - 读取用户信息
+
+#### DeepSeek API Key
+
+1. 访问 [DeepSeek 开放平台](https://platform.deepseek.com/)
+2. 注册账号并登录
+3. 在 **API Keys** 页面创建新的 API Key
+4. 复制 API Key 到配置中
+
+> **💡 提示**: DeepSeek 提供免费的 API 额度，足够个人使用
+
+## 📖 开发指南
+
+### 🔄 版本管理
+
+本项目采用**统一版本管理**策略，所有版本号都从 `package.json` 中的 `version` 字段同步：
+
+- **唯一版本来源**: `package.json` 中的 `version` 字段
+- **自动同步**: 通过 `scripts/semantic-version-update.cjs` 脚本自动同步到所有相关文件
+- **语义化发布**: 使用 Semantic Release 根据提交信息自动管理版本号
+
+#### 版本同步范围
+
+- `vite.config.ts` 中的 userscript header `@version`
+- `dist/userscript/gitlab-weekly-report.user.js` 构建文件中的版本号
+
+#### 手动同步版本号
+
+```bash
+# 同步当前 package.json 版本号到所有文件
+node scripts/semantic-version-update.cjs
+```
+
+### 📝 提交规范
+
+本项目使用 **Conventional Commits** 规范和 **Semantic Release** 自动管理版本发布。
+
+#### 提交信息格式
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+#### 提交类型 (type)
+
+| 类型 | 说明 | 版本影响 |
+|------|------|----------|
+| **feat** | 新功能 | MINOR |
+| **fix** | 修复 bug | PATCH |
+| **docs** | 文档更新 | PATCH |
+| **style** | 代码格式调整（不影响功能） | PATCH |
+| **refactor** | 代码重构 | PATCH |
+| **perf** | 性能优化 | PATCH |
+| **test** | 测试相关 | PATCH |
+| **build** | 构建系统或外部依赖变更 | PATCH |
+| **ci** | CI 配置文件和脚本变更 | PATCH |
+| **chore** | 其他不修改源码或测试的变更 | PATCH |
+| **revert** | 回滚之前的提交 | - |
+
+#### 版本号规则
+
+- **MAJOR**: 破坏性变更 (`BREAKING CHANGE` 或 `!`)
+- **MINOR**: 新功能 (`feat`)
+- **PATCH**: 修复和其他变更 (`fix`, `docs`, `style`, 等)
+
+#### 提交示例
+
+```bash
+# 新功能 (MINOR 版本)
+git commit -m "feat: add weekly report export functionality"
+
+# 修复 bug (PATCH 版本)
+git commit -m "fix: resolve date parsing issue in report generation"
+
+# 破坏性变更 (MAJOR 版本)
+git commit -m "feat!: change API response format"
+# 或者
+git commit -m "feat: change API response format
+
+BREAKING CHANGE: API response format changed from array to object"
+
+# 文档更新 (PATCH 版本)
+git commit -m "docs: update installation instructions"
+
+# 代码重构 (PATCH 版本)
+git commit -m "refactor: extract report generation logic"
+```
+
+### 🚀 开发工作流
+
+#### 1. 环境准备
+
+```bash
+# 克隆仓库
+git clone https://github.com/imzusheng/tm_gitlabWeeklyReport.git
+cd tm_gitlabWeeklyReport_v2
+
+# 安装依赖
+npm install
+```
+
+#### 2. 开发流程
+
+```bash
+# 启动开发服务器
+npm run dev
+
+# 代码检查
+npm run check  # 运行所有检查（lint + stylelint + type-check）
+npm run lint   # ESLint 检查
+npm run stylelint  # 样式检查
+npm run type-check  # TypeScript 类型检查
+
+# 代码格式化
+npm run format
+```
+
+#### 3. 构建项目
+
+```bash
+# 构建所有版本
+npm run build
+
+# 仅构建油猴脚本
+npm run build:userscript
+
+# 仅构建 Web 应用
+npm run build:web
+```
+
+#### 4. 提交代码
+
+```bash
+# 添加文件
+git add .
+
+# 提交（会自动运行 commitlint 检查）
+git commit -m "feat: your feature description"
+
+# 推送到远程仓库
+git push origin v2
+```
+
+#### 5. 自动发布
+
+当代码推送到 `v2` 分支时，CI/CD 会自动：
+- 运行测试和检查
+- 分析提交信息
+- 自动确定版本号
+- 同步版本号到所有文件
+- 生成 CHANGELOG
+- 创建 Git 标签
+- 发布 GitHub Release
+- 构建并发布新版本
+
+### 🧪 本地测试发布
+
+```bash
+# 干运行，查看会发布什么版本（不会实际发布）
+npm run release:dry-run
+
+# 手动触发发布（谨慎使用）
+npm run release
+```
+
+### 📋 开发注意事项
+
+1. **提交信息必须符合 Conventional Commits 规范**，否则会被 commitlint 拒绝
+2. **版本号完全自动管理**，无需手动修改任何文件中的版本号
+3. **只有符合规范的提交才会触发版本发布**
+4. **破坏性变更必须明确标注** (`!` 或 `BREAKING CHANGE:`)
+5. **CHANGELOG.md 会自动生成和更新**
+6. **所有代码必须通过 ESLint、Stylelint 和 TypeScript 检查**
+
+### 🔧 代码规范
+
+项目遵循严格的代码规范，详见项目根目录下的配置文件：
+
+- **ESLint**: `.eslintrc.cjs` - JavaScript/TypeScript 代码规范
+- **Prettier**: `.prettierrc` - 代码格式化规范
+- **Stylelint**: `.stylelintrc.json` - CSS/Less 样式规范
+- **TypeScript**: `tsconfig.json` - TypeScript 编译配置
+- **Commitlint**: `.commitlintrc.json` - 提交信息规范
+
+### 🏗️ 项目架构
+
+项目采用现代化的前端架构设计：
+
+- **状态管理**: React Context + useReducer
+- **组件化**: 功能组件 + 自定义 Hooks
+- **样式管理**: CSS Modules + Less 预处理器
+- **类型安全**: 严格的 TypeScript 配置
+- **构建工具**: Vite + Rollup
+- **代码质量**: ESLint + Prettier + Stylelint
+- **自动化**: Husky + Commitlint + Semantic Release
+
 ### 📦 安装与运行
 
 #### 1. 克隆项目

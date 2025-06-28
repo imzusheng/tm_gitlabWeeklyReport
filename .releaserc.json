@@ -40,7 +40,8 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "node scripts/semantic-version-update.cjs && npm run build"
+        "prepareCmd": "node scripts/semantic-version-update.cjs && npm run build",
+        "publishCmd": "echo '✅ 版本发布完成，所有文件版本号已同步'"
       }
     ],
     [
