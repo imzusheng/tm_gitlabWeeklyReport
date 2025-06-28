@@ -16,12 +16,10 @@ function syncVersionFromPackageJson() {
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
     const version = packageJson.version;
     
-    console.log(`🔄 同步版本号到所有文件: ${version}`);
+    console.log(`🔄 检查版本号配置: ${version}`);
     
-    // 1. 更新 vite.config.ts 中的 userscript header 版本
-    updateViteConfig(version);
-    
-    // 2. 更新构建后的 userscript 文件版本（如果存在）
+    // 检查配置并更新构建文件
+    checkViteConfig();
     updateBuiltUserscript(version);
     
     console.log(`✅ 版本同步完成: ${version}`);
@@ -32,26 +30,24 @@ function syncVersionFromPackageJson() {
 }
 
 /**
- * 更新 vite.config.ts 中的版本号
+ * 检查 vite.config.ts 版本号配置
+ * 现在版本号通过动态读取 package.json 实现，无需手动更新
  */
-function updateViteConfig(version) {
+function checkViteConfig() {
   const viteConfigPath = path.join(process.cwd(), 'vite.config.ts');
   
   if (!fs.existsSync(viteConfigPath)) {
-    console.warn('⚠️  vite.config.ts 不存在，跳过更新');
+    console.warn('⚠️  vite.config.ts 不存在');
     return;
   }
   
-  let content = fs.readFileSync(viteConfigPath, 'utf8');
+  const content = fs.readFileSync(viteConfigPath, 'utf8');
   
-  // 更新 userscriptHeader 中的 @version
-  const versionRegex = /(\s*\/\/\s*@version\s+)([\d.]+)/;
-  if (versionRegex.test(content)) {
-    content = content.replace(versionRegex, `$1${version}`);
-    fs.writeFileSync(viteConfigPath, content, 'utf8');
-    console.log(`  ✓ 已更新 vite.config.ts 版本号`);
+  // 检查是否使用动态版本号
+  if (content.includes('${version}') && content.includes('packageJson.version')) {
+    console.log('  ✓ vite.config.ts 已配置动态版本号读取');
   } else {
-    console.warn('  ⚠️  vite.config.ts 中未找到版本号模式');
+    console.warn('  ⚠️  vite.config.ts 可能仍使用硬编码版本号');
   }
 }
 
@@ -84,4 +80,4 @@ if (require.main === module) {
   syncVersionFromPackageJson();
 }
 
-module.exports = { syncVersionFromPackageJson, updateViteConfig, updateBuiltUserscript };
+module.exports = { syncVersionFromPackageJson, checkViteConfig, updateBuiltUserscript };

@@ -1,5 +1,7 @@
 // 应用版本信息
-export const APP_VERSION = '1.1.1'
+// 从 package.json 读取版本号
+import packageJson from '../../package.json'
+export const APP_VERSION = packageJson.version
 
 // API配置
 export const API_CONFIG = {
