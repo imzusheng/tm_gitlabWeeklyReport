@@ -22,6 +22,7 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
   const [showNotification, setShowNotification] = useState(false)
   const [lastCheckTime, setLastCheckTime] = useState<Date | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [hasCheckedOnce, setHasCheckedOnce] = useState(false) // 标记是否已检查过
 
   const [dismissedVersions, setDismissedVersions] = useState<Set<string>>(
     new Set()
@@ -39,6 +40,15 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
     } catch (err) {
       console.warn('无法读取忽略版本信息:', err)
     }
+  }, [])
+
+  // 组件初始化时自动检查更新（遵循忽略列表）
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      checkForUpdates(false) // 自动检查不强制显示通知
+    }, 1000) // 延迟1秒后自动检查
+
+    return () => clearTimeout(timer)
   }, [])
 
 
@@ -74,9 +84,19 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
 
   /**
    * 检查版本更新
+   * @param forceShow 是否强制显示通知（手动检查时为true）
    */
-  const checkForUpdates = useCallback(async () => {
+  const checkForUpdates = useCallback(async (forceShow = true) => {
     if (isChecking) return
+
+    // 如果已经检查过且有缓存结果，直接显示通知而不重新请求
+    if (hasCheckedOnce && latestVersion && hasNewVersion && forceShow) {
+      if (forceShow || !dismissedVersions.has(latestVersion.version)) {
+        setShowNotification(true)
+        console.log(`使用缓存结果显示新版本 ${latestVersion.version}`)
+      }
+      return
+    }
 
     setIsChecking(true)
     setError(null)
@@ -126,16 +146,22 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
 
       setLatestVersion(versionInfo)
       setLastCheckTime(new Date())
+      setHasCheckedOnce(true) // 标记已检查过
 
       // 检查是否有新版本
       const hasUpdate = compareVersions(currentVersion, versionInfo.version)
       setHasNewVersion(hasUpdate)
 
-      // 只有当版本更新且用户未忽略该版本时才显示通知
-      if (hasUpdate && !dismissedVersions.has(versionInfo.version)) {
-        setShowNotification(true)
-        console.log(`发现新版本 ${versionInfo.version}，建议及时更新！`)
-      } else if (!hasUpdate) {
+      // 检查是否显示通知
+      if (hasUpdate) {
+        // 如果是强制显示（手动检查）或者版本未被忽略，则显示通知
+        if (forceShow || !dismissedVersions.has(versionInfo.version)) {
+          setShowNotification(true)
+          console.log(`发现新版本 ${versionInfo.version}，建议及时更新！`)
+        } else {
+          console.log(`发现新版本 ${versionInfo.version}，但已被忽略`)
+        }
+      } else {
         console.log('当前已是最新版本')
       }
     } catch (err) {
@@ -146,7 +172,7 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
     } finally {
       setIsChecking(false)
     }
-  }, [isChecking, compareVersions, currentVersion, dismissedVersions])
+  }, [isChecking, compareVersions, currentVersion, dismissedVersions, hasCheckedOnce, latestVersion, hasNewVersion])
 
   /**
    * 手动更新
@@ -159,7 +185,7 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
 
       // 重新检查版本并提示结果
       setTimeout(async () => {
-        await checkForUpdates()
+        await checkForUpdates(false) // 更新后的自动检查不强制显示
         const isLatest = !compareVersions(currentVersion, latestVersion.version)
         if (isLatest) {
           console.log('当前已是最新版本！')
@@ -217,6 +243,27 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
     })
   }, [])
 
+  /**
+   * 获取按钮文案
+   */
+  const getButtonText = useCallback((): string => {
+    if (isChecking) return '检查中...'
+    if (error) return '检查失败'
+    if (hasNewVersion) return '有更新'
+    if (hasCheckedOnce && !hasNewVersion) return '已是最新版本 🎉'
+    return '检查更新'
+  }, [isChecking, error, hasNewVersion, hasCheckedOnce])
+
+  /**
+   * 获取按钮图标
+   */
+  const getButtonIcon = useCallback((): string => {
+    if (isChecking) return '🔄'
+    if (error) return '⚠️'
+    if (hasNewVersion) return '🔴'
+    return '🔍'
+  }, [isChecking, error, hasNewVersion])
+
 
 
   // 开发模式下的快捷键支持
@@ -245,7 +292,7 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
       {/* 版本检查按钮 */}
       <button
         className={`${styles.actionBtn} ${styles.versionBtn} ${isChecking ? styles.checking : ''} ${hasNewVersion ? styles.hasUpdate : ''}`}
-        onClick={checkForUpdates}
+        onClick={() => checkForUpdates(true)} // 手动检查强制显示通知
         disabled={isChecking}
         title={
           lastCheckTime
@@ -254,18 +301,14 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
         }
       >
         <span className={styles.icon}>
-          {isChecking ? '🔄' : hasNewVersion ? '🔴' : '🔍'}
+          {getButtonIcon()}
         </span>
         <span className={styles.text}>
-          {isChecking ? '检查中...' : hasNewVersion ? '有更新' : '检查更新'}
+          {getButtonText()}
         </span>
       </button>
 
-      {error && (
-        <div className={styles.error} title={error}>
-          ⚠️ 检查失败
-        </div>
-      )}
+
 
       {/* 更新通知弹窗 */}
       {showNotification && hasNewVersion && latestVersion && (

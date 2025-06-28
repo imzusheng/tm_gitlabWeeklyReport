@@ -70,7 +70,7 @@
 .notification-overlay {
   position: fixed;
   inset: 0;
-  background: rgb(0 0 0 / 50%);
+  background: var(--overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -79,14 +79,15 @@
 }
 
 .notification {
-  background: var(--bg-color, #fff);
+  background: var(--bg-primary);
   border-radius: 12px;
-  box-shadow: 0 20px 40px rgb(0 0 0 / 15%);
+  box-shadow: var(--shadow-xl);
   max-width: 480px;
   width: 90vw;
   max-height: 80vh;
   overflow: hidden;
   animation: slide-in 0.3s ease-out;
+  border: 1px solid var(--border-primary);
 }
 
 .notification-header {
@@ -94,13 +95,13 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px 16px;
-  border-bottom: 1px solid var(--border-color, #e1e5e9);
+  border-bottom: 1px solid var(--border-primary);
 
   h3 {
     margin: 0;
     font-size: 18px;
     font-weight: 600;
-    color: var(--text-color, #24292f);
+    color: var(--text-primary);
   }
 }
 
@@ -108,15 +109,15 @@
   background: none;
   border: none;
   font-size: 24px;
-  color: var(--text-secondary, #656d76);
+  color: var(--text-secondary);
   cursor: pointer;
   padding: 4px;
   border-radius: 4px;
   transition: all 0.2s ease;
 
   &:hover {
-    background: var(--hover-bg-color, #f6f8fa);
-    color: var(--text-color, #24292f);
+    background: var(--btn-hover-bg);
+    color: var(--text-primary);
   }
 }
 
@@ -130,7 +131,7 @@
   p {
     margin: 8px 0;
     font-size: 14px;
-    color: var(--text-color, #24292f);
+    color: var(--text-primary);
 
     strong {
       font-weight: 600;
@@ -143,18 +144,18 @@
     margin: 0 0 12px;
     font-size: 14px;
     font-weight: 600;
-    color: var(--text-color, #24292f);
+    color: var(--text-primary);
   }
 }
 
 .notes-content {
-  background: var(--code-bg, #f6f8fa);
-  border: 1px solid var(--border-color, #e1e5e9);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 6px;
   padding: 12px;
   font-size: 13px;
   line-height: 1.5;
-  color: var(--text-secondary, #656d76);
+  color: var(--text-secondary);
   max-height: 200px;
   overflow-y: auto;
   white-space: pre-wrap;
@@ -164,7 +165,7 @@
   display: flex;
   gap: 12px;
   padding: 16px 24px 20px;
-  border-top: 1px solid var(--border-color, #e1e5e9);
+  border-top: 1px solid var(--border-primary);
   justify-content: flex-end;
 }
 
@@ -180,24 +181,24 @@
 }
 
 .later-btn {
-  background: var(--bg-color, #fff);
-  border-color: var(--border-color, #e1e5e9);
-  color: var(--text-color, #24292f);
+  background: var(--bg-primary);
+  border-color: var(--border-primary);
+  color: var(--text-primary);
 
   &:hover {
-    background: var(--hover-bg-color, #f6f8fa);
-    border-color: var(--hover-border-color, #d0d7de);
+    background: var(--btn-hover-bg);
+    border-color: var(--border-secondary);
   }
 }
 
 .update-btn {
-  background: #0969da;
-  border-color: #0969da;
-  color: #fff;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--btn-primary-text);
 
   &:hover {
-    background: #0860ca;
-    border-color: #0860ca;
+    background: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
   }
 }
 
@@ -213,18 +214,7 @@
   }
 }
 
-/* 深色主题适配 */
-:global(.dark) {
-  .notification {
-    --bg-color: #0d1117;
-    --border-color: #30363d;
-    --text-color: #e6edf3;
-    --text-secondary: #8b949e;
-    --hover-bg-color: #21262d;
-    --hover-border-color: #484f58;
-    --code-bg: #161b22;
-  }
-}
+/* 深色主题适配已通过全局CSS变量实现 */
 
 /* 响应式设计 */
 @media (width <= 768px) {
