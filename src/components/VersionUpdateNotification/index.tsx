@@ -42,17 +42,6 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
     }
   }, [])
 
-  // 组件初始化时自动检查更新（遵循忽略列表）
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      checkForUpdates(false) // 自动检查不强制显示通知
-    }, 1000) // 延迟1秒后自动检查
-
-    return () => clearTimeout(timer)
-  }, [])
-
-
-
   /**
    * 比较版本号
    * @param current 当前版本
@@ -173,6 +162,15 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
       setIsChecking(false)
     }
   }, [isChecking, compareVersions, currentVersion, dismissedVersions, hasCheckedOnce, latestVersion, hasNewVersion])
+
+  // 组件初始化时自动检查更新（遵循忽略列表）
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      checkForUpdates(false) // 自动检查不强制显示通知
+    }, 1000) // 延迟1秒后自动检查
+
+    return () => clearTimeout(timer)
+  }, [checkForUpdates])
 
   /**
    * 手动更新
