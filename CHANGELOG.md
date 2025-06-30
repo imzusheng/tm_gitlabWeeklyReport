@@ -1,3 +1,10 @@
+## [1.5.2](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.5.1...v1.5.2) (2025-06-30)
+
+
+### Bug Fixes
+
+* **AIPanel:** 同步defaultPrompt更新到prompt状态 ([4cc5949](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/4cc594918ecb172cb8d179890a67d94c70ac1e11))
+
 ## [1.5.1](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.5.0...v1.5.1) (2025-06-30)
 
 
