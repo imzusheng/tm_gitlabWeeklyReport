@@ -46,9 +46,9 @@ export class GitLabApiService {
       } catch {
         errorText = response.statusText
       }
-      
+
       console.error(`GitLab API Error [${response.status}]:`, errorText)
-      
+
       // 根据状态码提供更友好的错误信息
       let userFriendlyMessage = errorText || response.statusText
       switch (response.status) {
@@ -71,7 +71,7 @@ export class GitLabApiService {
           userFriendlyMessage = 'GitLab服务器错误，请稍后重试'
           break
       }
-      
+
       throw errorUtils.createApiError(
         response.status,
         userFriendlyMessage,
@@ -128,7 +128,7 @@ export class GitLabApiService {
       await this.getCurrentUser()
     } catch (error) {
       console.error('GitLab service initialization failed:', error)
-      
+
       // 提供更详细的错误信息
       if (error instanceof Error) {
         if (error.message.includes('401')) {
@@ -141,7 +141,7 @@ export class GitLabApiService {
           throw new Error('GitLab服务器连接超时，请检查网络连接或稍后重试')
         }
       }
-      
+
       throw new Error('GitLab服务初始化失败，请检查GitLab URL和Token是否正确')
     }
   }
@@ -260,55 +260,61 @@ export class GitLabApiService {
       )
     }
 
-    const events = await response.json() as GitLabEvent[]
-    
+    const events = (await response.json()) as GitLabEvent[]
+
     // 从响应头获取总数
     let total = 0
     let totalHeader = ''
-    
+
     if (response.headers instanceof Headers) {
       // Web环境：使用Headers对象
-      totalHeader = response.headers.get('x-total') || 
-                   response.headers.get('X-Total') || 
-                   response.headers.get('x-total-count') || 
-                   response.headers.get('X-Total-Count') || ''
+      totalHeader =
+        response.headers.get('x-total') ||
+        response.headers.get('X-Total') ||
+        response.headers.get('x-total-count') ||
+        response.headers.get('X-Total-Count') ||
+        ''
       total = parseInt(totalHeader || '0', 10)
     } else {
       // 油猴脚本环境：响应头可能是字符串格式，需要特殊处理
       if (typeof response.headers === 'string') {
         // 如果是字符串格式（GM_xmlhttpRequest返回的responseHeaders），需要解析
-        const headerString = response.headers as string;
-        const headerLines = headerString.split('\n');
-        
+        const headerString = response.headers as string
+        const headerLines = headerString.split('\n')
+
         // 尝试从各种可能的header名称中找到total值
         for (const line of headerLines) {
-          const parts = line.split(': ');
+          const parts = line.split(': ')
           if (parts.length === 2) {
-            const headerName = parts[0].toLowerCase();
-            const headerValue = parts[1];
-            
-            if (headerName === 'x-total' || 
-                headerName === 'x-total-count' || 
-                headerName === 'x_total') {
-              totalHeader = headerValue;
-              break;
+            const headerName = parts[0].toLowerCase()
+            const headerValue = parts[1]
+
+            if (
+              headerName === 'x-total' ||
+              headerName === 'x-total-count' ||
+              headerName === 'x_total'
+            ) {
+              totalHeader = headerValue
+              break
             }
           }
         }
       } else {
         // 如果是对象格式
-        const headers = response.headers as Record<string, string>;
-        totalHeader = headers['x-total'] || 
-                     headers['X-Total'] || 
-                     headers['x-total-count'] || 
-                     headers['X-Total-Count'] || 
-                     headers['x_total'] || 
-                     headers['X_TOTAL'] || '';
+        const headers = response.headers as Record<string, string>
+        totalHeader =
+          headers['x-total'] ||
+          headers['X-Total'] ||
+          headers['x-total-count'] ||
+          headers['X-Total-Count'] ||
+          headers['x_total'] ||
+          headers['X_TOTAL'] ||
+          ''
       }
-      
+
       total = parseInt(totalHeader || '0', 10)
     }
-    
+
     // 调试信息
     console.log('GitLab API Response:', {
       eventsCount: events.length,
@@ -316,18 +322,21 @@ export class GitLabApiService {
       calculatedTotal: total,
       isHeadersInstance: response.headers instanceof Headers,
       headersType: typeof response.headers,
-      allHeaders: response.headers instanceof Headers 
-        ? Object.fromEntries(response.headers.entries())
-        : (typeof response.headers === 'string' 
-           ? (response.headers as string).split('\n').slice(0, 10).join('; ') // 显示前10行响应头
-           : response.headers)
+      allHeaders:
+        response.headers instanceof Headers
+          ? Object.fromEntries(response.headers.entries())
+          : typeof response.headers === 'string'
+            ? (response.headers as string).split('\n').slice(0, 10).join('; ') // 显示前10行响应头
+            : response.headers,
     })
-    
+
     // 如果响应头中没有总数信息，使用事件数组长度作为fallback
     // 注意：GitLab API可能不总是返回x-total头，特别是在分页查询时
     if (total === 0 && events.length > 0) {
       total = events.length
-      console.warn('No total count in response headers, using events array length as fallback')
+      console.warn(
+        'No total count in response headers, using events array length as fallback',
+      )
     }
 
     return { events, total }

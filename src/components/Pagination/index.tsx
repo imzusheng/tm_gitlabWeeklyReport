@@ -75,9 +75,7 @@ const Pagination: React.FC<PaginationProps> = ({
   if (total === 0) {
     return (
       <div className={styles.pagination}>
-        <div className={styles.paginationInfo}>
-          暂无数据
-        </div>
+        <div className={styles.paginationInfo}>暂无数据</div>
       </div>
     )
   }
@@ -85,7 +83,8 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <div className={styles.pagination}>
       <div className={styles.paginationInfo}>
-        显示 {startItem}-{endItem} 条，共 {total} 条{selectedCount > 0 ? `，已选中 ${selectedCount} 条` : ''}
+        显示 {startItem}-{endItem} 条，共 {total} 条
+        {selectedCount > 0 ? `，已选中 ${selectedCount} 条` : ''}
       </div>
 
       <div className={styles.paginationControls}>

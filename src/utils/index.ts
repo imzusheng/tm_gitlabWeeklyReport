@@ -26,8 +26,6 @@ export const dateUtils = {
       .replace('mm', minutes)
       .replace('ss', seconds)
   },
-
-
 }
 
 /**
@@ -99,11 +97,7 @@ export const urlUtils = {
       return false
     }
   },
-
-
 }
-
-
 
 // 旧的错误处理工具已移动到 ./error.ts
 // 保持向后兼容性的配置错误常量
@@ -113,8 +107,6 @@ export const configErrors = {
   NO_EVENTS_SELECTED: '请至少选择一个事件来生成周报',
   INVALID_FILTER_OR_CONFIG: '请检查筛选条件或GitLab配置',
 } as const
-
-
 
 // 导出错误处理工具
 export * from './error'

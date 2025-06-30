@@ -1,10 +1,6 @@
 {
   "repositoryUrl": "https://github.com/imzusheng/tm_gitlabWeeklyReport.git",
-  "branches": [
-    "main",
-    "master",
-    "v2"
-  ],
+  "branches": ["main", "master", "v2"],
   "plugins": [
     [
       "@semantic-release/commit-analyzer",

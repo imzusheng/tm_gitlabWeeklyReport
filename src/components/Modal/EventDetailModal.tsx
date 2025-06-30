@@ -61,12 +61,12 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
     if (!event.project && !event.project_id) return ''
 
     const baseUrl = 'https://www.lejuhub.com'
-    
+
     // 如果没有完整的project对象，只能返回基础URL
     if (!event.project) {
       return baseUrl
     }
-    
+
     const projectPath = event.project.path_with_namespace
 
     // 处理空值情况
@@ -93,7 +93,10 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
 
   return (
     <div className={styles.eventDetailModalOverlay} onClick={onClose}>
-      <div className={styles.eventDetailModal} onClick={e => e.stopPropagation()}>
+      <div
+        className={styles.eventDetailModal}
+        onClick={e => e.stopPropagation()}
+      >
         <div className={styles.modalHeader}>
           <h2>事件详情</h2>
           <button className={styles.closeBtn} onClick={onClose}>
@@ -124,12 +127,16 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
               </div>
               <div className={styles.detailItem}>
                 <span className={styles.label}>时间:</span>
-                <span className={styles.value}>{formatDate(event.created_at)}</span>
+                <span className={styles.value}>
+                  {formatDate(event.created_at)}
+                </span>
               </div>
               {event.state && (
                 <div className={styles.detailItem}>
                   <span className={styles.label}>状态:</span>
-                  <span className={`${styles.value} ${styles.statusBadge} ${styles[`status-${event.state}`]}`}>
+                  <span
+                    className={`${styles.value} ${styles.statusBadge} ${styles[`status-${event.state}`]}`}
+                  >
                     {event.state}
                   </span>
                 </div>
@@ -143,7 +150,9 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
             (event.labels && event.labels.length > 0)) && (
             <div className={`${styles.detailSection} ${styles.compact}`}>
               <h3>内容</h3>
-              <div className={`${styles.detailContent} ${styles.compactContent}`}>
+              <div
+                className={`${styles.detailContent} ${styles.compactContent}`}
+              >
                 {event.title && (
                   <div className={styles.detailItem}>
                     <span className={styles.label}>标题:</span>
@@ -233,11 +242,15 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
                 </div>
                 <div className={styles.detailItem}>
                   <span className={styles.label}>提交数量:</span>
-                  <span className={styles.value}>{event.push_data.commit_count}</span>
+                  <span className={styles.value}>
+                    {event.push_data.commit_count}
+                  </span>
                 </div>
                 <div className={styles.detailItem}>
                   <span className={styles.label}>提交标题:</span>
-                  <span className={styles.value}>{event.push_data.commit_title}</span>
+                  <span className={styles.value}>
+                    {event.push_data.commit_title}
+                  </span>
                 </div>
                 <div className={styles.detailItem}>
                   <span className={styles.label}>提交哈希:</span>

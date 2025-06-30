@@ -75,9 +75,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
           </div>
         </div>
         <div className={styles.headerRight}>
-          <VersionUpdateNotification
-            currentVersion={APP_VERSION}
-          />
+          <VersionUpdateNotification currentVersion={APP_VERSION} />
           <button
             className={`${styles.actionBtn} ${styles.settingsBtn}`}
             onClick={onOpenSettings}

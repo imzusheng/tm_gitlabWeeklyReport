@@ -50,14 +50,11 @@ export const useAbortableRequest = () => {
    * 清理控制器引用
    * @param controller 当前的 AbortController 实例
    */
-  const cleanupRequest = useCallback(
-    (controller: AbortController) => {
-      if (abortControllerRef.current === controller) {
-        abortControllerRef.current = null
-      }
-    },
-    [],
-  )
+  const cleanupRequest = useCallback((controller: AbortController) => {
+    if (abortControllerRef.current === controller) {
+      abortControllerRef.current = null
+    }
+  }, [])
 
   /**
    * 检查错误是否为取消错误

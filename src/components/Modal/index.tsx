@@ -51,7 +51,11 @@ const Modal: React.FC<ModalProps> = ({
   }
 
   return (
-    <div id="gitlab-weekly-report-container" className={styles.modalMask} onClick={handleMaskClick}>
+    <div
+      id="gitlab-weekly-report-container"
+      className={styles.modalMask}
+      onClick={handleMaskClick}
+    >
       <div className={styles.modalWrapper}>
         <div className={styles.modal} style={{ width, maxHeight }}>
           {/* 模态框头部 */}

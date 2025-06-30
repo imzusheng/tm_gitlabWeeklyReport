@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { useAppState } from '@/hooks/useAppState'
 import { useAbortableRequest } from '@/hooks/useAbortableRequest'
 
-
 import MainPanel from '@/components/MainPanel'
 import SettingsPanel from '@/components/SettingsPanel'
 import AIPanel from '@/components/AIPanel'
@@ -44,8 +43,6 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   // 使用可取消请求Hook
   const { createRequest, isRequestCancelled, cleanupRequest, isAbortError } =
     useAbortableRequest()
-
-
 
   const gitlabService = useMemo(() => {
     return createGitLabApiService(
@@ -339,8 +336,6 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
       id="gitlab-weekly-report-app"
       className={`${styles.app} ${isUserscript ? styles.userscriptMode : styles.webMode} ${styles[actualTheme]}`}
     >
-
-
       {/* 主面板 */}
       <MainPanel
         events={state.events}
@@ -387,8 +382,6 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
         selectedEventsCount={selectedEventIds.length}
         dateRange={getTimeRange()}
       />
-
-
     </div>
   )
 }

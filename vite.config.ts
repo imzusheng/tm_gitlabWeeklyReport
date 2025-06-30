@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite'
-import type { OutputBundle, OutputChunk } from 'rollup'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
@@ -7,7 +6,9 @@ import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { join } from 'path'
 
 // 从 package.json 读取版本号
-const packageJson = JSON.parse(readFileSync(resolve(__dirname, 'package.json'), 'utf-8'))
+const packageJson = JSON.parse(
+  readFileSync(resolve(__dirname, 'package.json'), 'utf-8'),
+)
 const version = packageJson.version
 
 // UserScript header
@@ -46,7 +47,7 @@ function userscriptPlugin() {
           }
         }
       }
-    }
+    },
   }
 }
 
@@ -55,7 +56,9 @@ export default defineConfig(({ mode }) => {
   const isUserscript = mode === 'userscript'
 
   return {
-    plugins: isUserscript ? [react(), cssInjectedByJsPlugin(), userscriptPlugin()] : [react()],
+    plugins: isUserscript
+      ? [react(), cssInjectedByJsPlugin(), userscriptPlugin()]
+      : [react()],
     resolve: {
       alias: {
         '@': resolve(__dirname, 'src'),
@@ -83,7 +86,10 @@ export default defineConfig(({ mode }) => {
           // 移除console语句（仅在生产环境）
           drop_console: mode === 'production' || isUserscript,
           drop_debugger: true,
-          pure_funcs: mode === 'production' || isUserscript ? ['console.log', 'console.warn', 'console.error'] : [],
+          pure_funcs:
+            mode === 'production' || isUserscript
+              ? ['console.log', 'console.warn', 'console.error']
+              : [],
         },
         mangle: {
           // 保留函数名以便调试
@@ -101,7 +107,7 @@ export default defineConfig(({ mode }) => {
 
         // 根据是否为油猴脚本来决定是否外部化
         external: isUserscript
-          ? (id) => {
+          ? id => {
               // 只对真正的外部依赖进行外部化，避免警告
               return ['react', 'react-dom'].includes(id)
             }
@@ -159,8 +165,10 @@ export default defineConfig(({ mode }) => {
               console.log('GitLab Response:', proxyRes.statusCode, req.url)
               // 添加CORS头
               proxyRes.headers['Access-Control-Allow-Origin'] = '*'
-              proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
-              proxyRes.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, PRIVATE-TOKEN'
+              proxyRes.headers['Access-Control-Allow-Methods'] =
+                'GET, POST, PUT, DELETE, OPTIONS'
+              proxyRes.headers['Access-Control-Allow-Headers'] =
+                'Content-Type, Authorization, PRIVATE-TOKEN'
             })
           },
         },
@@ -183,8 +191,10 @@ export default defineConfig(({ mode }) => {
               console.log('DeepSeek Response:', proxyRes.statusCode, req.url)
               // 添加CORS头
               proxyRes.headers['Access-Control-Allow-Origin'] = '*'
-              proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
-              proxyRes.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+              proxyRes.headers['Access-Control-Allow-Methods'] =
+                'GET, POST, PUT, DELETE, OPTIONS'
+              proxyRes.headers['Access-Control-Allow-Headers'] =
+                'Content-Type, Authorization'
             })
           },
         },
@@ -207,8 +217,10 @@ export default defineConfig(({ mode }) => {
               console.log('GitHub Response:', proxyRes.statusCode, req.url)
               // 添加CORS头
               proxyRes.headers['Access-Control-Allow-Origin'] = '*'
-              proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
-              proxyRes.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Accept'
+              proxyRes.headers['Access-Control-Allow-Methods'] =
+                'GET, POST, PUT, DELETE, OPTIONS'
+              proxyRes.headers['Access-Control-Allow-Headers'] =
+                'Content-Type, Authorization, Accept'
             })
           },
         },

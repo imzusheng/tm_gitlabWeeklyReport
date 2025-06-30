@@ -20,7 +20,9 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
   theme,
 }) => {
   const [formData, setFormData] = useState<AppConfig>(config)
-  const [localTheme, setLocalTheme] = useState<'light' | 'dark' | 'system'>(theme)
+  const [localTheme, setLocalTheme] = useState<'light' | 'dark' | 'system'>(
+    theme,
+  )
   const [activeTab, setActiveTab] = useState<
     'gitlab' | 'deepseek' | 'appearance'
   >('gitlab')
@@ -139,7 +141,9 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   value={formData.gitlabUrl}
                   onChange={e => handleInputChange('gitlabUrl', e.target.value)}
                 />
-                <div className={styles.formHint}>请输入完整的 GitLab 项目 URL</div>
+                <div className={styles.formHint}>
+                  请输入完整的 GitLab 项目 URL
+                </div>
               </div>
 
               <div className={styles.formGroup}>
@@ -177,7 +181,9 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     handleInputChange('deepseekApiKey', e.target.value)
                   }
                 />
-                <div className={styles.formHint}>在 DeepSeek 平台获取 API Key</div>
+                <div className={styles.formHint}>
+                  在 DeepSeek 平台获取 API Key
+                </div>
               </div>
 
               <div className={styles.formGroup}>
@@ -223,7 +229,9 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     handleInputChange('defaultPrompt', e.target.value)
                   }
                 />
-                <div className={styles.formHint}>用于生成周报的默认提示词模板</div>
+                <div className={styles.formHint}>
+                  用于生成周报的默认提示词模板
+                </div>
               </div>
             </div>
           )}
@@ -260,7 +268,10 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                       handleInputChange('autoCheckUpdate', e.target.checked)
                     }
                   />
-                  <label htmlFor="autoCheckUpdate" className={styles.switchLabel}>
+                  <label
+                    htmlFor="autoCheckUpdate"
+                    className={styles.switchLabel}
+                  >
                     <span className={styles.switchSlider}></span>
                   </label>
                 </div>
@@ -275,7 +286,10 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   className={styles.formSelect}
                   value={formData.updateCheckInterval ?? 300000}
                   onChange={e =>
-                    handleInputChange('updateCheckInterval', parseInt(e.target.value))
+                    handleInputChange(
+                      'updateCheckInterval',
+                      parseInt(e.target.value),
+                    )
                   }
                   disabled={!(formData.autoCheckUpdate ?? true)}
                 >
@@ -292,7 +306,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
             </div>
           )}
         </div>
-        
+
         {/* 版本信息 */}
         <div className={styles.versionInfo}>
           <span className={styles.versionText}>v{APP_VERSION}</span>

@@ -127,7 +127,9 @@ const FilterSection: React.FC<FilterSectionProps> = ({
               onClick={() =>
                 handleTargetTypeChange(
                   option.value,
-                  !filterConditions.targetType.includes(option.value as FilterConditions['targetType'][number]),
+                  !filterConditions.targetType.includes(
+                    option.value as FilterConditions['targetType'][number],
+                  ),
                 )
               }
             >
@@ -154,7 +156,9 @@ const FilterSection: React.FC<FilterSectionProps> = ({
               onClick={() =>
                 handleActionChange(
                   option.value,
-                  !filterConditions.action.includes(option.value as FilterConditions['action'][number]),
+                  !filterConditions.action.includes(
+                    option.value as FilterConditions['action'][number],
+                  ),
                 )
               }
             >

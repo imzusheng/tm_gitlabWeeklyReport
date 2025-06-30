@@ -14,7 +14,11 @@ export class ErrorHandler {
   /**
    * 创建API错误
    */
-  static createApiError(status: number, message: string, service: string): Error {
+  static createApiError(
+    status: number,
+    message: string,
+    service: string,
+  ): Error {
     const error = new Error(`[${service}] ${message}`)
     error.name = 'ApiError'
     ;(error as any).status = status
@@ -65,7 +69,7 @@ export class ErrorHandler {
       if (error.name === 'ConfigError') {
         return error.message
       }
-      
+
       // 处理常见的错误模式
       if (error.message.includes('fetch')) {
         return '网络连接失败，请检查网络连接后重试'
@@ -76,14 +80,14 @@ export class ErrorHandler {
       if (error.message.includes('CORS')) {
         return '跨域请求被阻止，请检查服务器配置'
       }
-      
+
       return error.message
     }
-    
+
     if (typeof error === 'string') {
       return error
     }
-    
+
     return '发生未知错误，请稍后重试'
   }
 
@@ -93,9 +97,12 @@ export class ErrorHandler {
   static logError(error: unknown, context?: string): void {
     const timestamp = new Date().toISOString()
     const contextInfo = context ? `[${context}] ` : ''
-    
+
     if (error instanceof Error) {
-      console.error(`${timestamp} ${contextInfo}${error.name}: ${error.message}`, error.stack)
+      console.error(
+        `${timestamp} ${contextInfo}${error.name}: ${error.message}`,
+        error.stack,
+      )
     } else {
       console.error(`${timestamp} ${contextInfo}Unknown error:`, error)
     }
@@ -107,7 +114,7 @@ export class ErrorHandler {
   static async safeAsync<T>(
     operation: () => Promise<T>,
     fallback?: T,
-    context?: string
+    context?: string,
   ): Promise<T | undefined> {
     try {
       return await operation()
@@ -123,7 +130,7 @@ export class ErrorHandler {
   static safeSync<T>(
     operation: () => T,
     fallback?: T,
-    context?: string
+    context?: string,
   ): T | undefined {
     try {
       return operation()
@@ -139,7 +146,7 @@ export class ErrorHandler {
   static createAppError(
     code: string,
     message: string,
-    details?: string
+    details?: string,
   ): AppError {
     return {
       code,

@@ -25,7 +25,7 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
   const [hasCheckedOnce, setHasCheckedOnce] = useState(false) // 标记是否已检查过
 
   const [dismissedVersions, setDismissedVersions] = useState<Set<string>>(
-    new Set()
+    new Set(),
   )
 
   // 初始化时从localStorage读取忽略的版本
@@ -75,93 +75,102 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
    * 检查版本更新
    * @param forceShow 是否强制显示通知（手动检查时为true）
    */
-  const checkForUpdates = useCallback(async (forceShow = true) => {
-    if (isChecking) return
+  const checkForUpdates = useCallback(
+    async (forceShow = true) => {
+      if (isChecking) return
 
-    // 如果已经检查过且有缓存结果，直接显示通知而不重新请求
-    if (hasCheckedOnce && latestVersion && hasNewVersion && forceShow) {
-      if (forceShow || !dismissedVersions.has(latestVersion.version)) {
-        setShowNotification(true)
-        console.log(`使用缓存结果显示新版本 ${latestVersion.version}`)
+      // 如果已经检查过且有缓存结果，直接显示通知而不重新请求
+      if (hasCheckedOnce && latestVersion && hasNewVersion && forceShow) {
+        if (forceShow || !dismissedVersions.has(latestVersion.version)) {
+          setShowNotification(true)
+          console.log(`使用缓存结果显示新版本 ${latestVersion.version}`)
+        }
+        return
       }
-      return
-    }
 
-    setIsChecking(true)
-    setError(null)
+      setIsChecking(true)
+      setError(null)
 
-    try {
-      // 从远程仓库获取package.json文件来检查版本
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 10000) // 10秒超时
+      try {
+        // 从远程仓库获取package.json文件来检查版本
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 10000) // 10秒超时
 
-      // 添加时间戳防止缓存
-      const timestamp = Date.now()
-      
-      // 在开发环境中且不是油猴脚本环境时，使用代理URL
-      const isDev = process.env.NODE_ENV === 'development'
-      const isUserscript = typeof GM_xmlhttpRequest !== 'undefined'
-      const baseUrl = isDev && !isUserscript 
-        ? '/api/github/imzusheng/tm_gitlabWeeklyReport/v2/package.json'
-        : 'https://raw.githubusercontent.com/imzusheng/tm_gitlabWeeklyReport/v2/package.json'
-      
-      const response = await request(
-        `${baseUrl}?t=${timestamp}`,
-        {
+        // 添加时间戳防止缓存
+        const timestamp = Date.now()
+
+        // 在开发环境中且不是油猴脚本环境时，使用代理URL
+        const isDev = process.env.NODE_ENV === 'development'
+        const isUserscript = typeof GM_xmlhttpRequest !== 'undefined'
+        const baseUrl =
+          isDev && !isUserscript
+            ? '/api/github/imzusheng/tm_gitlabWeeklyReport/v2/package.json'
+            : 'https://raw.githubusercontent.com/imzusheng/tm_gitlabWeeklyReport/v2/package.json'
+
+        const response = await request(`${baseUrl}?t=${timestamp}`, {
           method: 'GET',
           headers: {
             Accept: 'application/json',
           },
           signal: controller.signal,
           timeout: 10000,
-        },
-      )
+        })
 
-      clearTimeout(timeoutId)
+        clearTimeout(timeoutId)
 
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
-      }
-
-      const packageData = (await response.json()) as { version: string }
-      console.log('获取到版本信息:', packageData)
-
-      const versionInfo: VersionInfo = {
-        version: packageData.version,
-        downloadUrl:
-          'https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/userscript/gitlab-weekly-report.user.js',
-        releaseNotes: `版本 ${packageData.version} 已发布，请及时更新以获得最新功能和修复。`,
-      }
-
-      setLatestVersion(versionInfo)
-      setLastCheckTime(new Date())
-      setHasCheckedOnce(true) // 标记已检查过
-
-      // 检查是否有新版本
-      const hasUpdate = compareVersions(currentVersion, versionInfo.version)
-      setHasNewVersion(hasUpdate)
-
-      // 检查是否显示通知
-      if (hasUpdate) {
-        // 如果是强制显示（手动检查）或者版本未被忽略，则显示通知
-        if (forceShow || !dismissedVersions.has(versionInfo.version)) {
-          setShowNotification(true)
-          console.log(`发现新版本 ${versionInfo.version}，建议及时更新！`)
-        } else {
-          console.log(`发现新版本 ${versionInfo.version}，但已被忽略`)
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`)
         }
-      } else {
-        console.log('当前已是最新版本')
+
+        const packageData = (await response.json()) as { version: string }
+        console.log('获取到版本信息:', packageData)
+
+        const versionInfo: VersionInfo = {
+          version: packageData.version,
+          downloadUrl:
+            'https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/userscript/gitlab-weekly-report.user.js',
+          releaseNotes: `版本 ${packageData.version} 已发布，请及时更新以获得最新功能和修复。`,
+        }
+
+        setLatestVersion(versionInfo)
+        setLastCheckTime(new Date())
+        setHasCheckedOnce(true) // 标记已检查过
+
+        // 检查是否有新版本
+        const hasUpdate = compareVersions(currentVersion, versionInfo.version)
+        setHasNewVersion(hasUpdate)
+
+        // 检查是否显示通知
+        if (hasUpdate) {
+          // 如果是强制显示（手动检查）或者版本未被忽略，则显示通知
+          if (forceShow || !dismissedVersions.has(versionInfo.version)) {
+            setShowNotification(true)
+            console.log(`发现新版本 ${versionInfo.version}，建议及时更新！`)
+          } else {
+            console.log(`发现新版本 ${versionInfo.version}，但已被忽略`)
+          }
+        } else {
+          console.log('当前已是最新版本')
+        }
+      } catch (err) {
+        console.error('检查版本更新失败:', err)
+        const errorMessage = err instanceof Error ? err.message : '检查更新失败'
+        setError(errorMessage)
+        console.error(`检查更新失败: ${errorMessage}`)
+      } finally {
+        setIsChecking(false)
       }
-    } catch (err) {
-      console.error('检查版本更新失败:', err)
-      const errorMessage = err instanceof Error ? err.message : '检查更新失败'
-      setError(errorMessage)
-      console.error(`检查更新失败: ${errorMessage}`)
-    } finally {
-      setIsChecking(false)
-    }
-  }, [isChecking, compareVersions, currentVersion, dismissedVersions, hasCheckedOnce, latestVersion, hasNewVersion])
+    },
+    [
+      isChecking,
+      compareVersions,
+      currentVersion,
+      dismissedVersions,
+      hasCheckedOnce,
+      latestVersion,
+      hasNewVersion,
+    ],
+  )
 
   // 组件初始化时自动检查更新（遵循忽略列表）
   useEffect(() => {
@@ -170,7 +179,7 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
     }, 1000) // 延迟1秒后自动检查
 
     return () => clearTimeout(timer)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   /**
@@ -263,8 +272,6 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
     return '🔍'
   }, [isChecking, error, hasNewVersion])
 
-
-
   // 开发模式下的快捷键支持
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -299,15 +306,9 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
             : '点击检查更新'
         }
       >
-        <span className={styles.icon}>
-          {getButtonIcon()}
-        </span>
-        <span className={styles.text}>
-          {getButtonText()}
-        </span>
+        <span className={styles.icon}>{getButtonIcon()}</span>
+        <span className={styles.text}>{getButtonText()}</span>
       </button>
-
-
 
       {/* 更新通知弹窗 */}
       {showNotification && hasNewVersion && latestVersion && (

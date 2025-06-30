@@ -70,7 +70,7 @@ export function useAppState() {
   const updateConfig = useCallback((updates: Partial<AppConfig>) => {
     setState(prev => {
       const newConfig = { ...prev.config, ...updates }
-      
+
       // 异步保存配置，避免阻塞UI更新
       try {
         storageUtils.saveConfig(newConfig)
@@ -79,7 +79,7 @@ export function useAppState() {
         // 即使保存失败，也要更新内存中的配置
         // 可以考虑显示用户友好的错误提示
       }
-      
+
       return {
         ...prev,
         config: newConfig,
@@ -167,7 +167,7 @@ export function useAppState() {
   const setTheme = useCallback((theme: 'light' | 'dark' | 'system') => {
     setState(prev => {
       const newConfig = { ...prev.config, theme }
-      
+
       // 保存主题设置到localStorage
       try {
         storageUtils.saveConfig(newConfig)
@@ -176,7 +176,7 @@ export function useAppState() {
         // 即使保存失败，也要更新内存中的状态
         // 可以考虑显示用户友好的错误提示
       }
-      
+
       return {
         ...prev,
         config: newConfig,
@@ -200,9 +200,9 @@ export function useAppState() {
           newTheme = 'light'
           break
       }
-      
+
       const newConfig = { ...prev.config, theme: newTheme }
-      
+
       // 保存主题设置到localStorage
       try {
         storageUtils.saveConfig(newConfig)
@@ -211,7 +211,7 @@ export function useAppState() {
         // 即使保存失败，也要更新内存中的状态
         // 可以考虑显示用户友好的错误提示
       }
-      
+
       return {
         ...prev,
         config: newConfig,
@@ -251,14 +251,16 @@ export function useAppState() {
       // 获取本周的开始日期（周一）
       const currentDay = now.getDay() // 0=周日, 1=周一, ..., 6=周六
       let daysFromMonday = currentDay === 0 ? 6 : currentDay - 1 // 计算距离周一的天数
-      
+
       // 当今天是周一时，需要将after日期提前一天
       if (currentDay === 1) {
         daysFromMonday += 1
       }
-      
-      const startDate = new Date(now.getTime() - daysFromMonday * MILLISECONDS_PER_DAY)
-      
+
+      const startDate = new Date(
+        now.getTime() - daysFromMonday * MILLISECONDS_PER_DAY,
+      )
+
       return {
         startDate: startDate.toISOString().split('T')[0],
         endDate: endDate.toISOString().split('T')[0],

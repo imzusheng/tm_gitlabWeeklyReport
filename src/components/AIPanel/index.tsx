@@ -125,7 +125,11 @@ const AIPanel: React.FC<AIPanelProps> = ({
                 onClick={handleGenerate}
                 disabled={isLoading || !prompt.trim()}
               >
-                {isLoading ? '生成中...' : config?.result ? '重新生成' : '生成周报'}
+                {isLoading
+                  ? '生成中...'
+                  : config?.result
+                    ? '重新生成'
+                    : '生成周报'}
               </button>
             </div>
           </div>
@@ -151,7 +155,7 @@ const AIPanel: React.FC<AIPanelProps> = ({
                 生成结果
               </h3>
               <div className={styles.resultActions}>
-                <button 
+                <button
                   className={styles.actionBtn}
                   onClick={handleCopyResult}
                   title="一键复制"
@@ -161,13 +165,11 @@ const AIPanel: React.FC<AIPanelProps> = ({
                 </button>
               </div>
             </div>
-            
+
             <div className={styles.resultContent}>
-              <div className={styles.resultText}>
-                {config.result}
-              </div>
+              <div className={styles.resultText}>{config.result}</div>
             </div>
-            
+
             <div className={styles.resultMeta}>
               <div className={styles.metaLeft}>
                 <div className={styles.metaItem}>
