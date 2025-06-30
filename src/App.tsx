@@ -17,7 +17,6 @@ import type {
 import { errorUtils, configErrors } from '@/utils'
 import { createGitLabApiService } from '@/services/gitlab-api'
 import styles from './App.module.less'
-import ConfigStatus from './components/ConfigStatus'
 
 interface AppProps {
   isUserscript?: boolean

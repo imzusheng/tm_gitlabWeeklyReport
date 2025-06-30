@@ -36,11 +36,11 @@ const ConfigStatus: React.FC<ConfigStatusProps> = ({
   const getConfigStatus = () => {
     const missingItems: string[] = []
     const completedItems: string[] = []
-    
+
     CONFIG_ITEMS.forEach(item => {
       const value = config[item.key]
       const isValid = typeof value === 'string' ? value.trim() !== '' : !!value
-      
+
       if (item.required) {
         if (isValid) {
           completedItems.push(item.label)
@@ -49,43 +49,50 @@ const ConfigStatus: React.FC<ConfigStatusProps> = ({
         }
       }
     })
-    
+
     return {
       isValid: missingItems.length === 0,
       missingItems,
       completedItems,
       completedCount: completedItems.length,
       totalCount: CONFIG_ITEMS.filter(item => item.required).length,
-      progress: (completedItems.length / CONFIG_ITEMS.filter(item => item.required).length) * 100
+      progress:
+        (completedItems.length /
+          CONFIG_ITEMS.filter(item => item.required).length) *
+        100,
     }
   }
 
   const status = getConfigStatus()
 
   return (
-    <div 
+    <div
       className={`${styles.configStatus} ${className} ${onClick ? styles.clickable : ''}`}
       onClick={onClick}
     >
-      <div className={`${styles.statusIndicator} ${status.isValid ? styles.valid : styles.invalid}`}>
+      <div
+        className={`${styles.statusIndicator} ${status.isValid ? styles.valid : styles.invalid}`}
+      >
         <span className={styles.statusIcon}>
           {status.isValid ? '✅' : '⚠️'}
         </span>
         <span className={styles.statusText}>
-          {status.isValid ? '就绪' : `${status.completedCount}/${status.totalCount}`}
+          {status.isValid
+            ? '就绪'
+            : `${status.completedCount}/${status.totalCount}`}
         </span>
-        
+
         {/* 进度条 */}
         {!status.isValid && (
           <div className={styles.progressBar}>
-            <div 
+            <div
               className={styles.progressFill}
               style={{ width: `${status.progress}%` }}
             />
           </div>
         )}
       </div>
-      
+
       {/* 详细信息 */}
       {showDetails && !status.isValid && (
         <div className={styles.statusDetails}>

@@ -57,10 +57,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
         <div className={styles.headerLeft}>
           <h1>GitLab Events</h1>
           {/* 配置状态显示 */}
-          <ConfigStatus 
-            config={state.config}
-            onClick={onOpenSettings}
-          />
+          <ConfigStatus config={state.config} onClick={onOpenSettings} />
         </div>
         <div className={styles.headerRight}>
           <VersionUpdateNotification currentVersion={APP_VERSION} />

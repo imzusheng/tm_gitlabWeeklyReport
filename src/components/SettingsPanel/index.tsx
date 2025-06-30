@@ -104,12 +104,9 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
       <div className={styles.settingsPanel}>
         {/* 配置状态概览 */}
         <div className={styles.configOverview}>
-          <ConfigStatus 
-            config={formData}
-            showDetails={true}
-          />
+          <ConfigStatus config={formData} showDetails={true} />
         </div>
-        
+
         {/* 标签页导航 */}
         <div className={styles.settingsTabs}>
           <button

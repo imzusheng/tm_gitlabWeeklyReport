@@ -1,9 +1,8 @@
 # [1.6.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.5.2...v1.6.0) (2025-06-30)
 
-
 ### Features
 
-* 重构错误处理并优化构建配置 ([db017b1](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/db017b1445760cb833d32bb03dc254bf84426290))
+- 重构错误处理并优化构建配置 ([db017b1](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/db017b1445760cb833d32bb03dc254bf84426290))
 
 ## [1.5.2](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.5.1...v1.5.2) (2025-06-30)
 
