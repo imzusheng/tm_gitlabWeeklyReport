@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.4.0...v1.5.0) (2025-06-28)
+
+
+### Features
+
+* **VersionUpdateNotification:** 使用CSS变量优化主题适配并添加自动检查功能 ([2fa67de](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/2fa67deea306dafe4f72b29aed9b3ccbf37a1975))
+
 # [1.4.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.3.4...v1.4.0) (2025-06-28)
 
 
