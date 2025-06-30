@@ -3,7 +3,8 @@ import type { OutputBundle, OutputChunk } from 'rollup'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
-import { readFileSync } from 'fs'
+import { readFileSync, writeFileSync, existsSync } from 'fs'
+import { join } from 'path'
 
 // 从 package.json 读取版本号
 const packageJson = JSON.parse(readFileSync(resolve(__dirname, 'package.json'), 'utf-8'))
@@ -34,12 +35,14 @@ const userscriptHeader = `
 function userscriptPlugin() {
   return {
     name: 'userscript-header',
-    generateBundle(_options: unknown, bundle: OutputBundle) {
+    writeBundle(options, bundle) {
       for (const fileName in bundle) {
         if (fileName.endsWith('.user.js')) {
-          const chunk = bundle[fileName]
-          if (chunk.type === 'chunk') {
-            (chunk as OutputChunk).code = userscriptHeader + (chunk as OutputChunk).code
+          const filePath = join(options.dir || 'dist', fileName)
+          if (existsSync(filePath)) {
+            const content = readFileSync(filePath, 'utf-8')
+            const newContent = userscriptHeader + content
+            writeFileSync(filePath, newContent)
           }
         }
       }
@@ -74,23 +77,62 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: isUserscript ? 'dist/userscript' : 'dist/web',
       cssCodeSplit: !isUserscript, // 在油猴脚本模式下不分割CSS
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          // 移除console语句（仅在生产环境）
+          drop_console: mode === 'production' || isUserscript,
+          drop_debugger: true,
+          pure_funcs: mode === 'production' || isUserscript ? ['console.log', 'console.warn', 'console.error'] : [],
+        },
+        mangle: {
+          // 保留函数名以便调试
+          keep_fnames: mode === 'development',
+        },
+        format: {
+          // 在油猴脚本模式下保留所有注释，确保头部不被删除
+          comments: isUserscript ? 'all' : false,
+        },
+      },
       rollupOptions: {
         input: isUserscript
           ? resolve(__dirname, 'src/userscript.ts')
           : resolve(__dirname, 'index.html'),
-        output: isUserscript
-          ? {
-              format: 'iife',
-              entryFileNames: 'gitlab-weekly-report.user.js',
-              assetFileNames: '[name].[ext]',
-              // 在油猴脚本模式下内联所有资源
-              inlineDynamicImports: true,
+
+        // 根据是否为油猴脚本来决定是否外部化
+        external: isUserscript
+          ? (id) => {
+              // 只对真正的外部依赖进行外部化，避免警告
+              return ['react', 'react-dom'].includes(id)
             }
-          : {
-              entryFileNames: 'assets/[name]-[hash].js',
-              chunkFileNames: 'assets/[name]-[hash].js',
-              assetFileNames: 'assets/[name]-[hash].[ext]',
-            },
+          : [],
+        output: {
+          // 为外部模块提供全局变量名，避免警告
+          globals: isUserscript
+            ? {
+                react: 'React',
+                'react-dom': 'ReactDOM',
+              }
+            : {},
+          ...(isUserscript
+            ? {
+                format: 'iife',
+                name: 'GitLabWeeklyReport',
+                entryFileNames: 'gitlab-weekly-report.user.js',
+                assetFileNames: '[name].[ext]',
+                inlineDynamicImports: true,
+              }
+            : {
+                format: 'es',
+                entryFileNames: 'assets/[name]-[hash].js',
+                chunkFileNames: 'assets/[name]-[hash].js',
+                assetFileNames: 'assets/[name]-[hash].[ext]',
+                manualChunks: {
+                  vendor: ['react', 'react-dom'],
+                  utils: ['@/utils/index', '@/constants/index'],
+                },
+              }),
+        },
       },
     },
     server: {

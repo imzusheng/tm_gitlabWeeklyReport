@@ -1,5 +1,5 @@
 import { GitLabEvent, SortOptions, PaginationOptions } from '@/types'
-import { errorUtils } from '@/utils'
+import { configErrors } from '@/utils'
 import Pagination from '../Pagination'
 import styles from './EventsList.module.less'
 
@@ -302,7 +302,7 @@ const EventsList: React.FC<EventsListProps> = ({
           <div className={styles.emptyState}>
             <div className={styles.emptyIcon}>📄</div>
             <p>暂无事件数据</p>
-            <span>{errorUtils.configErrors.INVALID_FILTER_OR_CONFIG}</span>
+            <span>{configErrors.INVALID_FILTER_OR_CONFIG}</span>
           </div>
         ) : (
           events.map(event => {

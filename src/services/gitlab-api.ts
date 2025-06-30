@@ -1,6 +1,6 @@
 import { GitLabEvent, GitLabProject, GitLabUser } from '@/types'
-import { API_CONFIG } from '@/constants'
 import { request, isUserscriptEnvironment } from '@/utils/request'
+import { API_CONFIG } from '@/constants'
 import { errorUtils } from '@/utils'
 
 export class GitLabApiService {
@@ -40,10 +40,41 @@ export class GitLabApiService {
     const response = await request(url, requestOptions)
 
     if (!response.ok) {
-      const errorText = await response.text()
+      let errorText: string
+      try {
+        errorText = await response.text()
+      } catch {
+        errorText = response.statusText
+      }
+      
+      console.error(`GitLab API Error [${response.status}]:`, errorText)
+      
+      // 根据状态码提供更友好的错误信息
+      let userFriendlyMessage = errorText || response.statusText
+      switch (response.status) {
+        case 401:
+          userFriendlyMessage = 'GitLab认证失败，请检查Token是否有效'
+          break
+        case 403:
+          userFriendlyMessage = 'GitLab访问权限不足，请检查Token权限'
+          break
+        case 404:
+          userFriendlyMessage = 'GitLab资源不存在，请检查URL或项目权限'
+          break
+        case 429:
+          userFriendlyMessage = 'GitLab API请求频率过高，请稍后重试'
+          break
+        case 500:
+        case 502:
+        case 503:
+        case 504:
+          userFriendlyMessage = 'GitLab服务器错误，请稍后重试'
+          break
+      }
+      
       throw errorUtils.createApiError(
         response.status,
-        errorText || response.statusText,
+        userFriendlyMessage,
         'GitLab API',
       )
     }
@@ -96,6 +127,21 @@ export class GitLabApiService {
       // 验证当前配置是否有效
       await this.getCurrentUser()
     } catch (error) {
+      console.error('GitLab service initialization failed:', error)
+      
+      // 提供更详细的错误信息
+      if (error instanceof Error) {
+        if (error.message.includes('401')) {
+          throw new Error('GitLab Token无效或已过期，请检查Token是否正确')
+        } else if (error.message.includes('403')) {
+          throw new Error('GitLab Token权限不足，请检查Token权限设置')
+        } else if (error.message.includes('404')) {
+          throw new Error('GitLab URL无效，请检查GitLab服务器地址是否正确')
+        } else if (error.message.includes('timeout')) {
+          throw new Error('GitLab服务器连接超时，请检查网络连接或稍后重试')
+        }
+      }
+      
       throw new Error('GitLab服务初始化失败，请检查GitLab URL和Token是否正确')
     }
   }

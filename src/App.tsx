@@ -15,7 +15,7 @@ import type {
   AppConfig,
   SortOptions,
 } from '@/types'
-import { errorUtils } from '@/utils'
+import { errorUtils, configErrors } from '@/utils'
 import { createGitLabApiService } from '@/services/gitlab-api'
 import styles from './App.module.less'
 
@@ -81,8 +81,12 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
       }
 
       mediaQuery.addEventListener('change', handleChange)
-      return () => mediaQuery.removeEventListener('change', handleChange)
+      return () => {
+        mediaQuery.removeEventListener('change', handleChange)
+      }
     }
+    // 当主题不是system时，确保没有遗留的监听器
+    return undefined
   }, [state.theme])
 
   /**
@@ -91,7 +95,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   const loadEvents = useCallback(
     async (filterConditions?: FilterConditions) => {
       if (!isConfigValid()) {
-        setError(errorUtils.configErrors.INVALID_FILTER_OR_CONFIG)
+        setError(configErrors.INVALID_FILTER_OR_CONFIG)
         return
       }
 
@@ -153,7 +157,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
           return
         }
 
-        const errorMessage = errorUtils.handleGitLabError(error)
+        const errorMessage = errorUtils.formatErrorMessage(error)
         setError(errorMessage)
         setEvents([])
         setTotal(0)
@@ -216,7 +220,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   // 处理AI面板的打开和关闭
   const handleOpenAI = () => {
     if (!isConfigValid()) {
-      setError(errorUtils.configErrors.INCOMPLETE_GITLAB_DEEPSEEK)
+      setError(configErrors.INCOMPLETE_GITLAB_DEEPSEEK)
       return
     }
     setActivePanel('ai')
@@ -229,12 +233,12 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   // 处理AI周报生成
   const handleGenerateReport = async (prompt: string) => {
     if (!isConfigValid()) {
-      setError(errorUtils.configErrors.INCOMPLETE_CONFIG)
+      setError(configErrors.INCOMPLETE_CONFIG)
       return
     }
 
     if (selectedEventIds.length === 0) {
-      setError(errorUtils.configErrors.NO_EVENTS_SELECTED)
+      setError(configErrors.NO_EVENTS_SELECTED)
       return
     }
 
@@ -277,7 +281,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
       })
       setLoading(false)
     } catch (error) {
-      const errorMessage = errorUtils.handleDeepSeekError(error)
+      const errorMessage = errorUtils.formatErrorMessage(error)
       setError(errorMessage)
       setLoading(false)
     }

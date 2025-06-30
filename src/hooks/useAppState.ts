@@ -53,7 +53,13 @@ export function useAppState() {
           }
         })
       } catch (error) {
-        // 静默处理配置加载失败，使用默认配置
+        console.error('Failed to load saved config:', error)
+        // 配置加载失败时使用默认配置，确保应用正常运行
+        setState(prev => ({
+          ...prev,
+          config: DEFAULT_CONFIG,
+          theme: DEFAULT_CONFIG.theme,
+        }))
       }
     }
 
@@ -64,7 +70,16 @@ export function useAppState() {
   const updateConfig = useCallback((updates: Partial<AppConfig>) => {
     setState(prev => {
       const newConfig = { ...prev.config, ...updates }
-      storageUtils.saveConfig(newConfig)
+      
+      // 异步保存配置，避免阻塞UI更新
+      try {
+        storageUtils.saveConfig(newConfig)
+      } catch (error) {
+        console.error('Failed to save config:', error)
+        // 即使保存失败，也要更新内存中的配置
+        // 可以考虑显示用户友好的错误提示
+      }
+      
       return {
         ...prev,
         config: newConfig,
@@ -158,6 +173,8 @@ export function useAppState() {
         storageUtils.saveConfig(newConfig)
       } catch (error) {
         console.error('Failed to save theme:', error)
+        // 即使保存失败，也要更新内存中的状态
+        // 可以考虑显示用户友好的错误提示
       }
       
       return {
@@ -191,6 +208,8 @@ export function useAppState() {
         storageUtils.saveConfig(newConfig)
       } catch (error) {
         console.error('Failed to save theme:', error)
+        // 即使保存失败，也要更新内存中的状态
+        // 可以考虑显示用户友好的错误提示
       }
       
       return {
