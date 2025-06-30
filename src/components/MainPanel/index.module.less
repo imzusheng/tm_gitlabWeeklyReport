@@ -37,40 +37,7 @@
         background: transparent;
       }
 
-      .config-status {
-        .status-indicator {
-          display: flex;
-          align-items: center;
-          gap: 4px;
-          font-size: 12px;
-          font-weight: 500;
-          padding: 4px 8px;
-          border-radius: 6px;
-          white-space: nowrap;
-
-          .status-icon {
-            font-size: 10px;
-          }
-
-          .user-avatar {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 1px solid var(--color-success-light);
-          }
-
-          &.config-valid {
-            background: var(--color-success-light);
-            color: var(--color-success);
-          }
-
-          &.config-invalid {
-            background: var(--color-error-light);
-            color: var(--color-error);
-          }
-        }
-      }
+      // 配置状态组件现在使用独立的 ConfigStatus 组件
     }
 
     .header-right {

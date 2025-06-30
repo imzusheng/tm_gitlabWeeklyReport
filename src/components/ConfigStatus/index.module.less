@@ -1,0 +1,93 @@
+.config-status {
+  &.clickable {
+    cursor: pointer;
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    position: relative;
+    transition: all 0.15s ease;
+
+    .status-icon {
+      font-size: 11px;
+      line-height: 1;
+    }
+
+    .status-text {
+      font-weight: 500;
+    }
+
+    .progress-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 0 0 8px 8px;
+      overflow: hidden;
+
+      .progress-fill {
+        height: 100%;
+        background: var(--color-warning, #ff9500);
+        transition: width 0.3s ease;
+        border-radius: inherit;
+      }
+    }
+
+    &.valid {
+      background: rgba(52, 199, 89, 0.08);
+      color: var(--color-success, #34c759);
+    }
+
+    &.invalid {
+      background: rgba(255, 149, 0, 0.08);
+      color: var(--color-warning, #ff9500);
+    }
+  }
+
+  .status-details {
+    margin-top: 4px;
+    font-size: 10px;
+    line-height: 1.3;
+
+    .missing-items {
+      color: var(--color-text-secondary, #8e8e93);
+      opacity: 0.8;
+    }
+  }
+}
+
+// 深色主题适配
+@media (prefers-color-scheme: dark) {
+  .config-status {
+    .status-indicator {
+      .progress-bar {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  .config-status {
+    .status-indicator {
+      padding: 3px 6px;
+      font-size: 11px;
+      gap: 4px;
+    }
+
+    .status-details {
+      font-size: 9px;
+      margin-top: 3px;
+    }
+  }
+}

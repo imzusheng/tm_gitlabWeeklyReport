@@ -10,6 +10,7 @@ import { APP_VERSION } from '@/constants'
 import FilterSection from './FilterSection'
 import EventsList from './EventsList'
 import VersionUpdateNotification from '@/components/VersionUpdateNotification'
+import ConfigStatus from '@/components/ConfigStatus'
 import styles from './index.module.less'
 
 interface MainPanelProps {
@@ -47,7 +48,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
   onOpenSettings,
   onOpenAI,
 }) => {
-  const { isConfigValid } = useAppState()
+  const { state } = useAppState()
 
   return (
     <div className={styles.mainPanel}>
@@ -56,23 +57,10 @@ const MainPanel: React.FC<MainPanelProps> = ({
         <div className={styles.headerLeft}>
           <h1>GitLab Events</h1>
           {/* 配置状态显示 */}
-          <div className={styles.configStatus}>
-            {isConfigValid() ? (
-              <span
-                className={`${styles.statusIndicator} ${styles.configValid}`}
-              >
-                <span className={styles.statusIcon}>✅</span>
-                配置完整
-              </span>
-            ) : (
-              <span
-                className={`${styles.statusIndicator} ${styles.configInvalid}`}
-              >
-                <span className={styles.statusIcon}>❌</span>
-                配置不完整
-              </span>
-            )}
-          </div>
+          <ConfigStatus 
+            config={state.config}
+            onClick={onOpenSettings}
+          />
         </div>
         <div className={styles.headerRight}>
           <VersionUpdateNotification currentVersion={APP_VERSION} />
