@@ -10,6 +10,28 @@ export interface AppError {
   timestamp: number
 }
 
+export class ApiError extends Error {
+  status: number
+  service: string
+
+  constructor(status: number, message: string, service: string) {
+    super(`[${service}] ${message}`)
+    this.name = 'ApiError'
+    this.status = status
+    this.service = service
+  }
+}
+
+export class ResponseError extends Error {
+  service: string
+
+  constructor(message: string, service: string) {
+    super(`[${service}] ${message}`)
+    this.name = 'ResponseError'
+    this.service = service
+  }
+}
+
 export class ErrorHandler {
   /**
    * 创建API错误
@@ -18,22 +40,15 @@ export class ErrorHandler {
     status: number,
     message: string,
     service: string,
-  ): Error {
-    const error = new Error(`[${service}] ${message}`)
-    error.name = 'ApiError'
-    ;(error as any).status = status
-    ;(error as any).service = service
-    return error
+  ): ApiError {
+    return new ApiError(status, message, service)
   }
 
   /**
    * 创建响应错误
    */
-  static createResponseError(message: string, service: string): Error {
-    const error = new Error(`[${service}] ${message}`)
-    error.name = 'ResponseError'
-    ;(error as any).service = service
-    return error
+  static createResponseError(message: string, service: string): ResponseError {
+    return new ResponseError(message, service)
   }
 
   /**
