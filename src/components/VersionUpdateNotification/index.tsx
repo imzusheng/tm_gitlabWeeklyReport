@@ -170,7 +170,8 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
     }, 1000) // 延迟1秒后自动检查
 
     return () => clearTimeout(timer)
-  }, [checkForUpdates])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   /**
    * 手动更新
