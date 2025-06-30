@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { AIGenerationConfig } from '@/types'
 import Modal from '../Modal'
 import styles from './index.module.less'
@@ -29,6 +29,11 @@ const AIPanel: React.FC<AIPanelProps> = ({
 }) => {
   const [prompt, setPrompt] = useState(defaultPrompt)
   const [isExpanded, setIsExpanded] = useState(false)
+
+  // 当defaultPrompt更新时，同步更新prompt状态
+  useEffect(() => {
+    setPrompt(defaultPrompt)
+  }, [defaultPrompt])
 
   const handleGenerate = () => {
     onGenerate(prompt)
