@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.5.0...v1.5.1) (2025-06-30)
+
+
+### Bug Fixes
+
+* **VersionUpdateNotification:** 修复依赖数组缺失导致重复检查的问题 ([ab0311f](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/ab0311ff62f7a74c94f1a34eab84eb16a1844e1a))
+
 # [1.5.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.4.0...v1.5.0) (2025-06-28)
 
 
