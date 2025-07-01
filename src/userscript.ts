@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
+import type { Root } from 'react-dom/client'
 import './index.less'
 
 // 等待页面加载完成后注入应用
@@ -73,10 +74,14 @@ const initUserscript = () => {
       container.style.display = 'none'
       overlay.style.display = 'none'
       triggerButton.style.transform = 'scale(1)'
+      // 移除遮罩层的点击事件
+      overlay.removeEventListener('click', togglePanel)
     } else {
       container.style.display = 'block'
       overlay.style.display = 'block'
       triggerButton.style.transform = 'scale(0.9)'
+      // 添加遮罩层的点击事件
+      overlay.addEventListener('click', togglePanel)
     }
   }
 
@@ -95,9 +100,8 @@ const initUserscript = () => {
     }
   })
 
-  // 绑定点击事件
+  // 绑定触发器按钮的点击事件
   triggerButton.addEventListener('click', togglePanel)
-  overlay.addEventListener('click', togglePanel)
 
   // 添加到页面
   document.body.appendChild(overlay)
@@ -133,15 +137,49 @@ const init = () => {
   }
 }
 
+// 全局清理函数，用于移除所有事件监听器和观察者
+const cleanup = () => {
+  const triggerButton = document.getElementById('gitlab-weekly-report-trigger')
+  const overlay = document.getElementById('gitlab-weekly-report-overlay')
+  const container = document.getElementById(
+    'gitlab-weekly-report-userscript-container',
+  )
+
+  // 清理React应用实例
+  if (container) {
+    // React 18 将 root 实例存储在 DOM 节点的内部属性上
+    // 为了类型安全，我们在这里进行类型断言
+    const internalRoot = (container as { _reactRootContainer?: Root })
+      ._reactRootContainer
+    if (internalRoot) {
+      internalRoot.unmount()
+    }
+  }
+
+  // 移除DOM元素，这会自动移除所有关联的事件监听器
+  if (triggerButton) triggerButton.remove()
+  if (overlay) overlay.remove()
+  if (container) container.remove()
+
+  // 停止 MutationObserver
+  if (observer) {
+    observer.disconnect()
+    observer = null
+  }
+}
+
 // 启动脚本
 init()
 
 // 监听页面变化（SPA路由变化）
 let lastUrl = location.href
-new MutationObserver(() => {
+let observer: MutationObserver | null = new MutationObserver(() => {
   const url = location.href
   if (url !== lastUrl) {
     lastUrl = url
+    // 在重新初始化前，先清理旧的实例
+    cleanup()
     setTimeout(init, 1000) // 延迟1秒等待页面加载
   }
-}).observe(document, { subtree: true, childList: true })
+})
+observer.observe(document, { subtree: true, childList: true })
