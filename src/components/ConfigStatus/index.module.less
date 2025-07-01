@@ -30,7 +30,7 @@
       left: 0;
       right: 0;
       height: 2px;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgb(255 255 255 / 20%);
       border-radius: 0 0 8px 8px;
       overflow: hidden;
 
@@ -43,12 +43,12 @@
     }
 
     &.valid {
-      background: rgba(52, 199, 89, 0.08);
+      background: rgb(52 199 89 / 8%);
       color: var(--color-success);
     }
 
     &.invalid {
-      background: rgba(255, 149, 0, 0.08);
+      background: rgb(255 149 0 / 8%);
       color: var(--color-warning);
     }
   }
@@ -65,19 +65,19 @@
   }
 }
 
-// 深色主题适配
+/* 深色主题适配 */
 @media (prefers-color-scheme: dark) {
   .config-status {
     .status-indicator {
       .progress-bar {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgb(255 255 255 / 10%);
       }
     }
   }
 }
 
-// 响应式设计
-@media (max-width: 768px) {
+/* 响应式设计 */
+@media (width <= 768px) {
   .config-status {
     .status-indicator {
       padding: 3px 6px;

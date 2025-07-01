@@ -62,9 +62,14 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       : currentValues.filter(v => v !== value)
     handleFilterChange(
       key,
-      newValues as FilterConditions['targetType'] & FilterConditions['action'],
+      newValues as FilterConditions[typeof key],
     )
   }
+
+  const filterMetas = [
+    { key: 'targetType', label: '目标类型', options: targetTypeOptions },
+    { key: 'action', label: '操作类型', options: actionOptions },
+  ] as const
 
   return (
     <div className={styles.filterSectionContent}>
@@ -89,10 +94,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
         </div>
       </div>
 
-      {[
-        { key: 'targetType', label: '目标类型', options: targetTypeOptions },
-        { key: 'action', label: '操作类型', options: actionOptions },
-      ].map(({ key, label, options }) => (
+      {filterMetas.map(({ key, label, options }) => (
         <div className={styles.filterGroup} key={key}>
           <label className={styles.filterLabel}>{label}</label>
           <div className={styles.filterOptions}>
@@ -105,12 +107,12 @@ const FilterSection: React.FC<FilterSectionProps> = ({
             {options.map(({ value, label: optionLabel }) => (
               <button
                 key={value}
-                className={`${styles.filterOption} ${filterConditions[key].includes(value) ? styles.active : ''}`}
+                className={`${styles.filterOption} ${Array.isArray(filterConditions[key]) && (filterConditions[key] as string[]).includes(value) ? styles.active : ''}`}
                 onClick={() =>
                   handleMultiSelectChange(
                     key,
                     value,
-                    !filterConditions[key].includes(value),
+                    !((filterConditions[key] as string[]).includes(value)),
                   )
                 }
               >
