@@ -1,3 +1,15 @@
+# [1.7.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.6.0...v1.7.0) (2025-07-01)
+
+### Bug Fixes
+
+- 优化husky预提交钩子和代码格式 ([4268eca](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/4268ecaa3dfcecc5ff3b5240eca58ebebdadc423))
+
+### Features
+
+- 添加antd依赖并实现多个新功能 ([5f22fb2](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/5f22fb2a9007a8598e160d2cf37422e933b34c40))
+- 添加Changelog模式并重构样式变量 ([8d34155](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/8d341559ef0a2b41be5f614727ad6fcc2a4f04b2))
+- **配置状态:** 新增可复用的配置状态组件并集成到主面板和设置面板 ([9f535ad](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/9f535adba2ac09c1ba7b1f0c1601553d871a9250))
+
 # [1.6.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.5.2...v1.6.0) (2025-06-30)
 
 ### Features

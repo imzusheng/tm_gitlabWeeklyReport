@@ -9,59 +9,45 @@ const r = () =>
 async function o(e, t = {}) {
   const {
     method: o = 'GET',
-    headers: s = {},
+    headers: a = {},
     body: n,
     timeout: i = 3e4,
     signal: c,
   } = t
   if (r())
     return new Promise((t, r) => {
-      const l = { 'Content-Type': 'application/json', ...s }
-      let u
-      if (
-        (i > 0 &&
-          (u = window.setTimeout(() => {
-            r(new Error('Request timeout'))
-          }, i)),
-        null == c ? void 0 : c.aborted)
-      )
-        return void r(new Error('Request aborted'))
-      const d = () => {
-        u && clearTimeout(u), r(new Error('Request aborted'))
-      }
-      null == c || c.addEventListener('abort', d),
+      if (null == c ? void 0 : c.aborted) return r(new Error('Request aborted'))
+      const l = new AbortController(),
+        u = i > 0 ? setTimeout(() => l.abort(), i) : void 0,
+        m = () => {
+          clearTimeout(u), l.abort(), r(new Error('Request aborted'))
+        }
+      null == c || c.addEventListener('abort', m),
         GM_xmlhttpRequest({
           method: o.toUpperCase(),
           url: e,
-          headers: l,
+          headers: { 'Content-Type': 'application/json', ...a },
           data: n,
           timeout: i,
           onload: e => {
-            u && clearTimeout(u), null == c || c.removeEventListener('abort', d)
-            const r = {
-              ok: e.status >= 200 && e.status < 300,
-              status: e.status,
-              statusText: e.statusText,
-              headers: a(e.responseHeaders),
-              json: async () => {
-                try {
-                  return JSON.parse(e.responseText)
-                } catch (t) {
-                  throw new Error('Invalid JSON response')
-                }
-              },
-              text: async () => e.responseText,
-            }
-            t(r)
+            clearTimeout(u),
+              null == c || c.removeEventListener('abort', m),
+              t({
+                ok: e.status >= 200 && e.status < 300,
+                status: e.status,
+                statusText: e.statusText,
+                headers: s(e.responseHeaders),
+                json: () => Promise.resolve(JSON.parse(e.responseText)),
+                text: () => Promise.resolve(e.responseText),
+              })
           },
           onerror: e => {
-            u && clearTimeout(u),
-              null == c || c.removeEventListener('abort', d),
+            clearTimeout(u),
+              null == c || c.removeEventListener('abort', m),
               r(new Error(`Network error: ${e.error || 'Unknown error'}`))
           },
           ontimeout: () => {
-            u && clearTimeout(u),
-              null == c || c.removeEventListener('abort', d),
+            null == c || c.removeEventListener('abort', m),
               r(new Error('Request timeout'))
           },
         })
@@ -69,7 +55,7 @@ async function o(e, t = {}) {
   {
     const t = {
       method: o,
-      headers: { 'Content-Type': 'application/json', ...s },
+      headers: { 'Content-Type': 'application/json', ...a },
       body: n,
       signal: c,
     }
@@ -90,7 +76,7 @@ async function o(e, t = {}) {
     }
   }
 }
-const a = e => {
+const s = e => {
     const t = {}
     return e
       ? (e.split('\n').forEach(e => {
@@ -100,45 +86,47 @@ const a = e => {
         t)
       : t
   },
-  s = (e, t) => {
-    try {
-      r() && 'undefined' != typeof GM_setValue
-        ? GM_setValue(e, t)
-        : 'undefined' != typeof localStorage
-          ? localStorage.setItem(e, t)
-          : console.warn('No storage method available')
-    } catch (o) {
-      console.error('Storage setItem failed:', o)
-    }
+  a = {
+    setItem: (e, t) => {
+      try {
+        r() && 'undefined' != typeof GM_setValue
+          ? GM_setValue(e, t)
+          : 'undefined' != typeof localStorage
+            ? localStorage.setItem(e, t)
+            : console.warn('No storage method available')
+      } catch (o) {
+        console.error('Storage setItem failed:', o)
+      }
+    },
+    getItem: e => {
+      try {
+        return r() && 'undefined' != typeof GM_getValue
+          ? GM_getValue(e, null)
+          : 'undefined' != typeof localStorage
+            ? localStorage.getItem(e)
+            : (console.warn('No storage method available'), null)
+      } catch (t) {
+        return console.error('Storage getItem failed:', t), null
+      }
+    },
+    removeItem: e => {
+      try {
+        r() && 'undefined' != typeof GM_deleteValue
+          ? GM_deleteValue(e)
+          : 'undefined' != typeof localStorage
+            ? localStorage.removeItem(e)
+            : console.warn('No storage method available')
+      } catch (t) {
+        console.error('Storage removeItem failed:', t)
+      }
+    },
   },
-  n = e => {
-    try {
-      return r() && 'undefined' != typeof GM_getValue
-        ? GM_getValue(e, null)
-        : 'undefined' != typeof localStorage
-          ? localStorage.getItem(e)
-          : (console.warn('No storage method available'), null)
-    } catch (t) {
-      return console.error('Storage getItem failed:', t), null
-    }
-  },
-  i = e => {
-    try {
-      r() && 'undefined' != typeof GM_deleteValue
-        ? GM_deleteValue(e)
-        : 'undefined' != typeof localStorage
-          ? localStorage.removeItem(e)
-          : console.warn('No storage method available')
-    } catch (t) {
-      console.error('Storage removeItem failed:', t)
-    }
-  },
-  c = '1.6.0',
-  l = {
+  n = '1.7.0',
+  i = {
     DEEPSEEK_BASE_URL: 'https://api.deepseek.com/v1',
     REQUEST_TIMEOUT: 3e4,
   },
-  u = {
+  c = {
     gitlabUrl: 'https://www.lejuhub.com/api/v4',
     gitlabToken: '',
     deepseekApiKey: '',
@@ -149,17 +137,17 @@ const a = e => {
     customPrompt: '',
     theme: 'system',
   },
-  d = {
+  l = {
     gitlabUrl: 'https://gitlab.example.com',
     gitlabToken: '请输入您的GitLab Personal Access Token',
     deepseekApiKey: '请输入您的DeepSeek API Key',
     defaultPrompt: '请根据以下GitLab事件数据生成工作周报...',
   },
-  m = { timeRange: 'week', targetType: [], action: [] },
-  p = { field: 'created_at', order: 'desc' },
-  E = { page: 1, pageSize: 50, total: 0 },
-  g = 'gitlab_weekly_report_config'
-class f extends Error {
+  u = { timeRange: 'week', targetType: [], action: [] },
+  m = { field: 'created_at', order: 'desc' },
+  d = { page: 1, pageSize: 50, total: 0 },
+  E = 'gitlab_weekly_report_config'
+class p extends Error {
   constructor(e, r, o) {
     super(`[${o}] ${r}`),
       t(this, 'status'),
@@ -169,7 +157,7 @@ class f extends Error {
       (this.service = o)
   }
 }
-class h extends Error {
+class f extends Error {
   constructor(e, r) {
     super(`[${r}] ${e}`),
       t(this, 'service'),
@@ -177,12 +165,12 @@ class h extends Error {
       (this.service = r)
   }
 }
-class w {
+class g {
   static createApiError(e, t, r) {
-    return new f(e, t, r)
+    return new p(e, t, r)
   }
   static createResponseError(e, t) {
-    return new h(e, t)
+    return new f(e, t)
   }
   static createNetworkError(e) {
     const t = new Error(`网络错误: ${e}`)
@@ -193,21 +181,23 @@ class w {
     return (t.name = 'ConfigError'), t
   }
   static formatErrorMessage(e) {
-    return e instanceof Error
-      ? 'ApiError' === e.name ||
-        'NetworkError' === e.name ||
-        'ConfigError' === e.name
-        ? e.message
-        : e.message.includes('fetch')
-          ? '网络连接失败，请检查网络连接后重试'
-          : e.message.includes('timeout')
-            ? '请求超时，请稍后重试'
-            : e.message.includes('CORS')
-              ? '跨域请求被阻止，请检查服务器配置'
-              : e.message
-      : 'string' == typeof e
-        ? e
-        : '发生未知错误，请稍后重试'
+    if ('string' == typeof e) return e
+    if (e instanceof Error) {
+      const t = {
+        ApiError: e.message,
+        NetworkError: e.message,
+        ConfigError: e.message,
+      }
+      if (t[e.name]) return t[e.name]
+      const r = {
+        fetch: '网络连接失败，请检查网络连接后重试',
+        timeout: '请求超时，请稍后重试',
+        CORS: '跨域请求被阻止，请检查服务器配置',
+      }
+      for (const o in r) if (e.message.includes(o)) return r[o]
+      return e.message
+    }
+    return '发生未知错误，请稍后重试'
   }
   static logError(e, t) {
     const r = new Date().toISOString(),
@@ -237,62 +227,52 @@ class w {
     return e instanceof Error && 'AbortError' === e.name
   }
   static isNetworkError(e) {
+    if (!(e instanceof Error)) return !1
     return (
-      e instanceof Error &&
-      ('NetworkError' === e.name ||
-        e.message.includes('fetch') ||
-        e.message.includes('network') ||
-        e.message.includes('timeout'))
+      ['NetworkError', 'fetch', 'network', 'timeout'].some(t =>
+        e.message.includes(t),
+      ) || 'NetworkError' === e.name
     )
   }
 }
-const y = {
+const h = e => {
+    try {
+      return e(a)
+    } catch (t) {
+      if ('undefined' != typeof localStorage)
+        try {
+          return e(localStorage)
+        } catch (r) {}
+    }
+  },
+  w = {
     saveConfig: e => {
-      try {
-        s(g, JSON.stringify(e))
-      } catch (t) {
-        'undefined' != typeof localStorage &&
-          localStorage.setItem(g, JSON.stringify(e))
-      }
+      h(t => t.setItem(E, JSON.stringify(e)))
     },
     loadConfig: () => {
-      try {
-        const e = n(g)
-        return e ? JSON.parse(e) : null
-      } catch (e) {
-        try {
-          if ('undefined' != typeof localStorage) {
-            const e = localStorage.getItem(g)
-            return e ? JSON.parse(e) : null
-          }
-        } catch (t) {}
-        return null
-      }
+      const e = h(e => e.getItem(E))
+      return e ? JSON.parse(e) : null
     },
     clearConfig: () => {
-      try {
-        i(g)
-      } catch (e) {
-        'undefined' != typeof localStorage && localStorage.removeItem(g)
-      }
+      h(e => e.removeItem(E))
     },
   },
-  S = {
+  y = {
     INCOMPLETE_GITLAB_DEEPSEEK: '请先完善GitLab和DeepSeek配置信息',
     INCOMPLETE_CONFIG: '请先完善配置信息',
     NO_EVENTS_SELECTED: '请至少选择一个事件来生成周报',
     INVALID_FILTER_OR_CONFIG: '请检查筛选条件或GitLab配置',
   }
 export {
-  l as A,
-  d as C,
-  E as D,
-  w as E,
-  p as a,
-  m as b,
-  u as c,
-  S as d,
-  c as e,
+  i as A,
+  l as C,
+  d as D,
+  g as E,
+  m as a,
+  u as b,
+  c,
+  y as d,
+  n as e,
   o as r,
-  y as s,
+  w as s,
 }

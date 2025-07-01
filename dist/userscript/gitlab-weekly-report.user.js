@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab 周报生成器
 // @namespace    https://github.com/imzusheng/tm_gitlabWeeklyReport
-// @version      1.6.0
+// @version      1.7.0
 // @description  基于 DeepSeek AI 的 GitLab 工作周报自动生成工具
 // @author       lizusheng
 // @match        *://www.lejuhub.com/dashboard/*
@@ -22,7 +22,7 @@
       var e = document.createElement('style')
       e.appendChild(
         document.createTextNode(
-          ".index-module__main-panel__82FLm{display:flex;flex-direction:column;height:100vh;background:var(--bg-primary);color:var(--text-primary);overflow:hidden}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;background:var(--bg-secondary);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-primary);box-shadow:0 2px 20px #0000001a;position:relative;z-index:10}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-left__xT1T5{display:flex;align-items:center;gap:16px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-left__xT1T5 h1{margin:0;font-size:28px;font-weight:700;color:var(--text-primary)}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo{display:flex;align-items:center;gap:16px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG{display:flex;align-items:center;background:var(--bg-secondary);border-radius:12px;border:1px solid var(--border-primary);position:relative;height:40px;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 2px 8px #0000001a;transition:all .2s ease-in-out}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG:hover{border-color:var(--color-primary);box-shadow:0 4px 12px #667eea26}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-track__82VKI{display:flex;position:relative;width:100%;height:100%;border-radius:8px;overflow:hidden}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-slider__tkY4o{position:absolute;top:0;left:0;width:50%;height:100%;background:linear-gradient(135deg,var(--color-primary) 0%,var(--color-info) 100%);border-radius:8px;transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 20px #667eea80,0 0 0 2px #667eea33;position:relative;overflow:hidden;z-index:1}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-slider__tkY4o:before{content:\"\";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:left .5s}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-slider__tkY4o:after{content:\"\";position:absolute;background:linear-gradient(135deg,var(--color-primary),var(--color-info));border-radius:10px;z-index:-1;opacity:.3;filter:blur(4px)}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-slider__tkY4o:hover:before{left:100%}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-slider__tkY4o.index-module__slide-right__qPOZu{transform:translate(100%)}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-option__ZhXXU{flex:1 1 0%;display:flex;align-items:center;justify-content:center;height:100%;padding:0 12px;font-size:13px;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);position:relative;white-space:nowrap;border-radius:8px;border:none;background:transparent}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-option__ZhXXU.index-module__active__Mr5KU{color:#fff;font-weight:700;transform:scale(1.02);text-shadow:0 1px 2px rgba(0,0,0,.3);background:linear-gradient(135deg,var(--color-primary),var(--color-info))}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-option__ZhXXU:not(.index-module__active__Mr5KU){color:var(--text-secondary)}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-option__ZhXXU:not(.index-module__active__Mr5KU):hover{color:var(--text-primary);background:#ffffff0d}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-option__ZhXXU .index-module__toggle-icon__AI6K7{margin-right:8px;font-size:16px;transition:transform .2s ease}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-option__ZhXXU .index-module__toggle-label__1qZLz{font-weight:500;flex-shrink:0}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-option__ZhXXU:active{transform:scale(.98)}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__divider__QXSgp{width:1px;height:24px;background:var(--border-secondary);margin:0 8px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl{display:flex;align-items:center;gap:12px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP{display:flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:12px;background:var(--bg-secondary);border:1px solid var(--border-primary);color:var(--text-primary);cursor:pointer;transition:all .2s ease-in-out;white-space:nowrap}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP:hover{background:var(--color-primary-light);color:var(--color-primary);border-color:var(--color-primary);transform:translateY(-2px);box-shadow:0 4px 12px #0000001a}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP .index-module__btn-icon__ZaYHk{display:flex;align-items:center;justify-content:center;width:18px;height:18px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP .index-module__btn-icon__ZaYHk svg{width:100%;height:100%}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP .index-module__btn-label__tM2Rz{font-size:14px;font-weight:500;line-height:1}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP.index-module__ai-btn__5kAV3{background:linear-gradient(135deg,var(--color-primary) 0%,var(--color-info) 100%);border:none;color:#fff;position:relative;overflow:hidden}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP.index-module__ai-btn__5kAV3:before{content:\"\";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transition:left .5s}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP.index-module__ai-btn__5kAV3:hover{background:linear-gradient(135deg,#5a67d8,#6b46c1);transform:translateY(-2px);box-shadow:0 8px 25px #667eea66;color:#fff}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP.index-module__ai-btn__5kAV3:hover:before{left:100%}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP.index-module__ai-btn__5kAV3 .index-module__btn-icon__ZaYHk{filter:drop-shadow(0 1px 2px rgba(0,0,0,.1))}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP.index-module__ai-btn__5kAV3 .index-module__btn-label__tM2Rz{font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,.1)}.index-module__changelog-section__afcqm .index-module__projects-section__eNkKP{margin-bottom:20px}.index-module__changelog-section__afcqm .index-module__commits-section__EixBG{margin-top:20px}.index-module__changelog-section__afcqm .index-module__section-header__jdQWo{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border-primary)}.index-module__changelog-section__afcqm .index-module__section-header__jdQWo h3{margin:0;font-size:16px;font-weight:600;color:var(--text-color)}.index-module__changelog-section__afcqm .index-module__projects-list__5CGy6{max-height:300px;overflow-y:auto;border:1px solid var(--border-primary);border-radius:6px}.index-module__changelog-section__afcqm .index-module__project-item__U-6AJ{padding:12px 16px;border-bottom:1px solid var(--border-primary);cursor:pointer;transition:all .2s ease}.index-module__changelog-section__afcqm .index-module__project-item__U-6AJ:last-child{border-bottom:none}.index-module__changelog-section__afcqm .index-module__project-item__U-6AJ:hover{background:var(--hover-bg-color)}.index-module__changelog-section__afcqm .index-module__project-item__U-6AJ.index-module__selected__hxeGU{background:var(--color-primary-light);border-left:3px solid var(--color-primary)}.index-module__changelog-section__afcqm .index-module__project-info__x4kU3 .index-module__project-name__PZIIk{margin:0 0 4px;font-size:14px;font-weight:600;color:var(--text-color)}.index-module__changelog-section__afcqm .index-module__project-info__x4kU3 .index-module__project-description__54hoR{margin:0 0 8px;font-size:12px;color:var(--text-secondary-color);line-height:1.4}.index-module__changelog-section__afcqm .index-module__project-info__x4kU3 .index-module__project-meta__ZjnkM{display:flex;align-items:center;gap:12px}.index-module__changelog-section__afcqm .index-module__project-info__x4kU3 .index-module__project-meta__ZjnkM .index-module__last-activity__nM8Tj{font-size:11px;color:var(--text-secondary-color)}.index-module__changelog-section__afcqm .index-module__commits-list__WBJw5{max-height:400px;overflow-y:auto;border:1px solid var(--border-primary);border-radius:6px}.index-module__changelog-section__afcqm .index-module__commit-item__MQuzM{padding:12px 16px;border-bottom:1px solid var(--border-primary)}.index-module__changelog-section__afcqm .index-module__commit-item__MQuzM:last-child{border-bottom:none}.index-module__changelog-section__afcqm .index-module__commit-info__PzzU5 .index-module__commit-title__UcB1e{margin:0 0 4px;font-size:14px;font-weight:600;color:var(--text-color);line-height:1.3}.index-module__changelog-section__afcqm .index-module__commit-info__PzzU5 .index-module__commit-message__KzrgK{margin:0 0 8px;font-size:12px;color:var(--text-secondary-color);line-height:1.4;max-height:40px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.index-module__changelog-section__afcqm .index-module__commit-info__PzzU5 .index-module__commit-meta__yYNDx{display:flex;align-items:center;gap:12px;font-size:11px}.index-module__changelog-section__afcqm .index-module__commit-info__PzzU5 .index-module__commit-meta__yYNDx .index-module__commit-author__fISkm{color:var(--text-secondary-color);font-weight:500}.index-module__changelog-section__afcqm .index-module__commit-info__PzzU5 .index-module__commit-meta__yYNDx .index-module__commit-date__9vTCG{color:var(--text-secondary-color)}.index-module__changelog-section__afcqm .index-module__commit-info__PzzU5 .index-module__commit-meta__yYNDx .index-module__commit-link__SLhDR{color:var(--color-primary);text-decoration:none;font-weight:500}.index-module__changelog-section__afcqm .index-module__commit-info__PzzU5 .index-module__commit-meta__yYNDx .index-module__commit-link__SLhDR:hover{text-decoration:underline}.index-module__filter-section__gMBIz{flex-shrink:0;padding:16px 20px;background:var(--bg-quaternary);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-secondary)}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq{margin-bottom:16px}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq:last-child{margin-bottom:0}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq .index-module__filter-label__TDZ3H{display:block;font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:8px}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq .index-module__filter-options__4AUEQ{display:flex;flex-wrap:wrap;gap:8px}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq .index-module__filter-options__4AUEQ .index-module__filter-option__-CSf1{padding:6px 12px;border:1px solid var(--btn-border);border-radius:8px;background:var(--input-bg);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--text-primary);font-size:13px;font-weight:500;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);outline:none}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq .index-module__filter-options__4AUEQ .index-module__filter-option__-CSf1:hover{border-color:#007aff80;background:var(--color-primary-light);transform:translateY(-1px);box-shadow:0 4px 12px #007aff26}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq .index-module__filter-options__4AUEQ .index-module__filter-option__-CSf1.index-module__active__Mr5KU{border-color:var(--color-primary);background:linear-gradient(135deg,var(--color-primary) 0%,var(--color-info) 100%);color:#fff;box-shadow:0 4px 12px #007aff4d}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq .index-module__filter-options__4AUEQ .index-module__project-select__cUof-{min-width:200px;padding:8px 12px;border:1px solid var(--btn-border);border-radius:8px;background:var(--input-bg);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--text-primary);font-size:13px;font-weight:500;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);outline:none}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq .index-module__filter-options__4AUEQ .index-module__project-select__cUof-:hover{border-color:#007aff80;background:var(--color-primary-light);box-shadow:0 4px 12px #007aff26}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq .index-module__filter-options__4AUEQ .index-module__project-select__cUof-:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px #007aff33}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq .index-module__filter-options__4AUEQ .index-module__project-select__cUof- option{background:var(--bg-secondary);color:var(--text-primary);padding:8px}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq .index-module__filter-options__4AUEQ .index-module__loading-text__Cbo-X,.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq .index-module__filter-options__4AUEQ .index-module__empty-text__rIon9{padding:8px 12px;color:var(--text-secondary);font-size:13px;font-style:italic}.index-module__events-section__gJwdk{flex:1;min-height:0}@media (width <= 768px){.index-module__main-panel__82FLm{padding:16px;gap:12px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p{flex-direction:column;align-items:stretch;gap:12px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-left__xT1T5{justify-content:center}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-left__xT1T5 h1{font-size:24px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo{justify-content:center;flex-wrap:wrap}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-btn__x4IAP{font-size:12px;padding:6px 10px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-btn__x4IAP .index-module__icon__tX8wX{font-size:12px}}.index-module__icon__tX8wX{display:inline-block;width:1em;height:1em;vertical-align:middle}.index-module__pagination__5dauU{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:16px!important;position:relative!important;z-index:1!important;isolation:isolate!important;contain:layout style!important;box-sizing:border-box!important;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif!important}.index-module__pagination__5dauU .index-module__pagination-info__xbUbw{font-size:13px!important;color:var(--text-secondary)!important;box-sizing:border-box!important;margin:0!important;padding:0!important}.index-module__pagination__5dauU .index-module__pagination-controls__q2hqL{display:flex!important;align-items:center!important;gap:4px!important;box-sizing:border-box!important;margin:0!important;padding:0!important}.index-module__pagination__5dauU .index-module__pagination-controls__q2hqL .index-module__pagination-btn__P1OCG{display:flex!important;align-items:center!important;justify-content:center!important;width:32px!important;height:32px!important;border:1px solid var(--border-primary)!important;background:var(--bg-primary)!important;-webkit-backdrop-filter:blur(10px)!important;backdrop-filter:blur(10px)!important;border-radius:8px!important;font-size:13px!important;font-weight:500!important;color:var(--text-primary)!important;cursor:pointer!important;transition:all .3s cubic-bezier(.4,0,.2,1)!important;box-sizing:border-box!important;margin:0!important;padding:0!important;outline:none!important;text-decoration:none!important;font-family:inherit!important}.index-module__pagination__5dauU .index-module__pagination-controls__q2hqL .index-module__pagination-btn__P1OCG:hover:not(.index-module__disabled__BywdX){border-color:var(--color-primary);background:var(--primary-bg-hover);transform:translateY(-1px);box-shadow:0 4px 12px var(--primary-shadow)}.index-module__pagination__5dauU .index-module__pagination-controls__q2hqL .index-module__pagination-btn__P1OCG.index-module__active__lSJu-{border-color:var(--color-primary);background:var(--color-primary);color:#fff;box-shadow:0 4px 12px var(--primary-shadow)}.index-module__pagination__5dauU .index-module__pagination-controls__q2hqL .index-module__pagination-btn__P1OCG.index-module__disabled__BywdX{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}.index-module__pagination__5dauU .index-module__pagination-controls__q2hqL .index-module__pagination-btn__P1OCG span{font-size:14px}.index-module__pagination__5dauU .index-module__pagination-controls__q2hqL .index-module__pagination-ellipsis__gQnax{display:flex;align-items:center;justify-content:center;width:32px;height:32px;color:var(--text-secondary);font-size:13px}.index-module__pagination__5dauU .index-module__pagination-size-changer__SufyI{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary)}.index-module__pagination__5dauU .index-module__pagination-size-changer__SufyI .index-module__pagination-select__JwvbH{padding:4px 32px 4px 8px;border:1px solid var(--border-primary);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:13px;cursor:pointer;transition:border-color .2s ease}.index-module__pagination__5dauU .index-module__pagination-size-changer__SufyI .index-module__pagination-select__JwvbH:hover{border-color:var(--color-primary)}.index-module__pagination__5dauU .index-module__pagination-size-changer__SufyI .index-module__pagination-select__JwvbH:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 2px var(--primary-shadow)}.EventsList-module__events-list__Z2gnl{display:flex;flex-direction:column;height:100%;background:var(--bg-quaternary);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-header__i8ZCs{display:flex;align-items:center;padding:16px 20px;background:var(--bg-tertiary);border-bottom:1px solid var(--border-secondary);font-weight:600;font-size:13px;color:var(--text-primary);letter-spacing:-.08px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-header__i8ZCs .EventsList-module__header-cell__tSGKU{display:flex;align-items:center;gap:4px;cursor:pointer;transition:all .2s ease;padding:4px 0;border-radius:6px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-header__i8ZCs .EventsList-module__header-cell__tSGKU:hover{color:var(--color-primary)}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-header__i8ZCs .EventsList-module__header-cell__tSGKU.EventsList-module__checkbox-cell__YvmEK{width:40px;justify-content:center;cursor:default}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-header__i8ZCs .EventsList-module__header-cell__tSGKU.EventsList-module__checkbox-cell__YvmEK:hover{color:var(--text-primary)}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-header__i8ZCs .EventsList-module__header-cell__tSGKU.EventsList-module__content-cell__aiH0X{flex:1;min-width:0}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-header__i8ZCs .EventsList-module__header-cell__tSGKU.EventsList-module__action-cell__BBBS7,.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-header__i8ZCs .EventsList-module__header-cell__tSGKU.EventsList-module__time-cell__F02or{width:120px;justify-content:center}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-header__i8ZCs .EventsList-module__header-cell__tSGKU.EventsList-module__detail-cell__soty-{width:80px;justify-content:center;cursor:default}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-header__i8ZCs .EventsList-module__header-cell__tSGKU.EventsList-module__detail-cell__soty-:hover{color:var(--text-primary)}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-header__i8ZCs .EventsList-module__header-cell__tSGKU .EventsList-module__sort-icon__OkgLv{font-size:12px;color:var(--color-primary);opacity:.8}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk{flex:1;overflow-y:auto}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q{display:flex;align-items:center;padding:12px 20px;border-bottom:1px solid var(--border-secondary);transition:all .15s ease;cursor:default}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q:hover,.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q.EventsList-module__selected__YUioo{background:var(--color-primary-lighter)}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q.EventsList-module__selected__YUioo:hover{background:var(--color-primary-light)}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q:last-child{border-bottom:none}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC{display:flex;align-items:center}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__checkbox-cell__YvmEK{width:40px;justify-content:center}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__content-cell__aiH0X{flex:1;min-width:0;display:flex;align-items:center;gap:12px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__content-cell__aiH0X .EventsList-module__event-icon__52LqG{font-size:18px;flex-shrink:0;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:6px;background:var(--color-primary-lighter)}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__content-cell__aiH0X .EventsList-module__event-content__I8le1{flex:1;min-width:0}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__content-cell__aiH0X .EventsList-module__event-content__I8le1 .EventsList-module__event-title__wVvqr{font-size:14px;font-weight:500;color:var(--text-primary);line-height:1.3;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__content-cell__aiH0X .EventsList-module__event-content__I8le1 .EventsList-module__event-description__GZfW0{font-size:12px;color:var(--text-secondary);line-height:1.3;overflow:hidden;text-overflow:ellipsis}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__action-cell__BBBS7{width:120px;justify-content:center}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__action-cell__BBBS7 .EventsList-module__action-tag__IBpm0{padding:4px 8px;border-radius:6px;font-size:11px;font-weight:500;background:var(--color-success-lighter);color:var(--color-success);text-align:center;white-space:nowrap}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__time-cell__F02or{width:120px;justify-content:center}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__time-cell__F02or .EventsList-module__event-time__RCPoO{font-size:12px;color:var(--text-secondary);font-weight:500;text-align:center}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__detail-cell__soty-{width:80px;justify-content:center;gap:8px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__detail-cell__soty- .EventsList-module__detail-btn__PLLL4,.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__detail-cell__soty- .EventsList-module__source-btn__8pKfW{width:28px;height:28px;border:none;border-radius:6px;background:var(--color-primary-lighter);cursor:pointer;transition:all .15s ease;display:flex;align-items:center;justify-content:center;text-decoration:none}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__detail-cell__soty- .EventsList-module__detail-btn__PLLL4:hover,.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__detail-cell__soty- .EventsList-module__source-btn__8pKfW:hover{background:var(--color-primary-light);transform:scale(1.05)}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__detail-cell__soty- .EventsList-module__detail-btn__PLLL4 .EventsList-module__detail-icon__eATZo,.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__detail-cell__soty- .EventsList-module__source-btn__8pKfW .EventsList-module__detail-icon__eATZo,.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__detail-cell__soty- .EventsList-module__detail-btn__PLLL4 .EventsList-module__source-icon__FaubV,.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__detail-cell__soty- .EventsList-module__source-btn__8pKfW .EventsList-module__source-icon__FaubV{font-size:12px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__detail-cell__soty- .EventsList-module__source-btn__8pKfW{background:var(--color-warning-lighter)}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__detail-cell__soty- .EventsList-module__source-btn__8pKfW:hover{background:var(--color-warning-light)}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__empty-state__Z-gwH{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;text-align:center}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__empty-state__Z-gwH .EventsList-module__empty-icon__R7-ij{font-size:48px;margin-bottom:16px;opacity:.6}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__empty-state__Z-gwH p{font-size:16px;font-weight:500;color:var(--text-primary);margin-bottom:8px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__empty-state__Z-gwH span{font-size:14px;color:var(--text-secondary)}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-footer__7LiRc{flex-shrink:0;padding:16px 20px;border-top:1px solid var(--border-secondary);background:var(--bg-tertiary);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}.EventsList-module__events-list-loading__pcl-h{display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;background:var(--bg-quaternary);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-radius:12px}.EventsList-module__events-list-loading__pcl-h .EventsList-module__loading-spinner__rJ-Jy{width:32px;height:32px;border:3px solid var(--color-primary-lighter);border-top:3px solid var(--color-primary);border-radius:50%;animation:EventsList-module__spin__WBDfl 1s linear infinite;margin-bottom:16px}.EventsList-module__events-list-loading__pcl-h p{font-size:14px;color:var(--text-secondary);font-weight:500}@keyframes EventsList-module__spin__WBDfl{0%{transform:rotate(0)}to{transform:rotate(360deg)}}@media (width <= 768px){.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-header__i8ZCs,.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q{padding:12px 16px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-header__i8ZCs .EventsList-module__header-cell__tSGKU{font-size:12px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-header__i8ZCs .EventsList-module__header-cell__tSGKU.EventsList-module__time-cell__F02or{width:100px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-header__i8ZCs .EventsList-module__header-cell__tSGKU.EventsList-module__detail-cell__soty-{width:60px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__content-cell__aiH0X{gap:8px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__content-cell__aiH0X .EventsList-module__event-icon__52LqG{font-size:16px;width:20px;height:20px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__content-cell__aiH0X .EventsList-module__event-content__I8le1 .EventsList-module__event-title__wVvqr{font-size:13px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__content-cell__aiH0X .EventsList-module__event-content__I8le1 .EventsList-module__event-description__GZfW0{font-size:11px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__action-cell__BBBS7{width:80px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__action-cell__BBBS7 .EventsList-module__action-tag__IBpm0{font-size:10px;padding:3px 6px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__time-cell__F02or{width:100px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__time-cell__F02or .EventsList-module__event-time__RCPoO{font-size:11px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__detail-cell__soty-{width:60px;gap:4px}.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__detail-cell__soty- .EventsList-module__detail-btn__PLLL4,.EventsList-module__events-list__Z2gnl .EventsList-module__events-list-body__Pcosk .EventsList-module__event-row__ka77Q .EventsList-module__cell__5Y8iC.EventsList-module__detail-cell__soty- .EventsList-module__source-btn__8pKfW{width:24px;height:24px}}.EventsList-module__checkbox-container__L1if8{position:relative;display:inline-block;cursor:pointer;-webkit-user-select:none;user-select:none;margin:0}.EventsList-module__checkbox-container__L1if8 input[type=checkbox]{position:absolute;opacity:0;cursor:pointer;height:0;width:0}.EventsList-module__checkbox-container__L1if8 .EventsList-module__checkmark__-GyO9{position:relative;display:inline-block;width:16px;height:16px;background-color:var(--bg-primary);border:1.5px solid var(--border-primary);border-radius:3px;transition:all .2s ease}.EventsList-module__checkbox-container__L1if8 .EventsList-module__checkmark__-GyO9:after{content:\"\";position:absolute;display:none;left:4px;top:1px;width:4px;height:8px;border:solid var(--bg-primary);border-width:0 2px 2px 0;transform:rotate(45deg)}.EventsList-module__checkbox-container__L1if8:hover .EventsList-module__checkmark__-GyO9{border-color:var(--color-primary);background-color:var(--color-primary-lighter)}.EventsList-module__checkbox-container__L1if8 input:checked~.EventsList-module__checkmark__-GyO9{background-color:var(--color-primary);border-color:var(--color-primary)}.EventsList-module__checkbox-container__L1if8 input:checked~.EventsList-module__checkmark__-GyO9:after{display:block}.EventsList-module__checkbox-container__L1if8 input:indeterminate~.EventsList-module__checkmark__-GyO9{background-color:var(--color-primary);border-color:var(--color-primary)}.EventsList-module__checkbox-container__L1if8 input:indeterminate~.EventsList-module__checkmark__-GyO9:after{display:block;left:2px;top:6px;width:8px;height:2px;border:none;background-color:var(--bg-primary);transform:none;border-radius:1px}.index-module__action-btn__To7Ms{display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--color-primary-lighter);color:var(--color-primary);border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s ease;white-space:nowrap;outline:none}.index-module__action-btn__To7Ms:hover{background:var(--color-primary-light);transform:translateY(-1px)}.index-module__action-btn__To7Ms:disabled{cursor:not-allowed;opacity:.6;transform:none}.index-module__action-btn__To7Ms.index-module__version-btn__8d3di{background:var(--color-warning-light);color:var(--color-warning)}.index-module__action-btn__To7Ms.index-module__version-btn__8d3di:hover{background:#ffc10726}.index-module__action-btn__To7Ms.index-module__version-btn__8d3di.index-module__has-update__tNkZZ{background:var(--color-error-light);color:var(--color-error)}.index-module__action-btn__To7Ms.index-module__version-btn__8d3di.index-module__has-update__tNkZZ:hover{background:#dc354526}.index-module__icon__EhhVu{font-size:14px;line-height:1}.index-module__text__4iX-h{font-weight:500}.index-module__error__AUGjJ{font-size:12px;color:var(--color-danger);cursor:help}.index-module__notification-overlay__E4dh-{position:fixed;top:0;right:0;bottom:0;left:0;background:var(--overlay);display:flex;align-items:center;justify-content:center;z-index:10000;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}.index-module__notification__ckX1l{background:var(--bg-primary);border-radius:12px;box-shadow:var(--shadow-xl);max-width:480px;width:90vw;max-height:80vh;overflow:hidden;animation:index-module__slide-in__qJkKL .3s ease-out;border:1px solid var(--border-primary)}.index-module__notification-header__nJZ3Q{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1px solid var(--border-primary)}.index-module__notification-header__nJZ3Q h3{margin:0;font-size:18px;font-weight:600;color:var(--text-primary)}.index-module__close-btn__9uULv{background:none;border:none;font-size:24px;color:var(--text-secondary);cursor:pointer;padding:4px;border-radius:4px;transition:all .2s ease}.index-module__close-btn__9uULv:hover{background:var(--btn-hover-bg);color:var(--text-primary)}.index-module__notification-body__nnab7{padding:20px 24px}.index-module__version-info__-pyIP{margin-bottom:16px}.index-module__version-info__-pyIP p{margin:8px 0;font-size:14px;color:var(--text-primary)}.index-module__version-info__-pyIP p strong{font-weight:600}.index-module__release-notes__iU2jG h4{margin:0 0 12px;font-size:14px;font-weight:600;color:var(--text-primary)}.index-module__notes-content__ZpxxA{background:var(--bg-secondary);border:1px solid var(--border-primary);border-radius:6px;padding:12px;font-size:13px;line-height:1.5;color:var(--text-secondary);max-height:200px;overflow-y:auto;white-space:pre-wrap}.index-module__notification-footer__La-ia{display:flex;gap:12px;padding:16px 24px 20px;border-top:1px solid var(--border-primary);justify-content:flex-end}.index-module__later-btn__Q40Lc,.index-module__update-btn__lD1V2{padding:8px 16px;border-radius:6px;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s ease;border:1px solid}.index-module__later-btn__Q40Lc{background:var(--bg-primary);border-color:var(--border-primary);color:var(--text-primary)}.index-module__later-btn__Q40Lc:hover{background:var(--btn-hover-bg);border-color:var(--border-secondary)}.index-module__update-btn__lD1V2{background:var(--color-primary);border-color:var(--color-primary);color:var(--btn-primary-text)}.index-module__update-btn__lD1V2:hover{background:var(--color-primary-hover);border-color:var(--color-primary-hover)}@keyframes index-module__slide-in__qJkKL{0%{opacity:0;transform:translateY(-20px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}@media (width <= 768px){.index-module__notification__ckX1l{margin:20px;width:calc(100vw - 40px)}.index-module__notification-header__nJZ3Q,.index-module__notification-body__nnab7,.index-module__notification-footer__La-ia{padding-left:16px;padding-right:16px}.index-module__action-btn__To7Ms .index-module__text__4iX-h{display:none}}.index-module__config-status__0q8ZM.index-module__clickable__pZ86X{cursor:pointer}.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:4px 8px;border-radius:6px;white-space:nowrap;position:relative;transition:all .15s ease}.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW .index-module__status-icon__7jFiQ{font-size:11px;line-height:1}.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW .index-module__status-text__llRfw{font-weight:500}.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW .index-module__progress-bar__CFedX{position:absolute;bottom:0;left:0;right:0;height:2px;background:#fff3;border-radius:0 0 8px 8px;overflow:hidden}.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW .index-module__progress-bar__CFedX .index-module__progress-fill__w-23-{height:100%;background:var(--color-warning);transition:width .3s ease;border-radius:inherit}.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW.index-module__valid__Xyroo{background:#34c75914;color:var(--color-success)}.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW.index-module__invalid__Fn-hL{background:#ff950014;color:var(--color-warning)}.index-module__config-status__0q8ZM .index-module__status-details__E1JnL{margin-top:4px;font-size:10px;line-height:1.3}.index-module__config-status__0q8ZM .index-module__status-details__E1JnL .index-module__missing-items__8Wn0w{color:var(--color-text-secondary);opacity:.8}@media (prefers-color-scheme: dark){.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW .index-module__progress-bar__CFedX{background:#ffffff1a}}@media (max-width: 768px){.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW{padding:3px 6px;font-size:11px;gap:4px}.index-module__config-status__0q8ZM .index-module__status-details__E1JnL{font-size:9px;margin-top:3px}}.index-module__modal-mask__XYxyO{position:fixed;top:0;right:0;bottom:0;left:0;width:100vw;height:100vh;background:var(--overlay);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);z-index:9999;display:flex;align-items:center;justify-content:center;animation:index-module__modal-mask-fade-in__R7ZBs .3s cubic-bezier(.4,0,.2,1)}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip{display:flex;align-items:flex-start;justify-content:center;width:100%;height:100%;padding:24px}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u{background:var(--bg-quaternary);-webkit-backdrop-filter:blur(40px);backdrop-filter:blur(40px);border-radius:16px;border:1px solid var(--border-secondary);box-shadow:var(--shadow-lg);max-height:90vh;display:flex;flex-direction:column;overflow:hidden;animation:index-module__modal-slide-in__VC-Dp .4s cubic-bezier(.34,1.56,.64,1)}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-header__GdUjX{display:flex;justify-content:space-between;align-items:center;padding:20px 24px 16px;border-bottom:1px solid var(--border-secondary);flex-shrink:0}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-header__GdUjX .index-module__modal-title__cafB-{font-size:18px;font-weight:600;color:var(--text-primary);margin:0}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-header__GdUjX .index-module__modal-close__ZuUgf{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border:none;background:var(--bg-secondary);border-radius:6px;color:var(--text-secondary);cursor:pointer;transition:all .2s ease}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-header__GdUjX .index-module__modal-close__ZuUgf:hover{background:var(--bg-tertiary);color:var(--text-primary)}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-header__GdUjX .index-module__modal-close__ZuUgf span{font-size:18px;line-height:1}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-body__j5X3U{flex:1;overflow-y:auto;padding:20px 24px}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-body__j5X3U::-webkit-scrollbar{width:6px}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-body__j5X3U::-webkit-scrollbar-track{background:transparent}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-body__j5X3U::-webkit-scrollbar-thumb{background:var(--border-primary);border-radius:3px}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-body__j5X3U::-webkit-scrollbar-thumb:hover{background:var(--scrollbar-thumb-hover)}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-footer__3q-wn{flex-shrink:0;padding:16px 24px 20px;border-top:1px solid var(--border-secondary);background:var(--bg-secondary)}.index-module__btn-primary__OwgHI{padding:8px 16px;border:none;border-radius:10px;background:var(--color-primary);color:var(--btn-primary-text);font-size:14px;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-sm)}.index-module__btn-primary__OwgHI:hover:not(:disabled){background:var(--color-primary-dark);transform:translateY(-1px);box-shadow:var(--shadow-md)}.index-module__btn-primary__OwgHI:active:not(:disabled){transform:translateY(0);box-shadow:var(--shadow-sm)}.index-module__btn-primary__OwgHI:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}.index-module__btn-secondary__o1dNd{padding:8px 16px;border:1px solid var(--border-primary);border-radius:10px;background:var(--bg-quaternary);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);color:var(--text-primary);font-size:14px;font-weight:500;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1)}.index-module__btn-secondary__o1dNd:hover:not(:disabled){border-color:var(--color-primary);background:var(--color-primary-lighter);transform:translateY(-1px);box-shadow:var(--shadow-sm)}.index-module__btn-secondary__o1dNd:active:not(:disabled){transform:translateY(0);box-shadow:var(--shadow-xs)}.index-module__btn-secondary__o1dNd:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}.index-module__btn-text__s61zq{padding:4px 8px;border:none;background:transparent;color:var(--color-primary);font-size:13px;font-weight:500;cursor:pointer;border-radius:4px;transition:all .2s ease}.index-module__btn-text__s61zq:hover:not(:disabled){background:var(--color-primary-lighter)}.index-module__btn-text__s61zq:disabled{opacity:.5;cursor:not-allowed}@keyframes index-module__modal-mask-fade-in__R7ZBs{0%{opacity:0}to{opacity:1}}@keyframes index-module__modal-slide-in__VC-Dp{0%{opacity:0;transform:translateY(-20px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}.index-module__settings-panel__UCg3H .index-module__config-overview__kaSMo{margin-bottom:20px;padding:16px;background:var(--bg-secondary);border-radius:8px;border:1px solid var(--border-light)}.index-module__settings-panel__UCg3H .index-module__settings-tabs__vPH-t{display:flex;border-bottom:1px solid var(--border-light);margin-bottom:24px}.index-module__settings-panel__UCg3H .index-module__settings-tabs__vPH-t .index-module__tab-button__FG9Nc{display:flex;align-items:center;gap:8px;padding:12px 16px;border:none;background:transparent;color:var(--text-secondary);font-size:14px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s ease;outline:none;border-radius:0}.index-module__settings-panel__UCg3H .index-module__settings-tabs__vPH-t .index-module__tab-button__FG9Nc .index-module__tab-icon__rBe-o{font-size:16px}.index-module__settings-panel__UCg3H .index-module__settings-tabs__vPH-t .index-module__tab-button__FG9Nc:hover{color:var(--text-primary);background:var(--bg-secondary)}.index-module__settings-panel__UCg3H .index-module__settings-tabs__vPH-t .index-module__tab-button__FG9Nc.index-module__active__bsBC1{color:var(--color-primary);border-bottom-color:var(--color-primary)}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH{min-height:400px}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA{margin-bottom:20px}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA:last-child{margin-bottom:0}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-label__pwe7O{display:block;font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:8px}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-label__pwe7O .index-module__required__2vuyW{color:var(--color-error);margin-left:4px}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-input__jGbRP,.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-select__jbXdq,.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-textarea__fAVMw{width:100%;padding:10px 12px;border:1px solid var(--border-primary);border-radius:8px;font-size:14px;color:var(--text-primary);background:var(--bg-primary);transition:all .2s ease;box-sizing:border-box}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-input__jGbRP:hover,.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-select__jbXdq:hover,.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-textarea__fAVMw:hover{border-color:var(--color-primary)}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-input__jGbRP:focus,.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-select__jbXdq:focus,.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-textarea__fAVMw:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 3px var(--primary-shadow)}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-input__jGbRP::placeholder,.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-select__jbXdq::placeholder,.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-textarea__fAVMw::placeholder{color:var(--text-secondary)}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-select__jbXdq{padding:10px 32px 10px 12px}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-textarea__fAVMw{resize:vertical;min-height:80px;font-family:inherit;line-height:1.5}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-hint__F0dFQ{font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.4}.index-module__settings-panel__UCg3H .index-module__version-info__y0NZv{margin-top:24px;padding-top:16px;border-top:1px solid var(--border-light);text-align:center}.index-module__settings-panel__UCg3H .index-module__version-info__y0NZv .index-module__version-text__bx0HU{font-size:12px;color:var(--text-secondary);opacity:.7}.index-module__settings-footer__qA44X{display:flex;justify-content:space-between;align-items:center}.index-module__settings-footer__qA44X .index-module__footer-right__bslDg{display:flex;gap:8px}.index-module__btn-primary__ZzzFI{padding:8px 16px;border:none;border-radius:10px;background:var(--color-primary);color:var(--btn-primary-text);font-size:14px;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-sm)}.index-module__btn-primary__ZzzFI:hover:not(:disabled){background:var(--color-primary-dark);transform:translateY(-1px);box-shadow:var(--shadow-md)}.index-module__btn-primary__ZzzFI:active:not(:disabled){transform:translateY(0);box-shadow:var(--shadow-sm)}.index-module__btn-primary__ZzzFI:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}.index-module__switch-container__5xk1J{display:flex;align-items:center;gap:8px}.index-module__switch-input__V-8fl{display:none}.index-module__switch-label__xrOeQ{position:relative;display:inline-block;width:44px;height:24px;cursor:pointer}.index-module__switch-slider__dG-6J{position:absolute;top:0;right:0;bottom:0;left:0;background-color:var(--border-primary);border-radius:24px;transition:all .3s ease}.index-module__switch-slider__dG-6J:before{content:\"\";position:absolute;height:18px;width:18px;left:3px;bottom:3px;background-color:#fff;border-radius:50%;transition:all .3s ease;box-shadow:0 1px 3px #0003}.index-module__switch-input__V-8fl:checked+.index-module__switch-label__xrOeQ .index-module__switch-slider__dG-6J{background-color:var(--color-primary)}.index-module__switch-input__V-8fl:checked+.index-module__switch-label__xrOeQ .index-module__switch-slider__dG-6J:before{transform:translate(20px)}.index-module__switch-input__V-8fl:focus+.index-module__switch-label__xrOeQ .index-module__switch-slider__dG-6J{box-shadow:0 0 0 2px var(--color-primary-lighter)}.index-module__switch-input__V-8fl:disabled+.index-module__switch-label__xrOeQ{opacity:.5;cursor:not-allowed}.index-module__switch-input__V-8fl:disabled+.index-module__switch-label__xrOeQ .index-module__switch-slider__dG-6J{background-color:var(--border-light)}.index-module__btn-secondary__cRCpD{padding:8px 16px;border:1px solid var(--border-primary);border-radius:10px;background:var(--bg-quaternary);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);color:var(--text-primary);font-size:14px;font-weight:500;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1)}.index-module__btn-secondary__cRCpD:hover:not(:disabled){border-color:var(--color-primary);background:var(--color-primary-lighter);transform:translateY(-1px);box-shadow:var(--shadow-sm)}.index-module__btn-secondary__cRCpD:active:not(:disabled){transform:translateY(0);box-shadow:var(--shadow-xs)}.index-module__btn-secondary__cRCpD:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM{margin-bottom:24px;border:1px solid var(--border-primary);border-radius:8px;background:var(--bg-secondary);overflow:hidden}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM .index-module__overview-header__ae0e8{padding:12px 16px;border-bottom:1px solid var(--border-primary)}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM .index-module__overview-header__ae0e8 h4{font-size:14px;font-weight:600;color:var(--text-primary);margin:0;display:flex;align-items:center;gap:8px}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM .index-module__overview-content__dhjh6{padding:16px;display:flex;flex-direction:column;gap:12px}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM .index-module__overview-content__dhjh6 .index-module__overview-item__20Ilu{display:flex;justify-content:space-between;align-items:center;font-size:14px}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM .index-module__overview-content__dhjh6 .index-module__overview-item__20Ilu .index-module__overview-label__k3QHX{color:var(--text-secondary);font-weight:500}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM .index-module__overview-content__dhjh6 .index-module__overview-item__20Ilu .index-module__overview-value__gbEnJ{color:var(--text-primary);font-weight:600}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM .index-module__overview-content__dhjh6 .index-module__overview-item__20Ilu .index-module__overview-value__gbEnJ.index-module__ready__f4MXX{color:var(--success-color)}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM .index-module__overview-content__dhjh6 .index-module__overview-item__20Ilu .index-module__overview-value__gbEnJ.index-module__waiting__orgl9{color:var(--warning-color)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe{background:var(--bg-primary);border:1px solid var(--border-secondary);border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:var(--shadow-sm);transition:all .2s ease}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs:hover,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe:hover{box-shadow:var(--shadow-md)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border-secondary)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM .index-module__result-title__GYp3Q,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-title__GYp3Q{display:flex;align-items:center;gap:8px;margin:0;font-size:15px;font-weight:600;color:var(--text-primary)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM .index-module__result-title__GYp3Q .index-module__title-icon__w1Z58,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-title__GYp3Q .index-module__title-icon__w1Z58{font-size:16px;color:var(--color-success)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b{display:flex;align-items:center;gap:8px}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS{display:flex;align-items:center;gap:4px;padding:6px 10px;border:1px solid var(--border-primary);border-radius:6px;background:var(--bg-secondary);color:var(--text-primary);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s ease;outline:none}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS:hover,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS:hover{background:var(--bg-tertiary);border-color:var(--color-primary)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS.index-module__primary__Uwxt8,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS.index-module__primary__Uwxt8{background:var(--color-primary);color:#fff;border-color:var(--color-primary)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS.index-module__primary__Uwxt8:hover,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS.index-module__primary__Uwxt8:hover{background:var(--color-primary-hover)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS .index-module__btn-icon__bBkUh,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS .index-module__btn-icon__bBkUh{font-size:12px}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-content__NBmXz .index-module__result-text__WX-aI,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-content__NBmXz .index-module__result-text__WX-aI{background:var(--bg-secondary);border:1px solid var(--border-primary);border-radius:8px;padding:16px;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;font-size:14px;line-height:1.6;color:var(--text-primary);white-space:pre-wrap;word-wrap:break-word;max-height:400px;overflow-y:auto;transition:border-color .15s ease}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-content__NBmXz .index-module__result-text__WX-aI:hover,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-content__NBmXz .index-module__result-text__WX-aI:hover{border-color:var(--border-tertiary)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar{width:6px}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-track,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-track{background:transparent}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-thumb,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-thumb{background:var(--scrollbar-thumb);border-radius:3px}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-thumb:hover,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-thumb:hover{background:var(--scrollbar-thumb-hover)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-meta__zAR0J,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-meta__zAR0J{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-secondary);font-size:12px;color:var(--text-secondary)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-meta__zAR0J .index-module__meta-left__G7E6i,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-meta__zAR0J .index-module__meta-left__G7E6i{display:flex;align-items:center;gap:12px}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-meta__zAR0J .index-module__meta-left__G7E6i .index-module__meta-item__Mikx5,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-meta__zAR0J .index-module__meta-left__G7E6i .index-module__meta-item__Mikx5{display:flex;align-items:center;gap:4px}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs h2,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe h2{margin-bottom:15px;color:var(--text-primary);font-size:1.3em}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1{margin-bottom:24px}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1:last-child{margin-bottom:0}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__section-header__WEXG-{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__section-header__WEXG- h3{font-size:16px;font-weight:600;color:var(--text-primary);margin:0}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__section-header__WEXG- .index-module__header-actions__phC5-{display:flex;align-items:center;gap:12px}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__section-header__WEXG- .index-module__header-actions__phC5- .index-module__token-count__bZx1v{font-size:12px;color:var(--text-secondary);background:var(--bg-secondary);padding:4px 8px;border-radius:4px}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy{border:1px solid var(--border-primary);border-radius:8px;background:var(--bg-primary);transition:all .2s ease}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy:hover{border-color:var(--color-primary)}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--primary-shadow)}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy .index-module__prompt-textarea__ZeYSC{width:100%;padding:12px;border:none;border-radius:8px;font-size:14px;color:var(--text-primary);background:transparent;resize:none;box-sizing:border-box;font-family:inherit;line-height:1.5}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy .index-module__prompt-textarea__ZeYSC:focus{outline:none}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy .index-module__prompt-textarea__ZeYSC::placeholder{color:var(--text-secondary)}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy .index-module__prompt-footer__NhJb8{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-top:1px solid var(--border-light);background:var(--bg-secondary);border-radius:0 0 8px 8px}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy .index-module__prompt-footer__NhJb8 .index-module__char-count__qSePr{font-size:12px;color:var(--text-secondary)}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy.index-module__expanded__VY5Zd .index-module__prompt-textarea__ZeYSC{min-height:300px}.index-module__ai-panel__R0K19 .index-module__loading-section__qmhp-{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;gap:16px}.index-module__ai-panel__R0K19 .index-module__loading-section__qmhp- .index-module__loading-spinner__FhbKe{width:40px;height:40px;border:4px solid var(--border-light);border-top:4px solid var(--color-primary);border-radius:50%;animation:index-module__spin__NTQZe 1s linear infinite}.index-module__ai-panel__R0K19 .index-module__loading-section__qmhp- p{font-size:16px;font-weight:500;color:var(--text-primary);margin:0}.index-module__ai-panel__R0K19 .index-module__loading-section__qmhp- .index-module__loading-tips__TN0F6{font-size:13px;color:var(--text-secondary)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe{background:var(--bg-secondary);border-radius:16px;border:1px solid var(--border-primary);overflow:hidden;box-shadow:var(--shadow-lg);margin-bottom:24px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM{display:flex;justify-content:space-between;align-items:flex-start;background:linear-gradient(135deg,var(--bg-primary) 0%,var(--bg-secondary) 100%);border-bottom:1px solid var(--border-light);gap:20px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-title__GYp3Q{display:flex;align-items:center;gap:12px;flex:1}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-title__GYp3Q .index-module__title-icon__w1Z58{font-size:24px;margin-top:2px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-title__GYp3Q .index-module__title-content__qCIUv h3{font-size:18px;font-weight:700;color:var(--text-primary);margin:0 0 4px;background:linear-gradient(135deg,var(--text-primary) 0%,var(--color-primary) 100%);-webkit-text-fill-color:transparent;-webkit-background-clip:text;background-clip:text}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-title__GYp3Q .index-module__title-content__qCIUv .index-module__result-meta__zAR0J{font-size:12px;color:var(--text-secondary);font-weight:500}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b{display:flex;align-items:center;gap:16px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__token-info__IvG7g{display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--bg-tertiary);border-radius:20px;border:1px solid var(--border-light)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__token-info__IvG7g .index-module__token-icon__1P1bc{font-size:14px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__token-info__IvG7g .index-module__token-text__RWskI{font-size:12px;font-weight:600;color:var(--text-primary)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-buttons__SWxAg{display:flex;gap:8px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-buttons__SWxAg .index-module__btn-icon__bBkUh{margin-right:6px;font-size:14px}@media (width <= 768px){.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM{flex-direction:column;align-items:stretch;gap:16px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b{justify-content:space-between}}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI{padding:24px;font-size:14px;line-height:1.7;color:var(--text-primary);max-height:500px;overflow-y:auto;background:var(--bg-primary)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-paragraph__D6REa{margin:0 0 12px;color:var(--text-primary)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-paragraph__D6REa:last-child{margin-bottom:0}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-heading__voqzC{font-weight:700;color:var(--text-primary);margin:20px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--border-light)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-heading__voqzC.index-module__heading1__eVaM0{font-size:20px;color:var(--color-primary)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-heading__voqzC.index-module__heading2__EgSC5{font-size:18px;color:var(--color-primary)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-heading__voqzC.index-module__heading3__gXHpl{font-size:16px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-heading__voqzC:first-child{margin-top:0}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-list-item__9keYT{display:flex;align-items:flex-start;gap:8px;margin:6px 0;padding-left:16px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-list-item__9keYT .index-module__list-bullet__5e-IY{color:var(--color-primary);font-weight:700;margin-top:1px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-numbered-item__IXzIR{display:flex;align-items:flex-start;gap:8px;margin:6px 0;padding-left:16px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-numbered-item__IXzIR .index-module__number-bullet__KKVqC{color:var(--color-primary);font-weight:700;min-width:20px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-spacing__lk3vv{height:12px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar{width:8px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-track{background:var(--bg-secondary);border-radius:4px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-thumb{background:var(--scrollbar-thumb);border-radius:4px;border:2px solid var(--bg-secondary)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-thumb:hover{background:var(--scrollbar-thumb-hover)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;background:var(--bg-tertiary);border-top:1px solid var(--border-light)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v .index-module__result-stats__RMcsG{display:flex;gap:20px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v .index-module__result-stats__RMcsG .index-module__stat-item__z6Cev{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary);font-weight:500}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v .index-module__result-stats__RMcsG .index-module__stat-item__z6Cev .index-module__stat-icon__jcDOw{font-size:14px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v .index-module__quality-badge__8BKyM{display:flex;align-items:center;gap:4px;padding:4px 10px;background:linear-gradient(135deg,var(--color-primary) 0%,var(--primary-color-dark) 100%);color:#fff;border-radius:12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;box-shadow:var(--shadow-sm)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v .index-module__quality-badge__8BKyM .index-module__badge-icon__1YRBa{font-size:12px}@media (width <= 600px){.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v{flex-direction:column;gap:12px;align-items:stretch}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v .index-module__result-stats__RMcsG{justify-content:center}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v .index-module__quality-badge__8BKyM{align-self:center}}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;text-align:center;gap:20px;background:linear-gradient(135deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%);border-radius:16px;border:1px solid var(--border-primary);position:relative;overflow:hidden}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK:before{content:\"\";position:absolute;top:0;right:0;bottom:0;left:0;background:radial-gradient(circle at 30% 20%,var(--color-primary-lighter) 0%,transparent 50%),radial-gradient(circle at 70% 80%,var(--color-success-lighter) 0%,transparent 50%);pointer-events:none}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-icon__RFmRa{font-size:72px;opacity:.8;filter:drop-shadow(0 4px 8px rgba(0,0,0,.1));animation:index-module__float__FahY4 3s ease-in-out infinite;position:relative;z-index:1}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK h3{font-size:20px;font-weight:700;color:var(--text-primary);margin:0;position:relative;z-index:1;background:linear-gradient(135deg,var(--text-primary) 0%,var(--color-primary) 100%);-webkit-text-fill-color:transparent;-webkit-background-clip:text;background-clip:text}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK p{font-size:15px;color:var(--text-secondary);margin:0;max-width:420px;line-height:1.6;position:relative;z-index:1;opacity:.9}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR{display:flex;gap:32px;margin-top:24px;position:relative;z-index:1}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR .index-module__feature-item__zmC1K{display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 12px;border-radius:12px;background:var(--bg-primary);border:1px solid var(--border-secondary);transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-sm)}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR .index-module__feature-item__zmC1K:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--color-primary-light)}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR .index-module__feature-item__zmC1K .index-module__feature-icon__aCith{font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR .index-module__feature-item__zmC1K span{font-size:13px;color:var(--text-secondary);font-weight:500;text-align:center;line-height:1.3}@media (width <= 600px){.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR{flex-direction:column;gap:16px}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR .index-module__feature-item__zmC1K{flex-direction:row;text-align:left;padding:12px 16px}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR .index-module__feature-item__zmC1K .index-module__feature-icon__aCith{font-size:24px}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR .index-module__feature-item__zmC1K span{text-align:left}}.index-module__btn-primary__NTwQw{padding:8px 16px;border:none;border-radius:10px;background:var(--color-primary);color:var(--btn-primary-text);font-size:14px;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-sm)}.index-module__btn-primary__NTwQw:hover:not(:disabled){background:var(--color-primary-dark);transform:translateY(-1px);box-shadow:var(--shadow-md)}.index-module__btn-primary__NTwQw:active:not(:disabled){transform:translateY(0);box-shadow:var(--shadow-sm)}.index-module__btn-primary__NTwQw:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}.index-module__btn-primary__NTwQw.index-module__regenerate__MPpEF{background:var(--color-warning);color:#fff}.index-module__btn-primary__NTwQw.index-module__regenerate__MPpEF:hover:not(:disabled){background:var(--color-warning-dark)}.index-module__btn-secondary__aSTHl{padding:8px 16px;border:1px solid var(--border-primary);border-radius:10px;background:var(--bg-quaternary);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);color:var(--text-primary);font-size:14px;font-weight:500;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1)}.index-module__btn-secondary__aSTHl:hover:not(:disabled){border-color:var(--color-primary);background:var(--color-primary-lighter);transform:translateY(-1px);box-shadow:var(--shadow-sm)}.index-module__btn-secondary__aSTHl:active:not(:disabled){transform:translateY(0);box-shadow:var(--shadow-xs)}.index-module__btn-secondary__aSTHl:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}.index-module__btn-text__f3PZM{padding:4px 8px;border:none;background:transparent;color:var(--color-primary);font-size:13px;font-weight:500;cursor:pointer;border-radius:4px;transition:all .2s ease}.index-module__btn-text__f3PZM:hover:not(:disabled){background:var(--color-primary-lighter)}.index-module__btn-text__f3PZM:disabled{opacity:.5;cursor:not-allowed}@keyframes index-module__spin__NTQZe{0%{transform:rotate(0)}to{transform:rotate(360deg)}}@keyframes index-module__float__FahY4{0%,to{transform:translateY(0)}50%{transform:translateY(-8px)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4{position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;animation:EventDetailModal-module__fade-in__gcFok .2s ease-out}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j{background:var(--bg-primary);border:1px solid var(--border-primary);border-radius:20px;box-shadow:0 20px 60px #00000026,0 8px 25px #0000001a;max-width:900px;width:100%;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;animation:EventDetailModal-module__modal-slide-in__wtFi2 .3s cubic-bezier(.34,1.56,.64,1)}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j{--bg-primary: #1c1c1e}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM{display:flex;align-items:center;justify-content:space-between;padding:24px 28px;border-bottom:1px solid var(--header-border, rgba(0, 0, 0, .08));background:var(--header-bg, rgba(248, 248, 248, .9));-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM{--header-bg: rgba(28, 28, 30, .9);--header-border: rgba(255, 255, 255, .1)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM h2{margin:0;font-size:20px;font-weight:700;color:var(--text-primary);letter-spacing:-.03em}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM .EventDetailModal-module__close-btn__0KmQE{width:36px;height:36px;border:none;border-radius:10px;background:var(--close-btn-bg, rgba(0, 0, 0, .06));cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--text-secondary);transition:all .2s cubic-bezier(.25,.46,.45,.94)}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM .EventDetailModal-module__close-btn__0KmQE{--close-btn-bg: rgba(255, 255, 255, .1)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM .EventDetailModal-module__close-btn__0KmQE:hover{background:var(--close-btn-hover-bg, rgba(0, 0, 0, .12));color:var(--text-primary);transform:scale(1.05)}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM .EventDetailModal-module__close-btn__0KmQE:hover{--close-btn-hover-bg: rgba(255, 255, 255, .15)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM .EventDetailModal-module__close-btn__0KmQE:active{transform:scale(.95)}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk{flex:1;overflow-y:auto;padding:28px;background:var(--bg-primary)}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar{width:6px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-track{background:transparent}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-thumb{background:var(--scrollbar-thumb, rgba(0, 0, 0, .2));border-radius:3px}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-thumb{--scrollbar-thumb: rgba(255, 255, 255, .3)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-thumb:hover{background:var(--scrollbar-thumb-hover, rgba(0, 0, 0, .3))}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-thumb:hover{--scrollbar-thumb-hover: rgba(255, 255, 255, .4)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG{margin-bottom:36px;padding:20px;background:var(--section-bg, rgba(248, 248, 248, .5));border-radius:16px;border:1px solid var(--section-border, rgba(0, 0, 0, .04));transition:all .2s ease}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG{--section-bg: rgba(28, 28, 30, .6);--section-border: rgba(255, 255, 255, .08)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG:last-child{margin-bottom:0}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG:hover{background:var(--section-hover-bg, rgba(248, 248, 248, .8));border-color:var(--section-hover-border, rgba(0, 0, 0, .08))}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG:hover{--section-hover-bg: rgba(28, 28, 30, .8);--section-hover-border: rgba(255, 255, 255, .12)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG.EventDetailModal-module__compact__GlU0K{margin-bottom:20px;padding:16px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG.EventDetailModal-module__compact__GlU0K h3{margin-bottom:12px;font-size:15px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG h3{margin:0 0 18px;font-size:17px;font-weight:700;color:var(--text-primary);letter-spacing:-.03em;display:flex;align-items:center;gap:8px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG h3:before{content:\"\";width:4px;height:18px;background:linear-gradient(135deg,#007aff,#5ac8fa);border-radius:2px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-grid__lP-Rl,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-content__b-wBI,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__project-info__BF-ji,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__push-info__CiBtf{display:flex;flex-direction:column;gap:12px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-content__Zl-xn,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-project__W-Pxu,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-author__bJeyL{gap:8px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL{display:flex;align-items:flex-start;gap:16px;padding:12px 0;border-bottom:1px solid var(--item-border, rgba(0, 0, 0, .04))}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL{--item-border: rgba(255, 255, 255, .06)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL:last-child{border-bottom:none}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-content__Zl-xn .EventDetailModal-module__detail-item__gTUiL,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-project__W-Pxu .EventDetailModal-module__detail-item__gTUiL{padding:8px 0;gap:12px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-content__Zl-xn .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__label__q-vpJ,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-project__W-Pxu .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__label__q-vpJ{min-width:60px;font-size:13px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-content__Zl-xn .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__value__U4voT,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-project__W-Pxu .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__value__U4voT{font-size:13px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-author__bJeyL .EventDetailModal-module__detail-item__gTUiL{padding:6px 0;gap:10px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__label__q-vpJ{font-size:14px;font-weight:600;color:var(--text-secondary);min-width:100px;flex-shrink:0}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__value__U4voT{font-size:14px;color:var(--text-primary);flex:1;word-break:break-word;line-height:1.4}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__value__U4voT.EventDetailModal-module__action-badge__Bxghx{flex:0;white-space:nowrap;display:inline-block;padding:6px 12px;background:linear-gradient(135deg,#34c75926,#34c75914);color:var(--color-success);border-radius:8px;font-size:12px;font-weight:600;border:1px solid rgba(52,199,89,.2)}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__value__U4voT.EventDetailModal-module__action-badge__Bxghx{background:linear-gradient(135deg,#34c75933,#34c7591a);border-color:#34c7594d}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__value__U4voT.EventDetailModal-module__status-badge__mP8CY{display:inline-block;padding:4px 8px;border-radius:6px;font-size:11px;font-weight:500}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__value__U4voT.EventDetailModal-module__status-badge__mP8CY.EventDetailModal-module__status-opened__0o3-j{background:#34c7591f;color:var(--color-success)}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__value__U4voT.EventDetailModal-module__status-badge__mP8CY.EventDetailModal-module__status-closed__axB54{background:#ff453a1f;color:var(--color-danger)}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__value__U4voT.EventDetailModal-module__status-badge__mP8CY.EventDetailModal-module__status-merged__jrAZc{background:#007aff1f;color:var(--color-primary)}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__value__U4voT.EventDetailModal-module__commit-hash__T82Gy{font-family:SF Mono,Monaco,Cascadia Code,Roboto Mono,Consolas,Courier New,monospace;font-size:12px;background:#0000000a;padding:4px 8px;border-radius:4px;word-break:break-all}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__labels__FfkpP{display:flex;flex-wrap:wrap;gap:6px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__labels__FfkpP .EventDetailModal-module__label-tag__1eJTi{padding:3px 8px;background:#007aff14;color:var(--color-primary);border-radius:4px;font-size:11px;font-weight:500}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__author-info__QU8GM{display:flex;align-items:center;gap:12px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-avatar__UktK4{width:72px;height:72px;border-radius:12px;object-fit:cover}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-details__CSNcN{flex:1}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-details__CSNcN .EventDetailModal-module__author-name__Aop-h{font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:2px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-details__CSNcN .EventDetailModal-module__author-username__7f29y{font-size:13px;color:var(--text-secondary);margin-bottom:6px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-details__CSNcN .EventDetailModal-module__author-link__qdJ8G{font-size:12px;color:var(--color-primary);text-decoration:none;font-weight:500}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-details__CSNcN .EventDetailModal-module__author-link__qdJ8G:hover{text-decoration:underline}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__note-info__xsh-2 .EventDetailModal-module__note-body__h5kYR{background:#00000005;padding:16px;border-radius:8px;font-size:13px;line-height:1.5;color:var(--text-primary);white-space:pre-wrap;word-break:break-word;margin-bottom:12px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__note-info__xsh-2 .EventDetailModal-module__note-meta__CSOAr{display:flex;flex-direction:column;gap:4px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__note-info__xsh-2 .EventDetailModal-module__note-meta__CSOAr span{font-size:12px;color:var(--text-secondary)}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG{display:flex;align-items:center;justify-content:flex-end;gap:16px;padding:20px 28px;border-top:1px solid var(--footer-border, rgba(0, 0, 0, .08));background:var(--footer-bg, rgba(248, 248, 248, .9));-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG{--footer-bg: rgba(28, 28, 30, .9);--footer-border: rgba(255, 255, 255, .1)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__source-link-btn__lCMP7{padding:12px 20px;background:linear-gradient(135deg,var(--color-primary),#5ac8fa);color:var(--btn-primary-text);border:none;border-radius:12px;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;transition:all .2s cubic-bezier(.25,.46,.45,.94);box-shadow:0 4px 12px #007aff4d;display:flex;align-items:center;gap:8px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__source-link-btn__lCMP7:before{content:\"🔗\";font-size:16px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__source-link-btn__lCMP7:hover{transform:translateY(-2px);box-shadow:0 6px 20px #007aff66;background:linear-gradient(135deg,var(--color-primary-dark),#4aa3f0)}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__source-link-btn__lCMP7:active{transform:translateY(0)}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__close-modal-btn__u4I23{padding:12px 20px;background:var(--close-modal-bg, rgba(0, 0, 0, .06));color:var(--text-primary);border:1px solid var(--close-modal-border, rgba(0, 0, 0, .1));border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s cubic-bezier(.25,.46,.45,.94)}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__close-modal-btn__u4I23{--close-modal-bg: rgba(255, 255, 255, .1);--close-modal-border: rgba(255, 255, 255, .2)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__close-modal-btn__u4I23:hover{background:var(--close-modal-hover-bg, rgba(0, 0, 0, .12));border-color:var(--close-modal-hover-border, rgba(0, 0, 0, .15));transform:translateY(-1px)}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__close-modal-btn__u4I23:hover{--close-modal-hover-bg: rgba(255, 255, 255, .15);--close-modal-hover-border: rgba(255, 255, 255, .25)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__close-modal-btn__u4I23:active{transform:translateY(0)}@keyframes EventDetailModal-module__fade-in__gcFok{0%{opacity:0}to{opacity:1}}@keyframes EventDetailModal-module__modal-slide-in__wtFi2{0%{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4{background:#0009}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j{background:#1c1c1ef2;box-shadow:0 8px 32px #0000004d}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM{background:#2c2c2ecc;border-bottom:1px solid rgba(255,255,255,.1)}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM h2{color:#f2f2f7}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM .EventDetailModal-module__close-btn__0KmQE{background:#ffffff1a;color:#8e8e93}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM .EventDetailModal-module__close-btn__0KmQE:hover{background:#fff3;color:#f2f2f7}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG h3{color:#f2f2f7}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__label__q-vpJ{color:#8e8e93}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__value__U4voT{color:#f2f2f7}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__value__U4voT.EventDetailModal-module__action-badge__Bxghx,.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__value__U4voT.EventDetailModal-module__status-badge__mP8CY.EventDetailModal-module__status-opened__0o3-j{background:#34c75933;color:#32d74b}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__value__U4voT.EventDetailModal-module__status-badge__mP8CY.EventDetailModal-module__status-closed__axB54{background:#ff453a33;color:#ff6961}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__value__U4voT.EventDetailModal-module__status-badge__mP8CY.EventDetailModal-module__status-merged__jrAZc{background:#4a9eff33;color:#4a9eff}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__value__U4voT.EventDetailModal-module__commit-hash__T82Gy{background:#ffffff1a;color:#f2f2f7}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__labels__FfkpP .EventDetailModal-module__label-tag__1eJTi{background:#4a9eff33;color:#4a9eff}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-details__CSNcN .EventDetailModal-module__author-name__Aop-h{color:#f2f2f7}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-details__CSNcN .EventDetailModal-module__author-username__7f29y{color:#8e8e93}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-details__CSNcN .EventDetailModal-module__author-link__qdJ8G{color:#4a9eff}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__note-info__xsh-2 .EventDetailModal-module__note-body__h5kYR{background:#ffffff14;color:#f2f2f7}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__note-info__xsh-2 .EventDetailModal-module__note-meta__CSOAr span{color:#8e8e93}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-footer__bMVTG{background:#2c2c2ecc;border-top:1px solid rgba(255,255,255,.1)}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__source-link-btn__lCMP7{background:#4a9eff33;color:#4a9eff}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__source-link-btn__lCMP7:hover{background:#4a9eff4d}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__close-modal-btn__u4I23{background:#ffffff1a;color:#f2f2f7}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__close-modal-btn__u4I23:hover{background:#fff3}@media (width <= 768px){.EventDetailModal-module__event-detail-modal-overlay__kSKR4{padding:12px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-footer__bMVTG{padding:16px 20px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk{padding:20px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG{margin-bottom:24px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL{flex-direction:column;gap:4px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__label__q-vpJ{min-width:auto}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__author-info__QU8GM{flex-direction:column;align-items:flex-start;text-align:center}}.EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar{width:4px}.EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-track{background:transparent}.EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-thumb{background:#0003;border-radius:2px}.EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-thumb:hover{background:#0000004d}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-thumb{background:#fff3}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-thumb:hover{background:#ffffff4d}.App-module__app__ZYOJd{width:100%;height:100vh;background:var(--bg-secondary);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;color:var(--text-primary);position:relative;overflow:hidden}.App-module__app__ZYOJd.App-module__web-mode__2hnFp{display:flex;align-items:stretch;justify-content:center}.App-module__app__ZYOJd.App-module__web-mode__2hnFp>*{width:100%;height:100vh}.App-module__app__ZYOJd.App-module__userscript-mode__5Dbvp{position:relative;width:100%;height:100%;z-index:999999;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;isolation:isolate;contain:layout style}.App-module__app__ZYOJd.App-module__userscript-mode__5Dbvp>*{width:100%;height:100%}.App-module__app__ZYOJd.App-module__userscript-mode__5Dbvp .App-module__events-list-footer__M6fFx{flex-shrink:0!important;display:block!important;visibility:visible!important;opacity:1!important;position:relative!important;z-index:1!important}.App-module__app__ZYOJd.App-module__userscript-mode__5Dbvp .App-module__pagination__8MYcc{display:flex!important;visibility:visible!important;opacity:1!important;position:relative!important;z-index:1!important}.App-module__app__ZYOJd.App-module__light__-2YM7{background:var(--bg-secondary);color:var(--text-primary)}.App-module__app__ZYOJd.App-module__dark__zl6FN{background:var(--bg-primary);color:var(--text-primary)}@media (width <= 768px){.App-module__app__ZYOJd.App-module__web-mode__2hnFp>*{height:100vh}.App-module__app__ZYOJd.App-module__userscript-mode__5Dbvp{top:10px;right:10px;left:10px;width:auto;height:calc(100vh - 20px)}}*::-webkit-scrollbar{width:8px;height:8px}*::-webkit-scrollbar-track{background:transparent}*::-webkit-scrollbar-thumb{background:var(--scrollbar-thumb);border-radius:4px}*::-webkit-scrollbar-thumb:hover{background:var(--scrollbar-thumb-hover)}@keyframes App-module__fade-in__hmOGT{0%{opacity:0}to{opacity:1}}@keyframes App-module__slide-in-up__3G2dj{0%{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}@keyframes App-module__slide-in-down__yp8xa{0%{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}.App-module__fade-in__hmOGT{animation:App-module__fade-in__hmOGT .3s ease-out}.App-module__slide-in-up__3G2dj{animation:App-module__slide-in-up__3G2dj .3s ease-out}.App-module__slide-in-down__yp8xa{animation:App-module__slide-in-down__yp8xa .3s ease-out}.App-module__userscript-header__Gd9rb{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;border-bottom:1px solid var(--border-tertiary);background:var(--bg-tertiary);border-radius:8px}.App-module__userscript-header__Gd9rb h3{margin:0;color:var(--text-primary);font-size:16px}.App-module__userscript-header__Gd9rb .App-module__toggle-btn__1QXY6{padding:4px 12px;font-size:12px;background:var(--color-primary);color:#fff;border:none;border-radius:4px;cursor:pointer}.App-module__userscript-header__Gd9rb .App-module__toggle-btn__1QXY6:hover{background:var(--color-primary-dark)}.App-module__app-content__41BC0{transition:all .3s ease}.App-module__app-content__41BC0.App-module__collapsed__-W0B6{display:none}.App-module__app-content__41BC0.App-module__expanded__4oZSa{display:block}.App-module__app-header__uzDwt{text-align:center;margin-bottom:30px}.App-module__app-header__uzDwt h1{margin-bottom:10px;color:var(--text-primary);font-size:2.5em}@media (prefers-color-scheme: dark){.App-module__app-header__uzDwt h1{color:var(--btn-primary-text)}}.App-module__app-header__uzDwt p{color:var(--text-tertiary);font-size:1.1em}@media (prefers-color-scheme: dark){.App-module__app-header__uzDwt p{color:var(--border-tertiary)}}.App-module__app-main__Vb-mE{display:flex;flex-direction:column;gap:25px}.App-module__error-banner__lzzyc{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--color-error-bg);border:1px solid var(--color-error-border);border-radius:6px;color:var(--color-error-text);margin-bottom:20px}.App-module__error-banner__lzzyc button{background:none;border:none;color:var(--color-error-text);font-size:18px;cursor:pointer;padding:0;width:20px;height:20px;display:flex;align-items:center;justify-content:center}.App-module__error-banner__lzzyc button:hover{opacity:.7}.App-module__config-form__3qfiF{display:flex;flex-direction:column;gap:15px}.App-module__form-group__HjqOW{display:flex;flex-direction:column;gap:5px}.App-module__form-group__HjqOW label{font-weight:500;color:var(--text-secondary)}@media (prefers-color-scheme: dark){.App-module__form-group__HjqOW label{color:var(--border-tertiary)}}.App-module__form-group__HjqOW input{padding:8px 12px;border:1px solid var(--border-primary);border-radius:4px;font-size:14px;transition:border-color .2s}.App-module__form-group__HjqOW input:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 2px #007bff40}@media (prefers-color-scheme: dark){.App-module__form-group__HjqOW input{background:var(--bg-secondary);border-color:var(--border-secondary);color:var(--text-primary)}}.App-module__date-range__a4twt{display:flex;align-items:center;gap:10px}.App-module__date-range__a4twt input{flex:1}.App-module__date-range__a4twt span{color:var(--text-tertiary);font-size:14px}@media (prefers-color-scheme: dark){.App-module__date-range__a4twt span{color:var(--border-tertiary)}}.App-module__action-section__PNqvo{display:flex;gap:15px;justify-content:center}.App-module__primary-btn__7Yh0h,.App-module__secondary-btn__rYZob{padding:12px 24px;border-radius:6px;font-size:16px;font-weight:500;cursor:pointer;transition:all .2s}.App-module__primary-btn__7Yh0h:disabled,.App-module__secondary-btn__rYZob:disabled{opacity:.6;cursor:not-allowed}.App-module__primary-btn__7Yh0h{background:var(--color-primary);color:var(--btn-text);border:none;box-shadow:var(--shadow-sm)}.App-module__primary-btn__7Yh0h:hover:not(:disabled){background:var(--color-primary-hover);transform:translateY(-1px);box-shadow:var(--shadow-md)}.App-module__primary-btn__7Yh0h:active:not(:disabled){transform:translateY(0);box-shadow:var(--shadow-sm)}.App-module__secondary-btn__rYZob{background:transparent;color:var(--color-primary);border:1px solid var(--color-primary)}.App-module__secondary-btn__rYZob:hover:not(:disabled){background:var(--color-primary);color:#fff;transform:translateY(-1px)}.App-module__preview-area__eSphl{min-height:200px;background:#fff;border:1px solid var(--border-primary);border-radius:4px;padding:15px}@media (prefers-color-scheme: dark){.App-module__preview-area__eSphl{background:var(--bg-secondary);border-color:var(--border-secondary)}}.App-module__preview-area__eSphl .App-module__placeholder__64NFK{color:var(--text-tertiary);text-align:center;margin-top:80px;font-style:italic}@media (prefers-color-scheme: dark){.App-module__preview-area__eSphl .App-module__placeholder__64NFK{color:var(--text-quaternary)}}.App-module__preview-area__eSphl .App-module__loading__nhcml{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;gap:16px}.App-module__preview-area__eSphl .App-module__loading__nhcml .App-module__spinner__DX3IN{width:32px;height:32px;border:3px solid var(--bg-secondary);border-top:3px solid var(--color-primary);border-radius:50%;animation:App-module__spin__cTQvR 1s linear infinite}.App-module__preview-area__eSphl .App-module__loading__nhcml p{color:var(--text-tertiary);margin:0}@media (prefers-color-scheme: dark){.App-module__preview-area__eSphl .App-module__loading__nhcml p{color:var(--border-tertiary)}}.App-module__preview-area__eSphl .App-module__report-content__qtrdb .App-module__report-meta__Jmys5{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border-tertiary);margin-bottom:15px;font-size:12px;color:var(--text-tertiary)}@media (prefers-color-scheme: dark){.App-module__preview-area__eSphl .App-module__report-content__qtrdb .App-module__report-meta__Jmys5{border-color:var(--text-secondary);color:var(--border-tertiary)}}.App-module__preview-area__eSphl .App-module__report-content__qtrdb .App-module__report-meta__Jmys5 span:not(:last-child):after{content:\"•\";margin:0 8px;opacity:.5}@media (width <= 600px){.App-module__preview-area__eSphl .App-module__report-content__qtrdb .App-module__report-meta__Jmys5{flex-direction:column;gap:5px;align-items:flex-start}.App-module__preview-area__eSphl .App-module__report-content__qtrdb .App-module__report-meta__Jmys5 span:after{display:none}}.App-module__preview-area__eSphl .App-module__report-content__qtrdb .App-module__report-text__DiDz5{line-height:1.6;color:var(--text-primary);white-space:pre-wrap;word-wrap:break-word}@media (prefers-color-scheme: dark){.App-module__preview-area__eSphl .App-module__report-content__qtrdb .App-module__report-text__DiDz5{color:var(--text-primary)}}@media (width <= 768px){.App-module__app__ZYOJd{padding:15px}.App-module__app__ZYOJd.App-module__userscript-mode__5Dbvp{max-width:350px}.App-module__app-header__uzDwt h1{font-size:2em}.App-module__action-section__PNqvo,.App-module__date-range__a4twt{flex-direction:column}.App-module__date-range__a4twt span{display:none}}*{margin:0;padding:0;box-sizing:border-box}:root{font-family:Inter,system-ui,Avenir,Helvetica,Arial,sans-serif;line-height:1.5;font-weight:400;color-scheme:light dark;font-synthesis:none;text-rendering:optimizelegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-size-adjust:100%;--bg-primary: #fff;--bg-secondary: #f5f5f7;--bg-tertiary: #f8f9fa;--bg-quaternary: rgba(248, 248, 248, .8);--text-primary: #1d1d1f;--text-secondary: #86868b;--text-tertiary: #666;--text-quaternary: #8e8e93;--border-primary: rgba(0, 0, 0, .08);--border-secondary: rgba(0, 0, 0, .05);--border-tertiary: #e5e5e7;--border-quaternary: #d2d2d7;--color-primary: #007aff;--color-primary-hover: #0051d5;--color-primary-dark: #0051d5;--color-primary-light: rgba(0, 122, 255, .1);--color-primary-lighter: rgba(0, 122, 255, .05);--color-success: #34c759;--color-success-light: rgba(52, 199, 89, .1);--color-success-lighter: rgba(52, 199, 89, .05);--color-warning: #ff9500;--color-warning-light: rgba(255, 149, 0, .1);--color-warning-lighter: rgba(255, 149, 0, .05);--color-error: #ff3b30;--color-error-bg: #f8d7da;--color-error-border: #f5c6cb;--color-error-text: #721c24;--color-error-light: rgba(255, 59, 48, .1);--color-danger: #ff3b30;--color-danger-light: rgba(255, 59, 48, .1);--color-danger-lighter: rgba(255, 59, 48, .05);--color-info: #5856d6;--color-info-light: rgba(88, 86, 214, .1);--shadow-sm: 0 2px 8px rgba(0, 0, 0, .06);--shadow-md: 0 4px 16px rgba(0, 0, 0, .1);--shadow-lg: 0 8px 32px rgba(0, 0, 0, .15);--shadow-xl: 0 20px 60px rgba(0, 0, 0, .15);--scrollbar-thumb: #d1d1d6;--scrollbar-thumb-hover: #b4b4b9;--overlay: rgba(0, 0, 0, .5);--overlay-light: rgba(0, 0, 0, .5);--overlay-heavy: rgba(0, 0, 0, .6);--btn-bg: #f9f9f9;--btn-text: #213547;--btn-primary-text: #fff;--btn-border: rgba(0, 0, 0, .1);--btn-hover-bg: rgba(0, 0, 0, .06);--border-light: rgba(0, 0, 0, .05);--primary-bg-hover: rgba(74, 158, 255, .1);--primary-shadow: rgba(74, 158, 255, .25);--success-color: #34c759;--warning-color: #ff9500;--shadow-xs: 0 1px 4px rgba(0, 0, 0, .04);--input-bg: #fff;--input-border: #ddd;--input-focus-border: #007bff;--input-focus-shadow: rgba(0, 123, 255, .1);color:var(--text-primary);background-color:var(--bg-primary)}html,body{height:100%;margin:0;padding:0}#root{width:100%;min-height:100vh;display:flex;flex-direction:column}a{font-weight:500;color:var(--color-primary);text-decoration:inherit;transition:color .2s ease}a:hover{color:var(--color-primary-hover)}body{margin:0;min-width:320px;min-height:100vh}h1{font-size:3.2em;line-height:1.1}button{border-radius:8px;border:1px solid transparent;padding:.6em 1.2em;font-size:1em;font-weight:500;font-family:inherit;background-color:var(--btn-bg);color:var(--btn-text);cursor:pointer;transition:border-color .25s;outline:none!important}button:hover{border-color:var(--color-primary)}@media (prefers-color-scheme: dark){:root{--bg-primary: #1a1a1a;--bg-secondary: #1c1c1e;--bg-tertiary: #2c2c2e;--bg-quaternary: rgba(28, 28, 30, .8);--text-primary: #fff;--text-secondary: #8e8e93;--text-tertiary: #98989d;--text-quaternary: #636366;--border-primary: rgba(255, 255, 255, .1);--border-secondary: rgba(255, 255, 255, .08);--border-tertiary: #424245;--border-quaternary: #48484a;--color-primary: #4a9eff;--color-primary-hover: #64b5f6;--color-primary-dark: #3a8eef;--color-primary-light: rgba(74, 158, 255, .2);--color-primary-lighter: rgba(74, 158, 255, .1);--color-success: #32d74b;--color-success-light: rgba(52, 199, 89, .2);--color-warning: #ff9f0a;--color-warning-light: rgba(255, 149, 0, .2);--color-error: #ff453a;--color-error-bg: #5c2122;--color-error-border: #7c2e2f;--color-error-text: #f8d7da;--color-error-light: rgba(255, 69, 58, .2);--color-info: #5e5ce6;--color-info-light: rgba(88, 86, 214, .2);--shadow-sm: 0 2px 8px rgba(0, 0, 0, .2);--shadow-md: 0 4px 16px rgba(0, 0, 0, .3);--shadow-lg: 0 8px 32px rgba(0, 0, 0, .4);--shadow-xl: 0 20px 60px rgba(0, 0, 0, .5);--scrollbar-thumb: #48484a;--scrollbar-thumb-hover: #636366;--overlay: rgba(0, 0, 0, .6);--overlay-light: rgba(0, 0, 0, .6);--overlay-heavy: rgba(0, 0, 0, .8);--btn-bg: #1a1a1a;--btn-text: rgba(255, 255, 255, .87);--btn-primary-text: #fff;--btn-border: rgba(255, 255, 255, .2);--btn-hover-bg: rgba(255, 255, 255, .1);--border-light: rgba(255, 255, 255, .08);--primary-bg-hover: rgba(74, 158, 255, .2);--primary-shadow: rgba(74, 158, 255, .3);--success-color: #32d74b;--warning-color: #ff9f0a;--shadow-xs: 0 1px 4px rgba(0, 0, 0, .1);--input-bg: #2c2c2e;--input-border: #48484a;--input-focus-border: #64b5f6;--input-focus-shadow: rgba(100, 181, 246, .1);color:var(--text-primary);background-color:var(--bg-primary)}}.error-message{background:var(--color-error-bg);border:1px solid var(--color-error-border);padding:10px;border-radius:5px;color:var(--color-error-text);margin-bottom:20px}.error-message p{margin:0;color:var(--color-error-text)}select{-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:url(\"data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e\");background-repeat:no-repeat;background-position:right 8px center;background-size:16px;padding-right:32px!important}@media (prefers-color-scheme: dark){select{background-image:url(\"data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e\")}}",
+          ".index-module__filter-section-content__y5rEz .index-module__filter-group__5B49Z{margin-bottom:16px}.index-module__filter-section-content__y5rEz .index-module__filter-group__5B49Z:last-child{margin-bottom:0}.index-module__filter-section-content__y5rEz .index-module__filter-group__5B49Z .index-module__filter-label__kgsrz{display:block;font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:8px}.index-module__filter-section-content__y5rEz .index-module__filter-group__5B49Z .index-module__filter-options__83wOv{display:flex;flex-wrap:wrap;gap:8px}.index-module__filter-section-content__y5rEz .index-module__filter-group__5B49Z .index-module__filter-options__83wOv .index-module__filter-option__SG0B9{padding:6px 12px;border:1px solid var(--btn-border);border-radius:8px;background:var(--input-bg);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--text-primary);font-size:13px;font-weight:500;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);outline:none}.index-module__filter-section-content__y5rEz .index-module__filter-group__5B49Z .index-module__filter-options__83wOv .index-module__filter-option__SG0B9:hover{border-color:#007aff80;background:var(--color-primary-light);transform:translateY(-1px);box-shadow:0 4px 12px #007aff26}.index-module__filter-section-content__y5rEz .index-module__filter-group__5B49Z .index-module__filter-options__83wOv .index-module__filter-option__SG0B9.index-module__active__IQgMz{border-color:var(--color-primary);background:linear-gradient(135deg,var(--color-primary) 0%,var(--color-info) 100%);color:#fff;box-shadow:0 4px 12px #007aff4d}.index-module__pagination__5dauU{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:16px!important;position:relative!important;z-index:1!important;isolation:isolate!important;contain:layout style!important;box-sizing:border-box!important;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif!important}.index-module__pagination__5dauU .index-module__pagination-info__xbUbw{font-size:13px!important;color:var(--text-secondary)!important;box-sizing:border-box!important;margin:0!important;padding:0!important}.index-module__pagination__5dauU .index-module__pagination-controls__q2hqL{display:flex!important;align-items:center!important;gap:4px!important;box-sizing:border-box!important;margin:0!important;padding:0!important}.index-module__pagination__5dauU .index-module__pagination-controls__q2hqL .index-module__pagination-btn__P1OCG{display:flex!important;align-items:center!important;justify-content:center!important;width:32px!important;height:32px!important;border:1px solid var(--border-primary)!important;background:var(--bg-primary)!important;-webkit-backdrop-filter:blur(10px)!important;backdrop-filter:blur(10px)!important;border-radius:8px!important;font-size:13px!important;font-weight:500!important;color:var(--text-primary)!important;cursor:pointer!important;transition:all .3s cubic-bezier(.4,0,.2,1)!important;box-sizing:border-box!important;margin:0!important;padding:0!important;outline:none!important;text-decoration:none!important;font-family:inherit!important}.index-module__pagination__5dauU .index-module__pagination-controls__q2hqL .index-module__pagination-btn__P1OCG:hover:not(.index-module__disabled__BywdX){border-color:var(--color-primary);background:var(--primary-bg-hover);transform:translateY(-1px);box-shadow:0 4px 12px var(--primary-shadow)}.index-module__pagination__5dauU .index-module__pagination-controls__q2hqL .index-module__pagination-btn__P1OCG.index-module__active__lSJu-{border-color:var(--color-primary);background:var(--color-primary);color:#fff;box-shadow:0 4px 12px var(--primary-shadow)}.index-module__pagination__5dauU .index-module__pagination-controls__q2hqL .index-module__pagination-btn__P1OCG.index-module__disabled__BywdX{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}.index-module__pagination__5dauU .index-module__pagination-controls__q2hqL .index-module__pagination-btn__P1OCG span{font-size:14px}.index-module__pagination__5dauU .index-module__pagination-controls__q2hqL .index-module__pagination-ellipsis__gQnax{display:flex;align-items:center;justify-content:center;width:32px;height:32px;color:var(--text-secondary);font-size:13px}.index-module__pagination__5dauU .index-module__pagination-size-changer__SufyI{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary)}.index-module__pagination__5dauU .index-module__pagination-size-changer__SufyI .index-module__pagination-select__JwvbH{padding:4px 32px 4px 8px;border:1px solid var(--border-primary);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:13px;cursor:pointer;transition:border-color .2s ease}.index-module__pagination__5dauU .index-module__pagination-size-changer__SufyI .index-module__pagination-select__JwvbH:hover{border-color:var(--color-primary)}.index-module__pagination__5dauU .index-module__pagination-size-changer__SufyI .index-module__pagination-select__JwvbH:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 2px var(--primary-shadow)}.index-module__events-list__-m-9O{display:flex;flex-direction:column;height:100%;background:var(--bg-quaternary);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}.index-module__events-list__-m-9O .index-module__events-list-header__IFdcr{display:flex;align-items:center;padding:16px 20px;background:var(--bg-tertiary);border-bottom:1px solid var(--border-secondary);font-weight:600;font-size:13px;color:var(--text-primary);letter-spacing:-.08px}.index-module__events-list__-m-9O .index-module__events-list-header__IFdcr .index-module__header-cell__Q50BV{display:flex;align-items:center;gap:4px;cursor:pointer;transition:all .2s ease;padding:4px 0;border-radius:6px}.index-module__events-list__-m-9O .index-module__events-list-header__IFdcr .index-module__header-cell__Q50BV:hover{color:var(--color-primary)}.index-module__events-list__-m-9O .index-module__events-list-header__IFdcr .index-module__header-cell__Q50BV.index-module__checkbox-cell__fFp2c{width:40px;justify-content:center;cursor:default}.index-module__events-list__-m-9O .index-module__events-list-header__IFdcr .index-module__header-cell__Q50BV.index-module__checkbox-cell__fFp2c:hover{color:var(--text-primary)}.index-module__events-list__-m-9O .index-module__events-list-header__IFdcr .index-module__header-cell__Q50BV.index-module__content-cell__XX9h3{flex:1;min-width:0}.index-module__events-list__-m-9O .index-module__events-list-header__IFdcr .index-module__header-cell__Q50BV.index-module__action-cell__cQC45,.index-module__events-list__-m-9O .index-module__events-list-header__IFdcr .index-module__header-cell__Q50BV.index-module__time-cell__MQe22{width:120px;justify-content:center}.index-module__events-list__-m-9O .index-module__events-list-header__IFdcr .index-module__header-cell__Q50BV.index-module__detail-cell__zq1IN{width:80px;justify-content:center;cursor:default}.index-module__events-list__-m-9O .index-module__events-list-header__IFdcr .index-module__header-cell__Q50BV.index-module__detail-cell__zq1IN:hover{color:var(--text-primary)}.index-module__events-list__-m-9O .index-module__events-list-header__IFdcr .index-module__header-cell__Q50BV .index-module__sort-icon__tSSwt{font-size:12px;color:var(--color-primary);opacity:.8}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ{flex:1;overflow-y:auto}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz{display:flex;align-items:center;padding:12px 20px;border-bottom:1px solid var(--border-secondary);transition:all .15s ease;cursor:default}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz:hover,.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz.index-module__selected__QNHpl{background:var(--color-primary-lighter)}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz.index-module__selected__QNHpl:hover{background:var(--color-primary-light)}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz:last-child{border-bottom:none}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts{display:flex;align-items:center}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__checkbox-cell__fFp2c{width:40px;justify-content:center}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__content-cell__XX9h3{flex:1;min-width:0;display:flex;align-items:center;gap:12px}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__content-cell__XX9h3 .index-module__event-icon__9UCQ3{font-size:18px;flex-shrink:0;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:6px;background:var(--color-primary-lighter)}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__content-cell__XX9h3 .index-module__event-content__YCPED{flex:1;min-width:0}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__content-cell__XX9h3 .index-module__event-content__YCPED .index-module__event-title__530MV{font-size:14px;font-weight:500;color:var(--text-primary);line-height:1.3;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__content-cell__XX9h3 .index-module__event-content__YCPED .index-module__event-description__C3Fjc{font-size:12px;color:var(--text-secondary);line-height:1.3;overflow:hidden;text-overflow:ellipsis}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__action-cell__cQC45{width:120px;justify-content:center}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__action-cell__cQC45 .index-module__action-tag__GZU05{padding:4px 8px;border-radius:6px;font-size:11px;font-weight:500;background:var(--color-success-lighter);color:var(--color-success);text-align:center;white-space:nowrap}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__time-cell__MQe22{width:120px;justify-content:center}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__time-cell__MQe22 .index-module__event-time__1VIXa{font-size:12px;color:var(--text-secondary);font-weight:500;text-align:center}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__detail-cell__zq1IN{width:80px;justify-content:center;gap:8px}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__detail-cell__zq1IN .index-module__detail-btn__Q5YpF,.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__detail-cell__zq1IN .index-module__source-btn__CcFSW{width:28px;height:28px;border:none;border-radius:6px;background:var(--color-primary-lighter);cursor:pointer;transition:all .15s ease;display:flex;align-items:center;justify-content:center;text-decoration:none}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__detail-cell__zq1IN .index-module__detail-btn__Q5YpF:hover,.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__detail-cell__zq1IN .index-module__source-btn__CcFSW:hover{background:var(--color-primary-light);transform:scale(1.05)}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__detail-cell__zq1IN .index-module__detail-btn__Q5YpF .index-module__detail-icon__E5Shy,.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__detail-cell__zq1IN .index-module__source-btn__CcFSW .index-module__detail-icon__E5Shy,.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__detail-cell__zq1IN .index-module__detail-btn__Q5YpF .index-module__source-icon__J3bUV,.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__detail-cell__zq1IN .index-module__source-btn__CcFSW .index-module__source-icon__J3bUV{font-size:12px}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__detail-cell__zq1IN .index-module__source-btn__CcFSW{background:var(--color-warning-lighter)}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__detail-cell__zq1IN .index-module__source-btn__CcFSW:hover{background:var(--color-warning-light)}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__empty-state__ohnRa{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;text-align:center}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__empty-state__ohnRa .index-module__empty-icon__OXdkI{font-size:48px;margin-bottom:16px;opacity:.6}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__empty-state__ohnRa p{font-size:16px;font-weight:500;color:var(--text-primary);margin-bottom:8px}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__empty-state__ohnRa span{font-size:14px;color:var(--text-secondary)}.index-module__events-list__-m-9O .index-module__events-list-footer__bR9Gm{flex-shrink:0;padding:16px 20px;border-top:1px solid var(--border-secondary);background:var(--bg-tertiary);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}.index-module__events-list-loading__e6mCh{display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;background:var(--bg-quaternary);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-radius:12px}.index-module__events-list-loading__e6mCh .index-module__loading-spinner__C04N8{width:32px;height:32px;border:3px solid var(--color-primary-lighter);border-top:3px solid var(--color-primary);border-radius:50%;animation:index-module__spin__n2ASe 1s linear infinite;margin-bottom:16px}.index-module__events-list-loading__e6mCh p{font-size:14px;color:var(--text-secondary);font-weight:500}@keyframes index-module__spin__n2ASe{0%{transform:rotate(0)}to{transform:rotate(360deg)}}@media (width <= 768px){.index-module__events-list__-m-9O .index-module__events-list-header__IFdcr,.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz{padding:12px 16px}.index-module__events-list__-m-9O .index-module__events-list-header__IFdcr .index-module__header-cell__Q50BV{font-size:12px}.index-module__events-list__-m-9O .index-module__events-list-header__IFdcr .index-module__header-cell__Q50BV.index-module__time-cell__MQe22{width:100px}.index-module__events-list__-m-9O .index-module__events-list-header__IFdcr .index-module__header-cell__Q50BV.index-module__detail-cell__zq1IN{width:60px}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__content-cell__XX9h3{gap:8px}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__content-cell__XX9h3 .index-module__event-icon__9UCQ3{font-size:16px;width:20px;height:20px}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__content-cell__XX9h3 .index-module__event-content__YCPED .index-module__event-title__530MV{font-size:13px}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__content-cell__XX9h3 .index-module__event-content__YCPED .index-module__event-description__C3Fjc{font-size:11px}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__action-cell__cQC45{width:80px}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__action-cell__cQC45 .index-module__action-tag__GZU05{font-size:10px;padding:3px 6px}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__time-cell__MQe22{width:100px}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__time-cell__MQe22 .index-module__event-time__1VIXa{font-size:11px}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__detail-cell__zq1IN{width:60px;gap:4px}.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__detail-cell__zq1IN .index-module__detail-btn__Q5YpF,.index-module__events-list__-m-9O .index-module__events-list-body__QknuZ .index-module__event-row__nD7Rz .index-module__cell__KsOts.index-module__detail-cell__zq1IN .index-module__source-btn__CcFSW{width:24px;height:24px}}.index-module__checkbox-container__UxYEH{position:relative;display:inline-block;cursor:pointer;-webkit-user-select:none;user-select:none;margin:0}.index-module__checkbox-container__UxYEH input[type=checkbox]{position:absolute;opacity:0;cursor:pointer;height:0;width:0}.index-module__checkbox-container__UxYEH .index-module__checkmark__-Dj1c{position:relative;display:inline-block;width:16px;height:16px;background-color:var(--bg-primary);border:1.5px solid var(--border-primary);border-radius:3px;transition:all .2s ease}.index-module__checkbox-container__UxYEH .index-module__checkmark__-Dj1c:after{content:\"\";position:absolute;display:none;left:4px;top:1px;width:4px;height:8px;border:solid var(--bg-primary);border-width:0 2px 2px 0;transform:rotate(45deg)}.index-module__checkbox-container__UxYEH:hover .index-module__checkmark__-Dj1c{border-color:var(--color-primary);background-color:var(--color-primary-lighter)}.index-module__checkbox-container__UxYEH input:checked~.index-module__checkmark__-Dj1c{background-color:var(--color-primary);border-color:var(--color-primary)}.index-module__checkbox-container__UxYEH input:checked~.index-module__checkmark__-Dj1c:after{display:block}.index-module__checkbox-container__UxYEH input:indeterminate~.index-module__checkmark__-Dj1c{background-color:var(--color-primary);border-color:var(--color-primary)}.index-module__checkbox-container__UxYEH input:indeterminate~.index-module__checkmark__-Dj1c:after{display:block;left:2px;top:6px;width:8px;height:2px;border:none;background-color:var(--bg-primary);transform:none;border-radius:1px}.index-module__action-btn__To7Ms{display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--color-primary-lighter);color:var(--color-primary);border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s ease;white-space:nowrap;outline:none}.index-module__action-btn__To7Ms:hover{background:var(--color-primary-light);transform:translateY(-1px)}.index-module__action-btn__To7Ms:disabled{cursor:not-allowed;opacity:.6;transform:none}.index-module__action-btn__To7Ms.index-module__version-btn__8d3di{background:var(--color-warning-light);color:var(--color-warning)}.index-module__action-btn__To7Ms.index-module__version-btn__8d3di:hover{background:#ffc10726}.index-module__action-btn__To7Ms.index-module__version-btn__8d3di.index-module__has-update__tNkZZ{background:var(--color-error-light);color:var(--color-error)}.index-module__action-btn__To7Ms.index-module__version-btn__8d3di.index-module__has-update__tNkZZ:hover{background:#dc354526}.index-module__icon__EhhVu{font-size:14px;line-height:1}.index-module__text__4iX-h{font-weight:500}.index-module__error__AUGjJ{font-size:12px;color:var(--color-danger);cursor:help}.index-module__notification-overlay__E4dh-{position:fixed;top:0;right:0;bottom:0;left:0;background:var(--overlay);display:flex;align-items:center;justify-content:center;z-index:10000;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}.index-module__notification__ckX1l{background:var(--bg-primary);border-radius:12px;box-shadow:var(--shadow-xl);max-width:480px;width:90vw;max-height:80vh;overflow:hidden;animation:index-module__slide-in__qJkKL .3s ease-out;border:1px solid var(--border-primary)}.index-module__notification-header__nJZ3Q{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1px solid var(--border-primary)}.index-module__notification-header__nJZ3Q h3{margin:0;font-size:18px;font-weight:600;color:var(--text-primary)}.index-module__close-btn__9uULv{background:none;border:none;font-size:24px;color:var(--text-secondary);cursor:pointer;padding:4px;border-radius:4px;transition:all .2s ease}.index-module__close-btn__9uULv:hover{background:var(--btn-hover-bg);color:var(--text-primary)}.index-module__notification-body__nnab7{padding:20px 24px}.index-module__version-info__-pyIP{margin-bottom:16px}.index-module__version-info__-pyIP p{margin:8px 0;font-size:14px;color:var(--text-primary)}.index-module__version-info__-pyIP p strong{font-weight:600}.index-module__release-notes__iU2jG h4{margin:0 0 12px;font-size:14px;font-weight:600;color:var(--text-primary)}.index-module__notes-content__ZpxxA{background:var(--bg-secondary);border:1px solid var(--border-primary);border-radius:6px;padding:12px;font-size:13px;line-height:1.5;color:var(--text-secondary);max-height:200px;overflow-y:auto;white-space:pre-wrap}.index-module__notification-footer__La-ia{display:flex;gap:12px;padding:16px 24px 20px;border-top:1px solid var(--border-primary);justify-content:flex-end}.index-module__later-btn__Q40Lc,.index-module__update-btn__lD1V2{padding:8px 16px;border-radius:6px;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s ease;border:1px solid}.index-module__later-btn__Q40Lc{background:var(--bg-primary);border-color:var(--border-primary);color:var(--text-primary)}.index-module__later-btn__Q40Lc:hover{background:var(--btn-hover-bg);border-color:var(--border-secondary)}.index-module__update-btn__lD1V2{background:var(--color-primary);border-color:var(--color-primary);color:var(--btn-primary-text)}.index-module__update-btn__lD1V2:hover{background:var(--color-primary-hover);border-color:var(--color-primary-hover)}@keyframes index-module__slide-in__qJkKL{0%{opacity:0;transform:translateY(-20px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}@media (width <= 768px){.index-module__notification__ckX1l{margin:20px;width:calc(100vw - 40px)}.index-module__notification-header__nJZ3Q,.index-module__notification-body__nnab7,.index-module__notification-footer__La-ia{padding-left:16px;padding-right:16px}.index-module__action-btn__To7Ms .index-module__text__4iX-h{display:none}}.index-module__config-status__0q8ZM.index-module__clickable__pZ86X{cursor:pointer}.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:4px 8px;border-radius:6px;white-space:nowrap;position:relative;transition:all .15s ease}.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW .index-module__status-icon__7jFiQ{font-size:11px;line-height:1}.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW .index-module__status-text__llRfw{font-weight:500}.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW .index-module__progress-bar__CFedX{position:absolute;bottom:0;left:0;right:0;height:2px;background:#fff3;border-radius:0 0 8px 8px;overflow:hidden}.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW .index-module__progress-bar__CFedX .index-module__progress-fill__w-23-{height:100%;background:var(--color-warning);transition:width .3s ease;border-radius:inherit}.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW.index-module__valid__Xyroo{background:#34c75914;color:var(--color-success)}.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW.index-module__invalid__Fn-hL{background:#ff950014;color:var(--color-warning)}.index-module__config-status__0q8ZM .index-module__status-details__E1JnL{margin-top:4px;font-size:10px;line-height:1.3}.index-module__config-status__0q8ZM .index-module__status-details__E1JnL .index-module__missing-items__8Wn0w{color:var(--color-text-secondary);opacity:.8}@media (prefers-color-scheme: dark){.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW .index-module__progress-bar__CFedX{background:#ffffff1a}}@media (width <= 768px){.index-module__config-status__0q8ZM .index-module__status-indicator__MeBgW{padding:3px 6px;font-size:11px;gap:4px}.index-module__config-status__0q8ZM .index-module__status-details__E1JnL{font-size:9px;margin-top:3px}}.index-module__main-panel__82FLm{display:flex;flex-direction:column;height:100vh;background:var(--bg-primary);color:var(--text-primary);overflow:hidden}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;background:var(--bg-secondary);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-primary);box-shadow:0 2px 20px #0000001a;position:relative;z-index:10}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-left__xT1T5{display:flex;align-items:center;gap:16px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-left__xT1T5 h1{margin:0;font-size:28px;font-weight:700;color:var(--text-primary)}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo{display:flex;align-items:center;gap:16px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG{display:flex;align-items:center;background:var(--bg-secondary);border-radius:12px;border:1px solid var(--border-primary);position:relative;height:40px;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 2px 8px #0000001a;transition:all .2s ease-in-out}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG:hover{border-color:var(--color-primary);box-shadow:0 4px 12px #667eea26}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-track__82VKI{display:flex;position:relative;width:100%;height:100%;border-radius:8px;overflow:hidden}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-slider__tkY4o{top:0;left:0;width:50%;height:100%;background:linear-gradient(135deg,var(--color-primary) 0%,var(--color-info) 100%);border-radius:8px;transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 20px #667eea80,0 0 0 2px #667eea33;position:relative;overflow:hidden;z-index:1}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-slider__tkY4o:before{content:\"\";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:left .5s}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-slider__tkY4o:after{content:\"\";position:absolute;background:linear-gradient(135deg,var(--color-primary),var(--color-info));border-radius:10px;z-index:-1;opacity:.3;filter:blur(4px)}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-slider__tkY4o:hover:before{left:100%}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-slider__tkY4o.index-module__slide-right__qPOZu{transform:translate(100%)}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-option__ZhXXU{flex:1 1 0%;display:flex;align-items:center;justify-content:center;height:100%;padding:0 12px;font-size:13px;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);position:relative;white-space:nowrap;border-radius:8px;border:none;background:transparent}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-option__ZhXXU.index-module__active__Mr5KU{color:#fff;font-weight:700;transform:scale(1.02);text-shadow:0 1px 2px rgba(0,0,0,.3);background:linear-gradient(135deg,var(--color-primary),var(--color-info))}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-option__ZhXXU:not(.index-module__active__Mr5KU){color:var(--text-secondary)}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-option__ZhXXU:not(.index-module__active__Mr5KU):hover{color:var(--text-primary);background:#ffffff0d}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-option__ZhXXU .index-module__toggle-icon__AI6K7{margin-right:8px;font-size:16px;transition:transform .2s ease}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-option__ZhXXU .index-module__toggle-label__1qZLz{font-weight:500;flex-shrink:0}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__mode-toggle__9yafG .index-module__toggle-option__ZhXXU:active{transform:scale(.98)}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__divider__QXSgp{width:1px;height:24px;background:var(--border-secondary);margin:0 8px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl{display:flex;align-items:center;gap:12px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP{display:flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:12px;background:var(--bg-secondary);border:1px solid var(--border-primary);color:var(--text-primary);cursor:pointer;transition:all .2s ease-in-out;white-space:nowrap}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP:hover{background:var(--color-primary-light);color:var(--color-primary);border-color:var(--color-primary);transform:translateY(-2px);box-shadow:0 4px 12px #0000001a}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP .index-module__btn-icon__ZaYHk{display:flex;align-items:center;justify-content:center;width:18px;height:18px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP .index-module__btn-icon__ZaYHk svg{width:100%;height:100%}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP .index-module__btn-label__tM2Rz{font-size:14px;font-weight:500;line-height:1}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP.index-module__ai-btn__5kAV3{background:linear-gradient(135deg,var(--color-primary) 0%,var(--color-info) 100%);border:none;color:#fff;position:relative;overflow:hidden}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP.index-module__ai-btn__5kAV3:before{content:\"\";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transition:left .5s}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP.index-module__ai-btn__5kAV3:hover{background:linear-gradient(135deg,#5a67d8,#6b46c1);transform:translateY(-2px);box-shadow:0 8px 25px #667eea66;color:#fff}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP.index-module__ai-btn__5kAV3:hover:before{left:100%}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP.index-module__ai-btn__5kAV3 .index-module__btn-icon__ZaYHk{filter:drop-shadow(0 1px 2px rgba(0,0,0,.1))}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-buttons__xGRHl .index-module__action-btn__x4IAP.index-module__ai-btn__5kAV3 .index-module__btn-label__tM2Rz{font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,.1)}.index-module__changelog-section__afcqm .index-module__projects-section__eNkKP{margin-bottom:20px}.index-module__changelog-section__afcqm .index-module__commits-section__EixBG{margin-top:20px}.index-module__changelog-section__afcqm .index-module__section-header__jdQWo{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border-primary)}.index-module__changelog-section__afcqm .index-module__section-header__jdQWo h3{margin:0;font-size:16px;font-weight:600;color:var(--text-color)}.index-module__changelog-section__afcqm .index-module__projects-list__5CGy6{max-height:300px;overflow-y:auto;border:1px solid var(--border-primary);border-radius:6px}.index-module__changelog-section__afcqm .index-module__project-item__U-6AJ{padding:12px 16px;border-bottom:1px solid var(--border-primary);cursor:pointer;transition:all .2s ease}.index-module__changelog-section__afcqm .index-module__project-item__U-6AJ:last-child{border-bottom:none}.index-module__changelog-section__afcqm .index-module__project-item__U-6AJ:hover{background:var(--hover-bg-color)}.index-module__changelog-section__afcqm .index-module__project-item__U-6AJ.index-module__selected__hxeGU{background:var(--color-primary-light);border-left:3px solid var(--color-primary)}.index-module__changelog-section__afcqm .index-module__project-info__x4kU3 .index-module__project-name__PZIIk{margin:0 0 4px;font-size:14px;font-weight:600;color:var(--text-color)}.index-module__changelog-section__afcqm .index-module__project-info__x4kU3 .index-module__project-description__54hoR{margin:0 0 8px;font-size:12px;color:var(--text-secondary-color);line-height:1.4}.index-module__changelog-section__afcqm .index-module__project-info__x4kU3 .index-module__project-meta__ZjnkM{display:flex;align-items:center;gap:12px}.index-module__changelog-section__afcqm .index-module__project-info__x4kU3 .index-module__project-meta__ZjnkM .index-module__last-activity__nM8Tj{font-size:11px;color:var(--text-secondary-color)}.index-module__changelog-section__afcqm .index-module__commits-list__WBJw5{max-height:400px;overflow-y:auto;border:1px solid var(--border-primary);border-radius:6px}.index-module__changelog-section__afcqm .index-module__commit-item__MQuzM{padding:12px 16px;border-bottom:1px solid var(--border-primary)}.index-module__changelog-section__afcqm .index-module__commit-item__MQuzM:last-child{border-bottom:none}.index-module__changelog-section__afcqm .index-module__commit-info__PzzU5 .index-module__commit-title__UcB1e{margin:0 0 4px;font-size:14px;font-weight:600;color:var(--text-color);line-height:1.3}.index-module__changelog-section__afcqm .index-module__commit-info__PzzU5 .index-module__commit-message__KzrgK{margin:0 0 8px;font-size:12px;color:var(--text-secondary-color);line-height:1.4;max-height:40px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.index-module__changelog-section__afcqm .index-module__commit-info__PzzU5 .index-module__commit-meta__yYNDx{display:flex;align-items:center;gap:12px;font-size:11px}.index-module__changelog-section__afcqm .index-module__commit-info__PzzU5 .index-module__commit-meta__yYNDx .index-module__commit-author__fISkm{color:var(--text-secondary-color);font-weight:500}.index-module__changelog-section__afcqm .index-module__commit-info__PzzU5 .index-module__commit-meta__yYNDx .index-module__commit-date__9vTCG{color:var(--text-secondary-color)}.index-module__changelog-section__afcqm .index-module__commit-info__PzzU5 .index-module__commit-meta__yYNDx .index-module__commit-link__SLhDR{color:var(--color-primary);text-decoration:none;font-weight:500}.index-module__changelog-section__afcqm .index-module__commit-info__PzzU5 .index-module__commit-meta__yYNDx .index-module__commit-link__SLhDR:hover{text-decoration:underline}.index-module__filter-section__gMBIz{flex-shrink:0;padding:16px 20px;background:var(--bg-quaternary);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-secondary)}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq{margin-bottom:16px}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq:last-child{margin-bottom:0}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq .index-module__filter-label__TDZ3H{display:block;font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:8px}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq .index-module__filter-options__4AUEQ{display:flex;flex-wrap:wrap;gap:8px}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq .index-module__filter-options__4AUEQ .index-module__filter-option__-CSf1{padding:6px 12px;border:1px solid var(--btn-border);border-radius:8px;background:var(--input-bg);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--text-primary);font-size:13px;font-weight:500;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);outline:none}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq .index-module__filter-options__4AUEQ .index-module__filter-option__-CSf1:hover{border-color:#007aff80;background:var(--color-primary-light);transform:translateY(-1px);box-shadow:0 4px 12px #007aff26}.index-module__filter-section__gMBIz .index-module__filter-section-content__A3AOe .index-module__filter-group__hk7qq .index-module__filter-options__4AUEQ .index-module__filter-option__-CSf1.index-module__active__Mr5KU{border-color:var(--color-primary);background:linear-gradient(135deg,var(--color-primary) 0%,var(--color-info) 100%);color:#fff;box-shadow:0 4px 12px #007aff4d}.index-module__events-section__gJwdk{flex:1;min-height:0}@media (width <= 768px){.index-module__main-panel__82FLm{padding:16px;gap:12px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p{flex-direction:column;align-items:stretch;gap:12px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-left__xT1T5{justify-content:center}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-left__xT1T5 h1{font-size:24px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo{justify-content:center;flex-wrap:wrap}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-btn__x4IAP{font-size:12px;padding:6px 10px}.index-module__main-panel__82FLm .index-module__panel-header__kyx4p .index-module__header-right__7F8Bo .index-module__action-btn__x4IAP .index-module__icon__tX8wX{font-size:12px}}.index-module__icon__tX8wX{display:inline-block;width:1em;height:1em;vertical-align:middle}.index-module__modal-mask__XYxyO{position:fixed;top:0;right:0;bottom:0;left:0;width:100vw;height:100vh;background:var(--overlay);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);z-index:9999;display:flex;align-items:center;justify-content:center;animation:index-module__modal-mask-fade-in__R7ZBs .3s cubic-bezier(.4,0,.2,1)}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip{display:flex;align-items:flex-start;justify-content:center;width:100%;height:100%;padding:24px}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u{background:var(--bg-quaternary);-webkit-backdrop-filter:blur(40px);backdrop-filter:blur(40px);border-radius:16px;border:1px solid var(--border-secondary);box-shadow:var(--shadow-lg);max-height:90vh;display:flex;flex-direction:column;overflow:hidden;animation:index-module__modal-slide-in__VC-Dp .4s cubic-bezier(.34,1.56,.64,1)}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-header__GdUjX{display:flex;justify-content:space-between;align-items:center;padding:20px 24px 16px;border-bottom:1px solid var(--border-secondary);flex-shrink:0}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-header__GdUjX .index-module__modal-title__cafB-{font-size:18px;font-weight:600;color:var(--text-primary);margin:0}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-header__GdUjX .index-module__modal-close__ZuUgf{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border:none;background:var(--bg-secondary);border-radius:6px;color:var(--text-secondary);cursor:pointer;transition:all .2s ease}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-header__GdUjX .index-module__modal-close__ZuUgf:hover{background:var(--bg-tertiary);color:var(--text-primary)}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-header__GdUjX .index-module__modal-close__ZuUgf span{font-size:18px;line-height:1}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-body__j5X3U{flex:1;overflow-y:auto;padding:20px 24px}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-body__j5X3U::-webkit-scrollbar{width:6px}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-body__j5X3U::-webkit-scrollbar-track{background:transparent}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-body__j5X3U::-webkit-scrollbar-thumb{background:var(--border-primary);border-radius:3px}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-body__j5X3U::-webkit-scrollbar-thumb:hover{background:var(--scrollbar-thumb-hover)}.index-module__modal-mask__XYxyO .index-module__modal-wrapper__bVZip .index-module__modal__QQS3u .index-module__modal-footer__3q-wn{flex-shrink:0;padding:16px 24px 20px;border-top:1px solid var(--border-secondary);background:var(--bg-secondary)}.index-module__btn-primary__OwgHI{padding:8px 16px;border:none;border-radius:10px;background:var(--color-primary);color:var(--btn-primary-text);font-size:14px;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-sm)}.index-module__btn-primary__OwgHI:hover:not(:disabled){background:var(--color-primary-dark);transform:translateY(-1px);box-shadow:var(--shadow-md)}.index-module__btn-primary__OwgHI:active:not(:disabled){transform:translateY(0);box-shadow:var(--shadow-sm)}.index-module__btn-primary__OwgHI:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}.index-module__btn-secondary__o1dNd{padding:8px 16px;border:1px solid var(--border-primary);border-radius:10px;background:var(--bg-quaternary);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);color:var(--text-primary);font-size:14px;font-weight:500;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1)}.index-module__btn-secondary__o1dNd:hover:not(:disabled){border-color:var(--color-primary);background:var(--color-primary-lighter);transform:translateY(-1px);box-shadow:var(--shadow-sm)}.index-module__btn-secondary__o1dNd:active:not(:disabled){transform:translateY(0);box-shadow:var(--shadow-xs)}.index-module__btn-secondary__o1dNd:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}.index-module__btn-text__s61zq{padding:4px 8px;border:none;background:transparent;color:var(--color-primary);font-size:13px;font-weight:500;cursor:pointer;border-radius:4px;transition:all .2s ease}.index-module__btn-text__s61zq:hover:not(:disabled){background:var(--color-primary-lighter)}.index-module__btn-text__s61zq:disabled{opacity:.5;cursor:not-allowed}@keyframes index-module__modal-mask-fade-in__R7ZBs{0%{opacity:0}to{opacity:1}}@keyframes index-module__modal-slide-in__VC-Dp{0%{opacity:0;transform:translateY(-20px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}.index-module__settings-panel__UCg3H .index-module__config-overview__kaSMo{margin-bottom:20px;padding:16px;background:var(--bg-secondary);border-radius:8px;border:1px solid var(--border-light)}.index-module__settings-panel__UCg3H .index-module__settings-tabs__vPH-t{display:flex;border-bottom:1px solid var(--border-light);margin-bottom:24px}.index-module__settings-panel__UCg3H .index-module__settings-tabs__vPH-t .index-module__tab-button__FG9Nc{display:flex;align-items:center;gap:8px;padding:12px 16px;border:none;background:transparent;color:var(--text-secondary);font-size:14px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s ease;outline:none;border-radius:0}.index-module__settings-panel__UCg3H .index-module__settings-tabs__vPH-t .index-module__tab-button__FG9Nc .index-module__tab-icon__rBe-o{font-size:16px}.index-module__settings-panel__UCg3H .index-module__settings-tabs__vPH-t .index-module__tab-button__FG9Nc:hover{color:var(--text-primary);background:var(--bg-secondary)}.index-module__settings-panel__UCg3H .index-module__settings-tabs__vPH-t .index-module__tab-button__FG9Nc.index-module__active__bsBC1{color:var(--color-primary);border-bottom-color:var(--color-primary)}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH{min-height:400px}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA{margin-bottom:20px}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA:last-child{margin-bottom:0}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-label__pwe7O{display:block;font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:8px}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-label__pwe7O .index-module__required__2vuyW{color:var(--color-error);margin-left:4px}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-input__jGbRP,.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-select__jbXdq,.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-textarea__fAVMw{width:100%;padding:10px 12px;border:1px solid var(--border-primary);border-radius:8px;font-size:14px;color:var(--text-primary);background:var(--bg-primary);transition:all .2s ease;box-sizing:border-box}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-input__jGbRP:hover,.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-select__jbXdq:hover,.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-textarea__fAVMw:hover{border-color:var(--color-primary)}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-input__jGbRP:focus,.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-select__jbXdq:focus,.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-textarea__fAVMw:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 3px var(--primary-shadow)}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-input__jGbRP::placeholder,.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-select__jbXdq::placeholder,.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-textarea__fAVMw::placeholder{color:var(--text-secondary)}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-select__jbXdq{padding:10px 32px 10px 12px}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-textarea__fAVMw{resize:vertical;min-height:80px;font-family:inherit;line-height:1.5}.index-module__settings-panel__UCg3H .index-module__settings-content__TqQPH .index-module__tab-panel__Q2QUI .index-module__form-group__zKwiA .index-module__form-hint__F0dFQ{font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.4}.index-module__settings-panel__UCg3H .index-module__version-info__y0NZv{margin-top:24px;padding-top:16px;border-top:1px solid var(--border-light);text-align:center}.index-module__settings-panel__UCg3H .index-module__version-info__y0NZv .index-module__version-text__bx0HU{font-size:12px;color:var(--text-secondary);opacity:.7}.index-module__settings-footer__qA44X{display:flex;justify-content:space-between;align-items:center}.index-module__settings-footer__qA44X .index-module__footer-right__bslDg{display:flex;gap:8px}.index-module__btn-primary__ZzzFI{padding:8px 16px;border:none;border-radius:10px;background:var(--color-primary);color:var(--btn-primary-text);font-size:14px;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-sm)}.index-module__btn-primary__ZzzFI:hover:not(:disabled){background:var(--color-primary-dark);transform:translateY(-1px);box-shadow:var(--shadow-md)}.index-module__btn-primary__ZzzFI:active:not(:disabled){transform:translateY(0);box-shadow:var(--shadow-sm)}.index-module__btn-primary__ZzzFI:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}.index-module__switch-container__5xk1J{display:flex;align-items:center;gap:8px}.index-module__switch-input__V-8fl{display:none}.index-module__switch-label__xrOeQ{position:relative;display:inline-block;width:44px;height:24px;cursor:pointer}.index-module__switch-slider__dG-6J{position:absolute;top:0;right:0;bottom:0;left:0;background-color:var(--border-primary);border-radius:24px;transition:all .3s ease}.index-module__switch-slider__dG-6J:before{content:\"\";position:absolute;height:18px;width:18px;left:3px;bottom:3px;background-color:#fff;border-radius:50%;transition:all .3s ease;box-shadow:0 1px 3px #0003}.index-module__switch-input__V-8fl:checked+.index-module__switch-label__xrOeQ .index-module__switch-slider__dG-6J{background-color:var(--color-primary)}.index-module__switch-input__V-8fl:checked+.index-module__switch-label__xrOeQ .index-module__switch-slider__dG-6J:before{transform:translate(20px)}.index-module__switch-input__V-8fl:focus+.index-module__switch-label__xrOeQ .index-module__switch-slider__dG-6J{box-shadow:0 0 0 2px var(--color-primary-lighter)}.index-module__switch-input__V-8fl:disabled+.index-module__switch-label__xrOeQ{opacity:.5;cursor:not-allowed}.index-module__switch-input__V-8fl:disabled+.index-module__switch-label__xrOeQ .index-module__switch-slider__dG-6J{background-color:var(--border-light)}.index-module__btn-secondary__cRCpD{padding:8px 16px;border:1px solid var(--border-primary);border-radius:10px;background:var(--bg-quaternary);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);color:var(--text-primary);font-size:14px;font-weight:500;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1)}.index-module__btn-secondary__cRCpD:hover:not(:disabled){border-color:var(--color-primary);background:var(--color-primary-lighter);transform:translateY(-1px);box-shadow:var(--shadow-sm)}.index-module__btn-secondary__cRCpD:active:not(:disabled){transform:translateY(0);box-shadow:var(--shadow-xs)}.index-module__btn-secondary__cRCpD:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM{margin-bottom:24px;border:1px solid var(--border-primary);border-radius:8px;background:var(--bg-secondary);overflow:hidden}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM .index-module__overview-header__ae0e8{padding:12px 16px;border-bottom:1px solid var(--border-primary)}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM .index-module__overview-header__ae0e8 h4{font-size:14px;font-weight:600;color:var(--text-primary);margin:0;display:flex;align-items:center;gap:8px}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM .index-module__overview-content__dhjh6{padding:16px;display:flex;flex-direction:column;gap:12px}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM .index-module__overview-content__dhjh6 .index-module__overview-item__20Ilu{display:flex;justify-content:space-between;align-items:center;font-size:14px}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM .index-module__overview-content__dhjh6 .index-module__overview-item__20Ilu .index-module__overview-label__k3QHX{color:var(--text-secondary);font-weight:500}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM .index-module__overview-content__dhjh6 .index-module__overview-item__20Ilu .index-module__overview-value__gbEnJ{color:var(--text-primary);font-weight:600}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM .index-module__overview-content__dhjh6 .index-module__overview-item__20Ilu .index-module__overview-value__gbEnJ.index-module__ready__f4MXX{color:var(--success-color)}.index-module__ai-panel__R0K19 .index-module__data-overview__J-ZoM .index-module__overview-content__dhjh6 .index-module__overview-item__20Ilu .index-module__overview-value__gbEnJ.index-module__waiting__orgl9{color:var(--warning-color)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe{background:var(--bg-primary);border:1px solid var(--border-secondary);border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:var(--shadow-sm);transition:all .2s ease}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs:hover,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe:hover{box-shadow:var(--shadow-md)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border-secondary)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM .index-module__result-title__GYp3Q,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-title__GYp3Q{display:flex;align-items:center;gap:8px;margin:0;font-size:15px;font-weight:600;color:var(--text-primary)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM .index-module__result-title__GYp3Q .index-module__title-icon__w1Z58,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-title__GYp3Q .index-module__title-icon__w1Z58{font-size:16px;color:var(--color-success)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b{display:flex;align-items:center;gap:8px}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS{display:flex;align-items:center;gap:4px;padding:6px 10px;border:1px solid var(--border-primary);border-radius:6px;background:var(--bg-secondary);color:var(--text-primary);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s ease;outline:none}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS:hover,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS:hover{background:var(--bg-tertiary);border-color:var(--color-primary)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS.index-module__primary__Uwxt8,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS.index-module__primary__Uwxt8{background:var(--color-primary);color:#fff;border-color:var(--color-primary)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS.index-module__primary__Uwxt8:hover,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS.index-module__primary__Uwxt8:hover{background:var(--color-primary-hover)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS .index-module__btn-icon__bBkUh,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-btn__X81KS .index-module__btn-icon__bBkUh{font-size:12px}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-content__NBmXz .index-module__result-text__WX-aI,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-content__NBmXz .index-module__result-text__WX-aI{background:var(--bg-secondary);border:1px solid var(--border-primary);border-radius:8px;padding:16px;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;font-size:14px;line-height:1.6;color:var(--text-primary);white-space:pre-wrap;word-wrap:break-word;max-height:400px;overflow-y:auto;transition:border-color .15s ease}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-content__NBmXz .index-module__result-text__WX-aI:hover,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-content__NBmXz .index-module__result-text__WX-aI:hover{border-color:var(--border-tertiary)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar{width:6px}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-track,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-track{background:transparent}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-thumb,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-thumb{background:var(--scrollbar-thumb);border-radius:3px}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-thumb:hover,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-thumb:hover{background:var(--scrollbar-thumb-hover)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-meta__zAR0J,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-meta__zAR0J{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-secondary);font-size:12px;color:var(--text-secondary)}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-meta__zAR0J .index-module__meta-left__G7E6i,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-meta__zAR0J .index-module__meta-left__G7E6i{display:flex;align-items:center;gap:12px}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs .index-module__result-meta__zAR0J .index-module__meta-left__G7E6i .index-module__meta-item__Mikx5,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-meta__zAR0J .index-module__meta-left__G7E6i .index-module__meta-item__Mikx5{display:flex;align-items:center;gap:4px}.index-module__ai-panel__R0K19 .index-module__config-section__DsjHs h2,.index-module__ai-panel__R0K19 .index-module__result-section__esrDe h2{margin-bottom:15px;color:var(--text-primary);font-size:1.3em}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1{margin-bottom:24px}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1:last-child{margin-bottom:0}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__section-header__WEXG-{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__section-header__WEXG- h3{font-size:16px;font-weight:600;color:var(--text-primary);margin:0}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__section-header__WEXG- .index-module__header-actions__phC5-{display:flex;align-items:center;gap:12px}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__section-header__WEXG- .index-module__header-actions__phC5- .index-module__token-count__bZx1v{font-size:12px;color:var(--text-secondary);background:var(--bg-secondary);padding:4px 8px;border-radius:4px}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy{border:1px solid var(--border-primary);border-radius:8px;background:var(--bg-primary);transition:all .2s ease}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy:hover{border-color:var(--color-primary)}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--primary-shadow)}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy .index-module__prompt-textarea__ZeYSC{width:100%;padding:12px;border:none;border-radius:8px;font-size:14px;color:var(--text-primary);background:transparent;resize:none;box-sizing:border-box;font-family:inherit;line-height:1.5}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy .index-module__prompt-textarea__ZeYSC:focus{outline:none}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy .index-module__prompt-textarea__ZeYSC::placeholder{color:var(--text-secondary)}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy .index-module__prompt-footer__NhJb8{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-top:1px solid var(--border-light);background:var(--bg-secondary);border-radius:0 0 8px 8px}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy .index-module__prompt-footer__NhJb8 .index-module__char-count__qSePr{font-size:12px;color:var(--text-secondary)}.index-module__ai-panel__R0K19 .index-module__prompt-section__Y1L-1 .index-module__prompt-editor__N6csy.index-module__expanded__VY5Zd .index-module__prompt-textarea__ZeYSC{min-height:300px}.index-module__ai-panel__R0K19 .index-module__loading-section__qmhp-{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;gap:16px}.index-module__ai-panel__R0K19 .index-module__loading-section__qmhp- .index-module__loading-spinner__FhbKe{width:40px;height:40px;border:4px solid var(--border-light);border-top:4px solid var(--color-primary);border-radius:50%;animation:index-module__spin__NTQZe 1s linear infinite}.index-module__ai-panel__R0K19 .index-module__loading-section__qmhp- p{font-size:16px;font-weight:500;color:var(--text-primary);margin:0}.index-module__ai-panel__R0K19 .index-module__loading-section__qmhp- .index-module__loading-tips__TN0F6{font-size:13px;color:var(--text-secondary)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe{background:var(--bg-secondary);border-radius:16px;border:1px solid var(--border-primary);overflow:hidden;box-shadow:var(--shadow-lg);margin-bottom:24px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM{display:flex;justify-content:space-between;align-items:flex-start;background:linear-gradient(135deg,var(--bg-primary) 0%,var(--bg-secondary) 100%);border-bottom:1px solid var(--border-light);gap:20px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-title__GYp3Q{display:flex;align-items:center;gap:12px;flex:1}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-title__GYp3Q .index-module__title-icon__w1Z58{font-size:24px;margin-top:2px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-title__GYp3Q .index-module__title-content__qCIUv h3{font-size:18px;font-weight:700;color:var(--text-primary);margin:0 0 4px;background:linear-gradient(135deg,var(--text-primary) 0%,var(--color-primary) 100%);-webkit-text-fill-color:transparent;-webkit-background-clip:text;background-clip:text}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-title__GYp3Q .index-module__title-content__qCIUv .index-module__result-meta__zAR0J{font-size:12px;color:var(--text-secondary);font-weight:500}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b{display:flex;align-items:center;gap:16px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__token-info__IvG7g{display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--bg-tertiary);border-radius:20px;border:1px solid var(--border-light)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__token-info__IvG7g .index-module__token-icon__1P1bc{font-size:14px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__token-info__IvG7g .index-module__token-text__RWskI{font-size:12px;font-weight:600;color:var(--text-primary)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-buttons__SWxAg{display:flex;gap:8px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b .index-module__action-buttons__SWxAg .index-module__btn-icon__bBkUh{margin-right:6px;font-size:14px}@media (width <= 768px){.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM{flex-direction:column;align-items:stretch;gap:16px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-header__-sHRM .index-module__result-actions__Lwz6b{justify-content:space-between}}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI{padding:24px;font-size:14px;line-height:1.7;color:var(--text-primary);max-height:500px;overflow-y:auto;background:var(--bg-primary)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-paragraph__D6REa{margin:0 0 12px;color:var(--text-primary)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-paragraph__D6REa:last-child{margin-bottom:0}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-heading__voqzC{font-weight:700;color:var(--text-primary);margin:20px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--border-light)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-heading__voqzC.index-module__heading1__eVaM0{font-size:20px;color:var(--color-primary)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-heading__voqzC.index-module__heading2__EgSC5{font-size:18px;color:var(--color-primary)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-heading__voqzC.index-module__heading3__gXHpl{font-size:16px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-heading__voqzC:first-child{margin-top:0}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-list-item__9keYT{display:flex;align-items:flex-start;gap:8px;margin:6px 0;padding-left:16px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-list-item__9keYT .index-module__list-bullet__5e-IY{color:var(--color-primary);font-weight:700;margin-top:1px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-numbered-item__IXzIR{display:flex;align-items:flex-start;gap:8px;margin:6px 0;padding-left:16px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-numbered-item__IXzIR .index-module__number-bullet__KKVqC{color:var(--color-primary);font-weight:700;min-width:20px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI .index-module__result-spacing__lk3vv{height:12px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar{width:8px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-track{background:var(--bg-secondary);border-radius:4px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-thumb{background:var(--scrollbar-thumb);border-radius:4px;border:2px solid var(--bg-secondary)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-content__NBmXz .index-module__result-text__WX-aI::-webkit-scrollbar-thumb:hover{background:var(--scrollbar-thumb-hover)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;background:var(--bg-tertiary);border-top:1px solid var(--border-light)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v .index-module__result-stats__RMcsG{display:flex;gap:20px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v .index-module__result-stats__RMcsG .index-module__stat-item__z6Cev{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary);font-weight:500}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v .index-module__result-stats__RMcsG .index-module__stat-item__z6Cev .index-module__stat-icon__jcDOw{font-size:14px}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v .index-module__quality-badge__8BKyM{display:flex;align-items:center;gap:4px;padding:4px 10px;background:linear-gradient(135deg,var(--color-primary) 0%,var(--primary-color-dark) 100%);color:#fff;border-radius:12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;box-shadow:var(--shadow-sm)}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v .index-module__quality-badge__8BKyM .index-module__badge-icon__1YRBa{font-size:12px}@media (width <= 600px){.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v{flex-direction:column;gap:12px;align-items:stretch}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v .index-module__result-stats__RMcsG{justify-content:center}.index-module__ai-panel__R0K19 .index-module__result-section__esrDe .index-module__result-container__Rh1b2 .index-module__result-footer__lC3-v .index-module__quality-badge__8BKyM{align-self:center}}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;text-align:center;gap:20px;background:linear-gradient(135deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%);border-radius:16px;border:1px solid var(--border-primary);position:relative;overflow:hidden}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK:before{content:\"\";position:absolute;top:0;right:0;bottom:0;left:0;background:radial-gradient(circle at 30% 20%,var(--color-primary-lighter) 0%,transparent 50%),radial-gradient(circle at 70% 80%,var(--color-success-lighter) 0%,transparent 50%);pointer-events:none}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-icon__RFmRa{font-size:72px;opacity:.8;filter:drop-shadow(0 4px 8px rgba(0,0,0,.1));animation:index-module__float__FahY4 3s ease-in-out infinite;position:relative;z-index:1}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK h3{font-size:20px;font-weight:700;color:var(--text-primary);margin:0;position:relative;z-index:1;background:linear-gradient(135deg,var(--text-primary) 0%,var(--color-primary) 100%);-webkit-text-fill-color:transparent;-webkit-background-clip:text;background-clip:text}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK p{font-size:15px;color:var(--text-secondary);margin:0;max-width:420px;line-height:1.6;position:relative;z-index:1;opacity:.9}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR{display:flex;gap:32px;margin-top:24px;position:relative;z-index:1}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR .index-module__feature-item__zmC1K{display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 12px;border-radius:12px;background:var(--bg-primary);border:1px solid var(--border-secondary);transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-sm)}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR .index-module__feature-item__zmC1K:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--color-primary-light)}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR .index-module__feature-item__zmC1K .index-module__feature-icon__aCith{font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR .index-module__feature-item__zmC1K span{font-size:13px;color:var(--text-secondary);font-weight:500;text-align:center;line-height:1.3}@media (width <= 600px){.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR{flex-direction:column;gap:16px}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR .index-module__feature-item__zmC1K{flex-direction:row;text-align:left;padding:12px 16px}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR .index-module__feature-item__zmC1K .index-module__feature-icon__aCith{font-size:24px}.index-module__ai-panel__R0K19 .index-module__empty-result__D1DxK .index-module__empty-features__Y-XeR .index-module__feature-item__zmC1K span{text-align:left}}.index-module__btn-primary__NTwQw{padding:8px 16px;border:none;border-radius:10px;background:var(--color-primary);color:var(--btn-primary-text);font-size:14px;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-sm)}.index-module__btn-primary__NTwQw:hover:not(:disabled){background:var(--color-primary-dark);transform:translateY(-1px);box-shadow:var(--shadow-md)}.index-module__btn-primary__NTwQw:active:not(:disabled){transform:translateY(0);box-shadow:var(--shadow-sm)}.index-module__btn-primary__NTwQw:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}.index-module__btn-primary__NTwQw.index-module__regenerate__MPpEF{background:var(--color-warning);color:#fff}.index-module__btn-primary__NTwQw.index-module__regenerate__MPpEF:hover:not(:disabled){background:var(--color-warning-dark)}.index-module__btn-secondary__aSTHl{padding:8px 16px;border:1px solid var(--border-primary);border-radius:10px;background:var(--bg-quaternary);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);color:var(--text-primary);font-size:14px;font-weight:500;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1)}.index-module__btn-secondary__aSTHl:hover:not(:disabled){border-color:var(--color-primary);background:var(--color-primary-lighter);transform:translateY(-1px);box-shadow:var(--shadow-sm)}.index-module__btn-secondary__aSTHl:active:not(:disabled){transform:translateY(0);box-shadow:var(--shadow-xs)}.index-module__btn-secondary__aSTHl:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}.index-module__btn-text__f3PZM{padding:4px 8px;border:none;background:transparent;color:var(--color-primary);font-size:13px;font-weight:500;cursor:pointer;border-radius:4px;transition:all .2s ease}.index-module__btn-text__f3PZM:hover:not(:disabled){background:var(--color-primary-lighter)}.index-module__btn-text__f3PZM:disabled{opacity:.5;cursor:not-allowed}@keyframes index-module__spin__NTQZe{0%{transform:rotate(0)}to{transform:rotate(360deg)}}@keyframes index-module__float__FahY4{0%,to{transform:translateY(0)}50%{transform:translateY(-8px)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4{position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;animation:EventDetailModal-module__fade-in__gcFok .2s ease-out}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j{background:var(--bg-primary);border:1px solid var(--border-primary);border-radius:20px;box-shadow:0 20px 60px #00000026,0 8px 25px #0000001a;max-width:900px;width:100%;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;animation:EventDetailModal-module__modal-slide-in__wtFi2 .3s cubic-bezier(.34,1.56,.64,1)}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j{--bg-primary: #1c1c1e}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM{display:flex;align-items:center;justify-content:space-between;padding:24px 28px;border-bottom:1px solid var(--header-border, rgba(0, 0, 0, .08));background:var(--header-bg, rgba(248, 248, 248, .9));-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM{--header-bg: rgba(28, 28, 30, .9);--header-border: rgba(255, 255, 255, .1)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM h2{margin:0;font-size:20px;font-weight:700;color:var(--text-primary);letter-spacing:-.03em}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM .EventDetailModal-module__close-btn__0KmQE{width:36px;height:36px;border:none;border-radius:10px;background:var(--close-btn-bg, rgba(0, 0, 0, .06));cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--text-secondary);transition:all .2s cubic-bezier(.25,.46,.45,.94)}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM .EventDetailModal-module__close-btn__0KmQE{--close-btn-bg: rgba(255, 255, 255, .1)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM .EventDetailModal-module__close-btn__0KmQE:hover{background:var(--close-btn-hover-bg, rgba(0, 0, 0, .12));color:var(--text-primary);transform:scale(1.05)}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM .EventDetailModal-module__close-btn__0KmQE:hover{--close-btn-hover-bg: rgba(255, 255, 255, .15)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM .EventDetailModal-module__close-btn__0KmQE:active{transform:scale(.95)}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk{flex:1;overflow-y:auto;padding:28px;background:var(--bg-primary)}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar{width:6px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-track{background:transparent}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-thumb{background:var(--scrollbar-thumb, rgba(0, 0, 0, .2));border-radius:3px}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-thumb{--scrollbar-thumb: rgba(255, 255, 255, .3)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-thumb:hover{background:var(--scrollbar-thumb-hover, rgba(0, 0, 0, .3))}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-thumb:hover{--scrollbar-thumb-hover: rgba(255, 255, 255, .4)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG{margin-bottom:36px;padding:20px;background:var(--section-bg, rgba(248, 248, 248, .5));border-radius:16px;border:1px solid var(--section-border, rgba(0, 0, 0, .04));transition:all .2s ease}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG{--section-bg: rgba(28, 28, 30, .6);--section-border: rgba(255, 255, 255, .08)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG:last-child{margin-bottom:0}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG:hover{background:var(--section-hover-bg, rgba(248, 248, 248, .8));border-color:var(--section-hover-border, rgba(0, 0, 0, .08))}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG:hover{--section-hover-bg: rgba(28, 28, 30, .8);--section-hover-border: rgba(255, 255, 255, .12)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG.EventDetailModal-module__compact__GlU0K{margin-bottom:20px;padding:16px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG.EventDetailModal-module__compact__GlU0K h3{margin-bottom:12px;font-size:15px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG h3{margin:0 0 18px;font-size:17px;font-weight:700;color:var(--text-primary);letter-spacing:-.03em;display:flex;align-items:center;gap:8px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG h3:before{content:\"\";width:4px;height:18px;background:linear-gradient(135deg,#007aff,#5ac8fa);border-radius:2px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-grid__lP-Rl,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-content__b-wBI,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__project-info__BF-ji,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__push-info__CiBtf{display:flex;flex-direction:column;gap:12px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-content__Zl-xn,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-project__W-Pxu,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-author__bJeyL{gap:8px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL{display:flex;align-items:flex-start;gap:16px;padding:12px 0;border-bottom:1px solid var(--item-border, rgba(0, 0, 0, .04))}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL{--item-border: rgba(255, 255, 255, .06)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL:last-child{border-bottom:none}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-content__Zl-xn .EventDetailModal-module__detail-item__gTUiL,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-project__W-Pxu .EventDetailModal-module__detail-item__gTUiL{padding:8px 0;gap:12px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-content__Zl-xn .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__label__q-vpJ,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-project__W-Pxu .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__label__q-vpJ{min-width:60px;font-size:13px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-content__Zl-xn .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__value__U4voT,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-project__W-Pxu .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__value__U4voT{font-size:13px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__compact-author__bJeyL .EventDetailModal-module__detail-item__gTUiL{padding:6px 0;gap:10px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__label__q-vpJ{font-size:14px;font-weight:600;color:var(--text-secondary);min-width:100px;flex-shrink:0}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__value__U4voT{font-size:14px;color:var(--text-primary);flex:1;word-break:break-word;line-height:1.4}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__value__U4voT.EventDetailModal-module__action-badge__Bxghx{flex:0;white-space:nowrap;display:inline-block;padding:6px 12px;background:linear-gradient(135deg,#34c75926,#34c75914);color:var(--color-success);border-radius:8px;font-size:12px;font-weight:600;border:1px solid rgba(52,199,89,.2)}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__value__U4voT.EventDetailModal-module__action-badge__Bxghx{background:linear-gradient(135deg,#34c75933,#34c7591a);border-color:#34c7594d}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__value__U4voT.EventDetailModal-module__status-badge__mP8CY{display:inline-block;padding:4px 8px;border-radius:6px;font-size:11px;font-weight:500}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__value__U4voT.EventDetailModal-module__status-badge__mP8CY.EventDetailModal-module__status-opened__0o3-j{background:#34c7591f;color:var(--color-success)}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__value__U4voT.EventDetailModal-module__status-badge__mP8CY.EventDetailModal-module__status-closed__axB54{background:#ff453a1f;color:var(--color-danger)}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__value__U4voT.EventDetailModal-module__status-badge__mP8CY.EventDetailModal-module__status-merged__jrAZc{background:#007aff1f;color:var(--color-primary)}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__value__U4voT.EventDetailModal-module__commit-hash__T82Gy{font-family:SF Mono,Monaco,Cascadia Code,Roboto Mono,Consolas,Courier New,monospace;font-size:12px;background:#0000000a;padding:4px 8px;border-radius:4px;word-break:break-all}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__labels__FfkpP{display:flex;flex-wrap:wrap;gap:6px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__labels__FfkpP .EventDetailModal-module__label-tag__1eJTi{padding:3px 8px;background:#007aff14;color:var(--color-primary);border-radius:4px;font-size:11px;font-weight:500}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__author-info__QU8GM{display:flex;align-items:center;gap:12px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-avatar__UktK4{width:72px;height:72px;border-radius:12px;object-fit:cover}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-details__CSNcN{flex:1}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-details__CSNcN .EventDetailModal-module__author-name__Aop-h{font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:2px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-details__CSNcN .EventDetailModal-module__author-username__7f29y{font-size:13px;color:var(--text-secondary);margin-bottom:6px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-details__CSNcN .EventDetailModal-module__author-link__qdJ8G{font-size:12px;color:var(--color-primary);text-decoration:none;font-weight:500}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-details__CSNcN .EventDetailModal-module__author-link__qdJ8G:hover{text-decoration:underline}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__note-info__xsh-2 .EventDetailModal-module__note-body__h5kYR{background:#00000005;padding:16px;border-radius:8px;font-size:13px;line-height:1.5;color:var(--text-primary);white-space:pre-wrap;word-break:break-word;margin-bottom:12px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__note-info__xsh-2 .EventDetailModal-module__note-meta__CSOAr{display:flex;flex-direction:column;gap:4px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__note-info__xsh-2 .EventDetailModal-module__note-meta__CSOAr span{font-size:12px;color:var(--text-secondary)}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG{display:flex;align-items:center;justify-content:flex-end;gap:16px;padding:20px 28px;border-top:1px solid var(--footer-border, rgba(0, 0, 0, .08));background:var(--footer-bg, rgba(248, 248, 248, .9));-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG{--footer-bg: rgba(28, 28, 30, .9);--footer-border: rgba(255, 255, 255, .1)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__source-link-btn__lCMP7{padding:12px 20px;background:linear-gradient(135deg,var(--color-primary),#5ac8fa);color:var(--btn-primary-text);border:none;border-radius:12px;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;transition:all .2s cubic-bezier(.25,.46,.45,.94);box-shadow:0 4px 12px #007aff4d;display:flex;align-items:center;gap:8px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__source-link-btn__lCMP7:before{content:\"🔗\";font-size:16px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__source-link-btn__lCMP7:hover{transform:translateY(-2px);box-shadow:0 6px 20px #007aff66;background:linear-gradient(135deg,var(--color-primary-dark),#4aa3f0)}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__source-link-btn__lCMP7:active{transform:translateY(0)}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__close-modal-btn__u4I23{padding:12px 20px;background:var(--close-modal-bg, rgba(0, 0, 0, .06));color:var(--text-primary);border:1px solid var(--close-modal-border, rgba(0, 0, 0, .1));border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s cubic-bezier(.25,.46,.45,.94)}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__close-modal-btn__u4I23{--close-modal-bg: rgba(255, 255, 255, .1);--close-modal-border: rgba(255, 255, 255, .2)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__close-modal-btn__u4I23:hover{background:var(--close-modal-hover-bg, rgba(0, 0, 0, .12));border-color:var(--close-modal-hover-border, rgba(0, 0, 0, .15));transform:translateY(-1px)}@media (prefers-color-scheme: dark){.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__close-modal-btn__u4I23:hover{--close-modal-hover-bg: rgba(255, 255, 255, .15);--close-modal-hover-border: rgba(255, 255, 255, .25)}}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__close-modal-btn__u4I23:active{transform:translateY(0)}@keyframes EventDetailModal-module__fade-in__gcFok{0%{opacity:0}to{opacity:1}}@keyframes EventDetailModal-module__modal-slide-in__wtFi2{0%{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4{background:#0009}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j{background:#1c1c1ef2;box-shadow:0 8px 32px #0000004d}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM{background:#2c2c2ecc;border-bottom:1px solid rgba(255,255,255,.1)}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM h2{color:#f2f2f7}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM .EventDetailModal-module__close-btn__0KmQE{background:#ffffff1a;color:#8e8e93}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM .EventDetailModal-module__close-btn__0KmQE:hover{background:#fff3;color:#f2f2f7}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG h3{color:#f2f2f7}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__label__q-vpJ{color:#8e8e93}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__value__U4voT{color:#f2f2f7}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__value__U4voT.EventDetailModal-module__action-badge__Bxghx,.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__value__U4voT.EventDetailModal-module__status-badge__mP8CY.EventDetailModal-module__status-opened__0o3-j{background:#34c75933;color:#32d74b}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__value__U4voT.EventDetailModal-module__status-badge__mP8CY.EventDetailModal-module__status-closed__axB54{background:#ff453a33;color:#ff6961}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__value__U4voT.EventDetailModal-module__status-badge__mP8CY.EventDetailModal-module__status-merged__jrAZc{background:#4a9eff33;color:#4a9eff}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__value__U4voT.EventDetailModal-module__commit-hash__T82Gy{background:#ffffff1a;color:#f2f2f7}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__labels__FfkpP .EventDetailModal-module__label-tag__1eJTi{background:#4a9eff33;color:#4a9eff}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-details__CSNcN .EventDetailModal-module__author-name__Aop-h{color:#f2f2f7}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-details__CSNcN .EventDetailModal-module__author-username__7f29y{color:#8e8e93}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__author-info__QU8GM .EventDetailModal-module__author-details__CSNcN .EventDetailModal-module__author-link__qdJ8G{color:#4a9eff}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__note-info__xsh-2 .EventDetailModal-module__note-body__h5kYR{background:#ffffff14;color:#f2f2f7}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__note-info__xsh-2 .EventDetailModal-module__note-meta__CSOAr span{color:#8e8e93}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-footer__bMVTG{background:#2c2c2ecc;border-top:1px solid rgba(255,255,255,.1)}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__source-link-btn__lCMP7{background:#4a9eff33;color:#4a9eff}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__source-link-btn__lCMP7:hover{background:#4a9eff4d}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__close-modal-btn__u4I23{background:#ffffff1a;color:#f2f2f7}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-footer__bMVTG .EventDetailModal-module__close-modal-btn__u4I23:hover{background:#fff3}@media (width <= 768px){.EventDetailModal-module__event-detail-modal-overlay__kSKR4{padding:12px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-header__YHEvM,.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-footer__bMVTG{padding:16px 20px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk{padding:20px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG{margin-bottom:24px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL{flex-direction:column;gap:4px}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__detail-item__gTUiL .EventDetailModal-module__label__q-vpJ{min-width:auto}.EventDetailModal-module__event-detail-modal-overlay__kSKR4 .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk .EventDetailModal-module__detail-section__09YJG .EventDetailModal-module__author-info__QU8GM{flex-direction:column;align-items:flex-start;text-align:center}}.EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar{width:4px}.EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-track{background:transparent}.EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-thumb{background:#0003;border-radius:2px}.EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-thumb:hover{background:#0000004d}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-thumb{background:#fff3}.EventDetailModal-module__app__GneYG.EventDetailModal-module__dark__4O-jE .EventDetailModal-module__event-detail-modal__mBc4j .EventDetailModal-module__modal-content__V4tyk::-webkit-scrollbar-thumb:hover{background:#ffffff4d}.App-module__app__ZYOJd{width:100%;height:100vh;background:var(--bg-secondary);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;color:var(--text-primary);position:relative;overflow:hidden}.App-module__app__ZYOJd.App-module__web-mode__2hnFp{display:flex;align-items:stretch;justify-content:center}.App-module__app__ZYOJd.App-module__web-mode__2hnFp>*{width:100%;height:100vh}.App-module__app__ZYOJd.App-module__userscript-mode__5Dbvp{position:relative;width:100%;height:100%;z-index:999999;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;isolation:isolate;contain:layout style}.App-module__app__ZYOJd.App-module__userscript-mode__5Dbvp>*{width:100%;height:100%}.App-module__app__ZYOJd.App-module__userscript-mode__5Dbvp .App-module__events-list-footer__M6fFx{flex-shrink:0!important;display:block!important;visibility:visible!important;opacity:1!important;position:relative!important;z-index:1!important}.App-module__app__ZYOJd.App-module__userscript-mode__5Dbvp .App-module__pagination__8MYcc{display:flex!important;visibility:visible!important;opacity:1!important;position:relative!important;z-index:1!important}.App-module__app__ZYOJd.App-module__light__-2YM7{background:var(--bg-secondary);color:var(--text-primary)}.App-module__app__ZYOJd.App-module__dark__zl6FN{background:var(--bg-primary);color:var(--text-primary)}@media (width <= 768px){.App-module__app__ZYOJd.App-module__web-mode__2hnFp>*{height:100vh}.App-module__app__ZYOJd.App-module__userscript-mode__5Dbvp{top:10px;right:10px;left:10px;width:auto;height:calc(100vh - 20px)}}*::-webkit-scrollbar{width:8px;height:8px}*::-webkit-scrollbar-track{background:transparent}*::-webkit-scrollbar-thumb{background:var(--scrollbar-thumb);border-radius:4px}*::-webkit-scrollbar-thumb:hover{background:var(--scrollbar-thumb-hover)}@keyframes App-module__fade-in__hmOGT{0%{opacity:0}to{opacity:1}}@keyframes App-module__slide-in-up__3G2dj{0%{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}@keyframes App-module__slide-in-down__yp8xa{0%{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}.App-module__fade-in__hmOGT{animation:App-module__fade-in__hmOGT .3s ease-out}.App-module__slide-in-up__3G2dj{animation:App-module__slide-in-up__3G2dj .3s ease-out}.App-module__slide-in-down__yp8xa{animation:App-module__slide-in-down__yp8xa .3s ease-out}.App-module__userscript-header__Gd9rb{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;border-bottom:1px solid var(--border-tertiary);background:var(--bg-tertiary);border-radius:8px}.App-module__userscript-header__Gd9rb h3{margin:0;color:var(--text-primary);font-size:16px}.App-module__userscript-header__Gd9rb .App-module__toggle-btn__1QXY6{padding:4px 12px;font-size:12px;background:var(--color-primary);color:#fff;border:none;border-radius:4px;cursor:pointer}.App-module__userscript-header__Gd9rb .App-module__toggle-btn__1QXY6:hover{background:var(--color-primary-dark)}.App-module__app-content__41BC0{transition:all .3s ease}.App-module__app-content__41BC0.App-module__collapsed__-W0B6{display:none}.App-module__app-content__41BC0.App-module__expanded__4oZSa{display:block}.App-module__app-header__uzDwt{text-align:center;margin-bottom:30px}.App-module__app-header__uzDwt h1{margin-bottom:10px;color:var(--text-primary);font-size:2.5em}@media (prefers-color-scheme: dark){.App-module__app-header__uzDwt h1{color:var(--btn-primary-text)}}.App-module__app-header__uzDwt p{color:var(--text-tertiary);font-size:1.1em}@media (prefers-color-scheme: dark){.App-module__app-header__uzDwt p{color:var(--border-tertiary)}}.App-module__app-main__Vb-mE{display:flex;flex-direction:column;gap:25px}.App-module__error-banner__lzzyc{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--color-error-bg);border:1px solid var(--color-error-border);border-radius:6px;color:var(--color-error-text);margin-bottom:20px}.App-module__error-banner__lzzyc button{background:none;border:none;color:var(--color-error-text);font-size:18px;cursor:pointer;padding:0;width:20px;height:20px;display:flex;align-items:center;justify-content:center}.App-module__error-banner__lzzyc button:hover{opacity:.7}.App-module__config-form__3qfiF{display:flex;flex-direction:column;gap:15px}.App-module__form-group__HjqOW{display:flex;flex-direction:column;gap:5px}.App-module__form-group__HjqOW label{font-weight:500;color:var(--text-secondary)}@media (prefers-color-scheme: dark){.App-module__form-group__HjqOW label{color:var(--border-tertiary)}}.App-module__form-group__HjqOW input{padding:8px 12px;border:1px solid var(--border-primary);border-radius:4px;font-size:14px;transition:border-color .2s}.App-module__form-group__HjqOW input:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 2px #007bff40}@media (prefers-color-scheme: dark){.App-module__form-group__HjqOW input{background:var(--bg-secondary);border-color:var(--border-secondary);color:var(--text-primary)}}.App-module__date-range__a4twt{display:flex;align-items:center;gap:10px}.App-module__date-range__a4twt input{flex:1}.App-module__date-range__a4twt span{color:var(--text-tertiary);font-size:14px}@media (prefers-color-scheme: dark){.App-module__date-range__a4twt span{color:var(--border-tertiary)}}.App-module__action-section__PNqvo{display:flex;gap:15px;justify-content:center}.App-module__primary-btn__7Yh0h,.App-module__secondary-btn__rYZob{padding:12px 24px;border-radius:6px;font-size:16px;font-weight:500;cursor:pointer;transition:all .2s}.App-module__primary-btn__7Yh0h:disabled,.App-module__secondary-btn__rYZob:disabled{opacity:.6;cursor:not-allowed}.App-module__primary-btn__7Yh0h{background:var(--color-primary);color:var(--btn-text);border:none;box-shadow:var(--shadow-sm)}.App-module__primary-btn__7Yh0h:hover:not(:disabled){background:var(--color-primary-hover);transform:translateY(-1px);box-shadow:var(--shadow-md)}.App-module__primary-btn__7Yh0h:active:not(:disabled){transform:translateY(0);box-shadow:var(--shadow-sm)}.App-module__secondary-btn__rYZob{background:transparent;color:var(--color-primary);border:1px solid var(--color-primary)}.App-module__secondary-btn__rYZob:hover:not(:disabled){background:var(--color-primary);color:#fff;transform:translateY(-1px)}.App-module__preview-area__eSphl{min-height:200px;background:#fff;border:1px solid var(--border-primary);border-radius:4px;padding:15px}@media (prefers-color-scheme: dark){.App-module__preview-area__eSphl{background:var(--bg-secondary);border-color:var(--border-secondary)}}.App-module__preview-area__eSphl .App-module__placeholder__64NFK{color:var(--text-tertiary);text-align:center;margin-top:80px;font-style:italic}@media (prefers-color-scheme: dark){.App-module__preview-area__eSphl .App-module__placeholder__64NFK{color:var(--text-quaternary)}}.App-module__preview-area__eSphl .App-module__loading__nhcml{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;gap:16px}.App-module__preview-area__eSphl .App-module__loading__nhcml .App-module__spinner__DX3IN{width:32px;height:32px;border:3px solid var(--bg-secondary);border-top:3px solid var(--color-primary);border-radius:50%;animation:App-module__spin__cTQvR 1s linear infinite}.App-module__preview-area__eSphl .App-module__loading__nhcml p{color:var(--text-tertiary);margin:0}@media (prefers-color-scheme: dark){.App-module__preview-area__eSphl .App-module__loading__nhcml p{color:var(--border-tertiary)}}.App-module__preview-area__eSphl .App-module__report-content__qtrdb .App-module__report-meta__Jmys5{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border-tertiary);margin-bottom:15px;font-size:12px;color:var(--text-tertiary)}@media (prefers-color-scheme: dark){.App-module__preview-area__eSphl .App-module__report-content__qtrdb .App-module__report-meta__Jmys5{border-color:var(--text-secondary);color:var(--border-tertiary)}}.App-module__preview-area__eSphl .App-module__report-content__qtrdb .App-module__report-meta__Jmys5 span:not(:last-child):after{content:\"•\";margin:0 8px;opacity:.5}@media (width <= 600px){.App-module__preview-area__eSphl .App-module__report-content__qtrdb .App-module__report-meta__Jmys5{flex-direction:column;gap:5px;align-items:flex-start}.App-module__preview-area__eSphl .App-module__report-content__qtrdb .App-module__report-meta__Jmys5 span:after{display:none}}.App-module__preview-area__eSphl .App-module__report-content__qtrdb .App-module__report-text__DiDz5{line-height:1.6;color:var(--text-primary);white-space:pre-wrap;word-wrap:break-word}@media (prefers-color-scheme: dark){.App-module__preview-area__eSphl .App-module__report-content__qtrdb .App-module__report-text__DiDz5{color:var(--text-primary)}}@media (width <= 768px){.App-module__app__ZYOJd{padding:15px}.App-module__app__ZYOJd.App-module__userscript-mode__5Dbvp{max-width:350px}.App-module__app-header__uzDwt h1{font-size:2em}.App-module__action-section__PNqvo,.App-module__date-range__a4twt{flex-direction:column}.App-module__date-range__a4twt span{display:none}}*{margin:0;padding:0;box-sizing:border-box}:root{font-family:Inter,system-ui,Avenir,Helvetica,Arial,sans-serif;line-height:1.5;font-weight:400;color-scheme:light dark;font-synthesis:none;text-rendering:optimizelegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-size-adjust:100%;--bg-primary: #fff;--bg-secondary: #f5f5f7;--bg-tertiary: #f8f9fa;--bg-quaternary: rgba(248, 248, 248, .8);--text-primary: #1d1d1f;--text-secondary: #86868b;--text-tertiary: #666;--text-quaternary: #8e8e93;--border-primary: rgba(0, 0, 0, .08);--border-secondary: rgba(0, 0, 0, .05);--border-tertiary: #e5e5e7;--border-quaternary: #d2d2d7;--color-primary: #007aff;--color-primary-hover: #0051d5;--color-primary-dark: #0051d5;--color-primary-light: rgba(0, 122, 255, .1);--color-primary-lighter: rgba(0, 122, 255, .05);--color-success: #34c759;--color-success-light: rgba(52, 199, 89, .1);--color-success-lighter: rgba(52, 199, 89, .05);--color-warning: #ff9500;--color-warning-light: rgba(255, 149, 0, .1);--color-warning-lighter: rgba(255, 149, 0, .05);--color-error: #ff3b30;--color-error-bg: #f8d7da;--color-error-border: #f5c6cb;--color-error-text: #721c24;--color-error-light: rgba(255, 59, 48, .1);--color-danger: #ff3b30;--color-danger-light: rgba(255, 59, 48, .1);--color-danger-lighter: rgba(255, 59, 48, .05);--color-info: #5856d6;--color-info-light: rgba(88, 86, 214, .1);--shadow-sm: 0 2px 8px rgba(0, 0, 0, .06);--shadow-md: 0 4px 16px rgba(0, 0, 0, .1);--shadow-lg: 0 8px 32px rgba(0, 0, 0, .15);--shadow-xl: 0 20px 60px rgba(0, 0, 0, .15);--scrollbar-thumb: #d1d1d6;--scrollbar-thumb-hover: #b4b4b9;--overlay: rgba(0, 0, 0, .5);--overlay-light: rgba(0, 0, 0, .5);--overlay-heavy: rgba(0, 0, 0, .6);--btn-bg: #f9f9f9;--btn-text: #213547;--btn-primary-text: #fff;--btn-border: rgba(0, 0, 0, .1);--btn-hover-bg: rgba(0, 0, 0, .06);--border-light: rgba(0, 0, 0, .05);--primary-bg-hover: rgba(74, 158, 255, .1);--primary-shadow: rgba(74, 158, 255, .25);--success-color: #34c759;--warning-color: #ff9500;--shadow-xs: 0 1px 4px rgba(0, 0, 0, .04);--input-bg: #fff;--input-border: #ddd;--input-focus-border: #007bff;--input-focus-shadow: rgba(0, 123, 255, .1);color:var(--text-primary);background-color:var(--bg-primary)}html,body{height:100%;margin:0;padding:0}#root{width:100%;min-height:100vh;display:flex;flex-direction:column}a{font-weight:500;color:var(--color-primary);text-decoration:inherit;transition:color .2s ease}a:hover{color:var(--color-primary-hover)}body{margin:0;min-width:320px;min-height:100vh}h1{font-size:3.2em;line-height:1.1}button{border-radius:8px;border:1px solid transparent;padding:.6em 1.2em;font-size:1em;font-weight:500;font-family:inherit;background-color:var(--btn-bg);color:var(--btn-text);cursor:pointer;transition:border-color .25s;outline:none!important}button:hover{border-color:var(--color-primary)}@media (prefers-color-scheme: dark){:root{--bg-primary: #1a1a1a;--bg-secondary: #1c1c1e;--bg-tertiary: #2c2c2e;--bg-quaternary: rgba(28, 28, 30, .8);--text-primary: #fff;--text-secondary: #8e8e93;--text-tertiary: #98989d;--text-quaternary: #636366;--border-primary: rgba(255, 255, 255, .1);--border-secondary: rgba(255, 255, 255, .08);--border-tertiary: #424245;--border-quaternary: #48484a;--color-primary: #4a9eff;--color-primary-hover: #64b5f6;--color-primary-dark: #3a8eef;--color-primary-light: rgba(74, 158, 255, .2);--color-primary-lighter: rgba(74, 158, 255, .1);--color-success: #32d74b;--color-success-light: rgba(52, 199, 89, .2);--color-warning: #ff9f0a;--color-warning-light: rgba(255, 149, 0, .2);--color-error: #ff453a;--color-error-bg: #5c2122;--color-error-border: #7c2e2f;--color-error-text: #f8d7da;--color-error-light: rgba(255, 69, 58, .2);--color-info: #5e5ce6;--color-info-light: rgba(88, 86, 214, .2);--shadow-sm: 0 2px 8px rgba(0, 0, 0, .2);--shadow-md: 0 4px 16px rgba(0, 0, 0, .3);--shadow-lg: 0 8px 32px rgba(0, 0, 0, .4);--shadow-xl: 0 20px 60px rgba(0, 0, 0, .5);--scrollbar-thumb: #48484a;--scrollbar-thumb-hover: #636366;--overlay: rgba(0, 0, 0, .6);--overlay-light: rgba(0, 0, 0, .6);--overlay-heavy: rgba(0, 0, 0, .8);--btn-bg: #1a1a1a;--btn-text: rgba(255, 255, 255, .87);--btn-primary-text: #fff;--btn-border: rgba(255, 255, 255, .2);--btn-hover-bg: rgba(255, 255, 255, .1);--border-light: rgba(255, 255, 255, .08);--primary-bg-hover: rgba(74, 158, 255, .2);--primary-shadow: rgba(74, 158, 255, .3);--success-color: #32d74b;--warning-color: #ff9f0a;--shadow-xs: 0 1px 4px rgba(0, 0, 0, .1);--input-bg: #2c2c2e;--input-border: #48484a;--input-focus-border: #64b5f6;--input-focus-shadow: rgba(100, 181, 246, .1);color:var(--text-primary);background-color:var(--bg-primary)}}.error-message{background:var(--color-error-bg);border:1px solid var(--color-error-border);padding:10px;border-radius:5px;color:var(--color-error-text);margin-bottom:20px}.error-message p{margin:0;color:var(--color-error-text)}select{-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:url(\"data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e\");background-repeat:no-repeat;background-position:right 8px center;background-size:16px;padding-right:32px!important}@media (prefers-color-scheme: dark){select{background-image:url(\"data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e\")}}",
         ),
       ),
         document.head.appendChild(e)
@@ -46,9 +46,9 @@ var __defProp = Object.defineProperty,
 !(function (e, t) {
   'use strict'
   var a = {},
-    s = t
-  ;(a.createRoot = s.createRoot), (a.hydrateRoot = s.hydrateRoot)
-  var n = { exports: {} },
+    n = t
+  ;(a.createRoot = n.createRoot), (a.hydrateRoot = n.hydrateRoot)
+  var s = { exports: {} },
     l = {},
     i = e,
     o = Symbol.for('react.element'),
@@ -57,80 +57,66 @@ var __defProp = Object.defineProperty,
     c = i.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,
     _ = { key: !0, ref: !0, __self: !0, __source: !0 }
   function u(e, t, a) {
-    var s,
-      n = {},
+    var n,
+      s = {},
       l = null,
       i = null
-    for (s in (void 0 !== a && (l = '' + a),
+    for (n in (void 0 !== a && (l = '' + a),
     void 0 !== t.key && (l = '' + t.key),
     void 0 !== t.ref && (i = t.ref),
     t))
-      d.call(t, s) && !_.hasOwnProperty(s) && (n[s] = t[s])
+      d.call(t, n) && !_.hasOwnProperty(n) && (s[n] = t[n])
     if (e && e.defaultProps)
-      for (s in (t = e.defaultProps)) void 0 === n[s] && (n[s] = t[s])
-    return { $$typeof: o, type: e, key: l, ref: i, props: n, _owner: c.current }
+      for (n in (t = e.defaultProps)) void 0 === s[n] && (s[n] = t[n])
+    return { $$typeof: o, type: e, key: l, ref: i, props: s, _owner: c.current }
   }
-  ;(l.Fragment = r), (l.jsx = u), (l.jsxs = u), (n.exports = l)
-  var m = n.exports
+  ;(l.Fragment = r), (l.jsx = u), (l.jsxs = u), (s.exports = l)
+  var m = s.exports
   const p = () =>
     'undefined' != typeof window && 'undefined' != typeof GM_xmlhttpRequest
   async function h(e, t = {}) {
     const {
       method: a = 'GET',
-      headers: s = {},
-      body: n,
+      headers: n = {},
+      body: s,
       timeout: l = 3e4,
       signal: i,
     } = t
     if (p())
       return new Promise((t, o) => {
-        const r = { 'Content-Type': 'application/json', ...s }
-        let d
-        if (
-          (l > 0 &&
-            (d = window.setTimeout(() => {
-              o(new Error('Request timeout'))
-            }, l)),
-          null == i ? void 0 : i.aborted)
-        )
-          return void o(new Error('Request aborted'))
-        const c = () => {
-          d && clearTimeout(d), o(new Error('Request aborted'))
-        }
+        if (null == i ? void 0 : i.aborted)
+          return o(new Error('Request aborted'))
+        const r = new AbortController(),
+          d = l > 0 ? setTimeout(() => r.abort(), l) : void 0,
+          c = () => {
+            clearTimeout(d), r.abort(), o(new Error('Request aborted'))
+          }
         null == i || i.addEventListener('abort', c),
           GM_xmlhttpRequest({
             method: a.toUpperCase(),
             url: e,
-            headers: r,
-            data: n,
+            headers: { 'Content-Type': 'application/json', ...n },
+            data: s,
             timeout: l,
             onload: e => {
-              d && clearTimeout(d),
-                null == i || i.removeEventListener('abort', c)
-              const a = {
-                ok: e.status >= 200 && e.status < 300,
-                status: e.status,
-                statusText: e.statusText,
-                headers: v(e.responseHeaders),
-                json: async () => {
-                  try {
-                    return JSON.parse(e.responseText)
-                  } catch (t) {
-                    throw new Error('Invalid JSON response')
-                  }
-                },
-                text: async () => e.responseText,
-              }
-              t(a)
+              clearTimeout(d),
+                null == i || i.removeEventListener('abort', c),
+                t({
+                  ok: e.status >= 200 && e.status < 300,
+                  status: e.status,
+                  statusText: e.statusText,
+                  headers: x(e.responseHeaders),
+                  json: () => Promise.resolve(JSON.parse(e.responseText)),
+                  text: () => Promise.resolve(e.responseText),
+                })
             },
             onerror: e => {
-              d && clearTimeout(d),
+              clearTimeout(d),
                 null == i || i.removeEventListener('abort', c),
                 o(new Error(`Network error: ${e.error || 'Unknown error'}`))
             },
             ontimeout: () => {
-              d && clearTimeout(d),
-                null == i || i.removeEventListener('abort', c),
+              null == i || i.removeEventListener('abort', c),
                 o(new Error('Request timeout'))
             },
           })
@@ -138,8 +124,8 @@ var __defProp = Object.defineProperty,
     {
       const t = {
         method: a,
-        headers: { 'Content-Type': 'application/json', ...s },
-        body: n,
+        headers: { 'Content-Type': 'application/json', ...n },
+        body: s,
         signal: i,
       }
       l > 0 && !i && (t.signal = AbortSignal.timeout(l))
@@ -159,7 +145,7 @@ var __defProp = Object.defineProperty,
       }
     }
   }
-  const v = e => {
+  const x = e => {
       const t = {}
       return e
         ? (e.split('\n').forEach(e => {
@@ -169,37 +155,48 @@ var __defProp = Object.defineProperty,
           t)
         : t
     },
-    g = (e, t) => {
-      try {
-        p() && 'undefined' != typeof GM_setValue
-          ? GM_setValue(e, t)
-          : 'undefined' != typeof localStorage && localStorage.setItem(e, t)
-      } catch (a) {}
+    v = {
+      /**
+       * 设置存储值
+       */
+      setItem: (e, t) => {
+        try {
+          p() && 'undefined' != typeof GM_setValue
+            ? GM_setValue(e, t)
+            : 'undefined' != typeof localStorage && localStorage.setItem(e, t)
+        } catch (a) {}
+      },
+      /**
+       * 获取存储值
+       */
+      getItem: e => {
+        try {
+          return p() && 'undefined' != typeof GM_getValue
+            ? GM_getValue(e, null)
+            : 'undefined' != typeof localStorage
+              ? localStorage.getItem(e)
+              : null
+        } catch (t) {
+          return null
+        }
+      },
+      /**
+       * 删除存储值
+       */
+      removeItem: e => {
+        try {
+          p() && 'undefined' != typeof GM_deleteValue
+            ? GM_deleteValue(e)
+            : 'undefined' != typeof localStorage && localStorage.removeItem(e)
+        } catch (t) {}
+      },
     },
-    x = e => {
-      try {
-        return p() && 'undefined' != typeof GM_getValue
-          ? GM_getValue(e, null)
-          : 'undefined' != typeof localStorage
-            ? localStorage.getItem(e)
-            : null
-      } catch (t) {
-        return null
-      }
-    },
-    b = e => {
-      try {
-        p() && 'undefined' != typeof GM_deleteValue
-          ? GM_deleteValue(e)
-          : 'undefined' != typeof localStorage && localStorage.removeItem(e)
-      } catch (t) {}
-    },
-    j = '1.6.0',
-    f = {
+    g = '1.7.0',
+    b = {
       DEEPSEEK_BASE_URL: 'https://api.deepseek.com/v1',
       REQUEST_TIMEOUT: 3e4,
     },
-    N = {
+    j = {
       gitlabUrl: 'https://www.lejuhub.com/api/v4',
       gitlabToken: '',
       deepseekApiKey: '',
@@ -211,12 +208,12 @@ var __defProp = Object.defineProperty,
       customPrompt: '',
       theme: 'system',
     },
-    y = 'https://gitlab.example.com',
-    k = '请输入您的GitLab Personal Access Token',
-    E = '请输入您的DeepSeek API Key',
-    C = '请根据以下GitLab事件数据生成工作周报...',
+    f = 'https://gitlab.example.com',
+    N = '请输入您的GitLab Personal Access Token',
+    y = '请输入您的DeepSeek API Key',
+    k = '请根据以下GitLab事件数据生成工作周报...',
     w = 'gitlab_weekly_report_config'
-  class T extends Error {
+  class C extends Error {
     constructor(e, t, a) {
       super(`[${a}] ${t}`),
         __publicField(this, 'status'),
@@ -226,7 +223,7 @@ var __defProp = Object.defineProperty,
         (this.service = a)
     }
   }
-  class S extends Error {
+  class E extends Error {
     constructor(e, t) {
       super(`[${t}] ${e}`),
         __publicField(this, 'service'),
@@ -234,17 +231,17 @@ var __defProp = Object.defineProperty,
         (this.service = t)
     }
   }
-  class M {
+  class S {
     /**
      * 创建API错误
      */
     static createApiError(e, t, a) {
-      return new T(e, t, a)
+      return new C(e, t, a)
     }
     /**
      * 创建响应错误
      */ static createResponseError(e, t) {
-      return new S(e, t)
+      return new E(e, t)
     }
     /**
      * 创建网络错误
@@ -261,21 +258,23 @@ var __defProp = Object.defineProperty,
     /**
      * 格式化错误信息为用户友好的格式
      */ static formatErrorMessage(e) {
-      return e instanceof Error
-        ? 'ApiError' === e.name ||
-          'NetworkError' === e.name ||
-          'ConfigError' === e.name
-          ? e.message
-          : e.message.includes('fetch')
-            ? '网络连接失败，请检查网络连接后重试'
-            : e.message.includes('timeout')
-              ? '请求超时，请稍后重试'
-              : e.message.includes('CORS')
-                ? '跨域请求被阻止，请检查服务器配置'
-                : e.message
-        : 'string' == typeof e
-          ? e
-          : '发生未知错误，请稍后重试'
+      if ('string' == typeof e) return e
+      if (e instanceof Error) {
+        const t = {
+          ApiError: e.message,
+          NetworkError: e.message,
+          ConfigError: e.message,
+        }
+        if (t[e.name]) return t[e.name]
+        const a = {
+          fetch: '网络连接失败，请检查网络连接后重试',
+          timeout: '请求超时，请稍后重试',
+          CORS: '跨域请求被阻止，请检查服务器配置',
+        }
+        for (const n in a) if (e.message.includes(n)) return a[n]
+        return e.message
+      }
+      return '发生未知错误，请稍后重试'
     }
     /**
      * 记录错误日志
@@ -288,8 +287,8 @@ var __defProp = Object.defineProperty,
      */ static async safeAsync(e, t, a) {
       try {
         return await e()
-      } catch (s) {
-        return this.logError(s, a), t
+      } catch (n) {
+        return this.logError(n, a), t
       }
     }
     /**
@@ -297,8 +296,8 @@ var __defProp = Object.defineProperty,
      */ static safeSync(e, t, a) {
       try {
         return e()
-      } catch (s) {
-        return this.logError(s, a), t
+      } catch (n) {
+        return this.logError(n, a), t
       }
     }
     /**
@@ -314,54 +313,44 @@ var __defProp = Object.defineProperty,
     /**
      * 判断是否为网络错误
      */ static isNetworkError(e) {
+      if (!(e instanceof Error)) return !1
       return (
-        e instanceof Error &&
-        ('NetworkError' === e.name ||
-          e.message.includes('fetch') ||
-          e.message.includes('network') ||
-          e.message.includes('timeout'))
+        ['NetworkError', 'fetch', 'network', 'timeout'].some(t =>
+          e.message.includes(t),
+        ) || 'NetworkError' === e.name
       )
     }
   }
-  const L = e => {
+  const M = e => {
       try {
-        g(w, JSON.stringify(e))
+        return e(v)
       } catch (t) {
-        'undefined' != typeof localStorage &&
-          localStorage.setItem(w, JSON.stringify(e))
+        if ('undefined' != typeof localStorage)
+          try {
+            return e(localStorage)
+          } catch (a) {}
       }
     },
-    $ = () => {
-      try {
-        const e = x(w)
-        return e ? JSON.parse(e) : null
-      } catch (e) {
-        try {
-          if ('undefined' != typeof localStorage) {
-            const e = localStorage.getItem(w)
-            return e ? JSON.parse(e) : null
-          }
-        } catch (t) {}
-        return null
-      }
+    T = e => {
+      M(t => t.setItem(w, JSON.stringify(e)))
     },
     D = () => {
-      try {
-        b(w)
-      } catch (e) {
-        'undefined' != typeof localStorage && localStorage.removeItem(w)
-      }
+      const e = M(e => e.getItem(w))
+      return e ? JSON.parse(e) : null
+    },
+    $ = () => {
+      M(e => e.removeItem(w))
     },
     A = '请先完善GitLab和DeepSeek配置信息',
     I = '请先完善配置信息',
-    O = '请至少选择一个事件来生成周报',
+    L = '请至少选择一个事件来生成周报',
     R = '请检查筛选条件或GitLab配置',
     P = {
-      config: N,
+      config: j,
       reportData: null,
       isLoading: !1,
       error: null,
-      theme: N.theme,
+      theme: j.theme,
       activePanel: 'main',
       appMode: 'events',
       filterConditions: { timeRange: 'week', targetType: [], action: [] },
@@ -380,31 +369,29 @@ var __defProp = Object.defineProperty,
       selectedProjectId: null,
       commits: [],
     }
-  function U() {
+  function O() {
     const [t, a] = e.useState(P)
     e.useEffect(() => {
       ;(async () => {
         try {
-          const e = await $()
-          a(t => {
-            const a = e ? { ...N, ...e } : N
-            return { ...t, config: a, theme: a.theme || N.theme }
-          })
+          const e = await D(),
+            t = e ? { ...j, ...e } : j
+          a(e => ({ ...e, config: t, theme: t.theme || j.theme }))
         } catch (e) {
-          a(e => ({ ...e, config: N, theme: N.theme }))
+          a(e => ({ ...e, config: j, theme: j.theme }))
         }
       })()
     }, [])
-    const s = e.useCallback(e => {
+    const n = e.useCallback(e => {
         a(t => {
           const a = { ...t.config, ...e }
           try {
-            L(a)
-          } catch (s) {}
+            T(a)
+          } catch (n) {}
           return { ...t, config: a }
         })
       }, []),
-      n = e.useCallback(e => {
+      s = e.useCallback(e => {
         a(t => ({ ...t, activePanel: e }))
       }, []),
       l = e.useCallback(e => {
@@ -448,18 +435,18 @@ var __defProp = Object.defineProperty,
       h = e.useCallback(e => {
         a(t => ({ ...t, isLoading: e }))
       }, []),
-      v = e.useCallback(e => {
+      x = e.useCallback(e => {
         a(t => ({ ...t, error: e }))
       }, []),
-      g = e.useCallback(e => {
+      v = e.useCallback(e => {
         a(t => ({ ...t, reportData: e }))
       }, []),
-      x = e.useCallback(e => {
+      g = e.useCallback(e => {
         a(t => {
           const a = { ...t.config, theme: e }
           try {
-            L(a)
-          } catch (s) {}
+            T(a)
+          } catch (n) {}
           return { ...t, config: a, theme: e }
         })
       }, []),
@@ -478,50 +465,50 @@ var __defProp = Object.defineProperty,
           }
           const a = { ...e.config, theme: t }
           try {
-            L(a)
-          } catch (s) {}
+            T(a)
+          } catch (n) {}
           return { ...e, config: a, theme: t }
         })
       }, []),
-      j = e.useCallback(() => {
-        a(P), D()
-      }, []),
       f = e.useCallback(() => {
+        a(P), $()
+      }, []),
+      N = e.useCallback(() => {
         const {
           gitlabUrl: e,
           gitlabToken: a,
-          deepseekApiKey: s,
-          defaultPrompt: n,
+          deepseekApiKey: n,
+          defaultPrompt: s,
         } = t.config
-        return !!(e.trim() && a.trim() && s.trim() && n.trim())
+        return !!(e.trim() && a.trim() && n.trim() && s.trim())
       }, [t.config]),
       y = e.useCallback(() => {
         const e = new Date(),
           a = t.filterConditions.timeRange,
-          s = 864e5,
-          n = new Date(e.getTime() + s)
+          n = 864e5,
+          s = new Date(e.getTime() + n)
         if ('week' === a) {
           const t = e.getDay()
           let a = 0 === t ? 6 : t - 1
           1 === t && (a += 1)
           return {
-            startDate: new Date(e.getTime() - a * s)
+            startDate: new Date(e.getTime() - a * n)
               .toISOString()
               .split('T')[0],
-            endDate: n.toISOString().split('T')[0],
+            endDate: s.toISOString().split('T')[0],
           }
         }
         let l = 7
         l = { '7d': 7, '30d': 30, '90d': 90, '180d': 180, '365d': 365 }[a] || 7
         return {
-          startDate: new Date(e.getTime() - l * s).toISOString().split('T')[0],
-          endDate: n.toISOString().split('T')[0],
+          startDate: new Date(e.getTime() - l * n).toISOString().split('T')[0],
+          endDate: s.toISOString().split('T')[0],
         }
       }, [t.filterConditions.timeRange])
     return {
       state: t,
-      updateConfig: s,
-      setActivePanel: n,
+      updateConfig: n,
+      setActivePanel: s,
       setAppMode: l,
       setProjects: i,
       setSelectedProjectId: o,
@@ -533,26 +520,26 @@ var __defProp = Object.defineProperty,
       setTotal: m,
       setAIGenerationConfig: p,
       setLoading: h,
-      setError: v,
-      setReportData: g,
-      setTheme: x,
+      setError: x,
+      setReportData: v,
+      setTheme: g,
       toggleTheme: b,
-      resetState: j,
-      isConfigValid: f,
+      resetState: f,
+      isConfigValid: N,
       getTimeRange: y,
     }
   }
-  const G = () => {
+  const U = () => {
       const t = e.useRef(null),
         a = e.useCallback(() => {
           t.current && t.current.abort()
           const e = new AbortController()
           return (t.current = e), e
         }, []),
-        s = e.useCallback(() => {
+        n = e.useCallback(() => {
           t.current && (t.current.abort(), (t.current = null))
         }, []),
-        n = e.useCallback(e => e.signal.aborted, []),
+        s = e.useCallback(e => e.signal.aborted, []),
         l = e.useCallback(e => {
           t.current === e && (t.current = null)
         }, []),
@@ -563,50 +550,26 @@ var __defProp = Object.defineProperty,
       return (
         e.useEffect(
           () => () => {
-            s()
+            n()
           },
-          [s],
+          [n],
         ),
         {
           createRequest: a,
-          cancelRequest: s,
-          isRequestCancelled: n,
+          cancelRequest: n,
+          isRequestCancelled: s,
           cleanupRequest: l,
           isAbortError: i,
         }
       )
     },
-    q = {
-      mainPanel: 'index-module__main-panel__82FLm',
-      panelHeader: 'index-module__panel-header__kyx4p',
-      headerLeft: 'index-module__header-left__xT1T5',
-      headerRight: 'index-module__header-right__7F8Bo',
-      modeToggle: 'index-module__mode-toggle__9yafG',
-      toggleTrack: 'index-module__toggle-track__82VKI',
-      toggleSlider: 'index-module__toggle-slider__tkY4o',
-      slideRight: 'index-module__slide-right__qPOZu',
-      toggleOption: 'index-module__toggle-option__ZhXXU',
-      active: 'index-module__active__Mr5KU',
-      toggleIcon: 'index-module__toggle-icon__AI6K7',
-      toggleLabel: 'index-module__toggle-label__1qZLz',
-      divider: 'index-module__divider__QXSgp',
-      actionButtons: 'index-module__action-buttons__xGRHl',
-      actionBtn: 'index-module__action-btn__x4IAP',
-      btnIcon: 'index-module__btn-icon__ZaYHk',
-      btnLabel: 'index-module__btn-label__tM2Rz',
-      aiBtn: 'index-module__ai-btn__5kAV3',
-      filterSection: 'index-module__filter-section__gMBIz',
-      filterSectionContent: 'index-module__filter-section-content__A3AOe',
-      filterGroup: 'index-module__filter-group__hk7qq',
-      filterLabel: 'index-module__filter-label__TDZ3H',
-      filterOptions: 'index-module__filter-options__4AUEQ',
-      filterOption: 'index-module__filter-option__-CSf1',
-      projectSelect: 'index-module__project-select__cUof-',
-      loadingText: 'index-module__loading-text__Cbo-X',
-      emptyText: 'index-module__empty-text__rIon9',
-      eventsSection: 'index-module__events-section__gJwdk',
-    },
-    B = [
+    G = 'index-module__filter-section-content__y5rEz',
+    F = 'index-module__filter-group__5B49Z',
+    q = 'index-module__filter-label__kgsrz',
+    z = 'index-module__filter-options__83wOv',
+    B = 'index-module__filter-option__SG0B9',
+    V = 'index-module__active__IQgMz',
+    H = [
       { value: 'week', label: '本周' },
       { value: '7d', label: '最近7天' },
       { value: '30d', label: '最近30天' },
@@ -614,7 +577,7 @@ var __defProp = Object.defineProperty,
       { value: '180d', label: '最近180天' },
       { value: '365d', label: '最近365天' },
     ],
-    F = [
+    K = [
       // { value: 'epic', label: 'Epic (需要启用新外观)' },
       { value: 'issue', label: 'Issue' },
       { value: 'merge_request', label: 'Merge Request' },
@@ -624,7 +587,7 @@ var __defProp = Object.defineProperty,
       { value: 'snippet', label: 'Snippet' },
       { value: 'user', label: 'User' },
     ],
-    z = [
+    Q = [
       { value: 'created', label: 'Created' },
       { value: 'updated', label: 'Updated' },
       { value: 'closed', label: 'Closed' },
@@ -637,198 +600,160 @@ var __defProp = Object.defineProperty,
       { value: 'left', label: 'Left' },
       { value: 'deleted', label: 'Deleted' },
     ],
-    K = ({ filterConditions: e, onFilterChange: t }) =>
-      m.jsxs('div', {
-        className: q.filterSectionContent,
+    X = ({ filterConditions: e, onFilterChange: t }) => {
+      const a = (a, n) => {
+          t({ ...e, [a]: n })
+        },
+        n = [
+          { key: 'targetType', label: '目标类型', options: K },
+          { key: 'action', label: '操作类型', options: Q },
+        ]
+      return m.jsxs('div', {
+        className: G,
         children: [
           m.jsxs('div', {
-            className: q.filterGroup,
+            className: F,
             children: [
-              m.jsx('label', {
-                className: q.filterLabel,
-                children: '时间范围',
-              }),
+              m.jsx('label', { className: q, children: '时间范围' }),
               m.jsx('div', {
-                className: q.filterOptions,
-                children: B.map(a =>
+                className: z,
+                children: H.map(({ value: t, label: n }) =>
                   m.jsx(
                     'button',
                     {
-                      className: `${q.filterOption} ${e.timeRange === a.value ? q.active : ''}`,
-                      onClick: () => {
-                        return (s = a.value), void t({ ...e, timeRange: s })
-                        var s
-                      },
-                      children: a.label,
+                      className: `${B} ${e.timeRange === t ? V : ''}`,
+                      onClick: () => a('timeRange', t),
+                      children: n,
                     },
-                    a.value,
+                    t,
                   ),
                 ),
               }),
             ],
           }),
-          m.jsxs('div', {
-            className: q.filterGroup,
-            children: [
-              m.jsx('label', {
-                className: q.filterLabel,
-                children: '目标类型',
-              }),
-              m.jsxs('div', {
-                className: q.filterOptions,
+          n.map(({ key: t, label: n, options: s }) =>
+            m.jsxs(
+              'div',
+              {
+                className: F,
                 children: [
-                  m.jsx('button', {
-                    className: `${q.filterOption} ${0 === e.targetType.length ? q.active : ''}`,
-                    onClick: () => t({ ...e, targetType: [] }),
-                    children: '全部',
+                  m.jsx('label', { className: q, children: n }),
+                  m.jsxs('div', {
+                    className: z,
+                    children: [
+                      m.jsx('button', {
+                        className: `${B} ${0 === e[t].length ? V : ''}`,
+                        onClick: () => a(t, []),
+                        children: '全部',
+                      }),
+                      s.map(({ value: n, label: s }) =>
+                        m.jsx(
+                          'button',
+                          {
+                            className: `${B} ${Array.isArray(e[t]) && e[t].includes(n) ? V : ''}`,
+                            onClick: () =>
+                              ((t, n, s) => {
+                                const l = e[t],
+                                  i = s ? [...l, n] : l.filter(e => e !== n)
+                                a(t, i)
+                              })(t, n, !e[t].includes(n)),
+                            children: s,
+                          },
+                          n,
+                        ),
+                      ),
+                    ],
                   }),
-                  F.map(a =>
-                    m.jsx(
-                      'button',
-                      {
-                        className: `${q.filterOption} ${e.targetType.includes(a.value) ? q.active : ''}`,
-                        onClick: () =>
-                          ((a, s) => {
-                            const n = s
-                              ? [...e.targetType, a]
-                              : e.targetType.filter(e => e !== a)
-                            t({ ...e, targetType: n })
-                          })(a.value, !e.targetType.includes(a.value)),
-                        children: a.label,
-                      },
-                      a.value,
-                    ),
-                  ),
                 ],
-              }),
-            ],
-          }),
-          m.jsxs('div', {
-            className: q.filterGroup,
-            children: [
-              m.jsx('label', {
-                className: q.filterLabel,
-                children: '操作类型',
-              }),
-              m.jsxs('div', {
-                className: q.filterOptions,
-                children: [
-                  m.jsx('button', {
-                    className: `${q.filterOption} ${0 === e.action.length ? q.active : ''}`,
-                    onClick: () => t({ ...e, action: [] }),
-                    children: '全部',
-                  }),
-                  z.map(a =>
-                    m.jsx(
-                      'button',
-                      {
-                        className: `${q.filterOption} ${e.action.includes(a.value) ? q.active : ''}`,
-                        onClick: () =>
-                          ((a, s) => {
-                            const n = s
-                              ? [...e.action, a]
-                              : e.action.filter(e => e !== a)
-                            t({ ...e, action: n })
-                          })(a.value, !e.action.includes(a.value)),
-                        children: a.label,
-                      },
-                      a.value,
-                    ),
-                  ),
-                ],
-              }),
-            ],
-          }),
+              },
+              t,
+            ),
+          ),
         ],
-      }),
-    H = 'index-module__pagination__5dauU',
-    J = 'index-module__pagination-info__xbUbw',
-    V = 'index-module__pagination-controls__q2hqL',
-    X = 'index-module__pagination-btn__P1OCG',
-    Z = 'index-module__disabled__BywdX',
-    Y = 'index-module__active__lSJu-',
-    Q = 'index-module__pagination-ellipsis__gQnax',
-    W = 'index-module__pagination-size-changer__SufyI',
-    ee = 'index-module__pagination-select__JwvbH',
-    te = ({
+      })
+    },
+    Z = 'index-module__pagination__5dauU',
+    Y = 'index-module__pagination-info__xbUbw',
+    J = 'index-module__pagination-controls__q2hqL',
+    W = 'index-module__pagination-btn__P1OCG',
+    ee = 'index-module__disabled__BywdX',
+    te = 'index-module__active__lSJu-',
+    ae = 'index-module__pagination-ellipsis__gQnax',
+    ne = 'index-module__pagination-size-changer__SufyI',
+    se = 'index-module__pagination-select__JwvbH',
+    le = ({
       current: t,
       pageSize: a,
-      total: s,
-      onChange: n,
+      total: n,
+      onChange: s,
       showSizeChanger: l = !0,
       pageSizeOptions: i = [20, 50, 100, 200],
       onShowSizeChange: o,
       selectedCount: r = 0,
     }) => {
-      const d = Math.ceil(s / a),
+      const d = Math.ceil(n / a),
         c = (t - 1) * a + 1,
-        _ = Math.min(t * a, s),
+        _ = Math.min(t * a, n),
         u = e => {
-          e >= 1 && e <= d && e !== t && n(e)
+          e >= 1 && e <= d && e !== t && s(e)
         }
-      return 0 === s
+      return 0 === n
         ? m.jsx('div', {
-            className: H,
-            children: m.jsx('div', { className: J, children: '暂无数据' }),
+            className: Z,
+            children: m.jsx('div', { className: Y, children: '暂无数据' }),
           })
         : m.jsxs('div', {
-            className: H,
+            className: Z,
             children: [
               m.jsxs('div', {
-                className: J,
+                className: Y,
                 children: [
                   '显示 ',
                   c,
                   '-',
                   _,
                   ' 条，共 ',
-                  s,
+                  n,
                   ' 条',
                   r > 0 ? `，已选中 ${r} 条` : '',
                 ],
               }),
               m.jsxs('div', {
-                className: V,
+                className: J,
                 children: [
                   m.jsx('button', {
-                    className: `${X} ${1 === t ? Z : ''}`,
+                    className: `${W} ${1 === t ? ee : ''}`,
                     onClick: () => u(t - 1),
                     disabled: 1 === t,
                     children: m.jsx('span', { children: '‹' }),
                   }),
                   (() => {
-                    const e = []
                     if (d <= 7)
-                      e.push(...Array.from({ length: d }, (e, t) => t + 1))
-                    else {
-                      e.push(1), t > 4 && e.push('...')
-                      const a = Math.max(2, t - 2),
-                        s = Math.min(d - 1, t + 2)
-                      e.push(
-                        ...Array.from({ length: s - a + 1 }, (e, t) => a + t),
-                      ),
-                        t < d - 2 - 1 && e.push('...'),
-                        d > 1 && e.push(d)
-                    }
-                    return e
-                  })().map((a, s) =>
+                      return Array.from({ length: d }, (e, t) => t + 1)
+                    const e = [1],
+                      a = Math.max(2, t - 2),
+                      n = Math.min(d - 1, t + 2)
+                    t > 4 && e.push('...')
+                    for (let t = a; t <= n; t++) e.push(t)
+                    return t < d - 2 - 1 && e.push('...'), e.push(d), e
+                  })().map((a, n) =>
                     m.jsx(
                       e.Fragment,
                       {
                         children:
                           'number' == typeof a
                             ? m.jsx('button', {
-                                className: `${X} ${t === a ? Y : ''}`,
+                                className: `${W} ${t === a ? te : ''}`,
                                 onClick: () => u(a),
                                 children: a,
                               })
-                            : m.jsx('span', { className: Q, children: a }),
+                            : m.jsx('span', { className: ae, children: a }),
                       },
-                      s,
+                      n,
                     ),
                   ),
                   m.jsx('button', {
-                    className: `${X} ${t === d ? Z : ''}`,
+                    className: `${W} ${t === d ? ee : ''}`,
                     onClick: () => u(t + 1),
                     disabled: t === d,
                     children: m.jsx('span', { children: '›' }),
@@ -837,7 +762,7 @@ var __defProp = Object.defineProperty,
               }),
               l &&
                 m.jsxs('div', {
-                  className: W,
+                  className: ne,
                   children: [
                     m.jsx('span', { children: '每页' }),
                     m.jsx('select', {
@@ -846,7 +771,7 @@ var __defProp = Object.defineProperty,
                         return (t = Number(e.target.value)), void (o && o(1, t))
                         var t
                       },
-                      className: ee,
+                      className: se,
                       children: i.map(e =>
                         m.jsx('option', { value: e, children: e }, e),
                       ),
@@ -857,40 +782,40 @@ var __defProp = Object.defineProperty,
             ],
           })
     },
-    ae = 'EventsList-module__events-list__Z2gnl',
-    se = 'EventsList-module__events-list-header__i8ZCs',
-    ne = 'EventsList-module__header-cell__tSGKU',
-    le = 'EventsList-module__checkbox-cell__YvmEK',
-    ie = 'EventsList-module__content-cell__aiH0X',
-    oe = 'EventsList-module__action-cell__BBBS7',
-    re = 'EventsList-module__time-cell__F02or',
-    de = 'EventsList-module__detail-cell__soty-',
-    ce = 'EventsList-module__sort-icon__OkgLv',
-    _e = 'EventsList-module__events-list-body__Pcosk',
-    ue = 'EventsList-module__event-row__ka77Q',
-    me = 'EventsList-module__selected__YUioo',
-    pe = 'EventsList-module__cell__5Y8iC',
-    he = 'EventsList-module__event-icon__52LqG',
-    ve = 'EventsList-module__event-content__I8le1',
-    ge = 'EventsList-module__event-title__wVvqr',
-    xe = 'EventsList-module__event-description__GZfW0',
-    be = 'EventsList-module__action-tag__IBpm0',
-    je = 'EventsList-module__event-time__RCPoO',
-    fe = 'EventsList-module__detail-btn__PLLL4',
-    Ne = 'EventsList-module__detail-icon__eATZo',
-    ye = 'EventsList-module__empty-state__Z-gwH',
-    ke = 'EventsList-module__empty-icon__R7-ij',
-    Ee = 'EventsList-module__events-list-footer__7LiRc',
-    Ce = 'EventsList-module__events-list-loading__pcl-h',
-    we = 'EventsList-module__loading-spinner__rJ-Jy',
-    Te = 'EventsList-module__checkbox-container__L1if8',
-    Se = 'EventsList-module__checkmark__-GyO9',
-    Me = ({
+    ie = 'index-module__events-list__-m-9O',
+    oe = 'index-module__events-list-header__IFdcr',
+    re = 'index-module__header-cell__Q50BV',
+    de = 'index-module__checkbox-cell__fFp2c',
+    ce = 'index-module__content-cell__XX9h3',
+    _e = 'index-module__action-cell__cQC45',
+    ue = 'index-module__time-cell__MQe22',
+    me = 'index-module__detail-cell__zq1IN',
+    pe = 'index-module__sort-icon__tSSwt',
+    he = 'index-module__events-list-body__QknuZ',
+    xe = 'index-module__event-row__nD7Rz',
+    ve = 'index-module__selected__QNHpl',
+    ge = 'index-module__cell__KsOts',
+    be = 'index-module__event-icon__9UCQ3',
+    je = 'index-module__event-content__YCPED',
+    fe = 'index-module__event-title__530MV',
+    Ne = 'index-module__event-description__C3Fjc',
+    ye = 'index-module__action-tag__GZU05',
+    ke = 'index-module__event-time__1VIXa',
+    we = 'index-module__detail-btn__Q5YpF',
+    Ce = 'index-module__detail-icon__E5Shy',
+    Ee = 'index-module__empty-state__ohnRa',
+    Se = 'index-module__empty-icon__OXdkI',
+    Me = 'index-module__events-list-footer__bR9Gm',
+    Te = 'index-module__events-list-loading__e6mCh',
+    De = 'index-module__loading-spinner__C04N8',
+    $e = 'index-module__checkbox-container__UxYEH',
+    Ae = 'index-module__checkmark__-Dj1c',
+    Ie = ({
       events: e,
       totalCount: t,
       loading: a,
-      sortOptions: s,
-      onSortChange: n,
+      sortOptions: n,
+      onSortChange: s,
       paginationOptions: l,
       onPaginationChange: i,
       selectedEventIds: o,
@@ -903,25 +828,26 @@ var __defProp = Object.defineProperty,
         p = e => {
           const t = new Date(e),
             a = new Date(),
-            s = new Date(a.getFullYear(), a.getMonth(), a.getDate()),
-            n = new Date(s.getTime() - 864e5),
-            l = new Date(t.getFullYear(), t.getMonth(), t.getDate())
-          if (l.getTime() === s.getTime())
-            return `今天 ${t.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}`
-          if (l.getTime() === n.getTime())
-            return `昨天 ${t.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}`
-          {
-            const e = s.getTime() - l.getTime(),
-              a = Math.floor(e / 864e5)
-            return a > 0 && a <= 7
-              ? `${a}天前`
-              : t.toLocaleDateString('zh-CN', {
-                  month: '2-digit',
-                  day: '2-digit',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })
-          }
+            n =
+              new Date(a.getFullYear(), a.getMonth(), a.getDate()).getTime() -
+              new Date(t.getFullYear(), t.getMonth(), t.getDate()).getTime(),
+            s = Math.floor(n / 864e5),
+            l = t.toLocaleTimeString('zh-CN', {
+              hour: '2-digit',
+              minute: '2-digit',
+            })
+          return 0 === s
+            ? `今天 ${l}`
+            : 1 === s
+              ? `昨天 ${l}`
+              : s > 1 && s <= 7
+                ? `${s}天前`
+                : t.toLocaleDateString('zh-CN', {
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })
         },
         h = e => {
           if (e.push_data) return `推送到分支 ${e.push_data.ref}`
@@ -933,36 +859,34 @@ var __defProp = Object.defineProperty,
             ? '加入项目'
             : e.title || e.target_title || '无标题'
         },
-        v = e => {
+        x = e => {
           var t
           return e.push_data
             ? `${e.push_data.commit_count} 个提交: ${e.push_data.commit_title}`
             : e.note && e.target_title
               ? e.target_title
-              : (null == (t = e.project) ? void 0 : t.path_with_namespace)
-                ? e.project.path_with_namespace
-                : e.project_id
-                  ? `项目ID: ${e.project_id}`
-                  : '未知项目'
+              : (null == (t = e.project) ? void 0 : t.path_with_namespace) ||
+                `项目ID: ${e.project_id}` ||
+                '未知项目'
         }
       return a
         ? m.jsxs('div', {
-            className: Ce,
+            className: Te,
             children: [
-              m.jsx('div', { className: we }),
+              m.jsx('div', { className: De }),
               m.jsx('p', { children: '正在加载事件数据...' }),
             ],
           })
         : m.jsxs('div', {
-            className: ae,
+            className: ie,
             children: [
               m.jsxs('div', {
-                className: se,
+                className: oe,
                 children: [
                   m.jsx('div', {
-                    className: `${ne} ${le}`,
+                    className: `${re} ${de}`,
                     children: m.jsxs('label', {
-                      className: Te,
+                      className: $e,
                       children: [
                         m.jsx('input', {
                           type: 'checkbox',
@@ -975,47 +899,47 @@ var __defProp = Object.defineProperty,
                           },
                           title: _ ? '取消全选' : '全选',
                         }),
-                        m.jsx('span', { className: Se }),
+                        m.jsx('span', { className: Ae }),
                       ],
                     }),
                   }),
                   m.jsx('div', {
-                    className: `${ne} ${ie}`,
+                    className: `${re} ${ce}`,
                     children: m.jsx('span', { children: '标题和内容' }),
                   }),
                   m.jsx('div', {
-                    className: `${ne} ${oe}`,
+                    className: `${re} ${_e}`,
                     children: m.jsx('span', { children: '操作' }),
                   }),
                   m.jsxs('div', {
-                    className: `${ne} ${re}`,
+                    className: `${re} ${ue}`,
                     onClick: () =>
                       (e => {
                         const t =
-                          s.field === e && 'desc' === s.order ? 'asc' : 'desc'
-                        n({ field: e, order: t })
+                          n.field === e && 'desc' === n.order ? 'asc' : 'desc'
+                        s({ field: e, order: t })
                       })('created_at'),
                     children: [
                       m.jsx('span', { children: '时间' }),
                       m.jsx('span', {
-                        className: ce,
+                        className: pe,
                         children:
-                          ((g = 'created_at'),
-                          s.field !== g ? '' : 'desc' === s.order ? '↓' : '↑'),
+                          ((v = 'created_at'),
+                          n.field !== v ? '' : 'desc' === n.order ? '↓' : '↑'),
                       }),
                     ],
                   }),
-                  m.jsx('div', { className: `${ne} ${de}`, children: '详情' }),
+                  m.jsx('div', { className: `${re} ${me}`, children: '详情' }),
                 ],
               }),
               m.jsx('div', {
-                className: _e,
+                className: he,
                 children:
                   0 === e.length
                     ? m.jsxs('div', {
-                        className: ye,
+                        className: Ee,
                         children: [
-                          m.jsx('div', { className: ke, children: '📄' }),
+                          m.jsx('div', { className: Se, children: '📄' }),
                           m.jsx('p', { children: '暂无事件数据' }),
                           m.jsx('span', { children: R }),
                         ],
@@ -1024,32 +948,39 @@ var __defProp = Object.defineProperty,
                         const t = o.includes(e.id),
                           {
                             icon: a,
-                            title: s,
-                            actionType: n,
+                            title: n,
+                            actionType: s,
                           } = (e => {
                             const { action_name: t, target_type: a } = e
                             if (e.push_data) {
-                              const { action: t, ref_type: a } = e.push_data
-                              return 'pushed' === t && 'branch' === a
-                                ? {
+                              const {
+                                action: t,
+                                ref_type: a,
+                                ref: n,
+                              } = e.push_data
+                              if ('pushed' === t) {
+                                if ('branch' === a)
+                                  return {
                                     icon: '⬆️',
                                     actionType: '分支推送',
-                                    title: `推送到分支 ${e.push_data.ref}`,
+                                    title: `推送到分支 ${n}`,
                                   }
-                                : 'pushed' === t && 'tag' === a
-                                  ? {
-                                      icon: '🏷️',
-                                      actionType: '标签推送',
-                                      title: `推送标签 ${e.push_data.ref}`,
-                                    }
-                                  : {
-                                      icon: '📤',
-                                      actionType: '推送',
-                                      title: `推送到分支 ${e.push_data.ref}`,
-                                    }
+                                if ('tag' === a)
+                                  return {
+                                    icon: '🏷️',
+                                    actionType: '标签推送',
+                                    title: `推送标签 ${n}`,
+                                  }
+                              }
+                              return {
+                                icon: '📤',
+                                actionType: '推送',
+                                title: `推送到分支 ${n}`,
+                              }
                             }
-                            if (a && '' !== a.trim()) {
-                              const t = {
+                            const n = h(e),
+                              s = {
+                                // TargetType based
                                 MergeRequest: { icon: '⤴️', actionType: 'MR' },
                                 Issue: { icon: '⚠️', actionType: 'Issue' },
                                 Commit: { icon: '💾', actionType: '提交' },
@@ -1067,44 +998,33 @@ var __defProp = Object.defineProperty,
                                 Epic: { icon: '🎪', actionType: 'Epic' },
                                 Snippet: { icon: '✂️', actionType: '代码片段' },
                                 User: { icon: '👤', actionType: '用户' },
-                              }[a]
-                              if (t)
-                                return {
-                                  icon: t.icon,
-                                  actionType: t.actionType,
-                                  title: h(e),
-                                }
-                            }
-                            const s = {
-                              'pushed to': { icon: '⬆️', actionType: '推送' },
-                              'pushed new': {
-                                icon: '⬆️',
-                                actionType: '推送新分支',
+                                // ActionName based
+                                'pushed to': { icon: '⬆️', actionType: '推送' },
+                                'pushed new': {
+                                  icon: '⬆️',
+                                  actionType: '推送新分支',
+                                },
+                                opened: { icon: '🆕', actionType: '开启' },
+                                closed: { icon: '✅', actionType: '关闭' },
+                                merged: { icon: '🔀', actionType: '合并' },
+                                'commented on': {
+                                  icon: '💬',
+                                  actionType: '评论',
+                                },
+                                joined: { icon: '👋', actionType: '加入' },
+                                left: { icon: '👋', actionType: '离开' },
+                                created: { icon: '✨', actionType: '创建' },
+                                updated: { icon: '🔄', actionType: '更新' },
+                                deleted: { icon: '🗑️', actionType: '删除' },
+                                approved: { icon: '✅', actionType: '批准' },
+                                unapproved: {
+                                  icon: '❌',
+                                  actionType: '取消批准',
+                                },
                               },
-                              opened: { icon: '🆕', actionType: '开启' },
-                              closed: { icon: '✅', actionType: '关闭' },
-                              merged: { icon: '🔀', actionType: '合并' },
-                              'commented on': {
-                                icon: '💬',
-                                actionType: '评论',
-                              },
-                              joined: { icon: '👋', actionType: '加入' },
-                              left: { icon: '👋', actionType: '离开' },
-                              created: { icon: '✨', actionType: '创建' },
-                              updated: { icon: '🔄', actionType: '更新' },
-                              deleted: { icon: '🗑️', actionType: '删除' },
-                              approved: { icon: '✅', actionType: '批准' },
-                              unapproved: {
-                                icon: '❌',
-                                actionType: '取消批准',
-                              },
-                            }[t]
-                            return s
-                              ? {
-                                  icon: s.icon,
-                                  actionType: s.actionType,
-                                  title: h(e),
-                                }
+                              l = (a && s[a]) || (t && s[t])
+                            return l
+                              ? { ...l, title: n }
                               : {
                                   icon: '📋',
                                   actionType: a || t || '未知操作',
@@ -1114,12 +1034,12 @@ var __defProp = Object.defineProperty,
                         return m.jsxs(
                           'div',
                           {
-                            className: `${ue} ${t ? me : ''}`,
+                            className: `${xe} ${t ? ve : ''}`,
                             children: [
                               m.jsx('div', {
-                                className: `${pe} ${le}`,
+                                className: `${ge} ${de}`,
                                 children: m.jsxs('label', {
-                                  className: Te,
+                                  className: $e,
                                   children: [
                                     m.jsx('input', {
                                       type: 'checkbox',
@@ -1131,51 +1051,51 @@ var __defProp = Object.defineProperty,
                                         })(e.id),
                                       title: t ? '取消选择' : '选择此事件',
                                     }),
-                                    m.jsx('span', { className: Se }),
+                                    m.jsx('span', { className: Ae }),
                                   ],
                                 }),
                               }),
                               m.jsxs('div', {
-                                className: `${pe} ${ie}`,
+                                className: `${ge} ${ce}`,
                                 children: [
-                                  m.jsx('div', { className: he, children: a }),
+                                  m.jsx('div', { className: be, children: a }),
                                   m.jsxs('div', {
-                                    className: ve,
+                                    className: je,
                                     children: [
                                       m.jsx('div', {
-                                        className: ge,
-                                        children: s,
+                                        className: fe,
+                                        children: n,
                                       }),
                                       m.jsx('div', {
-                                        className: xe,
-                                        children: v(e),
+                                        className: Ne,
+                                        children: x(e),
                                       }),
                                     ],
                                   }),
                                 ],
                               }),
                               m.jsx('div', {
-                                className: `${pe} ${oe}`,
+                                className: `${ge} ${_e}`,
                                 children: m.jsx('span', {
-                                  className: be,
-                                  children: n,
+                                  className: ye,
+                                  children: s,
                                 }),
                               }),
                               m.jsx('div', {
-                                className: `${pe} ${re}`,
+                                className: `${ge} ${ue}`,
                                 children: m.jsx('span', {
-                                  className: je,
+                                  className: ke,
                                   children: p(e.created_at),
                                 }),
                               }),
                               m.jsx('div', {
-                                className: `${pe} ${de}`,
+                                className: `${ge} ${me}`,
                                 children: m.jsx('button', {
-                                  className: fe,
+                                  className: we,
                                   onClick: () => c(e),
                                   title: '查看详情',
                                   children: m.jsx('span', {
-                                    className: Ne,
+                                    className: Ce,
                                     children: '🔍',
                                   }),
                                 }),
@@ -1187,8 +1107,8 @@ var __defProp = Object.defineProperty,
                       }),
               }),
               m.jsx('div', {
-                className: Ee,
-                children: m.jsx(te, {
+                className: Me,
+                children: m.jsx(le, {
                   current: l.page,
                   pageSize: l.pageSize,
                   total: t,
@@ -1201,7 +1121,7 @@ var __defProp = Object.defineProperty,
               }),
             ],
           })
-      var g
+      var v
     }
   class Le {
     constructor(e, t) {
@@ -1213,46 +1133,39 @@ var __defProp = Object.defineProperty,
     }
     async request(e, t = {}) {
       const a = `${this.baseUrl}${e}`,
-        s = {
+        n = {
           method: t.method || 'GET',
           headers: {
             'Content-Type': 'application/json',
             'PRIVATE-TOKEN': this.token,
           },
-          timeout: f.REQUEST_TIMEOUT,
+          timeout: b.REQUEST_TIMEOUT,
           body: t.body,
         },
-        n = await h(a, s)
-      if (!n.ok) {
+        s = await h(a, n)
+      if (!s.ok) {
         let e
         try {
-          e = await n.text()
+          e = await s.text()
         } catch {
-          e = n.statusText
+          e = s.statusText
         }
-        let t = e || n.statusText
-        switch (n.status) {
-          case 401:
-            t = 'GitLab认证失败，请检查Token是否有效'
-            break
-          case 403:
-            t = 'GitLab访问权限不足，请检查Token权限'
-            break
-          case 404:
-            t = 'GitLab资源不存在，请检查URL或项目权限'
-            break
-          case 429:
-            t = 'GitLab API请求频率过高，请稍后重试'
-            break
-          case 500:
-          case 502:
-          case 503:
-          case 504:
-            t = 'GitLab服务器错误，请稍后重试'
-        }
-        throw M.createApiError(n.status, t, 'GitLab API')
+        const t =
+          {
+            401: 'GitLab认证失败，请检查Token是否有效',
+            403: 'GitLab访问权限不足，请检查Token权限',
+            404: 'GitLab资源不存在，请检查URL或项目权限',
+            429: 'GitLab API请求频率过高，请稍后重试',
+            500: 'GitLab服务器错误，请稍后重试',
+            502: 'GitLab服务器错误，请稍后重试',
+            503: 'GitLab服务器错误，请稍后重试',
+            504: 'GitLab服务器错误，请稍后重试',
+          }[s.status] ||
+          e ||
+          s.statusText
+        throw S.createApiError(s.status, t, 'GitLab API')
       }
-      return n.json()
+      return s.json()
     }
     /**
      * 验证Token格式
@@ -1267,7 +1180,7 @@ var __defProp = Object.defineProperty,
      */ async getCurrentUser() {
       if (this.currentUser) return this.currentUser
       if (!this.validateToken())
-        throw M.createResponseError('Token格式无效', 'GitLab API')
+        throw S.createResponseError('Token格式无效', 'GitLab API')
       const e = await this.request('/user')
       return (this.currentUser = e), e
     }
@@ -1293,17 +1206,13 @@ var __defProp = Object.defineProperty,
     /**
      * 获取项目列表（支持搜索和排序）
      */ async getProjects(e = {}) {
-      const t = new URLSearchParams()
-      void 0 !== e.membership && t.set('membership', e.membership.toString()),
-        e.per_page && t.set('per_page', e.per_page.toString()),
-        void 0 !== e.starred && t.set('starred', e.starred.toString()),
-        void 0 !== e.simple && t.set('simple', e.simple.toString()),
-        e.order_by && t.set('order_by', e.order_by),
-        e.search && t.set('search', e.search),
-        e.page && t.set('page', e.page.toString())
-      const a = t.toString(),
-        s = a ? `/projects?${a}` : '/projects'
-      return this.request(s)
+      const t = new URLSearchParams(
+          Object.entries(e)
+            .filter(([, e]) => void 0 !== e)
+            .reduce((e, [t, a]) => ({ ...e, [t]: String(a) }), {}),
+        ).toString(),
+        a = t ? `/projects?${t}` : '/projects'
+      return this.request(a)
     }
     /**
      * 获取用户事件并返回总数信息
@@ -1319,93 +1228,22 @@ var __defProp = Object.defineProperty,
         t.per_page && a.set('per_page', t.per_page.toString()),
         t.action && t.action.forEach(e => a.append('action', e)),
         t.target_type && t.target_type.forEach(e => a.append('target_type', e))
-      const s = a.toString(),
-        n = s ? `/users/${e}/events?${s}` : `/users/${e}/events`,
-        l = `${this.baseUrl}${n}`,
+      const n = a.toString(),
+        s = n ? `/users/${e}/events?${n}` : `/users/${e}/events`,
+        l = `${this.baseUrl}${s}`,
         i = {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
             'PRIVATE-TOKEN': this.token,
           },
-          timeout: f.REQUEST_TIMEOUT,
+          timeout: b.REQUEST_TIMEOUT,
           signal: t.signal,
         },
         o = await h(l, i)
       if (!o.ok) {
         const e = await o.text()
-        throw M.createApiError(o.status, e || o.statusText, 'GitLab API')
-      }
-      const r = await o.json()
-      let d = 0,
-        c = ''
-      if (o.headers instanceof Headers)
-        (c =
-          o.headers.get('x-total') ||
-          o.headers.get('X-Total') ||
-          o.headers.get('x-total-count') ||
-          o.headers.get('X-Total-Count') ||
-          ''),
-          (d = parseInt(c || '0', 10))
-      else {
-        if ('string' == typeof o.headers) {
-          const e = o.headers.split('\n')
-          for (const t of e) {
-            const e = t.split(': ')
-            if (2 === e.length) {
-              const t = e[0].toLowerCase(),
-                a = e[1]
-              if ('x-total' === t || 'x-total-count' === t || 'x_total' === t) {
-                c = a
-                break
-              }
-            }
-          }
-        } else {
-          const e = o.headers
-          c =
-            e['x-total'] ||
-            e['X-Total'] ||
-            e['x-total-count'] ||
-            e['X-Total-Count'] ||
-            e.x_total ||
-            e.X_TOTAL ||
-            ''
-        }
-        d = parseInt(c || '0', 10)
-      }
-      return 0 === d && r.length > 0 && (d = r.length), { events: r, total: d }
-    }
-    /**
-     * 获取项目事件并返回总数信息
-     * @param projectId 项目ID
-     * @param options 筛选和分页选项
-     * @returns 包含事件数据和总数的对象
-     */ async getProjectEventsWithTotal(e, t = {}) {
-      const a = new URLSearchParams()
-      t.after && a.set('after', t.after),
-        t.before && a.set('before', t.before),
-        t.sort && a.set('sort', t.sort),
-        t.page && a.set('page', t.page.toString()),
-        t.per_page && a.set('per_page', t.per_page.toString()),
-        t.action && t.action.forEach(e => a.append('action', e)),
-        t.target_type && t.target_type.forEach(e => a.append('target_type', e))
-      const s = a.toString(),
-        n = s ? `/projects/${e}/events?${s}` : `/projects/${e}/events`,
-        l = `${this.baseUrl}${n}`,
-        i = {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'PRIVATE-TOKEN': this.token,
-          },
-          timeout: f.REQUEST_TIMEOUT,
-          signal: t.signal,
-        },
-        o = await h(l, i)
-      if (!o.ok) {
-        const e = await o.text()
-        throw M.createApiError(o.status, e || o.statusText, 'GitLab API')
+        throw S.createApiError(o.status, e || o.statusText, 'GitLab API')
       }
       const r = await o.json()
       let d = 0,
@@ -1453,558 +1291,109 @@ var __defProp = Object.defineProperty,
       return this.currentUser
     }
   }
-  const $e = [
-      { value: 'week', label: '本周' },
-      { value: '7d', label: '最近7天' },
-      { value: '30d', label: '最近30天' },
-      { value: '90d', label: '最近90天' },
-      { value: '180d', label: '最近180天' },
-      { value: '365d', label: '最近365天' },
-    ],
-    De = [
-      { value: 'issue', label: 'Issue' },
-      { value: 'merge_request', label: 'Merge Request' },
-      { value: 'milestone', label: 'Milestone' },
-      { value: 'note', label: 'Note' },
-      { value: 'project', label: 'Project' },
-      { value: 'snippet', label: 'Snippet' },
-      { value: 'user', label: 'User' },
-    ],
-    Ae = [
-      { value: 'created', label: 'Created' },
-      { value: 'updated', label: 'Updated' },
-      { value: 'closed', label: 'Closed' },
-      { value: 'reopened', label: 'Reopened' },
-      { value: 'pushed', label: 'Pushed' },
-      { value: 'commented', label: 'Commented' },
-      { value: 'merged', label: 'Merged' },
-      { value: 'approved', label: 'Approved' },
-      { value: 'joined', label: 'Joined' },
-      { value: 'left', label: 'Left' },
-      { value: 'deleted', label: 'Deleted' },
-    ],
-    Ie = ({ filterConditions: t, onFilterChange: a }) => {
-      var s, n
-      const { state: l } = U(),
-        [i, o] = e.useState([]),
-        [r, d] = e.useState(!1),
+  function Re(e, t) {
+    return new Le(e, t)
+  }
+  const Pe = () => {
+      const { state: t, isConfigValid: a } = O(),
         {
-          createRequest: c,
-          isRequestCancelled: _,
-          cleanupRequest: u,
-          isAbortError: p,
-        } = G(),
-        h = e.useMemo(() => {
-          var e, t
-          return (null == (e = l.config) ? void 0 : e.gitlabUrl) &&
-            (null == (t = l.config) ? void 0 : t.gitlabToken)
-            ? new Le(l.config.gitlabUrl, l.config.gitlabToken)
-            : null
-        }, [
-          null == (s = l.config) ? void 0 : s.gitlabUrl,
-          null == (n = l.config) ? void 0 : n.gitlabToken,
-        ]),
-        v = e.useCallback(async () => {
-          if (!h) return
-          const e = c()
-          d(!0)
-          try {
-            await h.init()
-            const t = await h.getProjects({
-              membership: !0,
-              per_page: 100,
-              simple: !0,
-              order_by: 'last_activity_at',
-            })
-            if (_(e)) return
-            o(t)
-          } catch (t) {
-            p(t)
-          } finally {
-            _(e) || d(!1), u(e)
-          }
-        }, [h, c, _, p, u])
-      e.useEffect(() => {
-        h && v()
-      }, [h, v])
-      const g = e.useCallback(
-          e => {
-            a({ ...t, timeRange: e })
-          },
-          [t, a],
+          createRequest: n,
+          isRequestCancelled: s,
+          cleanupRequest: l,
+          isAbortError: i,
+        } = U(),
+        o = e.useMemo(
+          () => Re(t.config.gitlabUrl, t.config.gitlabToken),
+          [t.config.gitlabUrl, t.config.gitlabToken],
         ),
-        x = e.useCallback(
-          (e, s) => {
-            const n = s
-              ? [...t.targetType, e]
-              : t.targetType.filter(t => t !== e)
-            a({ ...t, targetType: n })
-          },
-          [t, a],
-        ),
-        b = e.useCallback(
-          (e, s) => {
-            const n = s ? [...t.action, e] : t.action.filter(t => t !== e)
-            a({ ...t, action: n })
-          },
-          [t, a],
-        )
-      return m.jsxs('div', {
-        className: q.filterSectionContent,
-        children: [
-          m.jsxs('div', {
-            className: q.filterGroup,
-            children: [
-              m.jsx('label', {
-                className: q.filterLabel,
-                children: '项目选择 *',
-              }),
-              m.jsx('div', {
-                className: q.filterOptions,
-                children: r
-                  ? m.jsx('span', {
-                      className: q.loadingText,
-                      children: '加载项目中...',
-                    })
-                  : 0 === i.length
-                    ? m.jsx('span', {
-                        className: q.emptyText,
-                        children: '暂无可用项目',
-                      })
-                    : m.jsxs('select', {
-                        className: q.projectSelect,
-                        value: t.projectId || '',
-                        onChange: e => {
-                          const s = e.target.value
-                            ? Number(e.target.value)
-                            : void 0
-                          a({ ...t, projectId: s })
-                        },
-                        children: [
-                          m.jsx('option', {
-                            value: '',
-                            children: '请选择项目',
-                          }),
-                          i.map(e =>
-                            m.jsx(
-                              'option',
-                              {
-                                value: e.id,
-                                children: e.path_with_namespace || e.name,
-                              },
-                              e.id,
-                            ),
-                          ),
-                        ],
-                      }),
-              }),
-            ],
-          }),
-          m.jsxs('div', {
-            className: q.filterGroup,
-            children: [
-              m.jsx('label', {
-                className: q.filterLabel,
-                children: '时间范围',
-              }),
-              m.jsx('div', {
-                className: q.filterOptions,
-                children: $e.map(e =>
-                  m.jsx(
-                    'button',
-                    {
-                      className: `${q.filterOption} ${t.timeRange === e.value ? q.active : ''}`,
-                      onClick: () => g(e.value),
-                      children: e.label,
-                    },
-                    e.value,
-                  ),
-                ),
-              }),
-            ],
-          }),
-          m.jsxs('div', {
-            className: q.filterGroup,
-            children: [
-              m.jsx('label', {
-                className: q.filterLabel,
-                children: '目标类型',
-              }),
-              m.jsxs('div', {
-                className: q.filterOptions,
-                children: [
-                  m.jsx('button', {
-                    className: `${q.filterOption} ${0 === t.targetType.length ? q.active : ''}`,
-                    onClick: () => a({ ...t, targetType: [] }),
-                    children: '全部',
-                  }),
-                  De.map(e =>
-                    m.jsx(
-                      'button',
-                      {
-                        className: `${q.filterOption} ${t.targetType.includes(e.value) ? q.active : ''}`,
-                        onClick: () =>
-                          x(e.value, !t.targetType.includes(e.value)),
-                        children: e.label,
-                      },
-                      e.value,
-                    ),
-                  ),
-                ],
-              }),
-            ],
-          }),
-          m.jsxs('div', {
-            className: q.filterGroup,
-            children: [
-              m.jsx('label', {
-                className: q.filterLabel,
-                children: '操作类型',
-              }),
-              m.jsxs('div', {
-                className: q.filterOptions,
-                children: [
-                  m.jsx('button', {
-                    className: `${q.filterOption} ${0 === t.action.length ? q.active : ''}`,
-                    onClick: () => a({ ...t, action: [] }),
-                    children: '全部',
-                  }),
-                  Ae.map(e =>
-                    m.jsx(
-                      'button',
-                      {
-                        className: `${q.filterOption} ${t.action.includes(e.value) ? q.active : ''}`,
-                        onClick: () => b(e.value, !t.action.includes(e.value)),
-                        children: e.label,
-                      },
-                      e.value,
-                    ),
-                  ),
-                ],
-              }),
-            ],
-          }),
-        ],
-      })
-    },
-    Oe = ({
-      events: e,
-      loading: t,
-      total: a,
-      currentPage: s,
-      onPageChange: n,
-    }) => {
-      const l = Math.ceil(a / 20)
-      return t
-        ? m.jsx('div', {
-            className: q.eventsContainer,
-            children: m.jsxs('div', {
-              className: q.loadingContainer,
-              children: [
-                m.jsx('div', { className: q.loadingSpinner }),
-                m.jsx('span', { children: '加载中...' }),
-              ],
-            }),
-          })
-        : 0 === e.length
-          ? m.jsx('div', {
-              className: q.eventsContainer,
-              children: m.jsxs('div', {
-                className: q.emptyState,
-                children: [
-                  m.jsx('div', { className: q.emptyIcon, children: '📋' }),
-                  m.jsx('h3', { children: '暂无事件' }),
-                  m.jsx('p', { children: '请选择项目并调整筛选条件' }),
-                ],
-              }),
-            })
-          : m.jsxs('div', {
-              className: q.eventsContainer,
-              children: [
-                m.jsx('div', {
-                  className: q.eventsHeader,
-                  children: m.jsxs('h3', { children: ['项目事件 (', a, ')'] }),
-                }),
-                m.jsxs('div', {
-                  className: q.eventsTable,
-                  children: [
-                    m.jsxs('div', {
-                      className: q.tableHeader,
-                      children: [
-                        m.jsx('div', {
-                          className: q.headerCell,
-                          children: '时间',
-                        }),
-                        m.jsx('div', {
-                          className: q.headerCell,
-                          children: '操作',
-                        }),
-                        m.jsx('div', {
-                          className: q.headerCell,
-                          children: '类型',
-                        }),
-                        m.jsx('div', {
-                          className: q.headerCell,
-                          children: '作者',
-                        }),
-                        m.jsx('div', {
-                          className: q.headerCell,
-                          children: '描述',
-                        }),
-                      ],
-                    }),
-                    m.jsx('div', {
-                      className: q.tableBody,
-                      children: e.map(e => {
-                        var t, a, s, n, l, i
-                        return m.jsxs(
-                          'div',
-                          {
-                            className: q.tableRow,
-                            children: [
-                              m.jsx('div', {
-                                className: q.tableCell,
-                                children:
-                                  ((i = e.created_at),
-                                  new Date(i).toLocaleString('zh-CN', {
-                                    year: 'numeric',
-                                    month: '2-digit',
-                                    day: '2-digit',
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                  })),
-                              }),
-                              m.jsx('div', {
-                                className: q.tableCell,
-                                children: m.jsx('span', {
-                                  className: q.actionBadge,
-                                  children:
-                                    ((l = e.action_name),
-                                    {
-                                      created: '创建',
-                                      updated: '更新',
-                                      pushed: '推送',
-                                      opened: '打开',
-                                      closed: '关闭',
-                                      merged: '合并',
-                                      commented: '评论',
-                                      approved: '批准',
-                                      joined: '加入',
-                                      left: '离开',
-                                      destroyed: '删除',
-                                    }[l] || l),
-                                }),
-                              }),
-                              m.jsx('div', {
-                                className: q.tableCell,
-                                children: m.jsx('span', {
-                                  className: q.typeBadge,
-                                  children:
-                                    ((n = e.target_type || ''),
-                                    {
-                                      Issue: '议题',
-                                      MergeRequest: '合并请求',
-                                      Project: '项目',
-                                      Milestone: '里程碑',
-                                      Note: '评论',
-                                      WikiPage: 'Wiki页面',
-                                      User: '用户',
-                                      Group: '群组',
-                                    }[n] || n),
-                                }),
-                              }),
-                              m.jsx('div', {
-                                className: q.tableCell,
-                                children: m.jsxs('div', {
-                                  className: q.authorInfo,
-                                  children: [
-                                    (null == (t = e.author)
-                                      ? void 0
-                                      : t.avatar_url) &&
-                                      m.jsx('img', {
-                                        src: e.author.avatar_url,
-                                        alt: e.author.name,
-                                        className: q.authorAvatar,
-                                      }),
-                                    m.jsx('span', {
-                                      className: q.authorName,
-                                      children:
-                                        (null == (a = e.author)
-                                          ? void 0
-                                          : a.name) || '未知用户',
-                                    }),
-                                  ],
-                                }),
-                              }),
-                              m.jsx('div', {
-                                className: q.tableCell,
-                                children: m.jsx('div', {
-                                  className: q.eventDescription,
-                                  children:
-                                    e.target_title ||
-                                    (null == (s = e.push_data)
-                                      ? void 0
-                                      : s.commit_title) ||
-                                    '无描述',
-                                }),
-                              }),
-                            ],
-                          },
-                          e.id,
-                        )
-                      }),
-                    }),
-                  ],
-                }),
-                l > 1 &&
-                  m.jsx('div', {
-                    className: q.paginationContainer,
-                    children: m.jsxs('div', {
-                      className: q.pagination,
-                      children: [
-                        m.jsx('button', {
-                          className: q.pageButton,
-                          disabled: 1 === s,
-                          onClick: () => n(s - 1),
-                          children: '上一页',
-                        }),
-                        m.jsxs('span', {
-                          className: q.pageInfo,
-                          children: ['第 ', s, ' 页，共 ', l, ' 页'],
-                        }),
-                        m.jsx('button', {
-                          className: q.pageButton,
-                          disabled: s === l,
-                          onClick: () => n(s + 1),
-                          children: '下一页',
-                        }),
-                      ],
-                    }),
-                  }),
-              ],
-            })
-    },
-    Re = ({ className: t = '' }) => {
-      var a, s
-      const { state: n } = U(),
-        [l, i] = e.useState([]),
-        [o, r] = e.useState(!1),
-        [d, c] = e.useState(0),
-        [_, u] = e.useState(1),
-        [p, h] = e.useState({
-          timeRange: '30d',
-          targetType: [],
-          action: [],
-          projectId: void 0,
-        }),
-        {
-          createRequest: v,
-          isRequestCancelled: g,
-          cleanupRequest: x,
-          isAbortError: b,
-        } = G(),
-        j = e.useMemo(() => {
-          var e, t
-          return (null == (e = n.config) ? void 0 : e.gitlabUrl) &&
-            (null == (t = n.config) ? void 0 : t.gitlabToken)
-            ? new Le(n.config.gitlabUrl, n.config.gitlabToken)
-            : null
-        }, [
-          null == (a = n.config) ? void 0 : a.gitlabUrl,
-          null == (s = n.config) ? void 0 : s.gitlabToken,
-        ]),
+        [r, d] = e.useState([]),
+        [c, _] = e.useState(0),
+        [u, p] = e.useState(!1),
+        [h, x] = e.useState({ field: 'created_at', order: 'desc' }),
+        [v, g] = e.useState({ page: 1, pageSize: 20, total: 0 }),
+        [b, j] = e.useState([]),
         f = e.useCallback(async () => {
-          if (!p.projectId) return i([]), void c(0)
-          if (!j) return i([]), void c(0)
-          const e = v()
-          r(!0)
+          if (!a()) return
+          const e = n()
+          p(!0)
           try {
-            await j.init()
-            const t = {
-                after:
-                  '7d' === p.timeRange
-                    ? new Date(Date.now() - 6048e5).toISOString()
-                    : '30d' === p.timeRange
-                      ? new Date(Date.now() - 2592e6).toISOString()
-                      : '90d' === p.timeRange
-                        ? new Date(Date.now() - 7776e6).toISOString()
-                        : '180d' === p.timeRange
-                          ? new Date(Date.now() - 15552e6).toISOString()
-                          : '365d' === p.timeRange
-                            ? new Date(Date.now() - 31536e6).toISOString()
-                            : void 0,
-                before: void 0,
-                sort: 'desc',
-                page: _,
-                per_page: 20,
-                action: p.action.length > 0 ? p.action : void 0,
-                target_type: p.targetType.length > 0 ? p.targetType : void 0,
+            await o.init()
+            const t = await o.getCurrentUser(),
+              a = {
+                page: v.page,
+                per_page: v.pageSize,
+                sort: h.order,
                 signal: e.signal,
               },
-              a = await j.getProjectEventsWithTotal(p.projectId, t)
-            if (g(e)) return
-            i(a.events), c(a.total)
+              { events: n, total: l } = await o.getUserEventsWithTotal(t.id, a)
+            if (s(e)) return
+            d(n), j(n.map(e => e.id)), _(l)
           } catch (t) {
-            b(t)
+            if (i(t)) return
+            S.formatErrorMessage(t)
+            d([]), _(0)
           } finally {
-            g(e) || r(!1), x(e)
+            s(e) || p(!1), l(e)
           }
-        }, [j, p, _, v, g, b, x])
+        }, [a, o, v.page, v.pageSize, h.order, n, s, i, l])
       e.useEffect(() => {
-        f()
-      }, [f])
+        a() && f()
+      }, [a, f])
       const N = e.useCallback(e => {
-          h(e), u(1)
+          x(e)
         }, []),
         y = e.useCallback(e => {
-          u(e)
-        }, [])
-      return m.jsx('div', {
-        className: `${q.changelogPanel} ${t}`,
-        children: m.jsxs('div', {
-          className: q.panelContent,
-          children: [
-            m.jsx(Ie, { filterConditions: p, onFilterChange: N }),
-            m.jsx('div', {
-              className: q.eventsSection,
-              children: m.jsx(Oe, {
-                events: l,
-                loading: o,
-                total: d,
-                currentPage: _,
-                onPageChange: y,
-              }),
-            }),
-          ],
-        }),
+          g(e)
+        }, []),
+        k = e.useCallback((e, t) => {
+          j(a => (t ? [...a, e] : a.filter(t => t !== e)))
+        }, []),
+        w = e.useCallback(
+          e => {
+            j(e ? r.map(e => e.id) : [])
+          },
+          [r],
+        )
+      return m.jsx(Ie, {
+        events: r,
+        totalCount: c,
+        loading: u,
+        sortOptions: h,
+        onSortChange: N,
+        paginationOptions: v,
+        onPaginationChange: y,
+        selectedEventIds: b,
+        onEventSelect: k,
+        onSelectAll: w,
+        onEventDetail: () => {},
       })
     },
-    Pe = 'index-module__action-btn__To7Ms',
+    Oe = 'index-module__action-btn__To7Ms',
     Ue = 'index-module__checking__QepNt',
     Ge = 'index-module__version-btn__8d3di',
-    qe = 'index-module__has-update__tNkZZ',
-    Be = 'index-module__icon__EhhVu',
-    Fe = 'index-module__text__4iX-h',
-    ze = 'index-module__notification-overlay__E4dh-',
-    Ke = 'index-module__notification__ckX1l',
+    Fe = 'index-module__has-update__tNkZZ',
+    qe = 'index-module__icon__EhhVu',
+    ze = 'index-module__text__4iX-h',
+    Be = 'index-module__notification-overlay__E4dh-',
+    Ve = 'index-module__notification__ckX1l',
     He = 'index-module__notification-header__nJZ3Q',
-    Je = 'index-module__close-btn__9uULv',
-    Ve = 'index-module__notification-body__nnab7',
+    Ke = 'index-module__close-btn__9uULv',
+    Qe = 'index-module__notification-body__nnab7',
     Xe = 'index-module__version-info__-pyIP',
     Ze = 'index-module__release-notes__iU2jG',
     Ye = 'index-module__notes-content__ZpxxA',
-    Qe = 'index-module__notification-footer__La-ia',
+    Je = 'index-module__notification-footer__La-ia',
     We = 'index-module__later-btn__Q40Lc',
     et = 'index-module__update-btn__lD1V2',
     tt = ({ currentVersion: t }) => {
-      const [a, s] = e.useState(null),
-        [n, l] = e.useState(!1),
+      const [a, n] = e.useState(null),
+        [s, l] = e.useState(!1),
         [i, o] = e.useState(!1),
         [r, d] = e.useState(!1),
         [c, _] = e.useState(null),
         [u, p] = e.useState(null),
-        [v, g] = e.useState(!1),
-        [x, b] = e.useState(new Set())
+        [x, v] = e.useState(!1),
+        [g, b] = e.useState(new Set())
       e.useEffect(() => {
         try {
           const e = localStorage.getItem(
@@ -2015,11 +1404,11 @@ var __defProp = Object.defineProperty,
       }, [])
       const j = e.useCallback((e, t) => {
           const a = e.split('.').map(Number),
-            s = t.split('.').map(Number),
-            n = Math.max(a.length, s.length)
-          for (let l = 0; l < n; l++) {
+            n = t.split('.').map(Number),
+            s = Math.max(a.length, n.length)
+          for (let l = 0; l < s; l++) {
             const e = a[l] || 0,
-              t = s[l] || 0
+              t = n[l] || 0
             if (t > e) return !0
             if (t < e) return !1
           }
@@ -2027,13 +1416,13 @@ var __defProp = Object.defineProperty,
         }, []),
         f = e.useCallback(
           async (e = !0) => {
-            if (!n)
-              if (v && a && i && e) (!e && x.has(a.version)) || d(!0)
+            if (!s)
+              if (x && a && i && e) (!e && g.has(a.version)) || d(!0)
               else {
                 l(!0), p(null)
                 try {
                   const a = new AbortController(),
-                    n = setTimeout(() => a.abort(), 1e4),
+                    s = setTimeout(() => a.abort(), 1e4),
                     l = Date.now(),
                     i = 'undefined' != typeof GM_xmlhttpRequest,
                     r =
@@ -2046,7 +1435,7 @@ var __defProp = Object.defineProperty,
                       signal: a.signal,
                       timeout: 1e4,
                     })
-                  if ((clearTimeout(n), !c.ok))
+                  if ((clearTimeout(s), !c.ok))
                     throw new Error(`HTTP ${c.status}: ${c.statusText}`)
                   const u = await c.json(),
                     m = {
@@ -2055,9 +1444,9 @@ var __defProp = Object.defineProperty,
                         'https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/userscript/gitlab-weekly-report.user.js',
                       releaseNotes: `版本 ${u.version} 已发布，请及时更新以获得最新功能和修复。`,
                     }
-                  s(m), _(new Date()), g(!0)
+                  n(m), _(new Date()), v(!0)
                   const p = j(t, m.version)
-                  o(p), p && ((!e && x.has(m.version)) || d(!0))
+                  o(p), p && ((!e && g.has(m.version)) || d(!0))
                 } catch (r) {
                   const e = r instanceof Error ? r.message : '检查更新失败'
                   p(e)
@@ -2066,7 +1455,7 @@ var __defProp = Object.defineProperty,
                 }
               }
           },
-          [n, j, t, x, v, a, i],
+          [s, j, t, g, x, a, i],
         )
       e.useEffect(() => {
         const e = setTimeout(() => {
@@ -2091,7 +1480,7 @@ var __defProp = Object.defineProperty,
         }, []),
         k = e.useCallback(() => {
           if ((d(!1), a)) {
-            const t = new Set(x)
+            const t = new Set(g)
             t.add(a.version), b(t)
             try {
               localStorage.setItem(
@@ -2100,8 +1489,8 @@ var __defProp = Object.defineProperty,
               )
             } catch (e) {}
           }
-        }, [a, x]),
-        E = e.useCallback(
+        }, [a, g]),
+        w = e.useCallback(
           e =>
             e.toLocaleTimeString('zh-CN', {
               hour: '2-digit',
@@ -2112,58 +1501,58 @@ var __defProp = Object.defineProperty,
         ),
         C = e.useCallback(
           () =>
-            n
+            s
               ? '检查中...'
               : u
                 ? '检查失败'
                 : i
                   ? '有更新'
-                  : v && !i
+                  : x && !i
                     ? '已是最新版本 🎉'
                     : '检查更新',
-          [n, u, i, v],
+          [s, u, i, x],
         ),
-        w = e.useCallback(
-          () => (n ? '🔄' : u ? '⚠️' : i ? '🔴' : '🔍'),
-          [n, u, i],
+        E = e.useCallback(
+          () => (s ? '🔄' : u ? '⚠️' : i ? '🔴' : '🔍'),
+          [s, u, i],
         )
       return (
         e.useEffect(() => {}, [y]),
         m.jsxs(m.Fragment, {
           children: [
             m.jsxs('button', {
-              className: `${Pe} ${Ge} ${n ? Ue : ''} ${i ? qe : ''}`,
+              className: `${Oe} ${Ge} ${s ? Ue : ''} ${i ? Fe : ''}`,
               onClick: () => f(!0),
-              disabled: n,
+              disabled: s,
               title: c
-                ? `上次检查: ${E(c)}${u ? `\n错误: ${u}` : ''}`
+                ? `上次检查: ${w(c)}${u ? `\n错误: ${u}` : ''}`
                 : '点击检查更新',
               children: [
-                m.jsx('span', { className: Be, children: w() }),
-                m.jsx('span', { className: Fe, children: C() }),
+                m.jsx('span', { className: qe, children: E() }),
+                m.jsx('span', { className: ze, children: C() }),
               ],
             }),
             r &&
               i &&
               a &&
               m.jsx('div', {
-                className: ze,
+                className: Be,
                 children: m.jsxs('div', {
-                  className: Ke,
+                  className: Ve,
                   children: [
                     m.jsxs('div', {
                       className: He,
                       children: [
                         m.jsx('h3', { children: '🎉 发现新版本' }),
                         m.jsx('button', {
-                          className: Je,
+                          className: Ke,
                           onClick: k,
                           children: '×',
                         }),
                       ],
                     }),
                     m.jsxs('div', {
-                      className: Ve,
+                      className: Qe,
                       children: [
                         m.jsxs('div', {
                           className: Xe,
@@ -2198,7 +1587,7 @@ var __defProp = Object.defineProperty,
                       ],
                     }),
                     m.jsxs('div', {
-                      className: Qe,
+                      className: Je,
                       children: [
                         m.jsx('button', {
                           className: We,
@@ -2220,8 +1609,8 @@ var __defProp = Object.defineProperty,
       )
     },
     at = 'index-module__config-status__0q8ZM',
-    st = 'index-module__clickable__pZ86X',
-    nt = 'index-module__status-indicator__MeBgW',
+    nt = 'index-module__clickable__pZ86X',
+    st = 'index-module__status-indicator__MeBgW',
     lt = 'index-module__status-icon__7jFiQ',
     it = 'index-module__status-text__llRfw',
     ot = 'index-module__progress-bar__CFedX',
@@ -2235,77 +1624,98 @@ var __defProp = Object.defineProperty,
       { key: 'gitlabToken', label: 'Token', required: !0 },
       { key: 'deepseekApiKey', label: 'API Key', required: !0 },
       { key: 'defaultPrompt', label: 'Prompt', required: !0 },
-    ],
-    pt = ({
-      config: e,
-      className: t = '',
-      showDetails: a = !1,
+    ].filter(e => e.required),
+    pt = mt.length,
+    ht = ({
+      config: t,
+      className: a = '',
+      showDetails: n = !1,
       onClick: s,
     }) => {
-      const n = (() => {
-        const t = [],
+      const l = e.useMemo(() => {
+        const e = [],
           a = []
-        return (
-          mt.forEach(s => {
-            const n = e[s.key],
-              l = 'string' == typeof n ? '' !== n.trim() : !!n
-            s.required && (l ? a.push(s.label) : t.push(s.label))
-          }),
-          {
-            isValid: 0 === t.length,
-            missingItems: t,
-            completedItems: a,
-            completedCount: a.length,
-            totalCount: mt.filter(e => e.required).length,
-            progress: (a.length / mt.filter(e => e.required).length) * 100,
-          }
-        )
-      })()
+        mt.forEach(n => {
+          const s = t[n.key]
+          ;('string' == typeof s ? '' !== s.trim() : !!s)
+            ? a.push(n.label)
+            : e.push(n.label)
+        })
+        const n = a.length
+        return {
+          isValid: 0 === e.length,
+          missingItems: e,
+          completedItems: a,
+          completedCount: n,
+          totalCount: pt,
+          progress: (n / pt) * 100,
+        }
+      }, [t])
       return m.jsxs('div', {
-        className: `${at} ${t} ${s ? st : ''}`,
+        className: `${at} ${a} ${s ? nt : ''}`,
         onClick: s,
         children: [
           m.jsxs('div', {
-            className: `${nt} ${n.isValid ? dt : ct}`,
+            className: `${st} ${l.isValid ? dt : ct}`,
             children: [
               m.jsx('span', {
                 className: lt,
-                children: n.isValid ? '✅' : '⚠️',
+                children: l.isValid ? '✅' : '⚠️',
               }),
               m.jsx('span', {
                 className: it,
-                children: n.isValid
+                children: l.isValid
                   ? '就绪'
-                  : `${n.completedCount}/${n.totalCount}`,
+                  : `${l.completedCount}/${l.totalCount}`,
               }),
-              !n.isValid &&
+              !l.isValid &&
                 m.jsx('div', {
                   className: ot,
                   children: m.jsx('div', {
                     className: rt,
-                    style: { width: `${n.progress}%` },
+                    style: { width: `${l.progress}%` },
                   }),
                 }),
             ],
           }),
-          a &&
-            !n.isValid &&
+          n &&
+            !l.isValid &&
             m.jsx('div', {
               className: _t,
               children: m.jsx('div', {
                 className: ut,
-                children: n.missingItems.join(' · '),
+                children: l.missingItems.join(' · '),
               }),
             }),
         ],
       })
     },
-    ht = ({
+    xt = 'index-module__main-panel__82FLm',
+    vt = 'index-module__panel-header__kyx4p',
+    gt = 'index-module__header-left__xT1T5',
+    bt = 'index-module__header-right__7F8Bo',
+    jt = 'index-module__mode-toggle__9yafG',
+    ft = 'index-module__toggle-track__82VKI',
+    Nt = 'index-module__toggle-slider__tkY4o',
+    yt = 'index-module__slide-right__qPOZu',
+    kt = 'index-module__toggle-option__ZhXXU',
+    wt = 'index-module__active__Mr5KU',
+    Ct = 'index-module__toggle-icon__AI6K7',
+    Et = 'index-module__toggle-label__1qZLz',
+    St = 'index-module__divider__QXSgp',
+    Mt = 'index-module__action-buttons__xGRHl',
+    Tt = 'index-module__action-btn__x4IAP',
+    Dt = 'index-module__btn-icon__ZaYHk',
+    $t = 'index-module__btn-label__tM2Rz',
+    At = 'index-module__ai-btn__5kAV3',
+    It = 'index-module__filter-section__gMBIz',
+    Lt = 'index-module__events-section__gJwdk',
+    Rt = ({
       appMode: e,
       events: t,
       totalCount: a,
-      loading: s,
-      filterConditions: n,
+      loading: n,
+      filterConditions: s,
       sortOptions: l,
       paginationOptions: i,
       selectedEventIds: o,
@@ -2316,62 +1726,56 @@ var __defProp = Object.defineProperty,
       onEventSelect: u,
       onSelectAll: p,
       onEventDetail: h,
-      onOpenSettings: v,
-      onOpenAI: g,
+      onOpenSettings: x,
+      onOpenAI: v,
     }) => {
-      const { state: x } = U()
+      const { state: b } = O()
       return m.jsxs('div', {
-        className: q.mainPanel,
+        className: xt,
         children: [
           m.jsxs('div', {
-            className: q.panelHeader,
+            className: vt,
             children: [
               m.jsxs('div', {
-                className: q.headerLeft,
+                className: gt,
                 children: [
                   m.jsx('h1', {
                     children:
                       'events' === e ? 'GitLab Events' : 'GitLab Changelog',
                   }),
-                  m.jsx(pt, { config: x.config, onClick: v }),
+                  m.jsx(ht, { config: b.config, onClick: x }),
                 ],
               }),
               m.jsxs('div', {
-                className: q.headerRight,
+                className: bt,
                 children: [
-                  m.jsx(tt, { currentVersion: j }),
+                  m.jsx(tt, { currentVersion: g }),
                   m.jsx('div', {
-                    className: q.modeToggle,
+                    className: jt,
                     children: m.jsxs('div', {
-                      className: q.toggleTrack,
+                      className: ft,
                       children: [
                         m.jsx('div', {
-                          className: `${q.toggleSlider} ${'changelog' === e ? q.slideRight : ''}`,
+                          className: `${Nt} ${'changelog' === e ? yt : ''}`,
                         }),
                         m.jsxs('button', {
-                          className: `${q.toggleOption} ${'events' === e ? q.active : ''}`,
+                          className: `${kt} ${'events' === e ? wt : ''}`,
                           onClick: () => r('events'),
                           children: [
+                            m.jsx('span', { className: Ct, children: '📋' }),
                             m.jsx('span', {
-                              className: q.toggleIcon,
-                              children: '📋',
-                            }),
-                            m.jsx('span', {
-                              className: q.toggleLabel,
+                              className: Et,
                               children: 'Events',
                             }),
                           ],
                         }),
                         m.jsxs('button', {
-                          className: `${q.toggleOption} ${'changelog' === e ? q.active : ''}`,
+                          className: `${kt} ${'changelog' === e ? wt : ''}`,
                           onClick: () => r('changelog'),
                           children: [
+                            m.jsx('span', { className: Ct, children: '📝' }),
                             m.jsx('span', {
-                              className: q.toggleIcon,
-                              children: '📝',
-                            }),
-                            m.jsx('span', {
-                              className: q.toggleLabel,
+                              className: Et,
                               children: 'Changelog',
                             }),
                           ],
@@ -2379,17 +1783,17 @@ var __defProp = Object.defineProperty,
                       ],
                     }),
                   }),
-                  m.jsx('div', { className: q.divider }),
+                  m.jsx('div', { className: St }),
                   m.jsxs('div', {
-                    className: q.actionButtons,
+                    className: Mt,
                     children: [
                       m.jsxs('button', {
-                        className: q.actionBtn,
-                        onClick: v,
+                        className: Tt,
+                        onClick: x,
                         title: '设置',
                         children: [
                           m.jsx('span', {
-                            className: q.btnIcon,
+                            className: Dt,
                             children: m.jsxs('svg', {
                               viewBox: '0 0 24 24',
                               fill: 'none',
@@ -2411,19 +1815,16 @@ var __defProp = Object.defineProperty,
                               ],
                             }),
                           }),
-                          m.jsx('span', {
-                            className: q.btnLabel,
-                            children: '设置',
-                          }),
+                          m.jsx('span', { className: $t, children: '设置' }),
                         ],
                       }),
                       m.jsxs('button', {
-                        className: `${q.actionBtn} ${q.aiBtn}`,
-                        onClick: g,
+                        className: `${Tt} ${At}`,
+                        onClick: v,
                         title: 'AI 周报',
                         children: [
                           m.jsx('span', {
-                            className: q.btnIcon,
+                            className: Dt,
                             children: m.jsxs('svg', {
                               viewBox: '0 0 24 24',
                               fill: 'none',
@@ -2443,10 +1844,7 @@ var __defProp = Object.defineProperty,
                               ],
                             }),
                           }),
-                          m.jsx('span', {
-                            className: q.btnLabel,
-                            children: 'AI 周报',
-                          }),
+                          m.jsx('span', { className: $t, children: 'AI 周报' }),
                         ],
                       }),
                     ],
@@ -2459,18 +1857,18 @@ var __defProp = Object.defineProperty,
             ? m.jsxs(m.Fragment, {
                 children: [
                   m.jsx('div', {
-                    className: q.filterSection,
-                    children: m.jsx(K, {
-                      filterConditions: n,
+                    className: It,
+                    children: m.jsx(X, {
+                      filterConditions: s,
                       onFilterChange: d,
                     }),
                   }),
                   m.jsx('div', {
-                    className: q.eventsSection,
-                    children: m.jsx(Me, {
+                    className: Lt,
+                    children: m.jsx(Ie, {
                       events: t,
                       totalCount: a,
-                      loading: s,
+                      loading: n,
                       sortOptions: l,
                       onSortChange: c,
                       paginationOptions: i,
@@ -2483,23 +1881,23 @@ var __defProp = Object.defineProperty,
                   }),
                 ],
               })
-            : m.jsx(Re, {}),
+            : m.jsx(Pe, {}),
         ],
       })
     },
-    vt = 'index-module__modal-mask__XYxyO',
-    gt = 'index-module__modal-wrapper__bVZip',
-    xt = 'index-module__modal__QQS3u',
-    bt = 'index-module__modal-header__GdUjX',
-    jt = 'index-module__modal-title__cafB-',
-    ft = 'index-module__modal-close__ZuUgf',
-    Nt = 'index-module__modal-body__j5X3U',
-    yt = 'index-module__modal-footer__3q-wn',
-    kt = ({
+    Pt = 'index-module__modal-mask__XYxyO',
+    Ot = 'index-module__modal-wrapper__bVZip',
+    Ut = 'index-module__modal__QQS3u',
+    Gt = 'index-module__modal-header__GdUjX',
+    Ft = 'index-module__modal-title__cafB-',
+    qt = 'index-module__modal-close__ZuUgf',
+    zt = 'index-module__modal-body__j5X3U',
+    Bt = 'index-module__modal-footer__3q-wn',
+    Vt = ({
       visible: t,
       title: a,
-      width: s = 520,
-      maxHeight: n = window.innerHeight - 180,
+      width: n = 520,
+      maxHeight: s = window.innerHeight - 180,
       // 面板高度(100vh-120px)再减去60px上下边距
       children: l,
       footer: i,
@@ -2526,102 +1924,102 @@ var __defProp = Object.defineProperty,
         return null
       return m.jsx('div', {
         id: 'gitlab-weekly-report-container',
-        className: vt,
+        className: Pt,
         onClick: e => {
           e.target === e.currentTarget && r && o()
         },
         children: m.jsx('div', {
-          className: gt,
+          className: Ot,
           children: m.jsxs('div', {
-            className: xt,
-            style: { width: s, maxHeight: n },
+            className: Ut,
+            style: { width: n, maxHeight: s },
             children: [
               m.jsxs('div', {
-                className: bt,
+                className: Gt,
                 children: [
-                  m.jsx('div', { className: jt, children: a }),
+                  m.jsx('div', { className: Ft, children: a }),
                   m.jsx('button', {
-                    className: ft,
+                    className: qt,
                     onClick: o,
                     children: m.jsx('span', { children: '×' }),
                   }),
                 ],
               }),
-              m.jsx('div', { className: Nt, children: l }),
-              i && m.jsx('div', { className: yt, children: i }),
+              m.jsx('div', { className: zt, children: l }),
+              i && m.jsx('div', { className: Bt, children: i }),
             ],
           }),
         }),
       })
     },
-    Et = 'index-module__settings-panel__UCg3H',
-    Ct = 'index-module__config-overview__kaSMo',
-    wt = 'index-module__settings-tabs__vPH-t',
-    Tt = 'index-module__tab-button__FG9Nc',
-    St = 'index-module__tab-icon__rBe-o',
-    Mt = 'index-module__active__bsBC1',
-    Lt = 'index-module__settings-content__TqQPH',
-    $t = 'index-module__tab-panel__Q2QUI',
-    Dt = 'index-module__form-group__zKwiA',
-    At = 'index-module__form-label__pwe7O',
-    It = 'index-module__required__2vuyW',
-    Ot = 'index-module__form-input__jGbRP',
-    Rt = 'index-module__form-select__jbXdq',
-    Pt = 'index-module__form-textarea__fAVMw',
-    Ut = 'index-module__form-hint__F0dFQ',
-    Gt = 'index-module__version-info__y0NZv',
-    qt = 'index-module__version-text__bx0HU',
-    Bt = 'index-module__settings-footer__qA44X',
-    Ft = 'index-module__footer-right__bslDg',
-    zt = 'index-module__btn-primary__ZzzFI',
-    Kt = 'index-module__switch-container__5xk1J',
-    Ht = 'index-module__switch-input__V-8fl',
-    Jt = 'index-module__switch-label__xrOeQ',
-    Vt = 'index-module__switch-slider__dG-6J',
-    Xt = 'index-module__btn-secondary__cRCpD',
-    Zt = ({ isOpen: t, onClose: a, config: s, onSave: n, theme: l }) => {
-      const [i, o] = e.useState(s),
+    Ht = 'index-module__settings-panel__UCg3H',
+    Kt = 'index-module__config-overview__kaSMo',
+    Qt = 'index-module__settings-tabs__vPH-t',
+    Xt = 'index-module__tab-button__FG9Nc',
+    Zt = 'index-module__tab-icon__rBe-o',
+    Yt = 'index-module__active__bsBC1',
+    Jt = 'index-module__settings-content__TqQPH',
+    Wt = 'index-module__tab-panel__Q2QUI',
+    ea = 'index-module__form-group__zKwiA',
+    ta = 'index-module__form-label__pwe7O',
+    aa = 'index-module__required__2vuyW',
+    na = 'index-module__form-input__jGbRP',
+    sa = 'index-module__form-select__jbXdq',
+    la = 'index-module__form-textarea__fAVMw',
+    ia = 'index-module__form-hint__F0dFQ',
+    oa = 'index-module__version-info__y0NZv',
+    ra = 'index-module__version-text__bx0HU',
+    da = 'index-module__settings-footer__qA44X',
+    ca = 'index-module__footer-right__bslDg',
+    _a = 'index-module__btn-primary__ZzzFI',
+    ua = 'index-module__switch-container__5xk1J',
+    ma = 'index-module__switch-input__V-8fl',
+    pa = 'index-module__switch-label__xrOeQ',
+    ha = 'index-module__switch-slider__dG-6J',
+    xa = 'index-module__btn-secondary__cRCpD',
+    va = ({ isOpen: t, onClose: a, config: n, onSave: s, theme: l }) => {
+      const [i, o] = e.useState(n),
         [r, d] = e.useState(l),
         [c, _] = e.useState('gitlab')
       e.useEffect(() => {
-        o(s)
-      }, [s]),
+        o(n)
+      }, [n]),
         e.useEffect(() => {
           d(l)
         }, [l]),
         e.useEffect(() => {
-          t && (o(s), d(l))
-        }, [t, s, l])
+          t && (o(n), d(l))
+        }, [t, n, l])
       const u = (e, t) => {
         o(a => ({ ...a, [e]: t }))
       }
-      return m.jsx(kt, {
+      return m.jsx(Vt, {
         visible: t,
         title: '系统设置',
         width: 600,
         onClose: a,
         footer: m.jsxs('div', {
-          className: Bt,
+          className: da,
           children: [
             m.jsx('button', {
-              className: Xt,
+              className: xa,
               onClick: () => {
-                o(s), d(l)
+                o(n), d(l)
               },
               children: '重置',
             }),
             m.jsxs('div', {
-              className: Ft,
+              className: ca,
               children: [
                 m.jsx('button', {
-                  className: Xt,
+                  className: xa,
                   onClick: a,
                   children: '取消',
                 }),
                 m.jsx('button', {
-                  className: zt,
+                  className: _a,
                   onClick: () => {
-                    n(i, r), a()
+                    s(i, r), a()
                   },
                   disabled: !(
                     i.gitlabUrl.trim() &&
@@ -2636,90 +2034,90 @@ var __defProp = Object.defineProperty,
           ],
         }),
         children: m.jsxs('div', {
-          className: Et,
+          className: Ht,
           children: [
             m.jsx('div', {
-              className: Ct,
-              children: m.jsx(pt, { config: i, showDetails: !0 }),
+              className: Kt,
+              children: m.jsx(ht, { config: i, showDetails: !0 }),
             }),
             m.jsxs('div', {
-              className: wt,
+              className: Qt,
               children: [
                 m.jsxs('button', {
-                  className: `${Tt} ${'gitlab' === c ? Mt : ''}`,
+                  className: `${Xt} ${'gitlab' === c ? Yt : ''}`,
                   onClick: () => _('gitlab'),
                   children: [
-                    m.jsx('span', { className: St, children: '🦊' }),
+                    m.jsx('span', { className: Zt, children: '🦊' }),
                     'GitLab 配置',
                   ],
                 }),
                 m.jsxs('button', {
-                  className: `${Tt} ${'deepseek' === c ? Mt : ''}`,
+                  className: `${Xt} ${'deepseek' === c ? Yt : ''}`,
                   onClick: () => _('deepseek'),
                   children: [
-                    m.jsx('span', { className: St, children: '🤖' }),
+                    m.jsx('span', { className: Zt, children: '🤖' }),
                     'DeepSeek 配置',
                   ],
                 }),
                 m.jsxs('button', {
-                  className: `${Tt} ${'appearance' === c ? Mt : ''}`,
+                  className: `${Xt} ${'appearance' === c ? Yt : ''}`,
                   onClick: () => _('appearance'),
                   children: [
-                    m.jsx('span', { className: St, children: '🎨' }),
+                    m.jsx('span', { className: Zt, children: '🎨' }),
                     '外观设置',
                   ],
                 }),
               ],
             }),
             m.jsxs('div', {
-              className: Lt,
+              className: Jt,
               children: [
                 'gitlab' === c &&
                   m.jsxs('div', {
-                    className: $t,
+                    className: Wt,
                     children: [
                       m.jsxs('div', {
-                        className: Dt,
+                        className: ea,
                         children: [
                           m.jsxs('label', {
-                            className: At,
+                            className: ta,
                             children: [
                               'GitLab 项目地址 ',
-                              m.jsx('span', { className: It, children: '*' }),
+                              m.jsx('span', { className: aa, children: '*' }),
                             ],
                           }),
                           m.jsx('input', {
                             type: 'text',
-                            className: Ot,
-                            placeholder: y,
+                            className: na,
+                            placeholder: f,
                             value: i.gitlabUrl,
                             onChange: e => u('gitlabUrl', e.target.value),
                           }),
                           m.jsx('div', {
-                            className: Ut,
+                            className: ia,
                             children: '请输入完整的 GitLab 项目 URL',
                           }),
                         ],
                       }),
                       m.jsxs('div', {
-                        className: Dt,
+                        className: ea,
                         children: [
                           m.jsxs('label', {
-                            className: At,
+                            className: ta,
                             children: [
                               '个人访问令牌 ',
-                              m.jsx('span', { className: It, children: '*' }),
+                              m.jsx('span', { className: aa, children: '*' }),
                             ],
                           }),
                           m.jsx('input', {
                             type: 'text',
-                            className: Ot,
-                            placeholder: k,
+                            className: na,
+                            placeholder: N,
                             value: i.gitlabToken,
                             onChange: e => u('gitlabToken', e.target.value),
                           }),
                           m.jsx('div', {
-                            className: Ut,
+                            className: ia,
                             children:
                               '在 GitLab 个人设置 → 访问令牌 中创建，需要 read_api 权限',
                           }),
@@ -2729,40 +2127,40 @@ var __defProp = Object.defineProperty,
                   }),
                 'deepseek' === c &&
                   m.jsxs('div', {
-                    className: $t,
+                    className: Wt,
                     children: [
                       m.jsxs('div', {
-                        className: Dt,
+                        className: ea,
                         children: [
                           m.jsxs('label', {
-                            className: At,
+                            className: ta,
                             children: [
                               'DeepSeek API Key ',
-                              m.jsx('span', { className: It, children: '*' }),
+                              m.jsx('span', { className: aa, children: '*' }),
                             ],
                           }),
                           m.jsx('input', {
                             type: 'text',
-                            className: Ot,
-                            placeholder: E,
+                            className: na,
+                            placeholder: y,
                             value: i.deepseekApiKey,
                             onChange: e => u('deepseekApiKey', e.target.value),
                           }),
                           m.jsx('div', {
-                            className: Ut,
+                            className: ia,
                             children: '在 DeepSeek 平台获取 API Key',
                           }),
                         ],
                       }),
                       m.jsxs('div', {
-                        className: Dt,
+                        className: ea,
                         children: [
                           m.jsx('label', {
-                            className: At,
+                            className: ta,
                             children: '使用的模型',
                           }),
                           m.jsxs('select', {
-                            className: Rt,
+                            className: sa,
                             value: i.model,
                             onChange: e => u('model', e.target.value),
                             children: [
@@ -2779,15 +2177,15 @@ var __defProp = Object.defineProperty,
                         ],
                       }),
                       m.jsxs('div', {
-                        className: Dt,
+                        className: ea,
                         children: [
                           m.jsx('label', {
-                            className: At,
+                            className: ta,
                             children: 'Token 数量限制',
                           }),
                           m.jsx('input', {
                             type: 'number',
-                            className: Ot,
+                            className: na,
                             min: '1000',
                             max: '10000',
                             placeholder: '4000',
@@ -2796,30 +2194,30 @@ var __defProp = Object.defineProperty,
                               u('tokenLimit', parseInt(e.target.value)),
                           }),
                           m.jsx('div', {
-                            className: Ut,
+                            className: ia,
                             children: '单次生成的最大 Token 数量（1000-10000）',
                           }),
                         ],
                       }),
                       m.jsxs('div', {
-                        className: Dt,
+                        className: ea,
                         children: [
                           m.jsxs('label', {
-                            className: At,
+                            className: ta,
                             children: [
                               '默认提示词 ',
-                              m.jsx('span', { className: It, children: '*' }),
+                              m.jsx('span', { className: aa, children: '*' }),
                             ],
                           }),
                           m.jsx('textarea', {
-                            className: Pt,
+                            className: la,
                             rows: 6,
-                            placeholder: C,
+                            placeholder: k,
                             value: i.defaultPrompt,
                             onChange: e => u('defaultPrompt', e.target.value),
                           }),
                           m.jsx('div', {
-                            className: Ut,
+                            className: ia,
                             children: '用于生成周报的默认提示词模板',
                           }),
                         ],
@@ -2828,17 +2226,17 @@ var __defProp = Object.defineProperty,
                   }),
                 'appearance' === c &&
                   m.jsxs('div', {
-                    className: $t,
+                    className: Wt,
                     children: [
                       m.jsxs('div', {
-                        className: Dt,
+                        className: ea,
                         children: [
                           m.jsx('label', {
-                            className: At,
+                            className: ta,
                             children: '主题模式',
                           }),
                           m.jsxs('select', {
-                            className: Rt,
+                            className: sa,
                             value: r,
                             onChange: e => d(e.target.value),
                             children: [
@@ -2857,52 +2255,52 @@ var __defProp = Object.defineProperty,
                             ],
                           }),
                           m.jsx('div', {
-                            className: Ut,
+                            className: ia,
                             children:
                               '选择应用的主题模式，跟随系统将根据系统设置自动切换',
                           }),
                         ],
                       }),
                       m.jsxs('div', {
-                        className: Dt,
+                        className: ea,
                         children: [
                           m.jsx('label', {
-                            className: At,
+                            className: ta,
                             children: '自动检查更新',
                           }),
                           m.jsxs('div', {
-                            className: Kt,
+                            className: ua,
                             children: [
                               m.jsx('input', {
                                 type: 'checkbox',
                                 id: 'autoCheckUpdate',
-                                className: Ht,
+                                className: ma,
                                 checked: i.autoCheckUpdate ?? !0,
                                 onChange: e =>
                                   u('autoCheckUpdate', e.target.checked),
                               }),
                               m.jsx('label', {
                                 htmlFor: 'autoCheckUpdate',
-                                className: Jt,
-                                children: m.jsx('span', { className: Vt }),
+                                className: pa,
+                                children: m.jsx('span', { className: ha }),
                               }),
                             ],
                           }),
                           m.jsx('div', {
-                            className: Ut,
+                            className: ia,
                             children: '开启后将自动检查版本更新并提醒',
                           }),
                         ],
                       }),
                       m.jsxs('div', {
-                        className: Dt,
+                        className: ea,
                         children: [
                           m.jsx('label', {
-                            className: At,
+                            className: ta,
                             children: '检查更新间隔',
                           }),
                           m.jsxs('select', {
-                            className: Rt,
+                            className: sa,
                             value: i.updateCheckInterval ?? 3e5,
                             onChange: e =>
                               u(
@@ -2934,7 +2332,7 @@ var __defProp = Object.defineProperty,
                             ],
                           }),
                           m.jsx('div', {
-                            className: Ut,
+                            className: ia,
                             children: '设置自动检查版本更新的时间间隔',
                           }),
                         ],
@@ -2944,117 +2342,126 @@ var __defProp = Object.defineProperty,
               ],
             }),
             m.jsx('div', {
-              className: Gt,
-              children: m.jsxs('span', { className: qt, children: ['v', j] }),
+              className: oa,
+              children: m.jsxs('span', { className: ra, children: ['v', g] }),
             }),
           ],
         }),
       })
     },
-    Yt = 'index-module__ai-panel__R0K19',
-    Qt = 'index-module__data-overview__J-ZoM',
-    Wt = 'index-module__overview-header__ae0e8',
-    ea = 'index-module__overview-content__dhjh6',
-    ta = 'index-module__overview-item__20Ilu',
-    aa = 'index-module__overview-label__k3QHX',
-    sa = 'index-module__overview-value__gbEnJ',
-    na = 'index-module__ready__f4MXX',
-    la = 'index-module__waiting__orgl9',
-    ia = 'index-module__result-section__esrDe',
-    oa = 'index-module__result-header__-sHRM',
-    ra = 'index-module__result-title__GYp3Q',
-    da = 'index-module__title-icon__w1Z58',
-    ca = 'index-module__result-actions__Lwz6b',
-    _a = 'index-module__action-btn__X81KS',
-    ua = 'index-module__btn-icon__bBkUh',
-    ma = 'index-module__result-content__NBmXz',
-    pa = 'index-module__result-text__WX-aI',
-    ha = 'index-module__result-meta__zAR0J',
-    va = 'index-module__meta-left__G7E6i',
-    ga = 'index-module__meta-item__Mikx5',
-    xa = 'index-module__prompt-section__Y1L-1',
-    ba = 'index-module__section-header__WEXG-',
-    ja = 'index-module__header-actions__phC5-',
-    fa = 'index-module__prompt-editor__N6csy',
-    Na = 'index-module__prompt-textarea__ZeYSC',
-    ya = 'index-module__prompt-footer__NhJb8',
-    ka = 'index-module__char-count__qSePr',
-    Ea = 'index-module__expanded__VY5Zd',
-    Ca = 'index-module__loading-section__qmhp-',
-    wa = 'index-module__loading-spinner__FhbKe',
-    Ta = 'index-module__loading-tips__TN0F6',
-    Sa = 'index-module__empty-result__D1DxK',
-    Ma = 'index-module__empty-icon__RFmRa',
-    La = 'index-module__empty-features__Y-XeR',
-    $a = 'index-module__feature-item__zmC1K',
-    Da = 'index-module__feature-icon__aCith',
-    Aa = 'index-module__btn-primary__NTwQw',
-    Ia = 'index-module__regenerate__MPpEF',
-    Oa = 'index-module__btn-text__f3PZM',
-    Ra = ({
+    ga = {
+      aiPanel: 'index-module__ai-panel__R0K19',
+      dataOverview: 'index-module__data-overview__J-ZoM',
+      overviewHeader: 'index-module__overview-header__ae0e8',
+      overviewContent: 'index-module__overview-content__dhjh6',
+      overviewItem: 'index-module__overview-item__20Ilu',
+      overviewLabel: 'index-module__overview-label__k3QHX',
+      overviewValue: 'index-module__overview-value__gbEnJ',
+      ready: 'index-module__ready__f4MXX',
+      waiting: 'index-module__waiting__orgl9',
+      resultSection: 'index-module__result-section__esrDe',
+      resultHeader: 'index-module__result-header__-sHRM',
+      resultTitle: 'index-module__result-title__GYp3Q',
+      titleIcon: 'index-module__title-icon__w1Z58',
+      resultActions: 'index-module__result-actions__Lwz6b',
+      actionBtn: 'index-module__action-btn__X81KS',
+      btnIcon: 'index-module__btn-icon__bBkUh',
+      resultContent: 'index-module__result-content__NBmXz',
+      resultText: 'index-module__result-text__WX-aI',
+      resultMeta: 'index-module__result-meta__zAR0J',
+      metaLeft: 'index-module__meta-left__G7E6i',
+      metaItem: 'index-module__meta-item__Mikx5',
+      promptSection: 'index-module__prompt-section__Y1L-1',
+      sectionHeader: 'index-module__section-header__WEXG-',
+      headerActions: 'index-module__header-actions__phC5-',
+      promptEditor: 'index-module__prompt-editor__N6csy',
+      promptTextarea: 'index-module__prompt-textarea__ZeYSC',
+      promptFooter: 'index-module__prompt-footer__NhJb8',
+      charCount: 'index-module__char-count__qSePr',
+      expanded: 'index-module__expanded__VY5Zd',
+      loadingSection: 'index-module__loading-section__qmhp-',
+      loadingSpinner: 'index-module__loading-spinner__FhbKe',
+      loadingTips: 'index-module__loading-tips__TN0F6',
+      emptyResult: 'index-module__empty-result__D1DxK',
+      emptyIcon: 'index-module__empty-icon__RFmRa',
+      emptyFeatures: 'index-module__empty-features__Y-XeR',
+      featureItem: 'index-module__feature-item__zmC1K',
+      featureIcon: 'index-module__feature-icon__aCith',
+      btnPrimary: 'index-module__btn-primary__NTwQw',
+      regenerate: 'index-module__regenerate__MPpEF',
+      btnText: 'index-module__btn-text__f3PZM',
+    },
+    ba = ({
       visible: t,
       config: a,
-      defaultPrompt: s,
-      onClose: n,
+      defaultPrompt: n,
+      onClose: s,
       onGenerate: l,
       isLoading: i,
       selectedEventsCount: o = 0,
       dateRange: r,
     }) => {
-      const [d, c] = e.useState(s),
-        [_, u] = e.useState(!1)
+      const [d, c] = e.useState(n),
+        [_, u] = e.useState(!1),
+        [p, h] = e.useState(!1)
       e.useEffect(() => {
-        c(s)
-      }, [s])
-      return m.jsx(kt, {
+        c(n)
+      }, [n])
+      return m.jsx(Vt, {
         visible: t,
         title: 'AI 周报生成',
         width: 800,
-        onClose: n,
+        onClose: s,
         maskClosable: !i,
         children: m.jsxs('div', {
-          className: Yt,
+          className: ga.aiPanel,
           children: [
             m.jsxs('div', {
-              className: Qt,
+              className: ga.dataOverview,
               children: [
                 m.jsx('div', {
-                  className: Wt,
+                  className: ga.overviewHeader,
                   children: m.jsx('h4', { children: '📊 数据概览' }),
                 }),
                 m.jsxs('div', {
-                  className: ea,
+                  className: ga.overviewContent,
                   children: [
                     m.jsxs('div', {
-                      className: ta,
+                      className: ga.overviewItem,
                       children: [
                         m.jsx('span', {
-                          className: aa,
+                          className: ga.overviewLabel,
                           children: '选中事件：',
                         }),
-                        m.jsxs('span', { className: sa, children: [o, ' 条'] }),
+                        m.jsxs('span', {
+                          className: ga.overviewValue,
+                          children: [o, ' 条'],
+                        }),
                       ],
                     }),
                     r &&
                       m.jsxs('div', {
-                        className: ta,
+                        className: ga.overviewItem,
                         children: [
                           m.jsx('span', {
-                            className: aa,
+                            className: ga.overviewLabel,
                             children: '日期范围：',
                           }),
                           m.jsxs('span', {
-                            className: sa,
+                            className: ga.overviewValue,
                             children: [r.startDate, ' 至 ', r.endDate],
                           }),
                         ],
                       }),
                     m.jsxs('div', {
-                      className: ta,
+                      className: ga.overviewItem,
                       children: [
-                        m.jsx('span', { className: aa, children: '状态：' }),
                         m.jsx('span', {
-                          className: `${sa} ${o > 0 ? na : la}`,
+                          className: ga.overviewLabel,
+                          children: '状态：',
+                        }),
+                        m.jsx('span', {
+                          className: `${ga.overviewValue} ${o > 0 ? ga.ready : ga.waiting}`,
                           children: o > 0 ? '✅ 数据就绪' : '⏳ 等待选择事件',
                         }),
                       ],
@@ -3064,24 +2471,24 @@ var __defProp = Object.defineProperty,
               ],
             }),
             m.jsxs('div', {
-              className: xa,
+              className: ga.promptSection,
               children: [
                 m.jsxs('div', {
-                  className: ba,
+                  className: ga.sectionHeader,
                   children: [
                     m.jsx('h3', { children: '提示词' }),
                     m.jsxs('div', {
-                      className: ja,
+                      className: ga.headerActions,
                       children: [
                         m.jsx('button', {
-                          className: Oa,
+                          className: ga.btnText,
                           onClick: () => u(!_),
                           children: _ ? '收起' : '展开',
                         }),
                         m.jsx('button', {
-                          className: Oa,
+                          className: ga.btnText,
                           onClick: () => {
-                            c(s)
+                            c(n)
                           },
                           children: '重置',
                         }),
@@ -3090,10 +2497,10 @@ var __defProp = Object.defineProperty,
                   ],
                 }),
                 m.jsxs('div', {
-                  className: `${fa} ${_ ? Ea : ''}`,
+                  className: `${ga.promptEditor} ${_ ? ga.expanded : ''}`,
                   children: [
                     m.jsx('textarea', {
-                      className: Na,
+                      className: ga.promptTextarea,
                       value: d,
                       onChange: e => c(e.target.value),
                       placeholder: '请输入用于生成周报的提示词...',
@@ -3101,14 +2508,14 @@ var __defProp = Object.defineProperty,
                       disabled: i,
                     }),
                     m.jsxs('div', {
-                      className: ya,
+                      className: ga.promptFooter,
                       children: [
                         m.jsxs('span', {
-                          className: ka,
+                          className: ga.charCount,
                           children: [d.length, ' 字符'],
                         }),
                         m.jsx('button', {
-                          className: `${Aa} ${(null == a ? void 0 : a.result) ? Ia : ''}`,
+                          className: `${ga.btnPrimary} ${(null == a ? void 0 : a.result) ? ga.regenerate : ''}`,
                           onClick: () => {
                             l(d)
                           },
@@ -3127,14 +2534,14 @@ var __defProp = Object.defineProperty,
             }),
             i &&
               m.jsxs('div', {
-                className: Ca,
+                className: ga.loadingSection,
                 children: [
-                  m.jsx('div', { className: wa }),
+                  m.jsx('div', { className: ga.loadingSpinner }),
                   m.jsx('p', {
                     children: 'AI 正在分析事件数据，生成周报中...',
                   }),
                   m.jsx('div', {
-                    className: Ta,
+                    className: ga.loadingTips,
                     children: m.jsx('span', {
                       children: '💡 生成时间通常为 10-30 秒',
                     }),
@@ -3143,55 +2550,66 @@ var __defProp = Object.defineProperty,
               }),
             (null == a ? void 0 : a.result) &&
               m.jsxs('div', {
-                className: ia,
+                className: ga.resultSection,
                 children: [
                   m.jsxs('div', {
-                    className: oa,
+                    className: ga.resultHeader,
                     children: [
                       m.jsxs('h3', {
-                        className: ra,
+                        className: ga.resultTitle,
                         children: [
-                          m.jsx('span', { className: da, children: '✨' }),
+                          m.jsx('span', {
+                            className: ga.titleIcon,
+                            children: '✨',
+                          }),
                           '生成结果',
                         ],
                       }),
                       m.jsx('div', {
-                        className: ca,
+                        className: ga.resultActions,
                         children: m.jsxs('button', {
-                          className: _a,
+                          className: `${ga.actionBtn} ${p ? ga.copied : ''}`,
                           onClick: () => {
                             ;(null == a ? void 0 : a.result) &&
-                              navigator.clipboard.writeText(a.result)
+                              navigator.clipboard
+                                .writeText(a.result)
+                                .then(() => {
+                                  h(!0), setTimeout(() => h(!1), 2e3)
+                                })
                           },
                           title: '一键复制',
+                          disabled: p,
                           children: [
-                            m.jsx('span', { className: ua, children: '📋' }),
-                            '复制',
+                            m.jsx('span', {
+                              className: ga.btnIcon,
+                              children: p ? '✅' : '📋',
+                            }),
+                            p ? '已复制' : '复制',
                           ],
                         }),
                       }),
                     ],
                   }),
                   m.jsx('div', {
-                    className: ma,
+                    className: ga.resultContent,
                     children: m.jsx('div', {
-                      className: pa,
+                      className: ga.resultText,
                       children: a.result,
                     }),
                   }),
                   m.jsx('div', {
-                    className: ha,
+                    className: ga.resultMeta,
                     children: m.jsxs('div', {
-                      className: va,
+                      className: ga.metaLeft,
                       children: [
                         m.jsx('div', {
-                          className: ga,
+                          className: ga.metaItem,
                           children: m.jsxs('span', {
                             children: [a.result.split('\n').length, ' 行'],
                           }),
                         }),
                         m.jsx('div', {
-                          className: ga,
+                          className: ga.metaItem,
                           children: m.jsxs('span', {
                             children: [a.result.length, ' 字符'],
                           }),
@@ -3204,35 +2622,44 @@ var __defProp = Object.defineProperty,
             !a &&
               !i &&
               m.jsxs('div', {
-                className: Sa,
+                className: ga.emptyResult,
                 children: [
-                  m.jsx('div', { className: Ma, children: '🤖' }),
+                  m.jsx('div', { className: ga.emptyIcon, children: '🤖' }),
                   m.jsx('h3', { children: '准备生成 AI 周报' }),
                   m.jsx('p', {
                     children:
                       '点击"生成周报"按钮，AI 将基于您的 GitLab 事件数据生成专业的工作周报',
                   }),
                   m.jsxs('div', {
-                    className: La,
+                    className: ga.emptyFeatures,
                     children: [
                       m.jsxs('div', {
-                        className: $a,
+                        className: ga.featureItem,
                         children: [
-                          m.jsx('span', { className: Da, children: '📊' }),
+                          m.jsx('span', {
+                            className: ga.featureIcon,
+                            children: '📊',
+                          }),
                           m.jsx('span', { children: '智能分析工作数据' }),
                         ],
                       }),
                       m.jsxs('div', {
-                        className: $a,
+                        className: ga.featureItem,
                         children: [
-                          m.jsx('span', { className: Da, children: '📝' }),
+                          m.jsx('span', {
+                            className: ga.featureIcon,
+                            children: '📝',
+                          }),
                           m.jsx('span', { children: '自动生成周报内容' }),
                         ],
                       }),
                       m.jsxs('div', {
-                        className: $a,
+                        className: ga.featureItem,
                         children: [
-                          m.jsx('span', { className: Da, children: '🎯' }),
+                          m.jsx('span', {
+                            className: ga.featureIcon,
+                            children: '🎯',
+                          }),
                           m.jsx('span', { children: '突出重点工作成果' }),
                         ],
                       }),
@@ -3244,7 +2671,7 @@ var __defProp = Object.defineProperty,
         }),
       })
     },
-    Pa = {
+    ja = {
       'event-detail-modal-overlay':
         'EventDetailModal-module__event-detail-modal-overlay__kSKR4',
       eventDetailModalOverlay:
@@ -3325,9 +2752,9 @@ var __defProp = Object.defineProperty,
       app: 'EventDetailModal-module__app__GneYG',
       dark: 'EventDetailModal-module__dark__4O-jE',
     },
-    Ua = ({ event: e, visible: t, onClose: a }) => {
+    fa = ({ event: e, visible: t, onClose: a }) => {
       if (!t || !e) return null
-      const s = e =>
+      const n = e =>
           new Date(e).toLocaleString('zh-CN', {
             year: 'numeric',
             month: '2-digit',
@@ -3336,80 +2763,80 @@ var __defProp = Object.defineProperty,
             minute: '2-digit',
             second: '2-digit',
           }),
-        n = () => {
+        s = () => {
           var t, a
           if (!e.project && !e.project_id) return ''
-          const s = 'https://www.lejuhub.com'
-          if (!e.project) return s
-          const n = e.project.path_with_namespace
-          if (!e.target_type || '' === e.target_type.trim()) return `${s}/${n}`
+          const n = 'https://www.lejuhub.com'
+          if (!e.project) return n
+          const s = e.project.path_with_namespace
+          if (!e.target_type || '' === e.target_type.trim()) return `${n}/${s}`
           switch (e.target_type) {
             case 'MergeRequest':
-              return `${s}/${n}/-/merge_requests/${e.target_iid}`
+              return `${n}/${s}/-/merge_requests/${e.target_iid}`
             case 'Issue':
-              return `${s}/${n}/-/issues/${e.target_iid}`
+              return `${n}/${s}/-/issues/${e.target_iid}`
             case 'Note':
               return 'Issue' ===
                 (null == (t = e.note) ? void 0 : t.noteable_type)
-                ? `${s}/${n}/-/issues/${e.note.noteable_iid}`
+                ? `${n}/${s}/-/issues/${e.note.noteable_iid}`
                 : 'MergeRequest' ===
                     (null == (a = e.note) ? void 0 : a.noteable_type)
-                  ? `${s}/${n}/-/merge_requests/${e.note.noteable_iid}`
-                  : `${s}/${n}`
+                  ? `${n}/${s}/-/merge_requests/${e.note.noteable_iid}`
+                  : `${n}/${s}`
             default:
-              return `${s}/${n}`
+              return `${n}/${s}`
           }
         }
       return m.jsx('div', {
-        className: Pa.eventDetailModalOverlay,
+        className: ja.eventDetailModalOverlay,
         onClick: a,
         children: m.jsxs('div', {
-          className: Pa.eventDetailModal,
+          className: ja.eventDetailModal,
           onClick: e => e.stopPropagation(),
           children: [
             m.jsxs('div', {
-              className: Pa.modalHeader,
+              className: ja.modalHeader,
               children: [
                 m.jsx('h2', { children: '事件详情' }),
                 m.jsx('button', {
-                  className: Pa.closeBtn,
+                  className: ja.closeBtn,
                   onClick: a,
                   children: '×',
                 }),
               ],
             }),
             m.jsxs('div', {
-              className: Pa.modalContent,
+              className: ja.modalContent,
               children: [
                 m.jsxs('div', {
-                  className: `${Pa.detailSection} ${Pa.compact}`,
+                  className: `${ja.detailSection} ${ja.compact}`,
                   children: [
                     m.jsx('h3', { children: '基本信息' }),
                     m.jsxs('div', {
-                      className: `${Pa.detailGrid} ${Pa.compactGrid}`,
+                      className: `${ja.detailGrid} ${ja.compactGrid}`,
                       children: [
                         m.jsxs('div', {
-                          className: Pa.detailItem,
+                          className: ja.detailItem,
                           children: [
                             m.jsx('span', {
-                              className: Pa.label,
+                              className: ja.label,
                               children: 'ID:',
                             }),
                             m.jsx('span', {
-                              className: Pa.value,
+                              className: ja.value,
                               children: e.id,
                             }),
                           ],
                         }),
                         m.jsxs('div', {
-                          className: Pa.detailItem,
+                          className: ja.detailItem,
                           children: [
                             m.jsx('span', {
-                              className: Pa.label,
+                              className: ja.label,
                               children: '类型:',
                             }),
                             m.jsx('span', {
-                              className: Pa.value,
+                              className: ja.value,
                               children: (e => {
                                 if (!e || '' === e.trim()) return '未知类型'
                                 return (
@@ -3428,14 +2855,14 @@ var __defProp = Object.defineProperty,
                           ],
                         }),
                         m.jsxs('div', {
-                          className: Pa.detailItem,
+                          className: ja.detailItem,
                           children: [
                             m.jsx('span', {
-                              className: Pa.label,
+                              className: ja.label,
                               children: '操作:',
                             }),
                             m.jsx('span', {
-                              className: `${Pa.value} ${Pa.actionBadge}`,
+                              className: `${ja.value} ${ja.actionBadge}`,
                               children:
                                 ((l = e.action_name),
                                 {
@@ -3451,28 +2878,28 @@ var __defProp = Object.defineProperty,
                           ],
                         }),
                         m.jsxs('div', {
-                          className: Pa.detailItem,
+                          className: ja.detailItem,
                           children: [
                             m.jsx('span', {
-                              className: Pa.label,
+                              className: ja.label,
                               children: '时间:',
                             }),
                             m.jsx('span', {
-                              className: Pa.value,
-                              children: s(e.created_at),
+                              className: ja.value,
+                              children: n(e.created_at),
                             }),
                           ],
                         }),
                         e.state &&
                           m.jsxs('div', {
-                            className: Pa.detailItem,
+                            className: ja.detailItem,
                             children: [
                               m.jsx('span', {
-                                className: Pa.label,
+                                className: ja.label,
                                 children: '状态:',
                               }),
                               m.jsx('span', {
-                                className: `${Pa.value} ${Pa.statusBadge} ${Pa[`status-${e.state}`]}`,
+                                className: `${ja.value} ${ja.statusBadge} ${ja[`status-${e.state}`]}`,
                                 children: e.state,
                               }),
                             ],
@@ -3485,36 +2912,36 @@ var __defProp = Object.defineProperty,
                   e.target_title ||
                   (e.labels && e.labels.length > 0)) &&
                   m.jsxs('div', {
-                    className: `${Pa.detailSection} ${Pa.compact}`,
+                    className: `${ja.detailSection} ${ja.compact}`,
                     children: [
                       m.jsx('h3', { children: '内容' }),
                       m.jsxs('div', {
-                        className: `${Pa.detailContent} ${Pa.compactContent}`,
+                        className: `${ja.detailContent} ${ja.compactContent}`,
                         children: [
                           e.title &&
                             m.jsxs('div', {
-                              className: Pa.detailItem,
+                              className: ja.detailItem,
                               children: [
                                 m.jsx('span', {
-                                  className: Pa.label,
+                                  className: ja.label,
                                   children: '标题:',
                                 }),
                                 m.jsx('span', {
-                                  className: Pa.value,
+                                  className: ja.value,
                                   children: e.title,
                                 }),
                               ],
                             }),
                           e.target_title &&
                             m.jsxs('div', {
-                              className: Pa.detailItem,
+                              className: ja.detailItem,
                               children: [
                                 m.jsx('span', {
-                                  className: Pa.label,
+                                  className: ja.label,
                                   children: '目标:',
                                 }),
                                 m.jsx('span', {
-                                  className: Pa.value,
+                                  className: ja.value,
                                   children: e.target_title,
                                 }),
                               ],
@@ -3522,18 +2949,18 @@ var __defProp = Object.defineProperty,
                           e.labels &&
                             e.labels.length > 0 &&
                             m.jsxs('div', {
-                              className: Pa.detailItem,
+                              className: ja.detailItem,
                               children: [
                                 m.jsx('span', {
-                                  className: Pa.label,
+                                  className: ja.label,
                                   children: '标签:',
                                 }),
                                 m.jsx('div', {
-                                  className: Pa.labels,
+                                  className: ja.labels,
                                   children: e.labels.map((e, t) =>
                                     m.jsx(
                                       'span',
-                                      { className: Pa.labelTag, children: e },
+                                      { className: ja.labelTag, children: e },
                                       t,
                                     ),
                                   ),
@@ -3546,27 +2973,27 @@ var __defProp = Object.defineProperty,
                   }),
                 e.author &&
                   m.jsxs('div', {
-                    className: `${Pa.detailSection} ${Pa.compact}`,
+                    className: `${ja.detailSection} ${ja.compact}`,
                     children: [
                       m.jsx('h3', { children: '作者' }),
                       m.jsxs('div', {
-                        className: `${Pa.authorInfo} ${Pa.compactAuthor}`,
+                        className: `${ja.authorInfo} ${ja.compactAuthor}`,
                         children: [
                           e.author.avatar_url &&
                             m.jsx('img', {
                               src: `${e.author.avatar_url}?width=100`,
                               alt: e.author.name,
-                              className: Pa.authorAvatar,
+                              className: ja.authorAvatar,
                             }),
                           m.jsxs('div', {
-                            className: Pa.authorDetails,
+                            className: ja.authorDetails,
                             children: [
                               m.jsx('div', {
-                                className: Pa.authorName,
+                                className: ja.authorName,
                                 children: e.author.name,
                               }),
                               m.jsxs('div', {
-                                className: Pa.authorUsername,
+                                className: ja.authorUsername,
                                 children: ['@', e.author.username],
                               }),
                             ],
@@ -3577,36 +3004,36 @@ var __defProp = Object.defineProperty,
                   }),
                 (e.project || e.project_id) &&
                   m.jsxs('div', {
-                    className: `${Pa.detailSection} ${Pa.compact}`,
+                    className: `${ja.detailSection} ${ja.compact}`,
                     children: [
                       m.jsx('h3', { children: '项目' }),
                       m.jsx('div', {
-                        className: `${Pa.projectInfo} ${Pa.compactProject}`,
+                        className: `${ja.projectInfo} ${ja.compactProject}`,
                         children: e.project
                           ? m.jsxs(m.Fragment, {
                               children: [
                                 m.jsxs('div', {
-                                  className: Pa.detailItem,
+                                  className: ja.detailItem,
                                   children: [
                                     m.jsx('span', {
-                                      className: Pa.label,
+                                      className: ja.label,
                                       children: '名称:',
                                     }),
                                     m.jsx('span', {
-                                      className: Pa.value,
+                                      className: ja.value,
                                       children: e.project.name,
                                     }),
                                   ],
                                 }),
                                 m.jsxs('div', {
-                                  className: Pa.detailItem,
+                                  className: ja.detailItem,
                                   children: [
                                     m.jsx('span', {
-                                      className: Pa.label,
+                                      className: ja.label,
                                       children: '路径:',
                                     }),
                                     m.jsx('span', {
-                                      className: Pa.value,
+                                      className: ja.value,
                                       children: e.project.path_with_namespace,
                                     }),
                                   ],
@@ -3614,14 +3041,14 @@ var __defProp = Object.defineProperty,
                               ],
                             })
                           : m.jsxs('div', {
-                              className: Pa.detailItem,
+                              className: ja.detailItem,
                               children: [
                                 m.jsx('span', {
-                                  className: Pa.label,
+                                  className: ja.label,
                                   children: '项目ID:',
                                 }),
                                 m.jsx('span', {
-                                  className: Pa.value,
+                                  className: ja.value,
                                   children: e.project_id,
                                 }),
                               ],
@@ -3631,60 +3058,60 @@ var __defProp = Object.defineProperty,
                   }),
                 e.push_data &&
                   m.jsxs('div', {
-                    className: Pa.detailSection,
+                    className: ja.detailSection,
                     children: [
                       m.jsx('h3', { children: '推送信息' }),
                       m.jsxs('div', {
-                        className: Pa.pushInfo,
+                        className: ja.pushInfo,
                         children: [
                           m.jsxs('div', {
-                            className: Pa.detailItem,
+                            className: ja.detailItem,
                             children: [
                               m.jsx('span', {
-                                className: Pa.label,
+                                className: ja.label,
                                 children: '分支:',
                               }),
                               m.jsx('span', {
-                                className: Pa.value,
+                                className: ja.value,
                                 children: e.push_data.ref,
                               }),
                             ],
                           }),
                           m.jsxs('div', {
-                            className: Pa.detailItem,
+                            className: ja.detailItem,
                             children: [
                               m.jsx('span', {
-                                className: Pa.label,
+                                className: ja.label,
                                 children: '提交数量:',
                               }),
                               m.jsx('span', {
-                                className: Pa.value,
+                                className: ja.value,
                                 children: e.push_data.commit_count,
                               }),
                             ],
                           }),
                           m.jsxs('div', {
-                            className: Pa.detailItem,
+                            className: ja.detailItem,
                             children: [
                               m.jsx('span', {
-                                className: Pa.label,
+                                className: ja.label,
                                 children: '提交标题:',
                               }),
                               m.jsx('span', {
-                                className: Pa.value,
+                                className: ja.value,
                                 children: e.push_data.commit_title,
                               }),
                             ],
                           }),
                           m.jsxs('div', {
-                            className: Pa.detailItem,
+                            className: ja.detailItem,
                             children: [
                               m.jsx('span', {
-                                className: Pa.label,
+                                className: ja.label,
                                 children: '提交哈希:',
                               }),
                               m.jsx('span', {
-                                className: `${Pa.value} ${Pa.commitHash}`,
+                                className: `${ja.value} ${ja.commitHash}`,
                                 children: e.push_data.commit_to,
                               }),
                             ],
@@ -3695,27 +3122,27 @@ var __defProp = Object.defineProperty,
                   }),
                 e.note &&
                   m.jsxs('div', {
-                    className: Pa.detailSection,
+                    className: ja.detailSection,
                     children: [
                       m.jsx('h3', { children: '评论信息' }),
                       m.jsxs('div', {
-                        className: Pa.noteInfo,
+                        className: ja.noteInfo,
                         children: [
                           m.jsx('div', {
-                            className: Pa.noteBody,
+                            className: ja.noteBody,
                             children: e.note.body,
                           }),
                           m.jsxs('div', {
-                            className: Pa.noteMeta,
+                            className: ja.noteMeta,
                             children: [
                               m.jsxs('span', {
-                                children: ['创建时间: ', s(e.note.created_at)],
+                                children: ['创建时间: ', n(e.note.created_at)],
                               }),
                               e.note.updated_at !== e.note.created_at &&
                                 m.jsxs('span', {
                                   children: [
                                     '更新时间: ',
-                                    s(e.note.updated_at),
+                                    n(e.note.updated_at),
                                   ],
                                 }),
                             ],
@@ -3727,18 +3154,18 @@ var __defProp = Object.defineProperty,
               ],
             }),
             m.jsxs('div', {
-              className: Pa.modalFooter,
+              className: ja.modalFooter,
               children: [
-                n() &&
+                s() &&
                   m.jsx('a', {
-                    href: n(),
+                    href: s(),
                     target: '_blank',
                     rel: 'noopener noreferrer',
-                    className: Pa.sourceLinkBtn,
+                    className: ja.sourceLinkBtn,
                     children: '打开源页面',
                   }),
                 m.jsx('button', {
-                  className: Pa.closeModalBtn,
+                  className: ja.closeModalBtn,
                   onClick: a,
                   children: '关闭',
                 }),
@@ -3749,7 +3176,7 @@ var __defProp = Object.defineProperty,
       })
       var l
     },
-    Ga = {
+    Na = {
       app: 'App-module__app__ZYOJd',
       'web-mode': 'App-module__web-mode__2hnFp',
       webMode: 'App-module__web-mode__2hnFp',
@@ -3805,11 +3232,11 @@ var __defProp = Object.defineProperty,
       'report-text': 'App-module__report-text__DiDz5',
       reportText: 'App-module__report-text__DiDz5',
     },
-    qa = ({ isUserscript: t = !1 }) => {
+    ya = ({ isUserscript: t = !1 }) => {
       const {
           state: a,
-          updateConfig: s,
-          setTheme: n,
+          updateConfig: n,
+          setTheme: s,
           setActivePanel: l,
           setAppMode: i,
           setProjects: o,
@@ -3820,26 +3247,24 @@ var __defProp = Object.defineProperty,
           setTotal: u,
           setAIGenerationConfig: p,
           setLoading: h,
-          setError: v,
-          isConfigValid: g,
-          getTimeRange: x,
-        } = U(),
+          setError: x,
+          isConfigValid: v,
+          getTimeRange: g,
+        } = O(),
         {
           createRequest: b,
           isRequestCancelled: j,
           cleanupRequest: f,
           isAbortError: N,
-        } = G(),
-        y = e.useMemo(() => {
-          return (
-            (e = a.config.gitlabUrl), (t = a.config.gitlabToken), new Le(e, t)
-          )
-          var e, t
-        }, [a.config.gitlabUrl, a.config.gitlabToken]),
-        [k, E] = e.useState(null),
-        [C, w] = e.useState(!1),
-        [T, S] = e.useState([]),
-        L = e.useMemo(
+        } = U(),
+        y = e.useMemo(
+          () => Re(a.config.gitlabUrl, a.config.gitlabToken),
+          [a.config.gitlabUrl, a.config.gitlabToken],
+        ),
+        [k, w] = e.useState(null),
+        [C, E] = e.useState(!1),
+        [M, T] = e.useState([]),
+        D = e.useMemo(
           () =>
             'system' === a.theme
               ? window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -3864,20 +3289,20 @@ var __defProp = Object.defineProperty,
       }, [a.theme])
       const $ = e.useCallback(
         async e => {
-          var t, s
-          if (!g()) return void v(R)
-          const n = b()
-          h(!0), v(null)
+          var t, n
+          if (!v()) return void x(R)
+          const s = b()
+          h(!0), x(null)
           try {
             await y.init()
-            const { startDate: l, endDate: i } = x(),
+            const { startDate: l, endDate: i } = g(),
               o = e || a.filterConditions,
               r =
                 (null == (t = o.targetType) ? void 0 : t.length) > 0
                   ? o.targetType
                   : void 0,
               d =
-                (null == (s = o.action) ? void 0 : s.length) > 0
+                (null == (n = o.action) ? void 0 : n.length) > 0
                   ? o.action
                   : void 0,
               c = a.sortOptions.order || 'desc',
@@ -3890,17 +3315,17 @@ var __defProp = Object.defineProperty,
                 page: a.paginationOptions.page,
                 per_page: a.paginationOptions.pageSize,
                 sort: c,
-                signal: n.signal,
+                signal: s.signal,
               },
-              { events: h, total: v } = await y.getUserEventsWithTotal(m.id, p)
-            if (j(n)) return
-            _(h), S(h.map(e => e.id)), u(v)
+              { events: h, total: x } = await y.getUserEventsWithTotal(m.id, p)
+            if (j(s)) return
+            _(h), T(h.map(e => e.id)), u(x)
           } catch (l) {
             if (N(l)) return
-            const e = M.formatErrorMessage(l)
-            v(e), _([]), u(0)
+            const e = S.formatErrorMessage(l)
+            x(e), _([]), u(0)
           } finally {
-            j(n) || h(!1), f(n)
+            j(s) || h(!1), f(s)
           }
         },
         [
@@ -3908,12 +3333,12 @@ var __defProp = Object.defineProperty,
           a.paginationOptions.pageSize,
           a.sortOptions,
           a.filterConditions,
-          x,
+          g,
           _,
           u,
           h,
+          x,
           v,
-          g,
           y,
           b,
           j,
@@ -3922,11 +3347,11 @@ var __defProp = Object.defineProperty,
         ],
       )
       e.useEffect(() => {
-        g() && $()
-      }, [g, $])
-      const D = e.useCallback(async () => {
-        if (g()) {
-          h(!0), v(null)
+        v() && $()
+      }, [v, $])
+      const P = e.useCallback(async () => {
+        if (v()) {
+          h(!0), x(null)
           try {
             await y.init()
             const e = await y.getProjects({
@@ -3939,18 +3364,18 @@ var __defProp = Object.defineProperty,
             })
             o(e)
           } catch (e) {
-            const t = M.formatErrorMessage(e)
-            v(t), o([])
+            const t = S.formatErrorMessage(e)
+            x(t), o([])
           } finally {
             h(!1)
           }
-        } else v(R)
-      }, [y, g, o, h, v])
+        } else x(R)
+      }, [y, v, o, h, x])
       return m.jsxs('div', {
         id: 'gitlab-weekly-report-app',
-        className: `${Ga.app} ${t ? Ga.userscriptMode : Ga.webMode} ${Ga[L]}`,
+        className: `${Na.app} ${t ? Na.userscriptMode : Na.webMode} ${Na[D]}`,
         children: [
-          m.jsx(ht, {
+          m.jsx(Rt, {
             appMode: a.appMode,
             events: a.events,
             totalCount: a.totalCount,
@@ -3958,9 +3383,9 @@ var __defProp = Object.defineProperty,
             filterConditions: a.filterConditions,
             sortOptions: a.sortOptions,
             paginationOptions: a.paginationOptions,
-            selectedEventIds: T,
+            selectedEventIds: M,
             onModeChange: async e => {
-              i(e), 'changelog' === e ? await D() : g() && $()
+              i(e), 'changelog' === e ? await P() : v() && $()
             },
             onFilterChange: e => {
               r(e), $(e)
@@ -3972,29 +3397,29 @@ var __defProp = Object.defineProperty,
               c(e)
             },
             onEventSelect: (e, t) => {
-              S(a => (t ? [...a, e] : a.filter(t => t !== e)))
+              T(a => (t ? [...a, e] : a.filter(t => t !== e)))
             },
             onSelectAll: e => {
-              S(e ? a.events.map(e => e.id) : [])
+              T(e ? a.events.map(e => e.id) : [])
             },
             onEventDetail: e => {
-              E(e), w(!0)
+              w(e), E(!0)
             },
             onOpenSettings: () => {
               l('settings')
             },
             onOpenAI: () => {
-              g() ? l('ai') : v(A)
+              v() ? l('ai') : x(A)
             },
           }),
-          m.jsx(Ua, {
+          m.jsx(fa, {
             event: k,
             visible: C,
             onClose: () => {
-              w(!1), E(null)
+              E(!1), w(null)
             },
           }),
-          m.jsx(Zt, {
+          m.jsx(va, {
             isOpen: 'settings' === a.activePanel,
             config: a.config,
             theme: a.theme,
@@ -4002,10 +3427,10 @@ var __defProp = Object.defineProperty,
               l('main')
             },
             onSave: (e, t) => {
-              s(e), n(t)
+              n(e), s(t)
             },
           }),
-          m.jsx(Ra, {
+          m.jsx(ba, {
             visible: 'ai' === a.activePanel,
             config: a.aiGenerationConfig,
             defaultPrompt: a.config.defaultPrompt,
@@ -4013,18 +3438,18 @@ var __defProp = Object.defineProperty,
               l('main')
             },
             onGenerate: async e => {
-              if (g())
-                if (0 !== T.length) {
-                  h(!0), v(null)
+              if (v())
+                if (0 !== M.length) {
+                  h(!0), x(null)
                   try {
                     const t = a.events
-                        .filter(e => T.includes(e.id))
+                        .filter(e => M.includes(e.id))
                         .map(e => {
                           var t
                           return `${new Date(e.created_at).toLocaleDateString('zh-CN')} - ${e.action_name}: ${e.target_title || (null == (t = e.push_data) ? void 0 : t.commit_title) || '无标题'}`
                         })
                         .join('\n'),
-                      { createDeepSeekApiService: s } = await (function (e) {
+                      { createDeepSeekApiService: n } = await (function (e) {
                         function t(e) {
                           const t = new Event('vite:preloadError', {
                             cancelable: !0,
@@ -4043,11 +3468,11 @@ var __defProp = Object.defineProperty,
                         })
                       })(async () => {
                         const { createDeepSeekApiService: e } =
-                          await Promise.resolve().then(() => Ha)
+                          await Promise.resolve().then(() => Sa)
                         return { createDeepSeekApiService: e }
                       }),
-                      n = s(a.config.deepseekApiKey),
-                      l = await n.generateWeeklyReport(
+                      s = n(a.config.deepseekApiKey),
+                      l = await s.generateWeeklyReport(
                         t,
                         e,
                         a.config.model,
@@ -4060,20 +3485,20 @@ var __defProp = Object.defineProperty,
                     }),
                       h(!1)
                   } catch (t) {
-                    const e = M.formatErrorMessage(t)
-                    v(e), h(!1)
+                    const e = S.formatErrorMessage(t)
+                    x(e), h(!1)
                   }
-                } else v(O)
-              else v(I)
+                } else x(L)
+              else x(I)
             },
             isLoading: a.isLoading,
-            selectedEventsCount: T.length,
-            dateRange: x(),
+            selectedEventsCount: M.length,
+            dateRange: g(),
           }),
         ],
       })
     },
-    Ba = () => {
+    ka = () => {
       if (document.getElementById('gitlab-weekly-report-userscript-container'))
         return
       const t = document.createElement('div')
@@ -4081,66 +3506,64 @@ var __defProp = Object.defineProperty,
         (t.innerHTML = '📊'),
         (t.style.cssText =
           "\n    position: fixed;\n    bottom: 110px;\n    right: 50px;\n    width: 50px;\n    height: 50px;\n    background: var(--color-primary);\n    border-radius: 50%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    cursor: pointer;\n    z-index: 999998;\n    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);\n    font-size: 20px;\n    transition: all 0.3s ease;\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;\n  ")
-      const s = document.createElement('div')
-      ;(s.id = 'gitlab-weekly-report-userscript-container'),
-        (s.style.cssText =
-          "\n    position: fixed;\n    top: 60px;\n    left: 60px;\n    right: 60px;\n    bottom: 60px;\n    z-index: 999999;\n    background: white;\n    border-radius: 12px;\n    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;\n    display: none;\n    overflow: hidden;\n    isolation: isolate;\n  ")
       const n = document.createElement('div')
-      ;(n.id = 'gitlab-weekly-report-overlay'),
+      ;(n.id = 'gitlab-weekly-report-userscript-container'),
         (n.style.cssText =
+          "\n    position: fixed;\n    top: 60px;\n    left: 60px;\n    right: 60px;\n    bottom: 60px;\n    z-index: 999999;\n    background: white;\n    border-radius: 12px;\n    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;\n    display: none;\n    overflow: hidden;\n    isolation: isolate;\n  ")
+      const s = document.createElement('div')
+      ;(s.id = 'gitlab-weekly-report-overlay'),
+        (s.style.cssText =
           '\n    position: fixed;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    background: rgba(0, 0, 0, 0.5);\n    z-index: 999997;\n    display: none;\n  ')
       const l = () => {
-        'none' !== s.style.display
-          ? ((s.style.display = 'none'),
-            (n.style.display = 'none'),
+        'none' !== n.style.display
+          ? ((n.style.display = 'none'),
+            (s.style.display = 'none'),
             (t.style.transform = 'scale(1)'))
-          : ((s.style.display = 'block'),
-            (n.style.display = 'block'),
+          : ((n.style.display = 'block'),
+            (s.style.display = 'block'),
             (t.style.transform = 'scale(0.9)'))
       }
       t.addEventListener('mouseenter', () => {
-        'none' === s.style.display &&
+        'none' === n.style.display &&
           ((t.style.transform = 'scale(1.1)'),
           (t.style.boxShadow = '0 6px 16px rgba(25, 118, 210, 0.4)'))
       }),
         t.addEventListener('mouseleave', () => {
-          'none' === s.style.display &&
+          'none' === n.style.display &&
             ((t.style.transform = 'scale(1)'),
             (t.style.boxShadow = '0 4px 12px rgba(25, 118, 210, 0.3)'))
         }),
         t.addEventListener('click', l),
-        n.addEventListener('click', l),
-        document.body.appendChild(n),
+        s.addEventListener('click', l),
         document.body.appendChild(s),
+        document.body.appendChild(n),
         document.body.appendChild(t)
-      a.createRoot(s).render(e.createElement(qa, { isUserscript: !0 }))
+      a.createRoot(n).render(e.createElement(ya, { isUserscript: !0 }))
     },
-    Fa = () => {
+    wa = () => {
       ;(window.location.hostname.includes('gitlab') ||
         window.location.pathname.includes('gitlab') ||
         null !== document.querySelector('meta[content*="GitLab"]') ||
         null !== document.querySelector('[data-page*="gitlab"]')) &&
         ('loading' === document.readyState
-          ? document.addEventListener('DOMContentLoaded', Ba)
-          : Ba())
+          ? document.addEventListener('DOMContentLoaded', ka)
+          : ka())
     }
-  Fa()
-  let za = location.href
+  wa()
+  let Ca = location.href
   new MutationObserver(() => {
     const e = location.href
-    e !== za && ((za = e), setTimeout(Fa, 1e3))
+    e !== Ca && ((Ca = e), setTimeout(wa, 1e3))
   }).observe(document, { subtree: !0, childList: !0 })
-  class Ka {
+  class Ea {
     constructor(e) {
       __publicField(this, 'apiKey'),
         __publicField(this, 'baseUrl'),
         (this.apiKey = e),
-        (this.baseUrl = f.DEEPSEEK_BASE_URL)
+        (this.baseUrl = b.DEEPSEEK_BASE_URL)
     }
-    /**
-     * 生成聊天回复
-     */ async generateChat(e, t = 'deepseek-chat', a = 4e3) {
-      const s = await h(`${this.baseUrl}/chat/completions`, {
+    async chatRequest(e, t, a) {
+      const n = await h(`${this.baseUrl}/chat/completions`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${this.apiKey}`,
@@ -4152,18 +3575,23 @@ var __defProp = Object.defineProperty,
           max_tokens: a,
           temperature: 0.7,
         }),
-        timeout: f.REQUEST_TIMEOUT,
+        timeout: b.REQUEST_TIMEOUT,
       })
-      if (!s.ok) throw M.createApiError(s.status, s.statusText, 'DeepSeek API')
-      const n = await s.json()
-      if (!n.choices || 0 === n.choices.length)
-        throw M.createResponseError('空的响应', 'DeepSeek API')
-      return n.choices[0].message.content
+      if (!n.ok) throw S.createApiError(n.status, n.statusText, 'DeepSeek API')
+      const s = await n.json()
+      if (!s.choices || 0 === s.choices.length)
+        throw S.createResponseError('空的响应', 'DeepSeek API')
+      return s
+    }
+    /**
+     * 生成聊天回复
+     */ async generateChat(e, t = 'deepseek-chat', a = 4e3) {
+      return (await this.chatRequest(e, t, a)).choices[0].message.content
     }
     /**
      * 生成周报
-     */ async generateWeeklyReport(e, t, a = 'deepseek-chat', s = 4e3) {
-      var n
+     */ async generateWeeklyReport(e, t, a = 'deepseek-chat', n = 4e3) {
+      var s
       const l = [
           { role: 'system', content: t },
           {
@@ -4171,27 +3599,10 @@ var __defProp = Object.defineProperty,
             content: `以下是GitLab事件数据：\n\n${e}\n\n请根据这些数据生成工作周报。`,
           },
         ],
-        i = await h(`${f.DEEPSEEK_BASE_URL}/chat/completions`, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            model: a,
-            messages: l,
-            max_tokens: s,
-            temperature: 0.7,
-          }),
-          timeout: f.REQUEST_TIMEOUT,
-        })
-      if (!i.ok) throw M.createApiError(i.status, i.statusText, 'DeepSeek API')
-      const o = await i.json()
-      if (!o.choices || 0 === o.choices.length)
-        throw M.createResponseError('空的响应', 'DeepSeek API')
+        i = await this.chatRequest(l, a, n)
       return {
-        content: o.choices[0].message.content,
-        tokensUsed: (null == (n = o.usage) ? void 0 : n.total_tokens) || 0,
+        content: i.choices[0].message.content,
+        tokensUsed: (null == (s = i.usage) ? void 0 : s.total_tokens) || 0,
       }
     }
     /**
@@ -4211,13 +3622,13 @@ var __defProp = Object.defineProperty,
       }
     }
   }
-  const Ha = Object.freeze(
+  const Sa = Object.freeze(
     Object.defineProperty(
       {
         __proto__: null,
-        DeepSeekApiService: Ka,
+        DeepSeekApiService: Ea,
         createDeepSeekApiService: function (e) {
-          return new Ka(e)
+          return new Ea(e)
         },
       },
       Symbol.toStringTag,
