@@ -1,4 +1,4 @@
-import { GitLabEvent, GitLabProject, GitLabUser } from '@/types'
+import { GitLabCommit, GitLabEvent, GitLabProject, GitLabUser } from '@/types'
 import { request, isUserscriptEnvironment } from '@/utils/request'
 import { API_CONFIG } from '@/constants'
 import { errorUtils } from '@/utils'
@@ -151,6 +151,70 @@ export class GitLabApiService {
    */
   async getUserProjects(): Promise<GitLabProject[]> {
     return this.request('/projects?membership=true&per_page=100')
+  }
+
+  /**
+   * 获取项目列表（支持搜索和排序）
+   */
+  async getProjects(
+    options: {
+      membership?: boolean
+      per_page?: number
+      starred?: boolean
+      simple?: boolean
+      order_by?: 'last_activity_at' | 'name' | 'created_at'
+      search?: string
+      page?: number
+    } = {},
+  ): Promise<GitLabProject[]> {
+    const params = new URLSearchParams()
+
+    if (options.membership !== undefined)
+      params.set('membership', options.membership.toString())
+    if (options.per_page) params.set('per_page', options.per_page.toString())
+    if (options.starred !== undefined)
+      params.set('starred', options.starred.toString())
+    if (options.simple !== undefined)
+      params.set('simple', options.simple.toString())
+    if (options.order_by) params.set('order_by', options.order_by)
+    if (options.search) params.set('search', options.search)
+    if (options.page) params.set('page', options.page.toString())
+
+    const queryString = params.toString()
+    const endpoint = queryString ? `/projects?${queryString}` : '/projects'
+
+    return this.request(endpoint)
+  }
+
+  /**
+   * 获取项目的commits
+   */
+  async getProjectCommits(
+    projectId: number,
+    options: {
+      since?: string
+      until?: string
+      per_page?: number
+      page?: number
+      ref_name?: string
+      all?: boolean
+    } = {},
+  ): Promise<GitLabCommit[]> {
+    const params = new URLSearchParams()
+
+    if (options.since) params.set('since', options.since)
+    if (options.until) params.set('until', options.until)
+    if (options.per_page) params.set('per_page', options.per_page.toString())
+    if (options.page) params.set('page', options.page.toString())
+    if (options.ref_name) params.set('ref_name', options.ref_name)
+    if (options.all !== undefined) params.set('all', options.all.toString())
+
+    const queryString = params.toString()
+    const endpoint = queryString
+      ? `/projects/${projectId}/repository/commits?${queryString}`
+      : `/projects/${projectId}/repository/commits`
+
+    return this.request(endpoint)
   }
 
   /**

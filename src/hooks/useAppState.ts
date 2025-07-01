@@ -9,6 +9,9 @@ import {
   AIGenerationConfig,
   PanelType,
   GitLabEvent,
+  AppMode,
+  GitLabProject,
+  GitLabCommit,
 } from '@/types'
 import { storageUtils } from '@/utils'
 import {
@@ -25,12 +28,17 @@ const initialState: AppState = {
   error: null,
   theme: DEFAULT_CONFIG.theme,
   activePanel: 'main',
+  appMode: 'events',
   filterConditions: DEFAULT_FILTER_CONDITIONS,
   sortOptions: DEFAULT_SORT_OPTIONS,
   paginationOptions: DEFAULT_PAGINATION_OPTIONS,
   events: [],
   totalCount: 0,
   aiGenerationConfig: null,
+  // Changelog模式相关状态
+  projects: [],
+  selectedProjectId: null,
+  commits: [],
 }
 
 export function useAppState() {
@@ -90,6 +98,26 @@ export function useAppState() {
   // 设置活动面板
   const setActivePanel = useCallback((panel: PanelType) => {
     setState(prev => ({ ...prev, activePanel: panel }))
+  }, [])
+
+  // 设置应用模式
+  const setAppMode = useCallback((mode: AppMode) => {
+    setState(prev => ({ ...prev, appMode: mode }))
+  }, [])
+
+  // 设置项目列表
+  const setProjects = useCallback((projects: GitLabProject[]) => {
+    setState(prev => ({ ...prev, projects }))
+  }, [])
+
+  // 设置选中的项目ID
+  const setSelectedProjectId = useCallback((projectId: number | null) => {
+    setState(prev => ({ ...prev, selectedProjectId: projectId }))
+  }, [])
+
+  // 设置commits
+  const setCommits = useCallback((commits: GitLabCommit[]) => {
+    setState(prev => ({ ...prev, commits }))
   }, [])
 
   // 更新筛选条件
@@ -289,6 +317,10 @@ export function useAppState() {
     state,
     updateConfig,
     setActivePanel,
+    setAppMode,
+    setProjects,
+    setSelectedProjectId,
+    setCommits,
     updateFilterConditions,
     updateSortOptions,
     updatePaginationOptions,

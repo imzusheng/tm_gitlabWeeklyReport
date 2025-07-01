@@ -33,7 +33,7 @@
       justify-content: center !important;
       width: 32px !important;
       height: 32px !important;
-      border: 1px solid var(--border-color) !important;
+      border: 1px solid var(--border-primary) !important;
       background: var(--bg-primary) !important;
       backdrop-filter: blur(10px) !important;
       border-radius: 8px !important;
@@ -50,15 +50,15 @@
       font-family: inherit !important;
 
       &:hover:not(.disabled) {
-        border-color: var(--primary-color);
+        border-color: var(--color-primary);
         background: var(--primary-bg-hover);
         transform: translateY(-1px);
         box-shadow: 0 4px 12px var(--primary-shadow);
       }
 
       &.active {
-        border-color: var(--primary-color);
-        background: var(--primary-color);
+        border-color: var(--color-primary);
+        background: var(--color-primary);
         color: white;
         box-shadow: 0 4px 12px var(--primary-shadow);
       }
@@ -95,7 +95,7 @@
 
     .pagination-select {
       padding: 4px 32px 4px 8px; /* 右边距为箭头留出空间 */
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-primary);
       border-radius: 6px;
       background: var(--bg-primary);
       color: var(--text-primary);
@@ -104,12 +104,12 @@
       transition: border-color 0.2s ease;
 
       &:hover {
-        border-color: var(--primary-color);
+        border-color: var(--color-primary);
       }
 
       &:focus {
         outline: none;
-        border-color: var(--primary-color);
+        border-color: var(--color-primary);
         box-shadow: 0 0 0 2px var(--primary-shadow);
       }
     }

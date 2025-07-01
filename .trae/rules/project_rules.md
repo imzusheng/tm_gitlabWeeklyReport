@@ -56,6 +56,8 @@ alwaysApply: true
 - 组件样式文件命名：`index.less`
 - 使用 BEM 命名规范或模块化 CSS
 - 避免使用 !important，通过合理的选择器优先级解决样式冲突
+- 按钮文字必须防止换行：使用 `white-space: nowrap` 和 `min-width: fit-content` 确保按钮文字不被挤压换行
+- 按钮标签文字应使用 `flex-shrink: 0` 防止被压缩，必要时使用 `text-overflow: ellipsis` 处理超长文本
 
 ## 🔧 开发实践
 

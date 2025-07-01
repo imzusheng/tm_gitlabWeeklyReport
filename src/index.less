@@ -52,6 +52,9 @@
   --color-warning-light: rgb(255 149 0 / 10%);
   --color-warning-lighter: rgb(255 149 0 / 5%);
   --color-error: #ff3b30;
+  --color-error-bg: #f8d7da;
+  --color-error-border: #f5c6cb;
+  --color-error-text: #721c24;
   --color-error-light: rgb(255 59 48 / 10%);
   --color-danger: #ff3b30;
   --color-danger-light: rgb(255 59 48 / 10%);
@@ -82,11 +85,11 @@
   --btn-hover-bg: rgb(0 0 0 / 6%);
 
   /* 自定义变量 */
-  --border-color: rgb(0 0 0 / 8%);
+
   --border-light: rgb(0 0 0 / 5%);
-  --primary-color: #007aff;
-  --primary-bg-hover: rgb(0 122 255 / 10%);
-  --primary-shadow: rgb(0 122 255 / 25%);
+
+  --primary-bg-hover: rgb(74 158 255 / 10%);
+    --primary-shadow: rgb(74 158 255 / 25%);
   --success-color: #34c759;
   --warning-color: #ff9500;
   --shadow-xs: 0 1px 4px rgb(0 0 0 / 4%);
@@ -96,10 +99,6 @@
   --input-border: #ddd;
   --input-focus-border: #007bff;
   --input-focus-shadow: rgb(0 123 255 / 10%);
-
-  /* 链接 */
-  --link-color: #646cff;
-  --link-hover: #535bf2;
 
   /* 应用主色调 */
   color: var(--text-primary);
@@ -122,12 +121,13 @@ body {
 
 a {
   font-weight: 500;
-  color: var(--link-color);
+  color: var(--color-primary);
   text-decoration: inherit;
+  transition: color 0.2s ease;
 }
 
 a:hover {
-  color: var(--link-hover);
+  color: var(--color-primary-hover);
 }
 
 body {
@@ -181,11 +181,11 @@ button:hover {
     --border-quaternary: #48484a;
 
     /* 品牌色 */
-    --color-primary: #0a84ff;
+    --color-primary: #4a9eff;
     --color-primary-hover: #64b5f6;
-    --color-primary-dark: #06c;
-    --color-primary-light: rgb(0 122 255 / 20%);
-    --color-primary-lighter: rgb(0 122 255 / 10%);
+    --color-primary-dark: #3a8eef;
+    --color-primary-light: rgb(74 158 255 / 20%);
+    --color-primary-lighter: rgb(74 158 255 / 10%);
 
     /* 功能色 */
     --color-success: #32d74b;
@@ -193,6 +193,9 @@ button:hover {
     --color-warning: #ff9f0a;
     --color-warning-light: rgb(255 149 0 / 20%);
     --color-error: #ff453a;
+    --color-error-bg: #5c2122;
+    --color-error-border: #7c2e2f;
+    --color-error-text: #f8d7da;
     --color-error-light: rgb(255 69 58 / 20%);
     --color-info: #5e5ce6;
     --color-info-light: rgb(88 86 214 / 20%);
@@ -220,11 +223,11 @@ button:hover {
     --btn-hover-bg: rgb(255 255 255 / 10%);
 
     /* 自定义变量 */
-    --border-color: rgb(255 255 255 / 10%);
+  
     --border-light: rgb(255 255 255 / 8%);
-    --primary-color: #0a84ff;
-    --primary-bg-hover: rgb(0 122 255 / 20%);
-    --primary-shadow: rgb(0 122 255 / 30%);
+  
+    --primary-bg-hover: rgb(74 158 255 / 20%);
+    --primary-shadow: rgb(74 158 255 / 30%);
     --success-color: #32d74b;
     --warning-color: #ff9f0a;
     --shadow-xs: 0 1px 4px rgb(0 0 0 / 10%);
@@ -235,77 +238,26 @@ button:hover {
     --input-focus-border: #64b5f6;
     --input-focus-shadow: rgb(100 181 246 / 10%);
 
-    /* 链接 */
-    --link-color: #646cff;
-    --link-hover: #535bf2;
-
     /* 应用主色调 */
     color: var(--text-primary);
     background-color: var(--bg-primary);
   }
 }
 
-/* ========== 强制深色主题类 ========== */
-.dark {
-  /* 强制深色主题变量 */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #1c1c1e;
-  --bg-tertiary: #2c2c2e;
-  --bg-quaternary: rgb(28 28 30 / 80%);
-  --text-primary: #fff;
-  --text-secondary: #8e8e93;
-  --text-tertiary: #98989d;
-  --text-quaternary: #636366;
-  --border-primary: rgb(255 255 255 / 10%);
-  --border-secondary: rgb(255 255 255 / 8%);
-  --border-tertiary: #424245;
-  --border-quaternary: #48484a;
-  --color-primary: #0a84ff;
-  --color-primary-hover: #64b5f6;
-  --color-primary-dark: #06c;
-  --color-primary-light: rgb(0 122 255 / 20%);
-  --color-primary-lighter: rgb(0 122 255 / 10%);
-  --color-success: #32d74b;
-  --color-success-light: rgb(52 199 89 / 20%);
-  --color-success-lighter: rgb(52 199 89 / 10%);
-  --color-warning: #ff9f0a;
-  --color-warning-light: rgb(255 149 0 / 20%);
-  --color-warning-lighter: rgb(255 149 0 / 10%);
-  --color-error: #ff453a;
-  --color-error-light: rgb(255 69 58 / 20%);
-  --color-danger: #ff453a;
-  --color-danger-light: rgb(255 69 58 / 20%);
-  --color-danger-lighter: rgb(255 69 58 / 10%);
-  --color-info: #5e5ce6;
-  --color-info-light: rgb(88 86 214 / 20%);
-  --shadow-sm: 0 2px 8px rgb(0 0 0 / 20%);
-  --shadow-md: 0 4px 16px rgb(0 0 0 / 30%);
-  --shadow-lg: 0 8px 32px rgb(0 0 0 / 40%);
-  --shadow-xl: 0 20px 60px rgb(0 0 0 / 50%);
-  --scrollbar-thumb: #48484a;
-  --scrollbar-thumb-hover: #636366;
-  --overlay: rgb(0 0 0 / 60%);
-  --overlay-light: rgb(0 0 0 / 60%);
-  --overlay-heavy: rgb(0 0 0 / 80%);
-  --btn-bg: #1a1a1a;
-  --btn-text: rgb(255 255 255 / 87%);
-  --btn-primary-text: #fff;
-  --btn-border: rgb(255 255 255 / 20%);
-  --btn-hover-bg: rgb(255 255 255 / 10%);
-  --border-color: rgb(255 255 255 / 10%);
-  --border-light: rgb(255 255 255 / 8%);
-  --primary-color: #0a84ff;
-  --primary-bg-hover: rgb(0 122 255 / 20%);
-  --primary-shadow: rgb(0 122 255 / 30%);
-  --success-color: #32d74b;
-  --warning-color: #ff9f0a;
-  --shadow-xs: 0 1px 4px rgb(0 0 0 / 10%);
-  --input-bg: #2c2c2e;
-  --input-border: #48484a;
-  --input-focus-border: #64b5f6;
-  --input-focus-shadow: rgb(100 181 246 / 10%);
-  --link-color: #646cff;
-  --link-hover: #535bf2;
+
+
+.error-message {
+  background: var(--color-error-bg);
+  border: 1px solid var(--color-error-border);
+  padding: 10px;
+  border-radius: 5px;
+  color: var(--color-error-text);
+  margin-bottom: 20px;
+}
+
+.error-message p {
+  margin: 0;
+  color: var(--color-error-text);
 }
 
 /* Safari 浏览器 select 元素样式修复 */
@@ -330,67 +282,4 @@ select {
   select {
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
   }
-}
-
-/* ========== 强制浅色主题类 ========== */
-.light {
-  /* 强制浅色主题变量 */
-  --bg-primary: #fff;
-  --bg-secondary: #f5f5f7;
-  --bg-tertiary: #f8f9fa;
-  --bg-quaternary: rgb(248 248 248 / 80%);
-  --text-primary: #1d1d1f;
-  --text-secondary: #86868b;
-  --text-tertiary: #666;
-  --text-quaternary: #8e8e93;
-  --border-primary: rgb(0 0 0 / 8%);
-  --border-secondary: rgb(0 0 0 / 5%);
-  --border-tertiary: #e5e5e7;
-  --border-quaternary: #d2d2d7;
-  --color-primary: #007aff;
-  --color-primary-hover: #0051d5;
-  --color-primary-dark: #0051d5;
-  --color-primary-light: rgb(0 122 255 / 10%);
-  --color-primary-lighter: rgb(0 122 255 / 5%);
-  --color-success: #34c759;
-  --color-success-light: rgb(52 199 89 / 10%);
-  --color-success-lighter: rgb(52 199 89 / 5%);
-  --color-warning: #ff9500;
-  --color-warning-light: rgb(255 149 0 / 10%);
-  --color-warning-lighter: rgb(255 149 0 / 5%);
-  --color-error: #ff3b30;
-  --color-error-light: rgb(255 59 48 / 10%);
-  --color-danger: #ff3b30;
-  --color-danger-light: rgb(255 59 48 / 10%);
-  --color-danger-lighter: rgb(255 59 48 / 5%);
-  --color-info: #5856d6;
-  --color-info-light: rgb(88 86 214 / 10%);
-  --shadow-sm: 0 2px 8px rgb(0 0 0 / 6%);
-  --shadow-md: 0 4px 16px rgb(0 0 0 / 10%);
-  --shadow-lg: 0 8px 32px rgb(0 0 0 / 15%);
-  --shadow-xl: 0 20px 60px rgb(0 0 0 / 15%);
-  --scrollbar-thumb: #d1d1d6;
-  --scrollbar-thumb-hover: #b4b4b9;
-  --overlay: rgb(0 0 0 / 50%);
-  --overlay-light: rgb(0 0 0 / 50%);
-  --overlay-heavy: rgb(0 0 0 / 60%);
-  --btn-bg: #f9f9f9;
-  --btn-text: #213547;
-  --btn-primary-text: #fff;
-  --btn-border: rgb(0 0 0 / 10%);
-  --btn-hover-bg: rgb(0 0 0 / 6%);
-  --border-color: rgb(0 0 0 / 8%);
-  --border-light: rgb(0 0 0 / 5%);
-  --primary-color: #007aff;
-  --primary-bg-hover: rgb(0 122 255 / 10%);
-  --primary-shadow: rgb(0 122 255 / 25%);
-  --success-color: #34c759;
-  --warning-color: #ff9500;
-  --shadow-xs: 0 1px 4px rgb(0 0 0 / 4%);
-  --input-bg: #fff;
-  --input-border: #ddd;
-  --input-focus-border: #007bff;
-  --input-focus-shadow: rgb(0 123 255 / 10%);
-  --link-color: #646cff;
-  --link-hover: #535bf2;
 }

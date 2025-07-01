@@ -38,8 +38,8 @@
       }
 
       &.active {
-        color: var(--primary-color);
-        border-bottom-color: var(--primary-color);
+        color: var(--color-primary);
+        border-bottom-color: var(--color-primary);
       }
     }
   }
@@ -73,7 +73,7 @@
         .form-textarea {
           width: 100%;
           padding: 10px 12px;
-          border: 1px solid var(--border-color);
+          border: 1px solid var(--border-primary);
           border-radius: 8px;
           font-size: 14px;
           color: var(--text-primary);
@@ -82,12 +82,12 @@
           box-sizing: border-box;
 
           &:hover {
-            border-color: var(--primary-color);
+            border-color: var(--color-primary);
           }
 
           &:focus {
             outline: none;
-            border-color: var(--primary-color);
+            border-color: var(--color-primary);
             box-shadow: 0 0 0 3px var(--primary-shadow);
           }
 
@@ -215,7 +215,7 @@
 }
 
 .switch-input:checked + .switch-label .switch-slider {
-  background-color: var(--primary-color);
+  background-color: var(--color-primary);
 
   &::before {
     transform: translateX(20px);
@@ -223,7 +223,7 @@
 }
 
 .switch-input:focus + .switch-label .switch-slider {
-  box-shadow: 0 0 0 2px var(--primary-color-lighter);
+  box-shadow: 0 0 0 2px var(--color-primary-lighter);
 }
 
 .switch-input:disabled + .switch-label {

@@ -13,6 +13,7 @@ import type {
   PaginationOptions,
   AppConfig,
   SortOptions,
+  AppMode,
 } from '@/types'
 import { errorUtils, configErrors } from '@/utils'
 import { createGitLabApiService } from '@/services/gitlab-api'
@@ -28,6 +29,10 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     updateConfig,
     setTheme,
     setActivePanel,
+    setAppMode,
+    setProjects,
+    setSelectedProjectId,
+    setCommits,
     updateFilterConditions,
     updateSortOptions,
     updatePaginationOptions,
@@ -331,6 +336,95 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     setSelectedEvent(null)
   }
 
+  // 处理应用模式切换
+  const handleModeChange = async (mode: AppMode) => {
+    setAppMode(mode)
+
+    if (mode === 'changelog') {
+      // 切换到Changelog模式时，加载项目列表
+      await loadProjects()
+    } else {
+      // 切换到Events模式时，重新加载事件
+      if (isConfigValid()) {
+        loadEvents()
+      }
+    }
+  }
+
+  // 加载项目列表
+  const loadProjects = useCallback(async () => {
+    if (!isConfigValid()) {
+      setError(configErrors.INVALID_FILTER_OR_CONFIG)
+      return
+    }
+
+    setLoading(true)
+    setError(null)
+
+    try {
+      await gitlabService.init()
+
+      const projects = await gitlabService.getProjects({
+        membership: true,
+        per_page: 100,
+        starred: false,
+        simple: true,
+        order_by: 'last_activity_at',
+        search: '',
+      })
+
+      setProjects(projects)
+    } catch (error) {
+      const errorMessage = errorUtils.formatErrorMessage(error)
+      setError(errorMessage)
+      setProjects([])
+    } finally {
+      setLoading(false)
+    }
+  }, [gitlabService, isConfigValid, setProjects, setLoading, setError])
+
+  // 加载项目的commits
+  const loadProjectCommits = useCallback(
+    async (projectId: number) => {
+      if (!isConfigValid()) {
+        setError(configErrors.INVALID_FILTER_OR_CONFIG)
+        return
+      }
+
+      setLoading(true)
+      setError(null)
+
+      try {
+        const { startDate, endDate } = getTimeRange()
+
+        const commits = await gitlabService.getProjectCommits(projectId, {
+          since: startDate,
+          until: endDate,
+          per_page: 100,
+          all: true,
+        })
+
+        setCommits(commits)
+        setSelectedProjectId(projectId)
+      } catch (error) {
+        const errorMessage = errorUtils.formatErrorMessage(error)
+        setError(errorMessage)
+        setCommits([])
+      } finally {
+        setLoading(false)
+      }
+    },
+    [
+      gitlabService,
+      isConfigValid,
+      getTimeRange,
+      setCommits,
+      setSelectedProjectId,
+      setLoading,
+      setError,
+    ],
+  )
+
   return (
     <div
       id="gitlab-weekly-report-app"
@@ -338,13 +432,19 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     >
       {/* 主面板 */}
       <MainPanel
+        appMode={state.appMode}
         events={state.events}
         totalCount={state.totalCount}
+        projects={state.projects}
+        selectedProjectId={state.selectedProjectId}
+        commits={state.commits}
         loading={state.isLoading}
         filterConditions={state.filterConditions}
         sortOptions={state.sortOptions}
         paginationOptions={state.paginationOptions}
         selectedEventIds={selectedEventIds}
+        onModeChange={handleModeChange}
+        onProjectSelect={loadProjectCommits}
         onFilterChange={handleFilterChange}
         onSortChange={handleSortChange}
         onPaginationChange={handlePaginationChange}

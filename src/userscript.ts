@@ -20,7 +20,7 @@ const initUserscript = () => {
     right: 50px;
     width: 50px;
     height: 50px;
-    background: #1976d2;
+    background: var(--color-primary);
     border-radius: 50%;
     display: flex;
     align-items: center;
