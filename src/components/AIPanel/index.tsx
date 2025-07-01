@@ -29,6 +29,7 @@ const AIPanel: React.FC<AIPanelProps> = ({
 }) => {
   const [prompt, setPrompt] = useState(defaultPrompt)
   const [isExpanded, setIsExpanded] = useState(false)
+  const [isCopied, setIsCopied] = useState(false)
 
   // 当defaultPrompt更新时，同步更新prompt状态
   useEffect(() => {
@@ -41,8 +42,10 @@ const AIPanel: React.FC<AIPanelProps> = ({
 
   const handleCopyResult = () => {
     if (config?.result) {
-      navigator.clipboard.writeText(config.result)
-      // 可以添加复制成功的提示
+      navigator.clipboard.writeText(config.result).then(() => {
+        setIsCopied(true)
+        setTimeout(() => setIsCopied(false), 2000) // 2秒后重置状态
+      })
     }
   }
 
@@ -156,12 +159,15 @@ const AIPanel: React.FC<AIPanelProps> = ({
               </h3>
               <div className={styles.resultActions}>
                 <button
-                  className={styles.actionBtn}
+                  className={`${styles.actionBtn} ${isCopied ? styles.copied : ''}`}
                   onClick={handleCopyResult}
                   title="一键复制"
+                  disabled={isCopied}
                 >
-                  <span className={styles.btnIcon}>📋</span>
-                  复制
+                  <span className={styles.btnIcon}>
+                    {isCopied ? '✅' : '📋'}
+                  </span>
+                  {isCopied ? '已复制' : '复制'}
                 </button>
               </div>
             </div>

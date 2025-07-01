@@ -50,16 +50,14 @@ export function useAppState() {
       try {
         const savedConfig = await storageUtils.loadConfig()
 
-        setState(prev => {
-          const mergedConfig = savedConfig
-            ? { ...DEFAULT_CONFIG, ...savedConfig }
-            : DEFAULT_CONFIG
-          return {
-            ...prev,
-            config: mergedConfig,
-            theme: mergedConfig.theme || DEFAULT_CONFIG.theme,
-          }
-        })
+        const mergedConfig = savedConfig
+          ? { ...DEFAULT_CONFIG, ...savedConfig }
+          : DEFAULT_CONFIG
+        setState(prev => ({
+          ...prev,
+          config: mergedConfig,
+          theme: mergedConfig.theme || DEFAULT_CONFIG.theme,
+        }))
       } catch (error) {
         console.error('Failed to load saved config:', error)
         // 配置加载失败时使用默认配置，确保应用正常运行
@@ -80,13 +78,11 @@ export function useAppState() {
       const newConfig = { ...prev.config, ...updates }
 
       // 异步保存配置，避免阻塞UI更新
-      try {
-        storageUtils.saveConfig(newConfig)
-      } catch (error) {
+      storageUtils.saveConfig(newConfig).catch(error => {
         console.error('Failed to save config:', error)
         // 即使保存失败，也要更新内存中的配置
         // 可以考虑显示用户友好的错误提示
-      }
+      })
 
       return {
         ...prev,

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { AppConfig } from '@/types'
 import styles from './index.module.less'
 
@@ -26,44 +26,43 @@ const CONFIG_ITEMS: ConfigItem[] = [
  * 配置状态组件
  * 显示配置完整性状态，包括进度条和详细信息
  */
+const REQUIRED_CONFIG_ITEMS = CONFIG_ITEMS.filter(item => item.required)
+const TOTAL_REQUIRED_COUNT = REQUIRED_CONFIG_ITEMS.length
+
 const ConfigStatus: React.FC<ConfigStatusProps> = ({
   config,
   className = '',
   showDetails = false,
   onClick,
 }) => {
-  // 检查配置项状态
-  const getConfigStatus = () => {
+  const status = useMemo(() => {
     const missingItems: string[] = []
     const completedItems: string[] = []
 
-    CONFIG_ITEMS.forEach(item => {
+    REQUIRED_CONFIG_ITEMS.forEach(item => {
       const value = config[item.key]
       const isValid = typeof value === 'string' ? value.trim() !== '' : !!value
 
-      if (item.required) {
-        if (isValid) {
-          completedItems.push(item.label)
-        } else {
-          missingItems.push(item.label)
-        }
+      if (isValid) {
+        completedItems.push(item.label)
+      } else {
+        missingItems.push(item.label)
       }
     })
 
+    const completedCount = completedItems.length
+    const isValid = missingItems.length === 0
+    const progress = (completedCount / TOTAL_REQUIRED_COUNT) * 100
+
     return {
-      isValid: missingItems.length === 0,
+      isValid,
       missingItems,
       completedItems,
-      completedCount: completedItems.length,
-      totalCount: CONFIG_ITEMS.filter(item => item.required).length,
-      progress:
-        (completedItems.length /
-          CONFIG_ITEMS.filter(item => item.required).length) *
-        100,
+      completedCount,
+      totalCount: TOTAL_REQUIRED_COUNT,
+      progress,
     }
-  }
-
-  const status = getConfigStatus()
+  }, [config])
 
   return (
     <div

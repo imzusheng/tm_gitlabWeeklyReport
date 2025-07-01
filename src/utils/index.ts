@@ -9,76 +9,71 @@ export const dateUtils = {
   /**
    * 格式化日期
    */
-  formatDate: (date: Date | string, format = 'YYYY-MM-DD HH:mm:ss'): string => {
+  formatDate: (
+    date: Date | string,
+    options?: Intl.DateTimeFormatOptions,
+  ): string => {
     const d = new Date(date)
-    const year = d.getFullYear()
-    const month = String(d.getMonth() + 1).padStart(2, '0')
-    const day = String(d.getDate()).padStart(2, '0')
-    const hours = String(d.getHours()).padStart(2, '0')
-    const minutes = String(d.getMinutes()).padStart(2, '0')
-    const seconds = String(d.getSeconds()).padStart(2, '0')
-
-    return format
-      .replace('YYYY', String(year))
-      .replace('MM', month)
-      .replace('DD', day)
-      .replace('HH', hours)
-      .replace('mm', minutes)
-      .replace('ss', seconds)
+    const defaultOptions: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    }
+    return new Intl.DateTimeFormat('zh-CN', {
+      ...defaultOptions,
+      ...options,
+    }).format(d)
   },
 }
 
 /**
  * 存储工具函数
  */
+const withStorageFallback = <T>(
+  operation: (storage: typeof storageAdapter | Storage) => T,
+) => {
+  try {
+    return operation(storageAdapter)
+  } catch (error) {
+    if (typeof localStorage !== 'undefined') {
+      try {
+        return operation(localStorage)
+      } catch (fallbackError) {
+        // 静默处理降级存储失败
+      }
+    }
+  }
+}
+
 export const storageUtils = {
   /**
    * 保存配置
    */
   saveConfig: (config: AppConfig): void => {
-    try {
-      storageAdapter.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(config))
-    } catch (error) {
-      // 降级到 localStorage
-      if (typeof localStorage !== 'undefined') {
-        localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(config))
-      }
-    }
+    withStorageFallback(storage =>
+      storage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(config)),
+    )
   },
 
   /**
    * 加载配置
    */
   loadConfig: (): AppConfig | null => {
-    try {
-      const config = storageAdapter.getItem(STORAGE_KEYS.CONFIG)
-      return config ? JSON.parse(config) : null
-    } catch (error) {
-      // 降级到 localStorage
-      try {
-        if (typeof localStorage !== 'undefined') {
-          const config = localStorage.getItem(STORAGE_KEYS.CONFIG)
-          return config ? JSON.parse(config) : null
-        }
-      } catch (fallbackError) {
-        // 静默处理降级存储失败
-      }
-      return null
-    }
+    const config = withStorageFallback(storage =>
+      storage.getItem(STORAGE_KEYS.CONFIG),
+    )
+    return config ? JSON.parse(config as string) : null
   },
 
   /**
    * 清除配置
    */
   clearConfig: (): void => {
-    try {
-      storageAdapter.removeItem(STORAGE_KEYS.CONFIG)
-    } catch (error) {
-      // 降级到 localStorage
-      if (typeof localStorage !== 'undefined') {
-        localStorage.removeItem(STORAGE_KEYS.CONFIG)
-      }
-    }
+    withStorageFallback(storage => storage.removeItem(STORAGE_KEYS.CONFIG))
   },
 }
 

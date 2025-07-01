@@ -31,8 +31,6 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     setActivePanel,
     setAppMode,
     setProjects,
-    setSelectedProjectId,
-    setCommits,
     updateFilterConditions,
     updateSortOptions,
     updatePaginationOptions,
@@ -383,48 +381,6 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     }
   }, [gitlabService, isConfigValid, setProjects, setLoading, setError])
 
-  // 加载项目的commits
-  const loadProjectCommits = useCallback(
-    async (projectId: number) => {
-      if (!isConfigValid()) {
-        setError(configErrors.INVALID_FILTER_OR_CONFIG)
-        return
-      }
-
-      setLoading(true)
-      setError(null)
-
-      try {
-        const { startDate, endDate } = getTimeRange()
-
-        const commits = await gitlabService.getProjectCommits(projectId, {
-          since: startDate,
-          until: endDate,
-          per_page: 100,
-          all: true,
-        })
-
-        setCommits(commits)
-        setSelectedProjectId(projectId)
-      } catch (error) {
-        const errorMessage = errorUtils.formatErrorMessage(error)
-        setError(errorMessage)
-        setCommits([])
-      } finally {
-        setLoading(false)
-      }
-    },
-    [
-      gitlabService,
-      isConfigValid,
-      getTimeRange,
-      setCommits,
-      setSelectedProjectId,
-      setLoading,
-      setError,
-    ],
-  )
-
   return (
     <div
       id="gitlab-weekly-report-app"
@@ -435,16 +391,12 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
         appMode={state.appMode}
         events={state.events}
         totalCount={state.totalCount}
-        projects={state.projects}
-        selectedProjectId={state.selectedProjectId}
-        commits={state.commits}
         loading={state.isLoading}
         filterConditions={state.filterConditions}
         sortOptions={state.sortOptions}
         paginationOptions={state.paginationOptions}
         selectedEventIds={selectedEventIds}
         onModeChange={handleModeChange}
-        onProjectSelect={loadProjectCommits}
         onFilterChange={handleFilterChange}
         onSortChange={handleSortChange}
         onPaginationChange={handlePaginationChange}

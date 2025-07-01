@@ -18,14 +18,11 @@ export class DeepSeekApiService {
     }
   }
 
-  /**
-   * 生成聊天回复
-   */
-  async generateChat(
+  private async chatRequest(
     messages: DeepSeekMessage[],
-    model = 'deepseek-chat',
-    maxTokens = 4000,
-  ): Promise<string> {
+    model: string,
+    maxTokens: number,
+  ): Promise<DeepSeekResponse> {
     const response = await request(`${this.baseUrl}/chat/completions`, {
       method: 'POST',
       headers: {
@@ -55,6 +52,18 @@ export class DeepSeekApiService {
       throw errorUtils.createResponseError('空的响应', 'DeepSeek API')
     }
 
+    return data
+  }
+
+  /**
+   * 生成聊天回复
+   */
+  async generateChat(
+    messages: DeepSeekMessage[],
+    model = 'deepseek-chat',
+    maxTokens = 4000,
+  ): Promise<string> {
+    const data = await this.chatRequest(messages, model, maxTokens)
     return data.choices[0].message.content
   }
 
@@ -78,37 +87,7 @@ export class DeepSeekApiService {
       },
     ]
 
-    const response = await request(
-      `${API_CONFIG.DEEPSEEK_BASE_URL}/chat/completions`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${this.apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model,
-          messages,
-          max_tokens: maxTokens,
-          temperature: 0.7,
-        }),
-        timeout: API_CONFIG.REQUEST_TIMEOUT,
-      },
-    )
-
-    if (!response.ok) {
-      throw errorUtils.createApiError(
-        response.status,
-        response.statusText,
-        'DeepSeek API',
-      )
-    }
-
-    const data: DeepSeekResponse = (await response.json()) as DeepSeekResponse
-
-    if (!data.choices || data.choices.length === 0) {
-      throw errorUtils.createResponseError('空的响应', 'DeepSeek API')
-    }
+    const data = await this.chatRequest(messages, model, maxTokens)
 
     return {
       content: data.choices[0].message.content,

@@ -73,34 +73,34 @@ export class ErrorHandler {
    * 格式化错误信息为用户友好的格式
    */
   static formatErrorMessage(error: unknown): string {
+    if (typeof error === 'string') {
+      return error
+    }
+
     if (error instanceof Error) {
-      // 处理已知的错误类型
-      if (error.name === 'ApiError') {
-        return error.message
-      }
-      if (error.name === 'NetworkError') {
-        return error.message
-      }
-      if (error.name === 'ConfigError') {
-        return error.message
+      const errorMessages: Record<string, string> = {
+        ApiError: error.message,
+        NetworkError: error.message,
+        ConfigError: error.message,
       }
 
-      // 处理常见的错误模式
-      if (error.message.includes('fetch')) {
-        return '网络连接失败，请检查网络连接后重试'
+      if (errorMessages[error.name]) {
+        return errorMessages[error.name]
       }
-      if (error.message.includes('timeout')) {
-        return '请求超时，请稍后重试'
+
+      const messageChecks: { [key: string]: string } = {
+        fetch: '网络连接失败，请检查网络连接后重试',
+        timeout: '请求超时，请稍后重试',
+        CORS: '跨域请求被阻止，请检查服务器配置',
       }
-      if (error.message.includes('CORS')) {
-        return '跨域请求被阻止，请检查服务器配置'
+
+      for (const key in messageChecks) {
+        if (error.message.includes(key)) {
+          return messageChecks[key]
+        }
       }
 
       return error.message
-    }
-
-    if (typeof error === 'string') {
-      return error
     }
 
     return '发生未知错误，请稍后重试'
@@ -182,15 +182,19 @@ export class ErrorHandler {
    * 判断是否为网络错误
    */
   static isNetworkError(error: unknown): boolean {
-    if (error instanceof Error) {
-      return (
-        error.name === 'NetworkError' ||
-        error.message.includes('fetch') ||
-        error.message.includes('network') ||
-        error.message.includes('timeout')
-      )
+    if (!(error instanceof Error)) {
+      return false
     }
-    return false
+    const networkErrorSignatures = [
+      'NetworkError',
+      'fetch',
+      'network',
+      'timeout',
+    ]
+    return (
+      networkErrorSignatures.some(sig => error.message.includes(sig)) ||
+      error.name === 'NetworkError'
+    )
   }
 }
 

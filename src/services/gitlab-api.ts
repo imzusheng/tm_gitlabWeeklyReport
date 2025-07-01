@@ -1,4 +1,4 @@
-import { GitLabCommit, GitLabEvent, GitLabProject, GitLabUser } from '@/types'
+import { GitLabEvent, GitLabProject, GitLabUser } from '@/types'
 import { request, isUserscriptEnvironment } from '@/utils/request'
 import { API_CONFIG } from '@/constants'
 import { errorUtils } from '@/utils'
@@ -49,28 +49,19 @@ export class GitLabApiService {
 
       console.error(`GitLab API Error [${response.status}]:`, errorText)
 
-      // 根据状态码提供更友好的错误信息
-      let userFriendlyMessage = errorText || response.statusText
-      switch (response.status) {
-        case 401:
-          userFriendlyMessage = 'GitLab认证失败，请检查Token是否有效'
-          break
-        case 403:
-          userFriendlyMessage = 'GitLab访问权限不足，请检查Token权限'
-          break
-        case 404:
-          userFriendlyMessage = 'GitLab资源不存在，请检查URL或项目权限'
-          break
-        case 429:
-          userFriendlyMessage = 'GitLab API请求频率过高，请稍后重试'
-          break
-        case 500:
-        case 502:
-        case 503:
-        case 504:
-          userFriendlyMessage = 'GitLab服务器错误，请稍后重试'
-          break
+      const errorMessages: { [key: number]: string } = {
+        401: 'GitLab认证失败，请检查Token是否有效',
+        403: 'GitLab访问权限不足，请检查Token权限',
+        404: 'GitLab资源不存在，请检查URL或项目权限',
+        429: 'GitLab API请求频率过高，请稍后重试',
+        500: 'GitLab服务器错误，请稍后重试',
+        502: 'GitLab服务器错误，请稍后重试',
+        503: 'GitLab服务器错误，请稍后重试',
+        504: 'GitLab服务器错误，请稍后重试',
       }
+
+      const userFriendlyMessage =
+        errorMessages[response.status] || errorText || response.statusText
 
       throw errorUtils.createApiError(
         response.status,
@@ -147,13 +138,6 @@ export class GitLabApiService {
   }
 
   /**
-   * 获取用户项目列表
-   */
-  async getUserProjects(): Promise<GitLabProject[]> {
-    return this.request('/projects?membership=true&per_page=100')
-  }
-
-  /**
    * 获取项目列表（支持搜索和排序）
    */
   async getProjects(
@@ -167,94 +151,17 @@ export class GitLabApiService {
       page?: number
     } = {},
   ): Promise<GitLabProject[]> {
-    const params = new URLSearchParams()
-
-    if (options.membership !== undefined)
-      params.set('membership', options.membership.toString())
-    if (options.per_page) params.set('per_page', options.per_page.toString())
-    if (options.starred !== undefined)
-      params.set('starred', options.starred.toString())
-    if (options.simple !== undefined)
-      params.set('simple', options.simple.toString())
-    if (options.order_by) params.set('order_by', options.order_by)
-    if (options.search) params.set('search', options.search)
-    if (options.page) params.set('page', options.page.toString())
+    const params = new URLSearchParams(
+      Object.entries(options)
+        .filter(([, value]) => value !== undefined)
+        .reduce(
+          (acc, [key, value]) => ({ ...acc, [key]: String(value) }),
+          {} as Record<string, string>,
+        ),
+    )
 
     const queryString = params.toString()
     const endpoint = queryString ? `/projects?${queryString}` : '/projects'
-
-    return this.request(endpoint)
-  }
-
-  /**
-   * 获取项目的commits
-   */
-  async getProjectCommits(
-    projectId: number,
-    options: {
-      since?: string
-      until?: string
-      per_page?: number
-      page?: number
-      ref_name?: string
-      all?: boolean
-    } = {},
-  ): Promise<GitLabCommit[]> {
-    const params = new URLSearchParams()
-
-    if (options.since) params.set('since', options.since)
-    if (options.until) params.set('until', options.until)
-    if (options.per_page) params.set('per_page', options.per_page.toString())
-    if (options.page) params.set('page', options.page.toString())
-    if (options.ref_name) params.set('ref_name', options.ref_name)
-    if (options.all !== undefined) params.set('all', options.all.toString())
-
-    const queryString = params.toString()
-    const endpoint = queryString
-      ? `/projects/${projectId}/repository/commits?${queryString}`
-      : `/projects/${projectId}/repository/commits`
-
-    return this.request(endpoint)
-  }
-
-  /**
-   * 获取用户事件（统一使用 /users/:id/events 接口）
-   * @param userId 用户ID
-   * @param options 筛选和分页选项（由后端处理）
-   */
-  async getUserEvents(
-    userId: number,
-    options: {
-      after?: string // 开始日期
-      before?: string // 结束日期
-      action?: string[] // 操作类型筛选
-      target_type?: string[] // 目标类型筛选
-      sort?: 'asc' | 'desc' // 排序方式
-      page?: number // 页码
-      per_page?: number // 每页数量
-    } = {},
-  ): Promise<GitLabEvent[]> {
-    const params = new URLSearchParams()
-
-    // 添加所有筛选参数，交给后端处理
-    if (options.after) params.set('after', options.after)
-    if (options.before) params.set('before', options.before)
-    if (options.sort) params.set('sort', options.sort)
-    if (options.page) params.set('page', options.page.toString())
-    if (options.per_page) params.set('per_page', options.per_page.toString())
-
-    // 添加数组类型的筛选参数
-    if (options.action) {
-      options.action.forEach(action => params.append('action', action))
-    }
-    if (options.target_type) {
-      options.target_type.forEach(type => params.append('target_type', type))
-    }
-
-    const queryString = params.toString()
-    const endpoint = queryString
-      ? `/users/${userId}/events?${queryString}`
-      : `/users/${userId}/events`
 
     return this.request(endpoint)
   }
@@ -404,13 +311,6 @@ export class GitLabApiService {
     }
 
     return { events, total }
-  }
-
-  /**
-   * 获取项目详情
-   */
-  async getProject(projectId: number): Promise<GitLabProject> {
-    return this.request(`/projects/${projectId}`)
   }
 
   /**

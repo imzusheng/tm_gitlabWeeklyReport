@@ -2,16 +2,15 @@ import React from 'react'
 import { useAppState } from '@/hooks/useAppState'
 import type {
   GitLabEvent,
-  GitLabProject,
-  GitLabCommit,
   FilterConditions,
   SortOptions,
   PaginationOptions,
   AppMode,
 } from '@/types'
 import { APP_VERSION } from '@/constants'
-import FilterSection from './FilterSection'
-import EventsList from './EventsList'
+import FilterSection from './components/FilterSection'
+import EventsList from './components/EventsList'
+import ChangelogPanel from './components/ChangelogPanel'
 import VersionUpdateNotification from '@/components/VersionUpdateNotification'
 import ConfigStatus from '@/components/ConfigStatus'
 import styles from './index.module.less'
@@ -20,16 +19,12 @@ interface MainPanelProps {
   appMode: AppMode
   events: GitLabEvent[]
   totalCount: number
-  projects: GitLabProject[]
-  selectedProjectId: number | null
-  commits: GitLabCommit[]
   loading: boolean
   filterConditions: FilterConditions
   sortOptions: SortOptions
   paginationOptions: PaginationOptions
   selectedEventIds: number[]
   onModeChange: (mode: AppMode) => void
-  onProjectSelect: (projectId: number) => void
   onFilterChange: (filters: FilterConditions) => void
   onSortChange: (sort: SortOptions) => void
   onPaginationChange: (pagination: PaginationOptions) => void
@@ -44,16 +39,12 @@ const MainPanel: React.FC<MainPanelProps> = ({
   appMode,
   events,
   totalCount,
-  projects,
-  selectedProjectId,
-  commits,
   loading,
   filterConditions,
   sortOptions,
   paginationOptions,
   selectedEventIds,
   onModeChange,
-  onProjectSelect,
   onFilterChange,
   onSortChange,
   onPaginationChange,
@@ -191,94 +182,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
           </div>
         </>
       ) : (
-        <>
-          {/* Changelog模式 - 项目列表 */}
-          <div className={styles.projectsSection}>
-            <div className={styles.sectionHeader}>
-              <h3>选择项目</h3>
-              <span className={styles.projectCount}>
-                {projects.length} 个项目
-              </span>
-            </div>
-
-            {loading ? (
-              <div className={styles.loadingContainer}>
-                <div className={styles.spinner}></div>
-                <span>加载项目中...</span>
-              </div>
-            ) : (
-              <div className={styles.projectsList}>
-                {projects.map(project => (
-                  <div
-                    key={project.id}
-                    className={`${styles.projectItem} ${
-                      selectedProjectId === project.id ? styles.selected : ''
-                    }`}
-                    onClick={() => onProjectSelect(project.id)}
-                  >
-                    <div className={styles.projectInfo}>
-                      <h4 className={styles.projectName}>{project.name}</h4>
-                      <p className={styles.projectDescription}>
-                        {project.description || '无描述'}
-                      </p>
-                      <div className={styles.projectMeta}>
-                        <span className={styles.lastActivity}>
-                          最后活动:{' '}
-                          {project.last_activity_at
-                            ? new Date(
-                                project.last_activity_at,
-                              ).toLocaleDateString('zh-CN')
-                            : '未知'}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Changelog模式 - Commits列表 */}
-          {selectedProjectId && (
-            <div className={styles.commitsSection}>
-              <div className={styles.sectionHeader}>
-                <h3>项目提交记录</h3>
-                <span className={styles.commitCount}>
-                  {commits.length} 个提交
-                </span>
-              </div>
-
-              <div className={styles.commitsList}>
-                {commits.map(commit => (
-                  <div key={commit.id} className={styles.commitItem}>
-                    <div className={styles.commitInfo}>
-                      <h4 className={styles.commitTitle}>{commit.title}</h4>
-                      <p className={styles.commitMessage}>{commit.message}</p>
-                      <div className={styles.commitMeta}>
-                        <span className={styles.commitAuthor}>
-                          {commit.author_name}
-                        </span>
-                        <span className={styles.commitDate}>
-                          {new Date(commit.created_at).toLocaleDateString(
-                            'zh-CN',
-                          )}
-                        </span>
-                        <a
-                          href={commit.web_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={styles.commitLink}
-                        >
-                          查看详情
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </>
+        <ChangelogPanel />
       )}
     </div>
   )

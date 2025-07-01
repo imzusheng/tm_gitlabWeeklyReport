@@ -1,7 +1,7 @@
 import { GitLabEvent, SortOptions, PaginationOptions } from '@/types'
 import { configErrors } from '@/utils'
-import Pagination from '../Pagination'
-import styles from './EventsList.module.less'
+import Pagination from '../../../Pagination'
+import styles from './index.module.less'
 
 interface EventsListProps {
   events: GitLabEvent[]
@@ -74,40 +74,38 @@ const EventsList: React.FC<EventsListProps> = ({
   }
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
+    const eventDate = new Date(dateString)
     const now = new Date()
-
-    // 获取今天的开始时间（00:00:00）
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-    // 获取昨天的开始时间
-    const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000)
-    // 获取事件日期的开始时间
-    const eventDate = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-    )
+    const diffTime =
+      today.getTime() -
+      new Date(
+        eventDate.getFullYear(),
+        eventDate.getMonth(),
+        eventDate.getDate(),
+      ).getTime()
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
 
-    if (eventDate.getTime() === today.getTime()) {
-      return `今天 ${date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}`
-    } else if (eventDate.getTime() === yesterday.getTime()) {
-      return `昨天 ${date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}`
-    } else {
-      // 计算天数差
-      const diffTime = today.getTime() - eventDate.getTime()
-      const diffDays = Math.floor(diffTime / (24 * 60 * 60 * 1000))
+    const timeStr = eventDate.toLocaleTimeString('zh-CN', {
+      hour: '2-digit',
+      minute: '2-digit',
+    })
 
-      if (diffDays > 0 && diffDays <= 7) {
-        return `${diffDays}天前`
-      } else {
-        return date.toLocaleDateString('zh-CN', {
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-        })
-      }
+    if (diffDays === 0) {
+      return `今天 ${timeStr}`
     }
+    if (diffDays === 1) {
+      return `昨天 ${timeStr}`
+    }
+    if (diffDays > 1 && diffDays <= 7) {
+      return `${diffDays}天前`
+    }
+    return eventDate.toLocaleDateString('zh-CN', {
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
   }
 
   /**
@@ -120,59 +118,47 @@ const EventsList: React.FC<EventsListProps> = ({
 
     // 1. 优先处理推送事件
     if (event.push_data) {
-      const { action, ref_type } = event.push_data
-      if (action === 'pushed' && ref_type === 'branch') {
-        return {
-          icon: '⬆️',
-          actionType: '分支推送',
-          title: `推送到分支 ${event.push_data.ref}`,
+      const { action, ref_type, ref } = event.push_data
+      if (action === 'pushed') {
+        if (ref_type === 'branch') {
+          return {
+            icon: '⬆️',
+            actionType: '分支推送',
+            title: `推送到分支 ${ref}`,
+          }
         }
-      }
-      if (action === 'pushed' && ref_type === 'tag') {
-        return {
-          icon: '🏷️',
-          actionType: '标签推送',
-          title: `推送标签 ${event.push_data.ref}`,
+        if (ref_type === 'tag') {
+          return {
+            icon: '🏷️',
+            actionType: '标签推送',
+            title: `推送标签 ${ref}`,
+          }
         }
       }
       return {
         icon: '📤',
         actionType: '推送',
-        title: `推送到分支 ${event.push_data.ref}`,
+        title: `推送到分支 ${ref}`,
       }
     }
 
-    // 2. 根据 target_type 判断目标类型
-    if (targetType && targetType.trim() !== '') {
-      const targetTypeConfig: Record<
-        string,
-        { icon: string; actionType: string }
-      > = {
-        MergeRequest: { icon: '⤴️', actionType: 'MR' },
-        Issue: { icon: '⚠️', actionType: 'Issue' },
-        Commit: { icon: '💾', actionType: '提交' },
-        Note: { icon: '💬', actionType: '评论' },
-        DiscussionNote: { icon: '🗣️', actionType: '讨论-评论' },
-        DiffNote: { icon: '📝', actionType: '代码-评论' },
-        Project: { icon: '📁', actionType: '项目' },
-        Milestone: { icon: '🎯', actionType: '里程碑' },
-        Epic: { icon: '🎪', actionType: 'Epic' },
-        Snippet: { icon: '✂️', actionType: '代码片段' },
-        User: { icon: '👤', actionType: '用户' },
-      }
+    const title = getEventTitleByType(event)
 
-      const config = targetTypeConfig[targetType]
-      if (config) {
-        return {
-          icon: config.icon,
-          actionType: config.actionType,
-          title: getEventTitleByType(event),
-        }
-      }
-    }
-
-    // 3. 根据 action_name 判断操作类型（当 target_type 为空时）
-    const actionConfig: Record<string, { icon: string; actionType: string }> = {
+    // 2. 根据 target_type 和 action_name 判断
+    const configMap: Record<string, { icon: string; actionType: string }> = {
+      // TargetType based
+      MergeRequest: { icon: '⤴️', actionType: 'MR' },
+      Issue: { icon: '⚠️', actionType: 'Issue' },
+      Commit: { icon: '💾', actionType: '提交' },
+      Note: { icon: '💬', actionType: '评论' },
+      DiscussionNote: { icon: '🗣️', actionType: '讨论-评论' },
+      DiffNote: { icon: '📝', actionType: '代码-评论' },
+      Project: { icon: '📁', actionType: '项目' },
+      Milestone: { icon: '🎯', actionType: '里程碑' },
+      Epic: { icon: '🎪', actionType: 'Epic' },
+      Snippet: { icon: '✂️', actionType: '代码片段' },
+      User: { icon: '👤', actionType: '用户' },
+      // ActionName based
       'pushed to': { icon: '⬆️', actionType: '推送' },
       'pushed new': { icon: '⬆️', actionType: '推送新分支' },
       opened: { icon: '🆕', actionType: '开启' },
@@ -188,13 +174,10 @@ const EventsList: React.FC<EventsListProps> = ({
       unapproved: { icon: '❌', actionType: '取消批准' },
     }
 
-    const config = actionConfig[actionName]
+    const config = configMap[targetType] || configMap[actionName]
+
     if (config) {
-      return {
-        icon: config.icon,
-        actionType: config.actionType,
-        title: getEventTitleByType(event),
-      }
+      return { ...config, title }
     }
 
     // 4. 兜底情况
@@ -236,21 +219,14 @@ const EventsList: React.FC<EventsListProps> = ({
     if (event.push_data) {
       return `${event.push_data.commit_count} 个提交: ${event.push_data.commit_title}`
     }
-
     if (event.note && event.target_title) {
       return event.target_title
     }
-
-    // 优先使用project对象的path_with_namespace，如果没有则使用project_id
-    if (event.project?.path_with_namespace) {
-      return event.project.path_with_namespace
-    }
-
-    if (event.project_id) {
-      return `项目ID: ${event.project_id}`
-    }
-
-    return '未知项目'
+    return (
+      event.project?.path_with_namespace ||
+      `项目ID: ${event.project_id}` ||
+      '未知项目'
+    )
   }
 
   if (loading) {

@@ -39,35 +39,28 @@ const Pagination: React.FC<PaginationProps> = ({
   }
 
   const getPageNumbers = () => {
-    const pages: (number | string)[] = []
-    const showRange = 2 // 当前页前后显示的页数
-
     if (totalPages <= 7) {
-      // 总页数少于等于7页，显示所有页
-      pages.push(...Array.from({ length: totalPages }, (_, i) => i + 1))
-    } else {
-      // 总页数多于7页，显示省略号
-      pages.push(1)
-
-      if (current > showRange + 2) {
-        pages.push('...')
-      }
-
-      const start = Math.max(2, current - showRange)
-      const end = Math.min(totalPages - 1, current + showRange)
-
-      pages.push(
-        ...Array.from({ length: end - start + 1 }, (_, i) => start + i),
-      )
-
-      if (current < totalPages - showRange - 1) {
-        pages.push('...')
-      }
-
-      if (totalPages > 1) {
-        pages.push(totalPages)
-      }
+      return Array.from({ length: totalPages }, (_, i) => i + 1)
     }
+
+    const pages: (number | string)[] = [1]
+    const showRange = 2
+    const start = Math.max(2, current - showRange)
+    const end = Math.min(totalPages - 1, current + showRange)
+
+    if (current > showRange + 2) {
+      pages.push('...')
+    }
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i)
+    }
+
+    if (current < totalPages - showRange - 1) {
+      pages.push('...')
+    }
+
+    pages.push(totalPages)
 
     return pages
   }

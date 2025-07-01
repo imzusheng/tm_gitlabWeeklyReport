@@ -1,3 +1,4 @@
+import React, { useCallback } from 'react'
 import { AppConfig } from '@/types'
 import { urlUtils } from '@/utils'
 import styles from './index.module.less'
@@ -17,11 +18,13 @@ const ConfigForm: React.FC<ConfigFormProps> = ({
   isLoading,
   disabled = false,
 }) => {
-  const handleInputChange =
+  const handleInputChange = useCallback(
     (field: keyof AppConfig) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      onConfigChange({ [field]: e.target.value })
-    }
+      (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        onConfigChange({ [field]: e.target.value })
+      },
+    [onConfigChange],
+  )
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()

@@ -48,27 +48,17 @@ export async function request(
   if (isUserscriptEnvironment()) {
     // 油猴脚本环境：使用 GM_xmlhttpRequest
     return new Promise((resolve, reject) => {
-      const requestHeaders: Record<string, string> = {
-        'Content-Type': 'application/json',
-        ...headers,
-      }
-
-      let timeoutId: number | undefined
-
-      if (timeout > 0) {
-        timeoutId = window.setTimeout(() => {
-          reject(new Error('Request timeout'))
-        }, timeout)
-      }
-
-      // 检查取消信号
       if (signal?.aborted) {
-        reject(new Error('Request aborted'))
-        return
+        return reject(new Error('Request aborted'))
       }
+
+      const controller = new AbortController()
+      const timeoutId =
+        timeout > 0 ? setTimeout(() => controller.abort(), timeout) : undefined
 
       const abortHandler = () => {
-        if (timeoutId) clearTimeout(timeoutId)
+        clearTimeout(timeoutId)
+        controller.abort()
         reject(new Error('Request aborted'))
       }
 
@@ -77,37 +67,27 @@ export async function request(
       GM_xmlhttpRequest({
         method: method.toUpperCase(),
         url,
-        headers: requestHeaders,
+        headers: { 'Content-Type': 'application/json', ...headers },
         data: body,
         timeout,
         onload: response => {
-          if (timeoutId) clearTimeout(timeoutId)
+          clearTimeout(timeoutId)
           signal?.removeEventListener('abort', abortHandler)
-
-          const mockResponse: RequestResponse = {
+          resolve({
             ok: response.status >= 200 && response.status < 300,
             status: response.status,
             statusText: response.statusText,
             headers: parseResponseHeaders(response.responseHeaders),
-            json: async () => {
-              try {
-                return JSON.parse(response.responseText)
-              } catch (error) {
-                throw new Error('Invalid JSON response')
-              }
-            },
-            text: async () => response.responseText,
-          }
-
-          resolve(mockResponse)
+            json: () => Promise.resolve(JSON.parse(response.responseText)),
+            text: () => Promise.resolve(response.responseText),
+          })
         },
         onerror: error => {
-          if (timeoutId) clearTimeout(timeoutId)
+          clearTimeout(timeoutId)
           signal?.removeEventListener('abort', abortHandler)
           reject(new Error(`Network error: ${error.error || 'Unknown error'}`))
         },
         ontimeout: () => {
-          if (timeoutId) clearTimeout(timeoutId)
           signal?.removeEventListener('abort', abortHandler)
           reject(new Error('Request timeout'))
         },
