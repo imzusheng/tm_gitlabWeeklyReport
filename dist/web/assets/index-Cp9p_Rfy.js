@@ -2,7 +2,7 @@ const __vite__mapDeps = (
   i,
   m = __vite__mapDeps,
   d = m.f ||
-    (m.f = ['assets/deepseek-api-BtuCgq-y.js', 'assets/utils-De7sw6BE.js']),
+    (m.f = ['assets/deepseek-api-C_n0SEmw.js', 'assets/utils-pgl7yu4t.js']),
 ) => i.map(i => d[i])
 var e = Object.defineProperty,
   t = (t, a, n) =>
@@ -23,7 +23,7 @@ import {
   A as u,
   e as p,
   C as h,
-} from './utils-De7sw6BE.js'
+} from './utils-pgl7yu4t.js'
 !(function () {
   const e = document.createElement('link').relList
   if (!(e && e.supports && e.supports('modulepreload'))) {
@@ -3228,7 +3228,7 @@ const Te = () => {
                     })(
                       async () => {
                         const { createDeepSeekApiService: e } = await import(
-                          './deepseek-api-BtuCgq-y.js'
+                          './deepseek-api-C_n0SEmw.js'
                         )
                         return { createDeepSeekApiService: e }
                       },

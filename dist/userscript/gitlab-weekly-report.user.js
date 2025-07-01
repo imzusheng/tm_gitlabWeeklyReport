@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab 周报生成器
 // @namespace    https://github.com/imzusheng/tm_gitlabWeeklyReport
-// @version      1.7.0
+// @version      1.7.1
 // @description  基于 DeepSeek AI 的 GitLab 工作周报自动生成工具
 // @author       lizusheng
 // @match        *://www.lejuhub.com/dashboard/*
@@ -56,7 +56,7 @@ var __defProp = Object.defineProperty,
     d = Object.prototype.hasOwnProperty,
     c = i.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,
     _ = { key: !0, ref: !0, __self: !0, __source: !0 }
-  function u(e, t, a) {
+  function m(e, t, a) {
     var n,
       s = {},
       l = null,
@@ -70,8 +70,8 @@ var __defProp = Object.defineProperty,
       for (n in (t = e.defaultProps)) void 0 === s[n] && (s[n] = t[n])
     return { $$typeof: o, type: e, key: l, ref: i, props: s, _owner: c.current }
   }
-  ;(l.Fragment = r), (l.jsx = u), (l.jsxs = u), (s.exports = l)
-  var m = s.exports
+  ;(l.Fragment = r), (l.jsx = m), (l.jsxs = m), (s.exports = l)
+  var u = s.exports
   const p = () =>
     'undefined' != typeof window && 'undefined' != typeof GM_xmlhttpRequest
   async function h(e, t = {}) {
@@ -191,7 +191,7 @@ var __defProp = Object.defineProperty,
         } catch (t) {}
       },
     },
-    g = '1.7.0',
+    g = '1.7.1',
     b = {
       DEEPSEEK_BASE_URL: 'https://api.deepseek.com/v1',
       REQUEST_TIMEOUT: 3e4,
@@ -212,8 +212,8 @@ var __defProp = Object.defineProperty,
     N = '请输入您的GitLab Personal Access Token',
     y = '请输入您的DeepSeek API Key',
     k = '请根据以下GitLab事件数据生成工作周报...',
-    w = 'gitlab_weekly_report_config'
-  class C extends Error {
+    E = 'gitlab_weekly_report_config'
+  class w extends Error {
     constructor(e, t, a) {
       super(`[${a}] ${t}`),
         __publicField(this, 'status'),
@@ -223,7 +223,7 @@ var __defProp = Object.defineProperty,
         (this.service = a)
     }
   }
-  class E extends Error {
+  class C extends Error {
     constructor(e, t) {
       super(`[${t}] ${e}`),
         __publicField(this, 'service'),
@@ -236,12 +236,12 @@ var __defProp = Object.defineProperty,
      * 创建API错误
      */
     static createApiError(e, t, a) {
-      return new C(e, t, a)
+      return new w(e, t, a)
     }
     /**
      * 创建响应错误
      */ static createResponseError(e, t) {
-      return new E(e, t)
+      return new C(e, t)
     }
     /**
      * 创建网络错误
@@ -332,14 +332,14 @@ var __defProp = Object.defineProperty,
       }
     },
     T = e => {
-      M(t => t.setItem(w, JSON.stringify(e)))
+      M(t => t.setItem(E, JSON.stringify(e)))
     },
     D = () => {
-      const e = M(e => e.getItem(w))
+      const e = M(e => e.getItem(E))
       return e ? JSON.parse(e) : null
     },
     $ = () => {
-      M(e => e.removeItem(w))
+      M(e => e.removeItem(E))
     },
     A = '请先完善GitLab和DeepSeek配置信息',
     I = '请先完善配置信息',
@@ -419,10 +419,10 @@ var __defProp = Object.defineProperty,
       _ = e.useCallback(e => {
         a(t => ({ ...t, paginationOptions: { ...t.paginationOptions, ...e } }))
       }, []),
-      u = e.useCallback(e => {
+      m = e.useCallback(e => {
         a(t => ({ ...t, events: e }))
       }, []),
-      m = e.useCallback(e => {
+      u = e.useCallback(e => {
         a(t => ({
           ...t,
           totalCount: e,
@@ -516,8 +516,8 @@ var __defProp = Object.defineProperty,
       updateFilterConditions: d,
       updateSortOptions: c,
       updatePaginationOptions: _,
-      setEvents: u,
-      setTotal: m,
+      setEvents: m,
+      setTotal: u,
       setAIGenerationConfig: p,
       setLoading: h,
       setError: x,
@@ -608,17 +608,17 @@ var __defProp = Object.defineProperty,
           { key: 'targetType', label: '目标类型', options: K },
           { key: 'action', label: '操作类型', options: Q },
         ]
-      return m.jsxs('div', {
+      return u.jsxs('div', {
         className: G,
         children: [
-          m.jsxs('div', {
+          u.jsxs('div', {
             className: F,
             children: [
-              m.jsx('label', { className: q, children: '时间范围' }),
-              m.jsx('div', {
+              u.jsx('label', { className: q, children: '时间范围' }),
+              u.jsx('div', {
                 className: z,
                 children: H.map(({ value: t, label: n }) =>
-                  m.jsx(
+                  u.jsx(
                     'button',
                     {
                       className: `${B} ${e.timeRange === t ? V : ''}`,
@@ -632,22 +632,22 @@ var __defProp = Object.defineProperty,
             ],
           }),
           n.map(({ key: t, label: n, options: s }) =>
-            m.jsxs(
+            u.jsxs(
               'div',
               {
                 className: F,
                 children: [
-                  m.jsx('label', { className: q, children: n }),
-                  m.jsxs('div', {
+                  u.jsx('label', { className: q, children: n }),
+                  u.jsxs('div', {
                     className: z,
                     children: [
-                      m.jsx('button', {
+                      u.jsx('button', {
                         className: `${B} ${0 === e[t].length ? V : ''}`,
                         onClick: () => a(t, []),
                         children: '全部',
                       }),
                       s.map(({ value: n, label: s }) =>
-                        m.jsx(
+                        u.jsx(
                           'button',
                           {
                             className: `${B} ${Array.isArray(e[t]) && e[t].includes(n) ? V : ''}`,
@@ -694,18 +694,18 @@ var __defProp = Object.defineProperty,
       const d = Math.ceil(n / a),
         c = (t - 1) * a + 1,
         _ = Math.min(t * a, n),
-        u = e => {
+        m = e => {
           e >= 1 && e <= d && e !== t && s(e)
         }
       return 0 === n
-        ? m.jsx('div', {
+        ? u.jsx('div', {
             className: Z,
-            children: m.jsx('div', { className: Y, children: '暂无数据' }),
+            children: u.jsx('div', { className: Y, children: '暂无数据' }),
           })
-        : m.jsxs('div', {
+        : u.jsxs('div', {
             className: Z,
             children: [
-              m.jsxs('div', {
+              u.jsxs('div', {
                 className: Y,
                 children: [
                   '显示 ',
@@ -718,14 +718,14 @@ var __defProp = Object.defineProperty,
                   r > 0 ? `，已选中 ${r} 条` : '',
                 ],
               }),
-              m.jsxs('div', {
+              u.jsxs('div', {
                 className: J,
                 children: [
-                  m.jsx('button', {
+                  u.jsx('button', {
                     className: `${W} ${1 === t ? ee : ''}`,
-                    onClick: () => u(t - 1),
+                    onClick: () => m(t - 1),
                     disabled: 1 === t,
-                    children: m.jsx('span', { children: '‹' }),
+                    children: u.jsx('span', { children: '‹' }),
                   }),
                   (() => {
                     if (d <= 7)
@@ -737,35 +737,35 @@ var __defProp = Object.defineProperty,
                     for (let t = a; t <= n; t++) e.push(t)
                     return t < d - 2 - 1 && e.push('...'), e.push(d), e
                   })().map((a, n) =>
-                    m.jsx(
+                    u.jsx(
                       e.Fragment,
                       {
                         children:
                           'number' == typeof a
-                            ? m.jsx('button', {
+                            ? u.jsx('button', {
                                 className: `${W} ${t === a ? te : ''}`,
-                                onClick: () => u(a),
+                                onClick: () => m(a),
                                 children: a,
                               })
-                            : m.jsx('span', { className: ae, children: a }),
+                            : u.jsx('span', { className: ae, children: a }),
                       },
                       n,
                     ),
                   ),
-                  m.jsx('button', {
+                  u.jsx('button', {
                     className: `${W} ${t === d ? ee : ''}`,
-                    onClick: () => u(t + 1),
+                    onClick: () => m(t + 1),
                     disabled: t === d,
-                    children: m.jsx('span', { children: '›' }),
+                    children: u.jsx('span', { children: '›' }),
                   }),
                 ],
               }),
               l &&
-                m.jsxs('div', {
+                u.jsxs('div', {
                   className: ne,
                   children: [
-                    m.jsx('span', { children: '每页' }),
-                    m.jsx('select', {
+                    u.jsx('span', { children: '每页' }),
+                    u.jsx('select', {
                       value: a,
                       onChange: e => {
                         return (t = Number(e.target.value)), void (o && o(1, t))
@@ -773,10 +773,10 @@ var __defProp = Object.defineProperty,
                       },
                       className: se,
                       children: i.map(e =>
-                        m.jsx('option', { value: e, children: e }, e),
+                        u.jsx('option', { value: e, children: e }, e),
                       ),
                     }),
-                    m.jsx('span', { children: '条' }),
+                    u.jsx('span', { children: '条' }),
                   ],
                 }),
             ],
@@ -788,8 +788,8 @@ var __defProp = Object.defineProperty,
     de = 'index-module__checkbox-cell__fFp2c',
     ce = 'index-module__content-cell__XX9h3',
     _e = 'index-module__action-cell__cQC45',
-    ue = 'index-module__time-cell__MQe22',
-    me = 'index-module__detail-cell__zq1IN',
+    me = 'index-module__time-cell__MQe22',
+    ue = 'index-module__detail-cell__zq1IN',
     pe = 'index-module__sort-icon__tSSwt',
     he = 'index-module__events-list-body__QknuZ',
     xe = 'index-module__event-row__nD7Rz',
@@ -801,9 +801,9 @@ var __defProp = Object.defineProperty,
     Ne = 'index-module__event-description__C3Fjc',
     ye = 'index-module__action-tag__GZU05',
     ke = 'index-module__event-time__1VIXa',
-    we = 'index-module__detail-btn__Q5YpF',
-    Ce = 'index-module__detail-icon__E5Shy',
-    Ee = 'index-module__empty-state__ohnRa',
+    Ee = 'index-module__detail-btn__Q5YpF',
+    we = 'index-module__detail-icon__E5Shy',
+    Ce = 'index-module__empty-state__ohnRa',
     Se = 'index-module__empty-icon__OXdkI',
     Me = 'index-module__events-list-footer__bR9Gm',
     Te = 'index-module__events-list-loading__e6mCh',
@@ -824,7 +824,7 @@ var __defProp = Object.defineProperty,
       onEventDetail: c,
     }) => {
       const _ = e.length > 0 && e.every(e => o.includes(e.id)),
-        u = o.length > 0 && !_,
+        m = o.length > 0 && !_,
         p = e => {
           const t = new Date(e),
             a = new Date(),
@@ -870,49 +870,49 @@ var __defProp = Object.defineProperty,
                 '未知项目'
         }
       return a
-        ? m.jsxs('div', {
+        ? u.jsxs('div', {
             className: Te,
             children: [
-              m.jsx('div', { className: De }),
-              m.jsx('p', { children: '正在加载事件数据...' }),
+              u.jsx('div', { className: De }),
+              u.jsx('p', { children: '正在加载事件数据...' }),
             ],
           })
-        : m.jsxs('div', {
+        : u.jsxs('div', {
             className: ie,
             children: [
-              m.jsxs('div', {
+              u.jsxs('div', {
                 className: oe,
                 children: [
-                  m.jsx('div', {
+                  u.jsx('div', {
                     className: `${re} ${de}`,
-                    children: m.jsxs('label', {
+                    children: u.jsxs('label', {
                       className: $e,
                       children: [
-                        m.jsx('input', {
+                        u.jsx('input', {
                           type: 'checkbox',
                           checked: _,
                           ref: e => {
-                            e && (e.indeterminate = u)
+                            e && (e.indeterminate = m)
                           },
                           onChange: () => {
                             d(!_)
                           },
                           title: _ ? '取消全选' : '全选',
                         }),
-                        m.jsx('span', { className: Ae }),
+                        u.jsx('span', { className: Ae }),
                       ],
                     }),
                   }),
-                  m.jsx('div', {
+                  u.jsx('div', {
                     className: `${re} ${ce}`,
-                    children: m.jsx('span', { children: '标题和内容' }),
+                    children: u.jsx('span', { children: '标题和内容' }),
                   }),
-                  m.jsx('div', {
+                  u.jsx('div', {
                     className: `${re} ${_e}`,
-                    children: m.jsx('span', { children: '操作' }),
+                    children: u.jsx('span', { children: '操作' }),
                   }),
-                  m.jsxs('div', {
-                    className: `${re} ${ue}`,
+                  u.jsxs('div', {
+                    className: `${re} ${me}`,
                     onClick: () =>
                       (e => {
                         const t =
@@ -920,8 +920,8 @@ var __defProp = Object.defineProperty,
                         s({ field: e, order: t })
                       })('created_at'),
                     children: [
-                      m.jsx('span', { children: '时间' }),
-                      m.jsx('span', {
+                      u.jsx('span', { children: '时间' }),
+                      u.jsx('span', {
                         className: pe,
                         children:
                           ((v = 'created_at'),
@@ -929,19 +929,19 @@ var __defProp = Object.defineProperty,
                       }),
                     ],
                   }),
-                  m.jsx('div', { className: `${re} ${me}`, children: '详情' }),
+                  u.jsx('div', { className: `${re} ${ue}`, children: '详情' }),
                 ],
               }),
-              m.jsx('div', {
+              u.jsx('div', {
                 className: he,
                 children:
                   0 === e.length
-                    ? m.jsxs('div', {
-                        className: Ee,
+                    ? u.jsxs('div', {
+                        className: Ce,
                         children: [
-                          m.jsx('div', { className: Se, children: '📄' }),
-                          m.jsx('p', { children: '暂无事件数据' }),
-                          m.jsx('span', { children: R }),
+                          u.jsx('div', { className: Se, children: '📄' }),
+                          u.jsx('p', { children: '暂无事件数据' }),
+                          u.jsx('span', { children: R }),
                         ],
                       })
                     : e.map(e => {
@@ -1031,17 +1031,17 @@ var __defProp = Object.defineProperty,
                                   title: h(e),
                                 }
                           })(e)
-                        return m.jsxs(
+                        return u.jsxs(
                           'div',
                           {
                             className: `${xe} ${t ? ve : ''}`,
                             children: [
-                              m.jsx('div', {
+                              u.jsx('div', {
                                 className: `${ge} ${de}`,
-                                children: m.jsxs('label', {
+                                children: u.jsxs('label', {
                                   className: $e,
                                   children: [
-                                    m.jsx('input', {
+                                    u.jsx('input', {
                                       type: 'checkbox',
                                       checked: t,
                                       onChange: () =>
@@ -1051,22 +1051,22 @@ var __defProp = Object.defineProperty,
                                         })(e.id),
                                       title: t ? '取消选择' : '选择此事件',
                                     }),
-                                    m.jsx('span', { className: Ae }),
+                                    u.jsx('span', { className: Ae }),
                                   ],
                                 }),
                               }),
-                              m.jsxs('div', {
+                              u.jsxs('div', {
                                 className: `${ge} ${ce}`,
                                 children: [
-                                  m.jsx('div', { className: be, children: a }),
-                                  m.jsxs('div', {
+                                  u.jsx('div', { className: be, children: a }),
+                                  u.jsxs('div', {
                                     className: je,
                                     children: [
-                                      m.jsx('div', {
+                                      u.jsx('div', {
                                         className: fe,
                                         children: n,
                                       }),
-                                      m.jsx('div', {
+                                      u.jsx('div', {
                                         className: Ne,
                                         children: x(e),
                                       }),
@@ -1074,28 +1074,28 @@ var __defProp = Object.defineProperty,
                                   }),
                                 ],
                               }),
-                              m.jsx('div', {
+                              u.jsx('div', {
                                 className: `${ge} ${_e}`,
-                                children: m.jsx('span', {
+                                children: u.jsx('span', {
                                   className: ye,
                                   children: s,
                                 }),
                               }),
-                              m.jsx('div', {
-                                className: `${ge} ${ue}`,
-                                children: m.jsx('span', {
+                              u.jsx('div', {
+                                className: `${ge} ${me}`,
+                                children: u.jsx('span', {
                                   className: ke,
                                   children: p(e.created_at),
                                 }),
                               }),
-                              m.jsx('div', {
-                                className: `${ge} ${me}`,
-                                children: m.jsx('button', {
-                                  className: we,
+                              u.jsx('div', {
+                                className: `${ge} ${ue}`,
+                                children: u.jsx('button', {
+                                  className: Ee,
                                   onClick: () => c(e),
                                   title: '查看详情',
-                                  children: m.jsx('span', {
-                                    className: Ce,
+                                  children: u.jsx('span', {
+                                    className: we,
                                     children: '🔍',
                                   }),
                                 }),
@@ -1106,9 +1106,9 @@ var __defProp = Object.defineProperty,
                         )
                       }),
               }),
-              m.jsx('div', {
+              u.jsx('div', {
                 className: Me,
-                children: m.jsx(le, {
+                children: u.jsx(le, {
                   current: l.page,
                   pageSize: l.pageSize,
                   total: t,
@@ -1308,7 +1308,7 @@ var __defProp = Object.defineProperty,
         ),
         [r, d] = e.useState([]),
         [c, _] = e.useState(0),
-        [u, p] = e.useState(!1),
+        [m, p] = e.useState(!1),
         [h, x] = e.useState({ field: 'created_at', order: 'desc' }),
         [v, g] = e.useState({ page: 1, pageSize: 20, total: 0 }),
         [b, j] = e.useState([]),
@@ -1348,23 +1348,23 @@ var __defProp = Object.defineProperty,
         k = e.useCallback((e, t) => {
           j(a => (t ? [...a, e] : a.filter(t => t !== e)))
         }, []),
-        w = e.useCallback(
+        E = e.useCallback(
           e => {
             j(e ? r.map(e => e.id) : [])
           },
           [r],
         )
-      return m.jsx(Ie, {
+      return u.jsx(Ie, {
         events: r,
         totalCount: c,
-        loading: u,
+        loading: m,
         sortOptions: h,
         onSortChange: N,
         paginationOptions: v,
         onPaginationChange: y,
         selectedEventIds: b,
         onEventSelect: k,
-        onSelectAll: w,
+        onSelectAll: E,
         onEventDetail: () => {},
       })
     },
@@ -1391,7 +1391,7 @@ var __defProp = Object.defineProperty,
         [i, o] = e.useState(!1),
         [r, d] = e.useState(!1),
         [c, _] = e.useState(null),
-        [u, p] = e.useState(null),
+        [m, p] = e.useState(null),
         [x, v] = e.useState(!1),
         [g, b] = e.useState(new Set())
       e.useEffect(() => {
@@ -1437,16 +1437,16 @@ var __defProp = Object.defineProperty,
                     })
                   if ((clearTimeout(s), !c.ok))
                     throw new Error(`HTTP ${c.status}: ${c.statusText}`)
-                  const u = await c.json(),
-                    m = {
-                      version: u.version,
+                  const m = await c.json(),
+                    u = {
+                      version: m.version,
                       downloadUrl:
                         'https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/userscript/gitlab-weekly-report.user.js',
-                      releaseNotes: `版本 ${u.version} 已发布，请及时更新以获得最新功能和修复。`,
+                      releaseNotes: `版本 ${m.version} 已发布，请及时更新以获得最新功能和修复。`,
                     }
-                  n(m), _(new Date()), v(!0)
-                  const p = j(t, m.version)
-                  o(p), p && ((!e && g.has(m.version)) || d(!0))
+                  n(u), _(new Date()), v(!0)
+                  const p = j(t, u.version)
+                  o(p), p && ((!e && g.has(u.version)) || d(!0))
                 } catch (r) {
                   const e = r instanceof Error ? r.message : '检查更新失败'
                   p(e)
@@ -1490,7 +1490,7 @@ var __defProp = Object.defineProperty,
             } catch (e) {}
           }
         }, [a, g]),
-        w = e.useCallback(
+        E = e.useCallback(
           e =>
             e.toLocaleTimeString('zh-CN', {
               hour: '2-digit',
@@ -1499,74 +1499,74 @@ var __defProp = Object.defineProperty,
             }),
           [],
         ),
-        C = e.useCallback(
+        w = e.useCallback(
           () =>
             s
               ? '检查中...'
-              : u
+              : m
                 ? '检查失败'
                 : i
                   ? '有更新'
                   : x && !i
                     ? '已是最新版本 🎉'
                     : '检查更新',
-          [s, u, i, x],
+          [s, m, i, x],
         ),
-        E = e.useCallback(
-          () => (s ? '🔄' : u ? '⚠️' : i ? '🔴' : '🔍'),
-          [s, u, i],
+        C = e.useCallback(
+          () => (s ? '🔄' : m ? '⚠️' : i ? '🔴' : '🔍'),
+          [s, m, i],
         )
       return (
         e.useEffect(() => {}, [y]),
-        m.jsxs(m.Fragment, {
+        u.jsxs(u.Fragment, {
           children: [
-            m.jsxs('button', {
+            u.jsxs('button', {
               className: `${Oe} ${Ge} ${s ? Ue : ''} ${i ? Fe : ''}`,
               onClick: () => f(!0),
               disabled: s,
               title: c
-                ? `上次检查: ${w(c)}${u ? `\n错误: ${u}` : ''}`
+                ? `上次检查: ${E(c)}${m ? `\n错误: ${m}` : ''}`
                 : '点击检查更新',
               children: [
-                m.jsx('span', { className: qe, children: E() }),
-                m.jsx('span', { className: ze, children: C() }),
+                u.jsx('span', { className: qe, children: C() }),
+                u.jsx('span', { className: ze, children: w() }),
               ],
             }),
             r &&
               i &&
               a &&
-              m.jsx('div', {
+              u.jsx('div', {
                 className: Be,
-                children: m.jsxs('div', {
+                children: u.jsxs('div', {
                   className: Ve,
                   children: [
-                    m.jsxs('div', {
+                    u.jsxs('div', {
                       className: He,
                       children: [
-                        m.jsx('h3', { children: '🎉 发现新版本' }),
-                        m.jsx('button', {
+                        u.jsx('h3', { children: '🎉 发现新版本' }),
+                        u.jsx('button', {
                           className: Ke,
                           onClick: k,
                           children: '×',
                         }),
                       ],
                     }),
-                    m.jsxs('div', {
+                    u.jsxs('div', {
                       className: Qe,
                       children: [
-                        m.jsxs('div', {
+                        u.jsxs('div', {
                           className: Xe,
                           children: [
-                            m.jsxs('p', {
+                            u.jsxs('p', {
                               children: [
-                                m.jsx('strong', { children: '当前版本:' }),
+                                u.jsx('strong', { children: '当前版本:' }),
                                 ' v',
                                 t,
                               ],
                             }),
-                            m.jsxs('p', {
+                            u.jsxs('p', {
                               children: [
-                                m.jsx('strong', { children: '最新版本:' }),
+                                u.jsx('strong', { children: '最新版本:' }),
                                 ' v',
                                 a.version,
                               ],
@@ -1574,11 +1574,11 @@ var __defProp = Object.defineProperty,
                           ],
                         }),
                         a.releaseNotes &&
-                          m.jsxs('div', {
+                          u.jsxs('div', {
                             className: Ze,
                             children: [
-                              m.jsx('h4', { children: '更新说明:' }),
-                              m.jsx('div', {
+                              u.jsx('h4', { children: '更新说明:' }),
+                              u.jsx('div', {
                                 className: Ye,
                                 children: a.releaseNotes,
                               }),
@@ -1586,15 +1586,15 @@ var __defProp = Object.defineProperty,
                           }),
                       ],
                     }),
-                    m.jsxs('div', {
+                    u.jsxs('div', {
                       className: Je,
                       children: [
-                        m.jsx('button', {
+                        u.jsx('button', {
                           className: We,
                           onClick: k,
                           children: '稍后更新',
                         }),
-                        m.jsx('button', {
+                        u.jsx('button', {
                           className: et,
                           onClick: N,
                           children: '立即更新',
@@ -1618,14 +1618,14 @@ var __defProp = Object.defineProperty,
     dt = 'index-module__valid__Xyroo',
     ct = 'index-module__invalid__Fn-hL',
     _t = 'index-module__status-details__E1JnL',
-    ut = 'index-module__missing-items__8Wn0w',
-    mt = [
+    mt = 'index-module__missing-items__8Wn0w',
+    ut = [
       { key: 'gitlabUrl', label: 'GitLab', required: !0 },
       { key: 'gitlabToken', label: 'Token', required: !0 },
       { key: 'deepseekApiKey', label: 'API Key', required: !0 },
       { key: 'defaultPrompt', label: 'Prompt', required: !0 },
     ].filter(e => e.required),
-    pt = mt.length,
+    pt = ut.length,
     ht = ({
       config: t,
       className: a = '',
@@ -1635,7 +1635,7 @@ var __defProp = Object.defineProperty,
       const l = e.useMemo(() => {
         const e = [],
           a = []
-        mt.forEach(n => {
+        ut.forEach(n => {
           const s = t[n.key]
           ;('string' == typeof s ? '' !== s.trim() : !!s)
             ? a.push(n.label)
@@ -1651,27 +1651,27 @@ var __defProp = Object.defineProperty,
           progress: (n / pt) * 100,
         }
       }, [t])
-      return m.jsxs('div', {
+      return u.jsxs('div', {
         className: `${at} ${a} ${s ? nt : ''}`,
         onClick: s,
         children: [
-          m.jsxs('div', {
+          u.jsxs('div', {
             className: `${st} ${l.isValid ? dt : ct}`,
             children: [
-              m.jsx('span', {
+              u.jsx('span', {
                 className: lt,
                 children: l.isValid ? '✅' : '⚠️',
               }),
-              m.jsx('span', {
+              u.jsx('span', {
                 className: it,
                 children: l.isValid
                   ? '就绪'
                   : `${l.completedCount}/${l.totalCount}`,
               }),
               !l.isValid &&
-                m.jsx('div', {
+                u.jsx('div', {
                   className: ot,
-                  children: m.jsx('div', {
+                  children: u.jsx('div', {
                     className: rt,
                     style: { width: `${l.progress}%` },
                   }),
@@ -1680,10 +1680,10 @@ var __defProp = Object.defineProperty,
           }),
           n &&
             !l.isValid &&
-            m.jsx('div', {
+            u.jsx('div', {
               className: _t,
-              children: m.jsx('div', {
-                className: ut,
+              children: u.jsx('div', {
+                className: mt,
                 children: l.missingItems.join(' · '),
               }),
             }),
@@ -1699,9 +1699,9 @@ var __defProp = Object.defineProperty,
     Nt = 'index-module__toggle-slider__tkY4o',
     yt = 'index-module__slide-right__qPOZu',
     kt = 'index-module__toggle-option__ZhXXU',
-    wt = 'index-module__active__Mr5KU',
-    Ct = 'index-module__toggle-icon__AI6K7',
-    Et = 'index-module__toggle-label__1qZLz',
+    Et = 'index-module__active__Mr5KU',
+    wt = 'index-module__toggle-icon__AI6K7',
+    Ct = 'index-module__toggle-label__1qZLz',
     St = 'index-module__divider__QXSgp',
     Mt = 'index-module__action-buttons__xGRHl',
     Tt = 'index-module__action-btn__x4IAP',
@@ -1723,59 +1723,59 @@ var __defProp = Object.defineProperty,
       onFilterChange: d,
       onSortChange: c,
       onPaginationChange: _,
-      onEventSelect: u,
+      onEventSelect: m,
       onSelectAll: p,
       onEventDetail: h,
       onOpenSettings: x,
       onOpenAI: v,
     }) => {
       const { state: b } = O()
-      return m.jsxs('div', {
+      return u.jsxs('div', {
         className: xt,
         children: [
-          m.jsxs('div', {
+          u.jsxs('div', {
             className: vt,
             children: [
-              m.jsxs('div', {
+              u.jsxs('div', {
                 className: gt,
                 children: [
-                  m.jsx('h1', {
+                  u.jsx('h1', {
                     children:
                       'events' === e ? 'GitLab Events' : 'GitLab Changelog',
                   }),
-                  m.jsx(ht, { config: b.config, onClick: x }),
+                  u.jsx(ht, { config: b.config, onClick: x }),
                 ],
               }),
-              m.jsxs('div', {
+              u.jsxs('div', {
                 className: bt,
                 children: [
-                  m.jsx(tt, { currentVersion: g }),
-                  m.jsx('div', {
+                  u.jsx(tt, { currentVersion: g }),
+                  u.jsx('div', {
                     className: jt,
-                    children: m.jsxs('div', {
+                    children: u.jsxs('div', {
                       className: ft,
                       children: [
-                        m.jsx('div', {
+                        u.jsx('div', {
                           className: `${Nt} ${'changelog' === e ? yt : ''}`,
                         }),
-                        m.jsxs('button', {
-                          className: `${kt} ${'events' === e ? wt : ''}`,
+                        u.jsxs('button', {
+                          className: `${kt} ${'events' === e ? Et : ''}`,
                           onClick: () => r('events'),
                           children: [
-                            m.jsx('span', { className: Ct, children: '📋' }),
-                            m.jsx('span', {
-                              className: Et,
+                            u.jsx('span', { className: wt, children: '📋' }),
+                            u.jsx('span', {
+                              className: Ct,
                               children: 'Events',
                             }),
                           ],
                         }),
-                        m.jsxs('button', {
-                          className: `${kt} ${'changelog' === e ? wt : ''}`,
+                        u.jsxs('button', {
+                          className: `${kt} ${'changelog' === e ? Et : ''}`,
                           onClick: () => r('changelog'),
                           children: [
-                            m.jsx('span', { className: Ct, children: '📝' }),
-                            m.jsx('span', {
-                              className: Et,
+                            u.jsx('span', { className: wt, children: '📝' }),
+                            u.jsx('span', {
+                              className: Ct,
                               children: 'Changelog',
                             }),
                           ],
@@ -1783,29 +1783,29 @@ var __defProp = Object.defineProperty,
                       ],
                     }),
                   }),
-                  m.jsx('div', { className: St }),
-                  m.jsxs('div', {
+                  u.jsx('div', { className: St }),
+                  u.jsxs('div', {
                     className: Mt,
                     children: [
-                      m.jsxs('button', {
+                      u.jsxs('button', {
                         className: Tt,
                         onClick: x,
                         title: '设置',
                         children: [
-                          m.jsx('span', {
+                          u.jsx('span', {
                             className: Dt,
-                            children: m.jsxs('svg', {
+                            children: u.jsxs('svg', {
                               viewBox: '0 0 24 24',
                               fill: 'none',
                               children: [
-                                m.jsx('path', {
+                                u.jsx('path', {
                                   d: 'M12 15a3 3 0 100-6 3 3 0 000 6z',
                                   stroke: 'currentColor',
                                   strokeWidth: '2',
                                   strokeLinecap: 'round',
                                   strokeLinejoin: 'round',
                                 }),
-                                m.jsx('path', {
+                                u.jsx('path', {
                                   d: 'M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z',
                                   stroke: 'currentColor',
                                   strokeWidth: '2',
@@ -1815,36 +1815,36 @@ var __defProp = Object.defineProperty,
                               ],
                             }),
                           }),
-                          m.jsx('span', { className: $t, children: '设置' }),
+                          u.jsx('span', { className: $t, children: '设置' }),
                         ],
                       }),
-                      m.jsxs('button', {
+                      u.jsxs('button', {
                         className: `${Tt} ${At}`,
                         onClick: v,
                         title: 'AI 周报',
                         children: [
-                          m.jsx('span', {
+                          u.jsx('span', {
                             className: Dt,
-                            children: m.jsxs('svg', {
+                            children: u.jsxs('svg', {
                               viewBox: '0 0 24 24',
                               fill: 'none',
                               children: [
-                                m.jsx('path', {
+                                u.jsx('path', {
                                   d: 'M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z',
                                   fill: 'currentColor',
                                 }),
-                                m.jsx('path', {
+                                u.jsx('path', {
                                   d: 'M19 14L19.5 16.5L22 17L19.5 17.5L19 20L18.5 17.5L16 17L18.5 16.5L19 14Z',
                                   fill: 'currentColor',
                                 }),
-                                m.jsx('path', {
+                                u.jsx('path', {
                                   d: 'M5 6L5.5 8.5L8 9L5.5 9.5L5 12L4.5 9.5L2 9L4.5 8.5L5 6Z',
                                   fill: 'currentColor',
                                 }),
                               ],
                             }),
                           }),
-                          m.jsx('span', { className: $t, children: 'AI 周报' }),
+                          u.jsx('span', { className: $t, children: 'AI 周报' }),
                         ],
                       }),
                     ],
@@ -1854,18 +1854,18 @@ var __defProp = Object.defineProperty,
             ],
           }),
           'events' === e
-            ? m.jsxs(m.Fragment, {
+            ? u.jsxs(u.Fragment, {
                 children: [
-                  m.jsx('div', {
+                  u.jsx('div', {
                     className: It,
-                    children: m.jsx(X, {
+                    children: u.jsx(X, {
                       filterConditions: s,
                       onFilterChange: d,
                     }),
                   }),
-                  m.jsx('div', {
+                  u.jsx('div', {
                     className: Lt,
-                    children: m.jsx(Ie, {
+                    children: u.jsx(Ie, {
                       events: t,
                       totalCount: a,
                       loading: n,
@@ -1874,14 +1874,14 @@ var __defProp = Object.defineProperty,
                       paginationOptions: i,
                       onPaginationChange: _,
                       selectedEventIds: o,
-                      onEventSelect: u,
+                      onEventSelect: m,
                       onSelectAll: p,
                       onEventDetail: h,
                     }),
                   }),
                 ],
               })
-            : m.jsx(Pe, {}),
+            : u.jsx(Pe, {}),
         ],
       })
     },
@@ -1922,31 +1922,31 @@ var __defProp = Object.defineProperty,
         !t)
       )
         return null
-      return m.jsx('div', {
+      return u.jsx('div', {
         id: 'gitlab-weekly-report-container',
         className: Pt,
         onClick: e => {
           e.target === e.currentTarget && r && o()
         },
-        children: m.jsx('div', {
+        children: u.jsx('div', {
           className: Ot,
-          children: m.jsxs('div', {
+          children: u.jsxs('div', {
             className: Ut,
             style: { width: n, maxHeight: s },
             children: [
-              m.jsxs('div', {
+              u.jsxs('div', {
                 className: Gt,
                 children: [
-                  m.jsx('div', { className: Ft, children: a }),
-                  m.jsx('button', {
+                  u.jsx('div', { className: Ft, children: a }),
+                  u.jsx('button', {
                     className: qt,
                     onClick: o,
-                    children: m.jsx('span', { children: '×' }),
+                    children: u.jsx('span', { children: '×' }),
                   }),
                 ],
               }),
-              m.jsx('div', { className: zt, children: l }),
-              i && m.jsx('div', { className: Bt, children: i }),
+              u.jsx('div', { className: zt, children: l }),
+              i && u.jsx('div', { className: Bt, children: i }),
             ],
           }),
         }),
@@ -1972,8 +1972,8 @@ var __defProp = Object.defineProperty,
     da = 'index-module__settings-footer__qA44X',
     ca = 'index-module__footer-right__bslDg',
     _a = 'index-module__btn-primary__ZzzFI',
-    ua = 'index-module__switch-container__5xk1J',
-    ma = 'index-module__switch-input__V-8fl',
+    ma = 'index-module__switch-container__5xk1J',
+    ua = 'index-module__switch-input__V-8fl',
     pa = 'index-module__switch-label__xrOeQ',
     ha = 'index-module__switch-slider__dG-6J',
     xa = 'index-module__btn-secondary__cRCpD',
@@ -1990,33 +1990,33 @@ var __defProp = Object.defineProperty,
         e.useEffect(() => {
           t && (o(n), d(l))
         }, [t, n, l])
-      const u = (e, t) => {
+      const m = (e, t) => {
         o(a => ({ ...a, [e]: t }))
       }
-      return m.jsx(Vt, {
+      return u.jsx(Vt, {
         visible: t,
         title: '系统设置',
         width: 600,
         onClose: a,
-        footer: m.jsxs('div', {
+        footer: u.jsxs('div', {
           className: da,
           children: [
-            m.jsx('button', {
+            u.jsx('button', {
               className: xa,
               onClick: () => {
                 o(n), d(l)
               },
               children: '重置',
             }),
-            m.jsxs('div', {
+            u.jsxs('div', {
               className: ca,
               children: [
-                m.jsx('button', {
+                u.jsx('button', {
                   className: xa,
                   onClick: a,
                   children: '取消',
                 }),
-                m.jsx('button', {
+                u.jsx('button', {
                   className: _a,
                   onClick: () => {
                     s(i, r), a()
@@ -2033,90 +2033,90 @@ var __defProp = Object.defineProperty,
             }),
           ],
         }),
-        children: m.jsxs('div', {
+        children: u.jsxs('div', {
           className: Ht,
           children: [
-            m.jsx('div', {
+            u.jsx('div', {
               className: Kt,
-              children: m.jsx(ht, { config: i, showDetails: !0 }),
+              children: u.jsx(ht, { config: i, showDetails: !0 }),
             }),
-            m.jsxs('div', {
+            u.jsxs('div', {
               className: Qt,
               children: [
-                m.jsxs('button', {
+                u.jsxs('button', {
                   className: `${Xt} ${'gitlab' === c ? Yt : ''}`,
                   onClick: () => _('gitlab'),
                   children: [
-                    m.jsx('span', { className: Zt, children: '🦊' }),
+                    u.jsx('span', { className: Zt, children: '🦊' }),
                     'GitLab 配置',
                   ],
                 }),
-                m.jsxs('button', {
+                u.jsxs('button', {
                   className: `${Xt} ${'deepseek' === c ? Yt : ''}`,
                   onClick: () => _('deepseek'),
                   children: [
-                    m.jsx('span', { className: Zt, children: '🤖' }),
+                    u.jsx('span', { className: Zt, children: '🤖' }),
                     'DeepSeek 配置',
                   ],
                 }),
-                m.jsxs('button', {
+                u.jsxs('button', {
                   className: `${Xt} ${'appearance' === c ? Yt : ''}`,
                   onClick: () => _('appearance'),
                   children: [
-                    m.jsx('span', { className: Zt, children: '🎨' }),
+                    u.jsx('span', { className: Zt, children: '🎨' }),
                     '外观设置',
                   ],
                 }),
               ],
             }),
-            m.jsxs('div', {
+            u.jsxs('div', {
               className: Jt,
               children: [
                 'gitlab' === c &&
-                  m.jsxs('div', {
+                  u.jsxs('div', {
                     className: Wt,
                     children: [
-                      m.jsxs('div', {
+                      u.jsxs('div', {
                         className: ea,
                         children: [
-                          m.jsxs('label', {
+                          u.jsxs('label', {
                             className: ta,
                             children: [
                               'GitLab 项目地址 ',
-                              m.jsx('span', { className: aa, children: '*' }),
+                              u.jsx('span', { className: aa, children: '*' }),
                             ],
                           }),
-                          m.jsx('input', {
+                          u.jsx('input', {
                             type: 'text',
                             className: na,
                             placeholder: f,
                             value: i.gitlabUrl,
-                            onChange: e => u('gitlabUrl', e.target.value),
+                            onChange: e => m('gitlabUrl', e.target.value),
                           }),
-                          m.jsx('div', {
+                          u.jsx('div', {
                             className: ia,
                             children: '请输入完整的 GitLab 项目 URL',
                           }),
                         ],
                       }),
-                      m.jsxs('div', {
+                      u.jsxs('div', {
                         className: ea,
                         children: [
-                          m.jsxs('label', {
+                          u.jsxs('label', {
                             className: ta,
                             children: [
                               '个人访问令牌 ',
-                              m.jsx('span', { className: aa, children: '*' }),
+                              u.jsx('span', { className: aa, children: '*' }),
                             ],
                           }),
-                          m.jsx('input', {
+                          u.jsx('input', {
                             type: 'text',
                             className: na,
                             placeholder: N,
                             value: i.gitlabToken,
-                            onChange: e => u('gitlabToken', e.target.value),
+                            onChange: e => m('gitlabToken', e.target.value),
                           }),
-                          m.jsx('div', {
+                          u.jsx('div', {
                             className: ia,
                             children:
                               '在 GitLab 个人设置 → 访问令牌 中创建，需要 read_api 权限',
@@ -2126,49 +2126,49 @@ var __defProp = Object.defineProperty,
                     ],
                   }),
                 'deepseek' === c &&
-                  m.jsxs('div', {
+                  u.jsxs('div', {
                     className: Wt,
                     children: [
-                      m.jsxs('div', {
+                      u.jsxs('div', {
                         className: ea,
                         children: [
-                          m.jsxs('label', {
+                          u.jsxs('label', {
                             className: ta,
                             children: [
                               'DeepSeek API Key ',
-                              m.jsx('span', { className: aa, children: '*' }),
+                              u.jsx('span', { className: aa, children: '*' }),
                             ],
                           }),
-                          m.jsx('input', {
+                          u.jsx('input', {
                             type: 'text',
                             className: na,
                             placeholder: y,
                             value: i.deepseekApiKey,
-                            onChange: e => u('deepseekApiKey', e.target.value),
+                            onChange: e => m('deepseekApiKey', e.target.value),
                           }),
-                          m.jsx('div', {
+                          u.jsx('div', {
                             className: ia,
                             children: '在 DeepSeek 平台获取 API Key',
                           }),
                         ],
                       }),
-                      m.jsxs('div', {
+                      u.jsxs('div', {
                         className: ea,
                         children: [
-                          m.jsx('label', {
+                          u.jsx('label', {
                             className: ta,
                             children: '使用的模型',
                           }),
-                          m.jsxs('select', {
+                          u.jsxs('select', {
                             className: sa,
                             value: i.model,
-                            onChange: e => u('model', e.target.value),
+                            onChange: e => m('model', e.target.value),
                             children: [
-                              m.jsx('option', {
+                              u.jsx('option', {
                                 value: 'deepseek-chat',
                                 children: 'deepseek-chat',
                               }),
-                              m.jsx('option', {
+                              u.jsx('option', {
                                 value: 'deepseek-coder',
                                 children: 'deepseek-coder',
                               }),
@@ -2176,14 +2176,14 @@ var __defProp = Object.defineProperty,
                           }),
                         ],
                       }),
-                      m.jsxs('div', {
+                      u.jsxs('div', {
                         className: ea,
                         children: [
-                          m.jsx('label', {
+                          u.jsx('label', {
                             className: ta,
                             children: 'Token 数量限制',
                           }),
-                          m.jsx('input', {
+                          u.jsx('input', {
                             type: 'number',
                             className: na,
                             min: '1000',
@@ -2191,32 +2191,32 @@ var __defProp = Object.defineProperty,
                             placeholder: '4000',
                             value: i.tokenLimit,
                             onChange: e =>
-                              u('tokenLimit', parseInt(e.target.value)),
+                              m('tokenLimit', parseInt(e.target.value)),
                           }),
-                          m.jsx('div', {
+                          u.jsx('div', {
                             className: ia,
                             children: '单次生成的最大 Token 数量（1000-10000）',
                           }),
                         ],
                       }),
-                      m.jsxs('div', {
+                      u.jsxs('div', {
                         className: ea,
                         children: [
-                          m.jsxs('label', {
+                          u.jsxs('label', {
                             className: ta,
                             children: [
                               '默认提示词 ',
-                              m.jsx('span', { className: aa, children: '*' }),
+                              u.jsx('span', { className: aa, children: '*' }),
                             ],
                           }),
-                          m.jsx('textarea', {
+                          u.jsx('textarea', {
                             className: la,
                             rows: 6,
                             placeholder: k,
                             value: i.defaultPrompt,
-                            onChange: e => u('defaultPrompt', e.target.value),
+                            onChange: e => m('defaultPrompt', e.target.value),
                           }),
-                          m.jsx('div', {
+                          u.jsx('div', {
                             className: ia,
                             children: '用于生成周报的默认提示词模板',
                           }),
@@ -2225,113 +2225,113 @@ var __defProp = Object.defineProperty,
                     ],
                   }),
                 'appearance' === c &&
-                  m.jsxs('div', {
+                  u.jsxs('div', {
                     className: Wt,
                     children: [
-                      m.jsxs('div', {
+                      u.jsxs('div', {
                         className: ea,
                         children: [
-                          m.jsx('label', {
+                          u.jsx('label', {
                             className: ta,
                             children: '主题模式',
                           }),
-                          m.jsxs('select', {
+                          u.jsxs('select', {
                             className: sa,
                             value: r,
                             onChange: e => d(e.target.value),
                             children: [
-                              m.jsx('option', {
+                              u.jsx('option', {
                                 value: 'system',
                                 children: '🔄 跟随系统',
                               }),
-                              m.jsx('option', {
+                              u.jsx('option', {
                                 value: 'light',
                                 children: '☀️ 浅色模式',
                               }),
-                              m.jsx('option', {
+                              u.jsx('option', {
                                 value: 'dark',
                                 children: '🌙 深色模式',
                               }),
                             ],
                           }),
-                          m.jsx('div', {
+                          u.jsx('div', {
                             className: ia,
                             children:
                               '选择应用的主题模式，跟随系统将根据系统设置自动切换',
                           }),
                         ],
                       }),
-                      m.jsxs('div', {
+                      u.jsxs('div', {
                         className: ea,
                         children: [
-                          m.jsx('label', {
+                          u.jsx('label', {
                             className: ta,
                             children: '自动检查更新',
                           }),
-                          m.jsxs('div', {
-                            className: ua,
+                          u.jsxs('div', {
+                            className: ma,
                             children: [
-                              m.jsx('input', {
+                              u.jsx('input', {
                                 type: 'checkbox',
                                 id: 'autoCheckUpdate',
-                                className: ma,
+                                className: ua,
                                 checked: i.autoCheckUpdate ?? !0,
                                 onChange: e =>
-                                  u('autoCheckUpdate', e.target.checked),
+                                  m('autoCheckUpdate', e.target.checked),
                               }),
-                              m.jsx('label', {
+                              u.jsx('label', {
                                 htmlFor: 'autoCheckUpdate',
                                 className: pa,
-                                children: m.jsx('span', { className: ha }),
+                                children: u.jsx('span', { className: ha }),
                               }),
                             ],
                           }),
-                          m.jsx('div', {
+                          u.jsx('div', {
                             className: ia,
                             children: '开启后将自动检查版本更新并提醒',
                           }),
                         ],
                       }),
-                      m.jsxs('div', {
+                      u.jsxs('div', {
                         className: ea,
                         children: [
-                          m.jsx('label', {
+                          u.jsx('label', {
                             className: ta,
                             children: '检查更新间隔',
                           }),
-                          m.jsxs('select', {
+                          u.jsxs('select', {
                             className: sa,
                             value: i.updateCheckInterval ?? 3e5,
                             onChange: e =>
-                              u(
+                              m(
                                 'updateCheckInterval',
                                 parseInt(e.target.value),
                               ),
                             disabled: !(i.autoCheckUpdate ?? 1),
                             children: [
-                              m.jsx('option', {
+                              u.jsx('option', {
                                 value: 6e4,
                                 children: '1分钟',
                               }),
-                              m.jsx('option', {
+                              u.jsx('option', {
                                 value: 3e5,
                                 children: '5分钟',
                               }),
-                              m.jsx('option', {
+                              u.jsx('option', {
                                 value: 6e5,
                                 children: '10分钟',
                               }),
-                              m.jsx('option', {
+                              u.jsx('option', {
                                 value: 18e5,
                                 children: '30分钟',
                               }),
-                              m.jsx('option', {
+                              u.jsx('option', {
                                 value: 36e5,
                                 children: '1小时',
                               }),
                             ],
                           }),
-                          m.jsx('div', {
+                          u.jsx('div', {
                             className: ia,
                             children: '设置自动检查版本更新的时间间隔',
                           }),
@@ -2341,9 +2341,9 @@ var __defProp = Object.defineProperty,
                   }),
               ],
             }),
-            m.jsx('div', {
+            u.jsx('div', {
               className: oa,
-              children: m.jsxs('span', { className: ra, children: ['v', g] }),
+              children: u.jsxs('span', { className: ra, children: ['v', g] }),
             }),
           ],
         }),
@@ -2402,65 +2402,65 @@ var __defProp = Object.defineProperty,
       dateRange: r,
     }) => {
       const [d, c] = e.useState(n),
-        [_, u] = e.useState(!1),
+        [_, m] = e.useState(!1),
         [p, h] = e.useState(!1)
       e.useEffect(() => {
         c(n)
       }, [n])
-      return m.jsx(Vt, {
+      return u.jsx(Vt, {
         visible: t,
         title: 'AI 周报生成',
         width: 800,
         onClose: s,
         maskClosable: !i,
-        children: m.jsxs('div', {
+        children: u.jsxs('div', {
           className: ga.aiPanel,
           children: [
-            m.jsxs('div', {
+            u.jsxs('div', {
               className: ga.dataOverview,
               children: [
-                m.jsx('div', {
+                u.jsx('div', {
                   className: ga.overviewHeader,
-                  children: m.jsx('h4', { children: '📊 数据概览' }),
+                  children: u.jsx('h4', { children: '📊 数据概览' }),
                 }),
-                m.jsxs('div', {
+                u.jsxs('div', {
                   className: ga.overviewContent,
                   children: [
-                    m.jsxs('div', {
+                    u.jsxs('div', {
                       className: ga.overviewItem,
                       children: [
-                        m.jsx('span', {
+                        u.jsx('span', {
                           className: ga.overviewLabel,
                           children: '选中事件：',
                         }),
-                        m.jsxs('span', {
+                        u.jsxs('span', {
                           className: ga.overviewValue,
                           children: [o, ' 条'],
                         }),
                       ],
                     }),
                     r &&
-                      m.jsxs('div', {
+                      u.jsxs('div', {
                         className: ga.overviewItem,
                         children: [
-                          m.jsx('span', {
+                          u.jsx('span', {
                             className: ga.overviewLabel,
                             children: '日期范围：',
                           }),
-                          m.jsxs('span', {
+                          u.jsxs('span', {
                             className: ga.overviewValue,
                             children: [r.startDate, ' 至 ', r.endDate],
                           }),
                         ],
                       }),
-                    m.jsxs('div', {
+                    u.jsxs('div', {
                       className: ga.overviewItem,
                       children: [
-                        m.jsx('span', {
+                        u.jsx('span', {
                           className: ga.overviewLabel,
                           children: '状态：',
                         }),
-                        m.jsx('span', {
+                        u.jsx('span', {
                           className: `${ga.overviewValue} ${o > 0 ? ga.ready : ga.waiting}`,
                           children: o > 0 ? '✅ 数据就绪' : '⏳ 等待选择事件',
                         }),
@@ -2470,22 +2470,22 @@ var __defProp = Object.defineProperty,
                 }),
               ],
             }),
-            m.jsxs('div', {
+            u.jsxs('div', {
               className: ga.promptSection,
               children: [
-                m.jsxs('div', {
+                u.jsxs('div', {
                   className: ga.sectionHeader,
                   children: [
-                    m.jsx('h3', { children: '提示词' }),
-                    m.jsxs('div', {
+                    u.jsx('h3', { children: '提示词' }),
+                    u.jsxs('div', {
                       className: ga.headerActions,
                       children: [
-                        m.jsx('button', {
+                        u.jsx('button', {
                           className: ga.btnText,
-                          onClick: () => u(!_),
+                          onClick: () => m(!_),
                           children: _ ? '收起' : '展开',
                         }),
-                        m.jsx('button', {
+                        u.jsx('button', {
                           className: ga.btnText,
                           onClick: () => {
                             c(n)
@@ -2496,10 +2496,10 @@ var __defProp = Object.defineProperty,
                     }),
                   ],
                 }),
-                m.jsxs('div', {
+                u.jsxs('div', {
                   className: `${ga.promptEditor} ${_ ? ga.expanded : ''}`,
                   children: [
-                    m.jsx('textarea', {
+                    u.jsx('textarea', {
                       className: ga.promptTextarea,
                       value: d,
                       onChange: e => c(e.target.value),
@@ -2507,14 +2507,14 @@ var __defProp = Object.defineProperty,
                       rows: _ ? 15 : 6,
                       disabled: i,
                     }),
-                    m.jsxs('div', {
+                    u.jsxs('div', {
                       className: ga.promptFooter,
                       children: [
-                        m.jsxs('span', {
+                        u.jsxs('span', {
                           className: ga.charCount,
                           children: [d.length, ' 字符'],
                         }),
-                        m.jsx('button', {
+                        u.jsx('button', {
                           className: `${ga.btnPrimary} ${(null == a ? void 0 : a.result) ? ga.regenerate : ''}`,
                           onClick: () => {
                             l(d)
@@ -2533,41 +2533,41 @@ var __defProp = Object.defineProperty,
               ],
             }),
             i &&
-              m.jsxs('div', {
+              u.jsxs('div', {
                 className: ga.loadingSection,
                 children: [
-                  m.jsx('div', { className: ga.loadingSpinner }),
-                  m.jsx('p', {
+                  u.jsx('div', { className: ga.loadingSpinner }),
+                  u.jsx('p', {
                     children: 'AI 正在分析事件数据，生成周报中...',
                   }),
-                  m.jsx('div', {
+                  u.jsx('div', {
                     className: ga.loadingTips,
-                    children: m.jsx('span', {
+                    children: u.jsx('span', {
                       children: '💡 生成时间通常为 10-30 秒',
                     }),
                   }),
                 ],
               }),
             (null == a ? void 0 : a.result) &&
-              m.jsxs('div', {
+              u.jsxs('div', {
                 className: ga.resultSection,
                 children: [
-                  m.jsxs('div', {
+                  u.jsxs('div', {
                     className: ga.resultHeader,
                     children: [
-                      m.jsxs('h3', {
+                      u.jsxs('h3', {
                         className: ga.resultTitle,
                         children: [
-                          m.jsx('span', {
+                          u.jsx('span', {
                             className: ga.titleIcon,
                             children: '✨',
                           }),
                           '生成结果',
                         ],
                       }),
-                      m.jsx('div', {
+                      u.jsx('div', {
                         className: ga.resultActions,
-                        children: m.jsxs('button', {
+                        children: u.jsxs('button', {
                           className: `${ga.actionBtn} ${p ? ga.copied : ''}`,
                           onClick: () => {
                             ;(null == a ? void 0 : a.result) &&
@@ -2580,7 +2580,7 @@ var __defProp = Object.defineProperty,
                           title: '一键复制',
                           disabled: p,
                           children: [
-                            m.jsx('span', {
+                            u.jsx('span', {
                               className: ga.btnIcon,
                               children: p ? '✅' : '📋',
                             }),
@@ -2590,27 +2590,27 @@ var __defProp = Object.defineProperty,
                       }),
                     ],
                   }),
-                  m.jsx('div', {
+                  u.jsx('div', {
                     className: ga.resultContent,
-                    children: m.jsx('div', {
+                    children: u.jsx('div', {
                       className: ga.resultText,
                       children: a.result,
                     }),
                   }),
-                  m.jsx('div', {
+                  u.jsx('div', {
                     className: ga.resultMeta,
-                    children: m.jsxs('div', {
+                    children: u.jsxs('div', {
                       className: ga.metaLeft,
                       children: [
-                        m.jsx('div', {
+                        u.jsx('div', {
                           className: ga.metaItem,
-                          children: m.jsxs('span', {
+                          children: u.jsxs('span', {
                             children: [a.result.split('\n').length, ' 行'],
                           }),
                         }),
-                        m.jsx('div', {
+                        u.jsx('div', {
                           className: ga.metaItem,
-                          children: m.jsxs('span', {
+                          children: u.jsxs('span', {
                             children: [a.result.length, ' 字符'],
                           }),
                         }),
@@ -2621,46 +2621,46 @@ var __defProp = Object.defineProperty,
               }),
             !a &&
               !i &&
-              m.jsxs('div', {
+              u.jsxs('div', {
                 className: ga.emptyResult,
                 children: [
-                  m.jsx('div', { className: ga.emptyIcon, children: '🤖' }),
-                  m.jsx('h3', { children: '准备生成 AI 周报' }),
-                  m.jsx('p', {
+                  u.jsx('div', { className: ga.emptyIcon, children: '🤖' }),
+                  u.jsx('h3', { children: '准备生成 AI 周报' }),
+                  u.jsx('p', {
                     children:
                       '点击"生成周报"按钮，AI 将基于您的 GitLab 事件数据生成专业的工作周报',
                   }),
-                  m.jsxs('div', {
+                  u.jsxs('div', {
                     className: ga.emptyFeatures,
                     children: [
-                      m.jsxs('div', {
+                      u.jsxs('div', {
                         className: ga.featureItem,
                         children: [
-                          m.jsx('span', {
+                          u.jsx('span', {
                             className: ga.featureIcon,
                             children: '📊',
                           }),
-                          m.jsx('span', { children: '智能分析工作数据' }),
+                          u.jsx('span', { children: '智能分析工作数据' }),
                         ],
                       }),
-                      m.jsxs('div', {
+                      u.jsxs('div', {
                         className: ga.featureItem,
                         children: [
-                          m.jsx('span', {
+                          u.jsx('span', {
                             className: ga.featureIcon,
                             children: '📝',
                           }),
-                          m.jsx('span', { children: '自动生成周报内容' }),
+                          u.jsx('span', { children: '自动生成周报内容' }),
                         ],
                       }),
-                      m.jsxs('div', {
+                      u.jsxs('div', {
                         className: ga.featureItem,
                         children: [
-                          m.jsx('span', {
+                          u.jsx('span', {
                             className: ga.featureIcon,
                             children: '🎯',
                           }),
-                          m.jsx('span', { children: '突出重点工作成果' }),
+                          u.jsx('span', { children: '突出重点工作成果' }),
                         ],
                       }),
                     ],
@@ -2787,55 +2787,55 @@ var __defProp = Object.defineProperty,
               return `${n}/${s}`
           }
         }
-      return m.jsx('div', {
+      return u.jsx('div', {
         className: ja.eventDetailModalOverlay,
         onClick: a,
-        children: m.jsxs('div', {
+        children: u.jsxs('div', {
           className: ja.eventDetailModal,
           onClick: e => e.stopPropagation(),
           children: [
-            m.jsxs('div', {
+            u.jsxs('div', {
               className: ja.modalHeader,
               children: [
-                m.jsx('h2', { children: '事件详情' }),
-                m.jsx('button', {
+                u.jsx('h2', { children: '事件详情' }),
+                u.jsx('button', {
                   className: ja.closeBtn,
                   onClick: a,
                   children: '×',
                 }),
               ],
             }),
-            m.jsxs('div', {
+            u.jsxs('div', {
               className: ja.modalContent,
               children: [
-                m.jsxs('div', {
+                u.jsxs('div', {
                   className: `${ja.detailSection} ${ja.compact}`,
                   children: [
-                    m.jsx('h3', { children: '基本信息' }),
-                    m.jsxs('div', {
+                    u.jsx('h3', { children: '基本信息' }),
+                    u.jsxs('div', {
                       className: `${ja.detailGrid} ${ja.compactGrid}`,
                       children: [
-                        m.jsxs('div', {
+                        u.jsxs('div', {
                           className: ja.detailItem,
                           children: [
-                            m.jsx('span', {
+                            u.jsx('span', {
                               className: ja.label,
                               children: 'ID:',
                             }),
-                            m.jsx('span', {
+                            u.jsx('span', {
                               className: ja.value,
                               children: e.id,
                             }),
                           ],
                         }),
-                        m.jsxs('div', {
+                        u.jsxs('div', {
                           className: ja.detailItem,
                           children: [
-                            m.jsx('span', {
+                            u.jsx('span', {
                               className: ja.label,
                               children: '类型:',
                             }),
-                            m.jsx('span', {
+                            u.jsx('span', {
                               className: ja.value,
                               children: (e => {
                                 if (!e || '' === e.trim()) return '未知类型'
@@ -2854,14 +2854,14 @@ var __defProp = Object.defineProperty,
                             }),
                           ],
                         }),
-                        m.jsxs('div', {
+                        u.jsxs('div', {
                           className: ja.detailItem,
                           children: [
-                            m.jsx('span', {
+                            u.jsx('span', {
                               className: ja.label,
                               children: '操作:',
                             }),
-                            m.jsx('span', {
+                            u.jsx('span', {
                               className: `${ja.value} ${ja.actionBadge}`,
                               children:
                                 ((l = e.action_name),
@@ -2877,28 +2877,28 @@ var __defProp = Object.defineProperty,
                             }),
                           ],
                         }),
-                        m.jsxs('div', {
+                        u.jsxs('div', {
                           className: ja.detailItem,
                           children: [
-                            m.jsx('span', {
+                            u.jsx('span', {
                               className: ja.label,
                               children: '时间:',
                             }),
-                            m.jsx('span', {
+                            u.jsx('span', {
                               className: ja.value,
                               children: n(e.created_at),
                             }),
                           ],
                         }),
                         e.state &&
-                          m.jsxs('div', {
+                          u.jsxs('div', {
                             className: ja.detailItem,
                             children: [
-                              m.jsx('span', {
+                              u.jsx('span', {
                                 className: ja.label,
                                 children: '状态:',
                               }),
-                              m.jsx('span', {
+                              u.jsx('span', {
                                 className: `${ja.value} ${ja.statusBadge} ${ja[`status-${e.state}`]}`,
                                 children: e.state,
                               }),
@@ -2911,36 +2911,36 @@ var __defProp = Object.defineProperty,
                 (e.title ||
                   e.target_title ||
                   (e.labels && e.labels.length > 0)) &&
-                  m.jsxs('div', {
+                  u.jsxs('div', {
                     className: `${ja.detailSection} ${ja.compact}`,
                     children: [
-                      m.jsx('h3', { children: '内容' }),
-                      m.jsxs('div', {
+                      u.jsx('h3', { children: '内容' }),
+                      u.jsxs('div', {
                         className: `${ja.detailContent} ${ja.compactContent}`,
                         children: [
                           e.title &&
-                            m.jsxs('div', {
+                            u.jsxs('div', {
                               className: ja.detailItem,
                               children: [
-                                m.jsx('span', {
+                                u.jsx('span', {
                                   className: ja.label,
                                   children: '标题:',
                                 }),
-                                m.jsx('span', {
+                                u.jsx('span', {
                                   className: ja.value,
                                   children: e.title,
                                 }),
                               ],
                             }),
                           e.target_title &&
-                            m.jsxs('div', {
+                            u.jsxs('div', {
                               className: ja.detailItem,
                               children: [
-                                m.jsx('span', {
+                                u.jsx('span', {
                                   className: ja.label,
                                   children: '目标:',
                                 }),
-                                m.jsx('span', {
+                                u.jsx('span', {
                                   className: ja.value,
                                   children: e.target_title,
                                 }),
@@ -2948,17 +2948,17 @@ var __defProp = Object.defineProperty,
                             }),
                           e.labels &&
                             e.labels.length > 0 &&
-                            m.jsxs('div', {
+                            u.jsxs('div', {
                               className: ja.detailItem,
                               children: [
-                                m.jsx('span', {
+                                u.jsx('span', {
                                   className: ja.label,
                                   children: '标签:',
                                 }),
-                                m.jsx('div', {
+                                u.jsx('div', {
                                   className: ja.labels,
                                   children: e.labels.map((e, t) =>
-                                    m.jsx(
+                                    u.jsx(
                                       'span',
                                       { className: ja.labelTag, children: e },
                                       t,
@@ -2972,27 +2972,27 @@ var __defProp = Object.defineProperty,
                     ],
                   }),
                 e.author &&
-                  m.jsxs('div', {
+                  u.jsxs('div', {
                     className: `${ja.detailSection} ${ja.compact}`,
                     children: [
-                      m.jsx('h3', { children: '作者' }),
-                      m.jsxs('div', {
+                      u.jsx('h3', { children: '作者' }),
+                      u.jsxs('div', {
                         className: `${ja.authorInfo} ${ja.compactAuthor}`,
                         children: [
                           e.author.avatar_url &&
-                            m.jsx('img', {
+                            u.jsx('img', {
                               src: `${e.author.avatar_url}?width=100`,
                               alt: e.author.name,
                               className: ja.authorAvatar,
                             }),
-                          m.jsxs('div', {
+                          u.jsxs('div', {
                             className: ja.authorDetails,
                             children: [
-                              m.jsx('div', {
+                              u.jsx('div', {
                                 className: ja.authorName,
                                 children: e.author.name,
                               }),
-                              m.jsxs('div', {
+                              u.jsxs('div', {
                                 className: ja.authorUsername,
                                 children: ['@', e.author.username],
                               }),
@@ -3003,36 +3003,36 @@ var __defProp = Object.defineProperty,
                     ],
                   }),
                 (e.project || e.project_id) &&
-                  m.jsxs('div', {
+                  u.jsxs('div', {
                     className: `${ja.detailSection} ${ja.compact}`,
                     children: [
-                      m.jsx('h3', { children: '项目' }),
-                      m.jsx('div', {
+                      u.jsx('h3', { children: '项目' }),
+                      u.jsx('div', {
                         className: `${ja.projectInfo} ${ja.compactProject}`,
                         children: e.project
-                          ? m.jsxs(m.Fragment, {
+                          ? u.jsxs(u.Fragment, {
                               children: [
-                                m.jsxs('div', {
+                                u.jsxs('div', {
                                   className: ja.detailItem,
                                   children: [
-                                    m.jsx('span', {
+                                    u.jsx('span', {
                                       className: ja.label,
                                       children: '名称:',
                                     }),
-                                    m.jsx('span', {
+                                    u.jsx('span', {
                                       className: ja.value,
                                       children: e.project.name,
                                     }),
                                   ],
                                 }),
-                                m.jsxs('div', {
+                                u.jsxs('div', {
                                   className: ja.detailItem,
                                   children: [
-                                    m.jsx('span', {
+                                    u.jsx('span', {
                                       className: ja.label,
                                       children: '路径:',
                                     }),
-                                    m.jsx('span', {
+                                    u.jsx('span', {
                                       className: ja.value,
                                       children: e.project.path_with_namespace,
                                     }),
@@ -3040,14 +3040,14 @@ var __defProp = Object.defineProperty,
                                 }),
                               ],
                             })
-                          : m.jsxs('div', {
+                          : u.jsxs('div', {
                               className: ja.detailItem,
                               children: [
-                                m.jsx('span', {
+                                u.jsx('span', {
                                   className: ja.label,
                                   children: '项目ID:',
                                 }),
-                                m.jsx('span', {
+                                u.jsx('span', {
                                   className: ja.value,
                                   children: e.project_id,
                                 }),
@@ -3057,60 +3057,60 @@ var __defProp = Object.defineProperty,
                     ],
                   }),
                 e.push_data &&
-                  m.jsxs('div', {
+                  u.jsxs('div', {
                     className: ja.detailSection,
                     children: [
-                      m.jsx('h3', { children: '推送信息' }),
-                      m.jsxs('div', {
+                      u.jsx('h3', { children: '推送信息' }),
+                      u.jsxs('div', {
                         className: ja.pushInfo,
                         children: [
-                          m.jsxs('div', {
+                          u.jsxs('div', {
                             className: ja.detailItem,
                             children: [
-                              m.jsx('span', {
+                              u.jsx('span', {
                                 className: ja.label,
                                 children: '分支:',
                               }),
-                              m.jsx('span', {
+                              u.jsx('span', {
                                 className: ja.value,
                                 children: e.push_data.ref,
                               }),
                             ],
                           }),
-                          m.jsxs('div', {
+                          u.jsxs('div', {
                             className: ja.detailItem,
                             children: [
-                              m.jsx('span', {
+                              u.jsx('span', {
                                 className: ja.label,
                                 children: '提交数量:',
                               }),
-                              m.jsx('span', {
+                              u.jsx('span', {
                                 className: ja.value,
                                 children: e.push_data.commit_count,
                               }),
                             ],
                           }),
-                          m.jsxs('div', {
+                          u.jsxs('div', {
                             className: ja.detailItem,
                             children: [
-                              m.jsx('span', {
+                              u.jsx('span', {
                                 className: ja.label,
                                 children: '提交标题:',
                               }),
-                              m.jsx('span', {
+                              u.jsx('span', {
                                 className: ja.value,
                                 children: e.push_data.commit_title,
                               }),
                             ],
                           }),
-                          m.jsxs('div', {
+                          u.jsxs('div', {
                             className: ja.detailItem,
                             children: [
-                              m.jsx('span', {
+                              u.jsx('span', {
                                 className: ja.label,
                                 children: '提交哈希:',
                               }),
-                              m.jsx('span', {
+                              u.jsx('span', {
                                 className: `${ja.value} ${ja.commitHash}`,
                                 children: e.push_data.commit_to,
                               }),
@@ -3121,25 +3121,25 @@ var __defProp = Object.defineProperty,
                     ],
                   }),
                 e.note &&
-                  m.jsxs('div', {
+                  u.jsxs('div', {
                     className: ja.detailSection,
                     children: [
-                      m.jsx('h3', { children: '评论信息' }),
-                      m.jsxs('div', {
+                      u.jsx('h3', { children: '评论信息' }),
+                      u.jsxs('div', {
                         className: ja.noteInfo,
                         children: [
-                          m.jsx('div', {
+                          u.jsx('div', {
                             className: ja.noteBody,
                             children: e.note.body,
                           }),
-                          m.jsxs('div', {
+                          u.jsxs('div', {
                             className: ja.noteMeta,
                             children: [
-                              m.jsxs('span', {
+                              u.jsxs('span', {
                                 children: ['创建时间: ', n(e.note.created_at)],
                               }),
                               e.note.updated_at !== e.note.created_at &&
-                                m.jsxs('span', {
+                                u.jsxs('span', {
                                   children: [
                                     '更新时间: ',
                                     n(e.note.updated_at),
@@ -3153,18 +3153,18 @@ var __defProp = Object.defineProperty,
                   }),
               ],
             }),
-            m.jsxs('div', {
+            u.jsxs('div', {
               className: ja.modalFooter,
               children: [
                 s() &&
-                  m.jsx('a', {
+                  u.jsx('a', {
                     href: s(),
                     target: '_blank',
                     rel: 'noopener noreferrer',
                     className: ja.sourceLinkBtn,
                     children: '打开源页面',
                   }),
-                m.jsx('button', {
+                u.jsx('button', {
                   className: ja.closeModalBtn,
                   onClick: a,
                   children: '关闭',
@@ -3244,7 +3244,7 @@ var __defProp = Object.defineProperty,
           updateSortOptions: d,
           updatePaginationOptions: c,
           setEvents: _,
-          setTotal: u,
+          setTotal: m,
           setAIGenerationConfig: p,
           setLoading: h,
           setError: x,
@@ -3261,8 +3261,8 @@ var __defProp = Object.defineProperty,
           () => Re(a.config.gitlabUrl, a.config.gitlabToken),
           [a.config.gitlabUrl, a.config.gitlabToken],
         ),
-        [k, w] = e.useState(null),
-        [C, E] = e.useState(!1),
+        [k, E] = e.useState(null),
+        [w, C] = e.useState(!1),
         [M, T] = e.useState([]),
         D = e.useMemo(
           () =>
@@ -3306,7 +3306,7 @@ var __defProp = Object.defineProperty,
                   ? o.action
                   : void 0,
               c = a.sortOptions.order || 'desc',
-              m = await y.getCurrentUser(),
+              u = await y.getCurrentUser(),
               p = {
                 after: l,
                 before: i,
@@ -3317,13 +3317,13 @@ var __defProp = Object.defineProperty,
                 sort: c,
                 signal: s.signal,
               },
-              { events: h, total: x } = await y.getUserEventsWithTotal(m.id, p)
+              { events: h, total: x } = await y.getUserEventsWithTotal(u.id, p)
             if (j(s)) return
-            _(h), T(h.map(e => e.id)), u(x)
+            _(h), T(h.map(e => e.id)), m(x)
           } catch (l) {
             if (N(l)) return
             const e = S.formatErrorMessage(l)
-            x(e), _([]), u(0)
+            x(e), _([]), m(0)
           } finally {
             j(s) || h(!1), f(s)
           }
@@ -3335,7 +3335,7 @@ var __defProp = Object.defineProperty,
           a.filterConditions,
           g,
           _,
-          u,
+          m,
           h,
           x,
           v,
@@ -3371,11 +3371,11 @@ var __defProp = Object.defineProperty,
           }
         } else x(R)
       }, [y, v, o, h, x])
-      return m.jsxs('div', {
+      return u.jsxs('div', {
         id: 'gitlab-weekly-report-app',
         className: `${Na.app} ${t ? Na.userscriptMode : Na.webMode} ${Na[D]}`,
         children: [
-          m.jsx(Rt, {
+          u.jsx(Rt, {
             appMode: a.appMode,
             events: a.events,
             totalCount: a.totalCount,
@@ -3403,7 +3403,7 @@ var __defProp = Object.defineProperty,
               T(e ? a.events.map(e => e.id) : [])
             },
             onEventDetail: e => {
-              w(e), E(!0)
+              E(e), C(!0)
             },
             onOpenSettings: () => {
               l('settings')
@@ -3412,14 +3412,14 @@ var __defProp = Object.defineProperty,
               v() ? l('ai') : x(A)
             },
           }),
-          m.jsx(fa, {
+          u.jsx(fa, {
             event: k,
-            visible: C,
+            visible: w,
             onClose: () => {
-              E(!1), w(null)
+              C(!1), E(null)
             },
           }),
-          m.jsx(va, {
+          u.jsx(va, {
             isOpen: 'settings' === a.activePanel,
             config: a.config,
             theme: a.theme,
@@ -3430,7 +3430,7 @@ var __defProp = Object.defineProperty,
               n(e), s(t)
             },
           }),
-          m.jsx(ba, {
+          u.jsx(ba, {
             visible: 'ai' === a.activePanel,
             config: a.aiGenerationConfig,
             defaultPrompt: a.config.defaultPrompt,
@@ -3468,7 +3468,7 @@ var __defProp = Object.defineProperty,
                         })
                       })(async () => {
                         const { createDeepSeekApiService: e } =
-                          await Promise.resolve().then(() => Sa)
+                          await Promise.resolve().then(() => Ma)
                         return { createDeepSeekApiService: e }
                       }),
                       s = n(a.config.deepseekApiKey),
@@ -3518,10 +3518,12 @@ var __defProp = Object.defineProperty,
         'none' !== n.style.display
           ? ((n.style.display = 'none'),
             (s.style.display = 'none'),
-            (t.style.transform = 'scale(1)'))
+            (t.style.transform = 'scale(1)'),
+            s.removeEventListener('click', l))
           : ((n.style.display = 'block'),
             (s.style.display = 'block'),
-            (t.style.transform = 'scale(0.9)'))
+            (t.style.transform = 'scale(0.9)'),
+            s.addEventListener('click', l))
       }
       t.addEventListener('mouseenter', () => {
         'none' === n.style.display &&
@@ -3534,13 +3536,12 @@ var __defProp = Object.defineProperty,
             (t.style.boxShadow = '0 4px 12px rgba(25, 118, 210, 0.3)'))
         }),
         t.addEventListener('click', l),
-        s.addEventListener('click', l),
         document.body.appendChild(s),
         document.body.appendChild(n),
         document.body.appendChild(t)
       a.createRoot(n).render(e.createElement(ya, { isUserscript: !0 }))
     },
-    wa = () => {
+    Ea = () => {
       ;(window.location.hostname.includes('gitlab') ||
         window.location.pathname.includes('gitlab') ||
         null !== document.querySelector('meta[content*="GitLab"]') ||
@@ -3549,13 +3550,31 @@ var __defProp = Object.defineProperty,
           ? document.addEventListener('DOMContentLoaded', ka)
           : ka())
     }
-  wa()
-  let Ca = location.href
-  new MutationObserver(() => {
-    const e = location.href
-    e !== Ca && ((Ca = e), setTimeout(wa, 1e3))
-  }).observe(document, { subtree: !0, childList: !0 })
-  class Ea {
+  Ea()
+  let wa = location.href,
+    Ca = new MutationObserver(() => {
+      const e = location.href
+      e !== wa &&
+        ((wa = e),
+        (() => {
+          const e = document.getElementById('gitlab-weekly-report-trigger'),
+            t = document.getElementById('gitlab-weekly-report-overlay'),
+            a = document.getElementById(
+              'gitlab-weekly-report-userscript-container',
+            )
+          if (a) {
+            const e = a._reactRootContainer
+            e && e.unmount()
+          }
+          e && e.remove(),
+            t && t.remove(),
+            a && a.remove(),
+            Ca && (Ca.disconnect(), (Ca = null))
+        })(),
+        setTimeout(Ea, 1e3))
+    })
+  Ca.observe(document, { subtree: !0, childList: !0 })
+  class Sa {
     constructor(e) {
       __publicField(this, 'apiKey'),
         __publicField(this, 'baseUrl'),
@@ -3622,13 +3641,13 @@ var __defProp = Object.defineProperty,
       }
     }
   }
-  const Sa = Object.freeze(
+  const Ma = Object.freeze(
     Object.defineProperty(
       {
         __proto__: null,
-        DeepSeekApiService: Ea,
+        DeepSeekApiService: Sa,
         createDeepSeekApiService: function (e) {
-          return new Ea(e)
+          return new Sa(e)
         },
       },
       Symbol.toStringTag,

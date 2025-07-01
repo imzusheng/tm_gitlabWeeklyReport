@@ -1,3 +1,9 @@
+## [1.7.1](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.7.0...v1.7.1) (2025-07-01)
+
+### Bug Fixes
+
+- **userscript:** 修复SPA路由切换时的事件监听和清理问题 ([3f4b967](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/3f4b96789a304ade631c5adb1cbbedbc29ba0662))
+
 # [1.7.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.6.0...v1.7.0) (2025-07-01)
 
 ### Bug Fixes
