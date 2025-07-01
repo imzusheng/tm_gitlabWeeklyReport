@@ -1,4 +1,9 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm run lint && npm run format
+# 格式化代码并将其添加到暂存区
+npm run format
+git add .
+
+# 运行检查
+npm run check

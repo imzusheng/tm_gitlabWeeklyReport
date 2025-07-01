@@ -174,7 +174,9 @@ const EventsList: React.FC<EventsListProps> = ({
       unapproved: { icon: '❌', actionType: '取消批准' },
     }
 
-    const config = (targetType && configMap[targetType]) || (actionName && configMap[actionName])
+    const config =
+      (targetType && configMap[targetType]) ||
+      (actionName && configMap[actionName])
 
     if (config) {
       return { ...config, title }

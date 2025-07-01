@@ -79,8 +79,8 @@ export function useAppState() {
 
       // 异步保存配置，避免阻塞UI更新
       try {
-        storageUtils.saveConfig(newConfig);
-      } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
+        storageUtils.saveConfig(newConfig)
+      } catch (error) {
         console.error('Failed to save config:', error)
         // 即使保存失败，也要更新内存中的配置
         // 可以考虑显示用户友好的错误提示

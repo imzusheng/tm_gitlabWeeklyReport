@@ -60,10 +60,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
     const newValues = checked
       ? [...currentValues, value]
       : currentValues.filter(v => v !== value)
-    handleFilterChange(
-      key,
-      newValues as FilterConditions[typeof key],
-    )
+    handleFilterChange(key, newValues as FilterConditions[typeof key])
   }
 
   const filterMetas = [
@@ -112,7 +109,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
                   handleMultiSelectChange(
                     key,
                     value,
-                    !((filterConditions[key] as string[]).includes(value)),
+                    !(filterConditions[key] as string[]).includes(value),
                   )
                 }
               >
