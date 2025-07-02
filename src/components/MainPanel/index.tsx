@@ -61,13 +61,6 @@ const MainPanel: React.FC<MainPanelProps> = ({
       {/* 标题栏 */}
       <div className={styles.panelHeader}>
         <div className={styles.headerLeft}>
-          <h1>{appMode === 'events' ? 'GitLab Events' : 'GitLab Changelog'}</h1>
-          {/* 配置状态显示 */}
-          <ConfigStatus config={state.config} onClick={onOpenSettings} />
-        </div>
-        <div className={styles.headerRight}>
-          <VersionUpdateNotification currentVersion={APP_VERSION} />
-
           <div className={styles.modeToggle}>
             <div className={styles.toggleTrack}>
               <div
@@ -95,6 +88,11 @@ const MainPanel: React.FC<MainPanelProps> = ({
               </button>
             </div>
           </div>
+          {/* 配置状态显示 */}
+          <ConfigStatus config={state.config} onClick={onOpenSettings} />
+        </div>
+        <div className={styles.headerRight}>
+          <VersionUpdateNotification currentVersion={APP_VERSION} />
 
           {/* 分隔线 */}
           <div className={styles.divider} />

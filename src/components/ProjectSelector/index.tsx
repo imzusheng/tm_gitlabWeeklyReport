@@ -108,6 +108,8 @@ interface ProjectSelectorProps {
   isConfigValid: () => boolean
   /** 是否禁用 */
   disabled?: boolean
+  /** 是否自动加载项目数据 */
+  autoLoad?: boolean
 }
 
 const ProjectSelector: React.FC<ProjectSelectorProps> = ({
@@ -116,6 +118,7 @@ const ProjectSelector: React.FC<ProjectSelectorProps> = ({
   onProjectSelect,
   isConfigValid,
   disabled = false,
+  autoLoad = false,
 }) => {
   const { state } = useAppState()
   const [isOpen, setIsOpen] = useState(false)
@@ -252,6 +255,13 @@ const ProjectSelector: React.FC<ProjectSelectorProps> = ({
       fetchProjects()
     }
   }, [isOpen, filters, sortBy, currentPage, fetchProjects])
+
+  // 自动加载项目数据
+  useEffect(() => {
+    if (autoLoad && isConfigValid()) {
+      fetchProjects()
+    }
+  }, [autoLoad, isConfigValid, fetchProjects])
 
   // 搜索输入处理
   const handleSearchChange = useCallback(

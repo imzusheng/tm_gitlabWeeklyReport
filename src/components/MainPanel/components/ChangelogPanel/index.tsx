@@ -8,6 +8,9 @@ import type { GitLabEvent, SortOptions, PaginationOptions } from '@/types'
 import { errorUtils } from '@/utils'
 import styles from './index.module.less'
 
+// 本地存储键名
+const SELECTED_PROJECT_KEY = 'gitlab-changelog-selected-project'
+
 const ChangelogPanel: React.FC = () => {
   const { state, isConfigValid } = useAppState()
   const { createRequest, isRequestCancelled, cleanupRequest, isAbortError } =
@@ -20,7 +23,11 @@ const ChangelogPanel: React.FC = () => {
     )
   }, [state.config.gitlabUrl, state.config.gitlabToken])
 
-  const [selectedProject, setSelectedProject] = useState<number | null>(null)
+  // 从 localStorage 读取上次选中的项目
+  const [selectedProject, setSelectedProject] = useState<number | null>(() => {
+    const saved = localStorage.getItem(SELECTED_PROJECT_KEY)
+    return saved ? parseInt(saved, 10) : null
+  })
   const [events, setEvents] = useState<GitLabEvent[]>([])
   const [totalCount, setTotalCount] = useState(0)
   const [loading, setLoading] = useState(false)
@@ -36,6 +43,12 @@ const ChangelogPanel: React.FC = () => {
   // 项目选择处理函数
   const handleProjectSelect = useCallback((projectId: number | null) => {
     setSelectedProject(projectId)
+    // 保存到 localStorage
+    if (projectId) {
+      localStorage.setItem(SELECTED_PROJECT_KEY, projectId.toString())
+    } else {
+      localStorage.removeItem(SELECTED_PROJECT_KEY)
+    }
     // 重置分页到第一页
     setPaginationOptions(prev => ({ ...prev, page: 1 }))
   }, [])
@@ -132,6 +145,7 @@ const ChangelogPanel: React.FC = () => {
           selectedProjectId={selectedProject}
           onProjectSelect={handleProjectSelect}
           isConfigValid={isConfigValid}
+          autoLoad={true}
         />
       </div>
       <div className={styles.eventsListContainer}>
