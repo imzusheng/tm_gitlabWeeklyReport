@@ -7,6 +7,7 @@ interface ConfigStatusProps {
   className?: string
   showDetails?: boolean
   onClick?: () => void
+  compact?: boolean
 }
 
 interface ConfigItem {
@@ -24,7 +25,7 @@ const CONFIG_ITEMS: ConfigItem[] = [
 
 /**
  * 配置状态组件
- * 显示配置完整性状态，包括进度条和详细信息
+ * 重新设计用于设置面板，显示详细的配置状态信息
  */
 const REQUIRED_CONFIG_ITEMS = CONFIG_ITEMS.filter(item => item.required)
 const TOTAL_REQUIRED_COUNT = REQUIRED_CONFIG_ITEMS.length
@@ -32,72 +33,127 @@ const TOTAL_REQUIRED_COUNT = REQUIRED_CONFIG_ITEMS.length
 const ConfigStatus: React.FC<ConfigStatusProps> = ({
   config,
   className = '',
-  showDetails = false,
+  showDetails = true,
   onClick,
+  compact = false,
 }) => {
   const status = useMemo(() => {
-    const missingItems: string[] = []
-    const completedItems: string[] = []
-
-    REQUIRED_CONFIG_ITEMS.forEach(item => {
+    const itemsStatus = REQUIRED_CONFIG_ITEMS.map(item => {
       const value = config[item.key]
       const isValid = typeof value === 'string' ? value.trim() !== '' : !!value
-
-      if (isValid) {
-        completedItems.push(item.label)
-      } else {
-        missingItems.push(item.label)
+      return {
+        ...item,
+        isValid,
+        value: isValid ? '已配置' : '未配置',
       }
     })
 
-    const completedCount = completedItems.length
-    const isValid = missingItems.length === 0
+    const completedCount = itemsStatus.filter(item => item.isValid).length
+    const isValid = completedCount === TOTAL_REQUIRED_COUNT
     const progress = (completedCount / TOTAL_REQUIRED_COUNT) * 100
 
     return {
       isValid,
-      missingItems,
-      completedItems,
+      itemsStatus,
       completedCount,
       totalCount: TOTAL_REQUIRED_COUNT,
       progress,
     }
   }, [config])
 
+  const [isExpanded, setIsExpanded] = React.useState(!status.isValid)
+
+  // 如果是紧凑模式且配置完成，只显示简化版本
+  if (compact && status.isValid) {
+    return (
+      <div
+        className={`${styles.configStatus} ${styles.compact} ${className} ${onClick ? styles.clickable : ''}`}
+        onClick={onClick}
+      >
+        <div className={styles.compactContent}>
+          <span className={styles.statusIcon}>✅</span>
+          <span className={styles.compactText}>配置已完成</span>
+          {showDetails && (
+            <button
+              className={styles.expandButton}
+              onClick={e => {
+                e.stopPropagation()
+                setIsExpanded(!isExpanded)
+              }}
+            >
+              {isExpanded ? '收起' : '详情'}
+            </button>
+          )}
+        </div>
+
+        {/* 展开的详细信息 */}
+        {showDetails && isExpanded && (
+          <div className={styles.expandedContent}>
+            <div className={styles.configItems}>
+              {status.itemsStatus.map(item => (
+                <div
+                  key={item.key}
+                  className={`${styles.configItem} ${styles.compactItem} ${item.isValid ? styles.valid : styles.invalid}`}
+                >
+                  <span className={styles.itemLabel}>{item.label}</span>
+                  <span className={styles.itemIcon}>
+                    {item.isValid ? '✓' : '✗'}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  }
+
   return (
     <div
       className={`${styles.configStatus} ${className} ${onClick ? styles.clickable : ''}`}
       onClick={onClick}
     >
-      <div
-        className={`${styles.statusIndicator} ${status.isValid ? styles.valid : styles.invalid}`}
-      >
-        <span className={styles.statusIcon}>
-          {status.isValid ? '✅' : '⚠️'}
-        </span>
-        <span className={styles.statusText}>
-          {status.isValid
-            ? '就绪'
-            : `${status.completedCount}/${status.totalCount}`}
-        </span>
+      <div className={styles.statusHeader}>
+        <div className={styles.statusTitle}>
+          <span className={styles.statusIcon}>
+            {status.isValid ? '✅' : '⚠️'}
+          </span>
+          <span className={styles.statusText}>
+            配置状态 ({status.completedCount}/{status.totalCount})
+          </span>
+        </div>
 
         {/* 进度条 */}
-        {!status.isValid && (
+        <div className={styles.progressContainer}>
           <div className={styles.progressBar}>
             <div
-              className={styles.progressFill}
+              className={`${styles.progressFill} ${status.isValid ? styles.complete : ''}`}
               style={{ width: `${status.progress}%` }}
             />
           </div>
-        )}
+          <span className={styles.progressText}>
+            {Math.round(status.progress)}%
+          </span>
+        </div>
       </div>
 
-      {/* 详细信息 */}
-      {showDetails && !status.isValid && (
-        <div className={styles.statusDetails}>
-          <div className={styles.missingItems}>
-            {status.missingItems.join(' · ')}
-          </div>
+      {/* 详细配置项状态 */}
+      {showDetails && (
+        <div className={styles.configItems}>
+          {status.itemsStatus.map(item => (
+            <div
+              key={item.key}
+              className={`${styles.configItem} ${item.isValid ? styles.valid : styles.invalid}`}
+            >
+              <div className={styles.itemInfo}>
+                <span className={styles.itemLabel}>{item.label}</span>
+                <span className={styles.itemStatus}>{item.value}</span>
+              </div>
+              <span className={styles.itemIcon}>
+                {item.isValid ? '✓' : '✗'}
+              </span>
+            </div>
+          ))}
         </div>
       )}
     </div>

@@ -280,6 +280,51 @@
               text-shadow: 0 1px 2px rgb(0 0 0 / 10%);
             }
           }
+
+          &.config-incomplete {
+            border-color: var(--color-warning);
+            background: var(--color-warning-light);
+            color: var(--color-warning);
+            position: relative;
+
+            &::before {
+              content: '';
+              position: absolute;
+              top: -2px;
+              right: -2px;
+              width: 8px;
+              height: 8px;
+              background: var(--color-warning);
+              border-radius: 50%;
+              animation: pulse 2s infinite;
+            }
+
+            &:hover {
+              border-color: var(--color-warning);
+              background: var(--color-warning);
+              color: white;
+              transform: translateY(-2px);
+              box-shadow: 0 4px 12px rgb(245 158 11 / 30%);
+            }
+
+            .btn-label {
+              display: flex;
+              align-items: center;
+              gap: 6px;
+            }
+
+            .config-badge {
+              background: var(--color-warning);
+              color: white;
+              font-size: 10px;
+              font-weight: 600;
+              padding: 2px 4px;
+              border-radius: 8px;
+              line-height: 1;
+              min-width: 20px;
+              text-align: center;
+            }
+          }
         }
       }
     }
@@ -551,4 +596,20 @@
   width: 1em;
   height: 1em;
   vertical-align: middle;
+}
+
+/* 脉冲动画 */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

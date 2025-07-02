@@ -12,7 +12,6 @@ import FilterSection from './components/FilterSection'
 import EventsList from './components/EventsList'
 import ChangelogPanel from './components/ChangelogPanel'
 import VersionUpdateNotification from '@/components/VersionUpdateNotification'
-import ConfigStatus from '@/components/ConfigStatus'
 import styles from './index.module.less'
 
 interface MainPanelProps {
@@ -56,6 +55,22 @@ const MainPanel: React.FC<MainPanelProps> = ({
 }) => {
   const { state } = useAppState()
 
+  // 计算配置状态
+  const configStatus = React.useMemo(() => {
+    const requiredFields = [
+      'gitlabUrl',
+      'gitlabToken',
+      'deepseekApiKey',
+      'defaultPrompt',
+    ] as const
+    const completedCount = requiredFields.filter(field => {
+      const value = state.config[field]
+      return typeof value === 'string' ? value.trim() !== '' : !!value
+    }).length
+    const isValid = completedCount === requiredFields.length
+    return { isValid, completedCount, totalCount: requiredFields.length }
+  }, [state.config])
+
   return (
     <div className={styles.mainPanel}>
       {/* 标题栏 */}
@@ -88,8 +103,6 @@ const MainPanel: React.FC<MainPanelProps> = ({
               </button>
             </div>
           </div>
-          {/* 配置状态显示 */}
-          <ConfigStatus config={state.config} onClick={onOpenSettings} />
         </div>
         <div className={styles.headerRight}>
           <VersionUpdateNotification currentVersion={APP_VERSION} />
@@ -99,9 +112,13 @@ const MainPanel: React.FC<MainPanelProps> = ({
 
           <div className={styles.actionButtons}>
             <button
-              className={styles.actionBtn}
+              className={`${styles.actionBtn} ${!configStatus.isValid ? styles.configIncomplete : ''}`}
               onClick={onOpenSettings}
-              title="设置"
+              title={
+                configStatus.isValid
+                  ? '设置'
+                  : `配置未完成 (${configStatus.completedCount}/${configStatus.totalCount})`
+              }
             >
               <span className={styles.btnIcon}>
                 <svg viewBox="0 0 24 24" fill="none">
@@ -121,7 +138,14 @@ const MainPanel: React.FC<MainPanelProps> = ({
                   />
                 </svg>
               </span>
-              <span className={styles.btnLabel}>设置</span>
+              <span className={styles.btnLabel}>
+                设置
+                {!configStatus.isValid && (
+                  <span className={styles.configBadge}>
+                    {configStatus.completedCount}/{configStatus.totalCount}
+                  </span>
+                )}
+              </span>
             </button>
 
             <button
