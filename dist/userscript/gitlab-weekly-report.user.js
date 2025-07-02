@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab 周报生成器
 // @namespace    https://github.com/imzusheng/tm_gitlabWeeklyReport
-// @version      1.10.2
+// @version      1.10.3
 // @description  基于 DeepSeek AI 的 GitLab 工作周报自动生成工具
 // @author       lizusheng
 // @match        *://www.lejuhub.com/dashboard/*
@@ -191,7 +191,7 @@ var __defProp = Object.defineProperty,
         } catch (t) {}
       },
     },
-    v = '1.10.2',
+    v = '1.10.3',
     b = {
       DEEPSEEK_BASE_URL: 'https://api.deepseek.com/v1',
       REQUEST_TIMEOUT: 3e4,
@@ -334,11 +334,11 @@ var __defProp = Object.defineProperty,
     M = e => {
       T(t => t.setItem(C, JSON.stringify(e)))
     },
-    $ = () => {
+    I = () => {
       const e = T(e => e.getItem(C))
       return e ? JSON.parse(e) : null
     },
-    I = () => {
+    $ = () => {
       T(e => e.removeItem(C))
     },
     D = '请先完善GitLab和DeepSeek配置信息',
@@ -374,7 +374,7 @@ var __defProp = Object.defineProperty,
     e.useEffect(() => {
       ;(async () => {
         try {
-          const e = await $(),
+          const e = await I(),
             t = e ? { ...j, ...e } : j
           a(e => ({ ...e, config: t, theme: t.theme || j.theme }))
         } catch (e) {
@@ -471,7 +471,7 @@ var __defProp = Object.defineProperty,
         })
       }, []),
       f = e.useCallback(() => {
-        a(O), I()
+        a(O), $()
       }, []),
       N = e.useCallback(() => {
         const {
@@ -577,7 +577,7 @@ var __defProp = Object.defineProperty,
       { value: '180d', label: '最近180天' },
       { value: '365d', label: '最近365天' },
     ],
-    K = [
+    X = [
       // { value: 'epic', label: 'Epic (需要启用新外观)' },
       { value: 'issue', label: 'Issue' },
       { value: 'merge_request', label: 'Merge Request' },
@@ -587,7 +587,7 @@ var __defProp = Object.defineProperty,
       { value: 'snippet', label: 'Snippet' },
       { value: 'user', label: 'User' },
     ],
-    X = [
+    K = [
       { value: 'created', label: 'Created' },
       { value: 'updated', label: 'Updated' },
       { value: 'closed', label: 'Closed' },
@@ -605,8 +605,8 @@ var __defProp = Object.defineProperty,
           t({ ...e, [a]: n })
         },
         n = [
-          { key: 'targetType', label: '目标类型', options: K },
-          { key: 'action', label: '操作类型', options: X },
+          { key: 'targetType', label: '目标类型', options: X },
+          { key: 'action', label: '操作类型', options: K },
         ]
       return m.jsxs('div', {
         className: G,
@@ -1283,8 +1283,60 @@ var __defProp = Object.defineProperty,
         t.action && t.action.forEach(e => a.append('action', e)),
         t.target_type && t.target_type.forEach(e => a.append('target_type', e))
       const n = `/users/${e}/events?${a.toString()}`,
-        s = await this.request(n, { method: 'GET' })
-      return { events: s, total: s.length }
+        s = `${this.baseUrl}${n}`,
+        l = {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'PRIVATE-TOKEN': this.token,
+          },
+          timeout: b.REQUEST_TIMEOUT,
+          signal: t.signal,
+        },
+        i = await h(s, l)
+      if (!i.ok) {
+        const e = await i.text()
+        throw S.createApiError(i.status, e || i.statusText, 'GitLab API')
+      }
+      const o = await i.json()
+      let r = 0,
+        d = ''
+      if (i.headers instanceof Headers)
+        (d =
+          i.headers.get('x-total') ||
+          i.headers.get('X-Total') ||
+          i.headers.get('x-total-count') ||
+          i.headers.get('X-Total-Count') ||
+          ''),
+          (r = parseInt(d || '0', 10))
+      else {
+        if ('string' == typeof i.headers) {
+          const e = i.headers.split('\n')
+          for (const t of e) {
+            const e = t.split(': ')
+            if (2 === e.length) {
+              const t = e[0].toLowerCase(),
+                a = e[1]
+              if ('x-total' === t || 'x-total-count' === t || 'x_total' === t) {
+                d = a
+                break
+              }
+            }
+          }
+        } else {
+          const e = i.headers
+          d =
+            e['x-total'] ||
+            e['X-Total'] ||
+            e['x-total-count'] ||
+            e['X-Total-Count'] ||
+            e.x_total ||
+            e.X_TOTAL ||
+            ''
+        }
+        r = parseInt(d || '0', 10)
+      }
+      return !r && o.length > 0 && (r = o.length), { events: o, total: r }
     }
     /**
      * 获取项目事件并返回总数信息
@@ -1444,8 +1496,8 @@ var __defProp = Object.defineProperty,
       }
     }
   __publicField(Me, 'instance')
-  let $e = Me
-  const Ie = ({
+  let Ie = Me
+  const $e = ({
       gitlabService: t,
       selectedProjectId: a,
       onProjectSelect: n,
@@ -1465,9 +1517,9 @@ var __defProp = Object.defineProperty,
         [C, w] = e.useState(null),
         E = e.useRef(null),
         S = e.useRef(null),
-        T = e.useRef($e.getInstance()),
+        T = e.useRef(Ie.getInstance()),
         M = e.useRef(null),
-        $ = e.useCallback(
+        I = e.useCallback(
           async (e, l) => {
             if (!s()) return
             const i = e || h || '',
@@ -1520,27 +1572,27 @@ var __defProp = Object.defineProperty,
           },
           [s, t, b, g, h, f, a, n, o.config.gitlabUrl, o.config.gitlabToken],
         ),
-        I = e.useMemo(
+        $ = e.useMemo(
           () => e => {
             M.current && clearTimeout(M.current),
               (M.current = setTimeout(() => {
-                N(1), $(e, 1)
+                N(1), I(e, 1)
               }, 300))
           },
-          [$],
+          [I],
         )
       e.useEffect(() => {
-        r && $()
-      }, [r, b, g, f, $]),
+        r && I()
+      }, [r, b, g, f, I]),
         e.useEffect(() => {
-          i && s() && $()
-        }, [i, s, $])
+          i && s() && I()
+        }, [i, s, I])
       const D = e.useCallback(
           e => {
             const t = e.target.value
-            x(t), I(t)
+            x(t), $(t)
           },
-          [I],
+          [$],
         ),
         A = e.useCallback(e => {
           v(e), N(1)
@@ -1856,7 +1908,7 @@ var __defProp = Object.defineProperty,
         children: [
           m.jsx('div', {
             className: Ae,
-            children: m.jsx(Ie, {
+            children: m.jsx($e, {
               gitlabService: o,
               selectedProjectId: r,
               onProjectSelect: y,
@@ -1892,8 +1944,8 @@ var __defProp = Object.defineProperty,
     Ve = 'index-module__notification-overlay__E4dh-',
     ze = 'index-module__notification__ckX1l',
     He = 'index-module__notification-header__nJZ3Q',
-    Ke = 'index-module__close-btn__9uULv',
-    Xe = 'index-module__notification-body__nnab7',
+    Xe = 'index-module__close-btn__9uULv',
+    Ke = 'index-module__notification-body__nnab7',
     Qe = 'index-module__version-info__-pyIP',
     Ye = 'index-module__release-notes__iU2jG',
     Ze = 'index-module__notes-content__ZpxxA',
@@ -2079,14 +2131,14 @@ var __defProp = Object.defineProperty,
                         children: [
                           m.jsx('h3', { children: '🎉 发现新版本' }),
                           m.jsx('button', {
-                            className: Ke,
+                            className: Xe,
                             onClick: C,
                             children: '×',
                           }),
                         ],
                       }),
                       m.jsxs('div', {
-                        className: Xe,
+                        className: Ke,
                         children: [
                           m.jsxs('div', {
                             className: Qe,
@@ -2370,8 +2422,8 @@ var __defProp = Object.defineProperty,
     St = 'index-module__modal__QQS3u',
     Tt = 'index-module__modal-header__GdUjX',
     Mt = 'index-module__modal-title__cafB-',
-    $t = 'index-module__modal-close__ZuUgf',
-    It = 'index-module__modal-body__j5X3U',
+    It = 'index-module__modal-close__ZuUgf',
+    $t = 'index-module__modal-body__j5X3U',
     Dt = 'index-module__modal-footer__3q-wn',
     At = ({
       visible: a,
@@ -2426,13 +2478,13 @@ var __defProp = Object.defineProperty,
                 children: [
                   m.jsx('div', { className: Mt, children: n }),
                   m.jsx('button', {
-                    className: $t,
+                    className: It,
                     onClick: r,
                     children: m.jsx('span', { children: '×' }),
                   }),
                 ],
               }),
-              m.jsx('div', { className: It, children: i }),
+              m.jsx('div', { className: $t, children: i }),
               o && m.jsx('div', { className: Dt, children: o }),
             ],
           }),
@@ -2464,8 +2516,8 @@ var __defProp = Object.defineProperty,
     Vt = 'index-module__compact-item__UCAOc',
     zt = 'index-module__item-label__24FVq',
     Ht = 'index-module__item-icon__4yYRW',
-    Kt = 'index-module__valid__Xyroo',
-    Xt = 'index-module__invalid__Fn-hL',
+    Xt = 'index-module__valid__Xyroo',
+    Kt = 'index-module__invalid__Fn-hL',
     Qt = 'index-module__status-header__AORn-',
     Yt = 'index-module__status-title__6hAD6',
     Zt = 'index-module__status-text__llRfw',
@@ -2537,7 +2589,7 @@ var __defProp = Object.defineProperty,
                       m.jsxs(
                         'div',
                         {
-                          className: `${na} ${Vt} ${e.isValid ? Kt : Xt}`,
+                          className: `${na} ${Vt} ${e.isValid ? Xt : Kt}`,
                           children: [
                             m.jsx('span', { className: zt, children: e.label }),
                             m.jsx('span', {
@@ -2604,7 +2656,7 @@ var __defProp = Object.defineProperty,
                     m.jsxs(
                       'div',
                       {
-                        className: `${na} ${e.isValid ? Kt : Xt}`,
+                        className: `${na} ${e.isValid ? Xt : Kt}`,
                         children: [
                           m.jsxs('div', {
                             className: sa,
@@ -2654,8 +2706,8 @@ var __defProp = Object.defineProperty,
     Sa = 'index-module__switch-container__5xk1J',
     Ta = 'index-module__switch-input__V-8fl',
     Ma = 'index-module__switch-label__xrOeQ',
-    $a = 'index-module__switch-slider__dG-6J',
-    Ia = 'index-module__btn-secondary__cRCpD',
+    Ia = 'index-module__switch-slider__dG-6J',
+    $a = 'index-module__btn-secondary__cRCpD',
     Da = ({ isOpen: t, onClose: a, config: n, onSave: s, theme: l }) => {
       const [i, o] = e.useState(n),
         [r, d] = e.useState(l),
@@ -2681,7 +2733,7 @@ var __defProp = Object.defineProperty,
           className: Ca,
           children: [
             m.jsx('button', {
-              className: Ia,
+              className: $a,
               onClick: () => {
                 o(n), d(l)
               },
@@ -2691,7 +2743,7 @@ var __defProp = Object.defineProperty,
               className: wa,
               children: [
                 m.jsx('button', {
-                  className: Ia,
+                  className: $a,
                   onClick: a,
                   children: '取消',
                 }),
@@ -2958,7 +3010,7 @@ var __defProp = Object.defineProperty,
                               m.jsx('label', {
                                 htmlFor: 'autoCheckUpdate',
                                 className: Ma,
-                                children: m.jsx('span', { className: $a }),
+                                children: m.jsx('span', { className: Ia }),
                               }),
                             ],
                           }),
@@ -3940,7 +3992,7 @@ var __defProp = Object.defineProperty,
         [k, C] = e.useState(null),
         [w, E] = e.useState(!1),
         [T, M] = e.useState([]),
-        $ = e.useMemo(
+        I = e.useMemo(
           () =>
             'system' === a.theme
               ? window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -3963,7 +4015,7 @@ var __defProp = Object.defineProperty,
           )
         }
       }, [a.theme])
-      const I = e.useCallback(async () => {
+      const $ = e.useCallback(async () => {
         var e, t
         if (!g()) return void x(P)
         const n = b()
@@ -4021,8 +4073,8 @@ var __defProp = Object.defineProperty,
         f,
       ])
       e.useEffect(() => {
-        g() && I()
-      }, [g, I])
+        g() && $()
+      }, [g, $])
       const O = e.useCallback(() => {
           l('settings')
         }, [l]),
@@ -4116,13 +4168,13 @@ var __defProp = Object.defineProperty,
           },
           [r],
         ),
-        K = e.useCallback(
+        X = e.useCallback(
           e => {
             d(e)
           },
           [d],
         ),
-        X = e.useCallback((e, t) => {
+        K = e.useCallback((e, t) => {
           M(a => (t ? [...a, e] : a.filter(t => t !== e)))
         }, []),
         Q = e.useCallback(
@@ -4161,13 +4213,13 @@ var __defProp = Object.defineProperty,
         }, [y, g, o, h, x]),
         W = e.useCallback(
           async e => {
-            i(e), 'changelog' === e ? await J() : g() && I()
+            i(e), 'changelog' === e ? await J() : g() && $()
           },
-          [i, J, g, I],
+          [i, J, g, $],
         )
       return m.jsxs('div', {
         id: 'gitlab-weekly-report-app',
-        className: `${Ra.app} ${t ? Ra.userscriptMode : Ra.webMode} ${Ra[$]}`,
+        className: `${Ra.app} ${t ? Ra.userscriptMode : Ra.webMode} ${Ra[I]}`,
         children: [
           m.jsx(Ct, {
             appMode: a.appMode,
@@ -4180,9 +4232,9 @@ var __defProp = Object.defineProperty,
             selectedEventIds: T,
             onModeChange: W,
             onFilterChange: H,
-            onSortChange: K,
+            onSortChange: X,
             onPaginationChange: z,
-            onEventSelect: X,
+            onEventSelect: K,
             onSelectAll: Q,
             onEventDetail: Y,
             onOpenSettings: O,

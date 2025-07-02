@@ -2,7 +2,7 @@ const __vite__mapDeps = (
   i,
   m = __vite__mapDeps,
   d = m.f ||
-    (m.f = ['assets/deepseek-api-DeLR-BIx.js', 'assets/utils-BcXdbqz7.js']),
+    (m.f = ['assets/deepseek-api-MkXp0soB.js', 'assets/utils-B8MHjEap.js']),
 ) => i.map(i => d[i])
 var e = Object.defineProperty,
   t = (t, a, s) =>
@@ -23,7 +23,7 @@ import {
   A as u,
   e as p,
   C as h,
-} from './utils-BcXdbqz7.js'
+} from './utils-B8MHjEap.js'
 !(function () {
   const e = document.createElement('link').relList
   if (!(e && e.supports && e.supports('modulepreload'))) {
@@ -82,7 +82,7 @@ var y = x.exports,
   w = s
 ;(E.createRoot = w.createRoot), (E.hydrateRoot = w.hydrateRoot)
 const S = {},
-  I = {
+  T = {
     config: d,
     reportData: null,
     isLoading: !1,
@@ -100,8 +100,8 @@ const S = {},
     selectedProjectId: null,
     commits: [],
   }
-function T() {
-  const [e, t] = a.useState(I)
+function I() {
+  const [e, t] = a.useState(T)
   a.useEffect(() => {
     ;(async () => {
       try {
@@ -209,7 +209,7 @@ function T() {
       })
     }, []),
     N = a.useCallback(() => {
-      t(I), r.clearConfig()
+      t(T), r.clearConfig()
     }, []),
     C = a.useCallback(() => {
       const {
@@ -994,8 +994,60 @@ class je {
       t.action && t.action.forEach(e => a.append('action', e)),
       t.target_type && t.target_type.forEach(e => a.append('target_type', e))
     const s = `/users/${e}/events?${a.toString()}`,
-      n = await this.request(s, { method: 'GET' })
-    return { events: n, total: n.length }
+      n = `${this.baseUrl}${s}`,
+      l = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'PRIVATE-TOKEN': this.token,
+        },
+        timeout: u.REQUEST_TIMEOUT,
+        signal: t.signal,
+      },
+      i = await _(n, l)
+    if (!i.ok) {
+      const e = await i.text()
+      throw m.createApiError(i.status, e || i.statusText, 'GitLab API')
+    }
+    const o = await i.json()
+    let d = 0,
+      r = ''
+    if (i.headers instanceof Headers)
+      (r =
+        i.headers.get('x-total') ||
+        i.headers.get('X-Total') ||
+        i.headers.get('x-total-count') ||
+        i.headers.get('X-Total-Count') ||
+        ''),
+        (d = parseInt(r || '0', 10))
+    else {
+      if ('string' == typeof i.headers) {
+        const e = i.headers.split('\n')
+        for (const t of e) {
+          const e = t.split(': ')
+          if (2 === e.length) {
+            const t = e[0].toLowerCase(),
+              a = e[1]
+            if ('x-total' === t || 'x-total-count' === t || 'x_total' === t) {
+              r = a
+              break
+            }
+          }
+        }
+      } else {
+        const e = i.headers
+        r =
+          e['x-total'] ||
+          e['X-Total'] ||
+          e['x-total-count'] ||
+          e['X-Total-Count'] ||
+          e.x_total ||
+          e.X_TOTAL ||
+          ''
+      }
+      d = parseInt(r || '0', 10)
+    }
+    return !d && o.length > 0 && (d = o.length), { events: o, total: d }
   }
   async getProjectEventsWithTotal(e, t = {}) {
     const a = new URLSearchParams()
@@ -1175,7 +1227,7 @@ const ke = ({
     disabled: l = !1,
     autoLoad: i = !1,
   }) => {
-    const { state: o } = T(),
+    const { state: o } = I(),
       [d, r] = a.useState(!1),
       [c, _] = a.useState([]),
       [u, p] = a.useState(!1),
@@ -1186,7 +1238,7 @@ const ke = ({
       [C, k] = a.useState(0),
       [E, w] = a.useState(null),
       S = a.useRef(null),
-      I = a.useRef(null),
+      T = a.useRef(null),
       $ = a.useRef(Ce.getInstance()),
       M = a.useRef(null),
       D = a.useCallback(
@@ -1288,7 +1340,7 @@ const ke = ({
       )
     }, []),
       a.useEffect(() => {
-        d && I.current && I.current.focus()
+        d && T.current && T.current.focus()
       }, [d])
     const G = a.useMemo(() => c.find(e => e.id === t), [c, t]),
       F = Math.ceil(C / 20)
@@ -1326,7 +1378,7 @@ const ke = ({
                         children: '🔍',
                       }),
                       y.jsx('input', {
-                        ref: I,
+                        ref: T,
                         type: 'text',
                         placeholder: '搜索项目...',
                         value: h,
@@ -1501,8 +1553,8 @@ const ke = ({
   Ee = 'index-module__projectSelectorContainer__DVUJQ',
   we = 'index-module__eventsListContainer__JlSig',
   Se = 'gitlab-changelog-selected-project',
-  Ie = () => {
-    const { state: e, isConfigValid: t } = T(),
+  Te = () => {
+    const { state: e, isConfigValid: t } = I(),
       {
         createRequest: s,
         isRequestCancelled: n,
@@ -1569,7 +1621,7 @@ const ke = ({
       S = a.useCallback((e, t) => {
         N(a => (t ? [...a, e] : a.filter(t => t !== e)))
       }, []),
-      I = a.useCallback(
+      T = a.useCallback(
         e => {
           N(e ? c.map(e => e.id) : [])
         },
@@ -1600,14 +1652,14 @@ const ke = ({
             onPaginationChange: w,
             selectedEventIds: f,
             onEventSelect: S,
-            onSelectAll: I,
+            onSelectAll: T,
             onEventDetail: () => {},
           }),
         }),
       ],
     })
   },
-  Te = 'index-module__action-btn__To7Ms',
+  Ie = 'index-module__action-btn__To7Ms',
   $e = 'index-module__checking__QepNt',
   Me = 'index-module__version-btn__8d3di',
   De = 'index-module__has-update__tNkZZ',
@@ -1776,7 +1828,7 @@ const ke = ({
         [l, p, o],
       )
     a.useEffect(() => {}, [C])
-    const I = a.useCallback(() => {
+    const T = a.useCallback(() => {
       const e = 'version-notification-root'
       let t = document.getElementById(e)
       return (
@@ -1798,7 +1850,7 @@ const ke = ({
       y.jsxs(y.Fragment, {
         children: [
           y.jsxs('button', {
-            className: `${Te} ${Me} ${l ? $e : ''} ${o ? De : ''}`,
+            className: `${Ie} ${Me} ${l ? $e : ''} ${o ? De : ''}`,
             onClick: () => f(!0),
             disabled: l,
             title: m
@@ -1882,7 +1934,7 @@ const ke = ({
                   ],
                 }),
               }),
-              I(),
+              T(),
             ),
         ],
       })
@@ -1930,7 +1982,7 @@ const ke = ({
     onOpenSettings: g,
     onOpenAI: v,
   }) => {
-    const { state: j } = T(),
+    const { state: j } = I(),
       b = n.useMemo(() => {
         const e = [
             'gitlabUrl',
@@ -2098,7 +2150,7 @@ const ke = ({
                 }),
               ],
             })
-          : y.jsx('div', { className: pt, children: y.jsx(Ie, {}) }),
+          : y.jsx('div', { className: pt, children: y.jsx(Te, {}) }),
       ],
     })
   },
@@ -2190,8 +2242,8 @@ const ke = ({
   },
   wt = 'index-module__config-status__0q8ZM',
   St = 'index-module__clickable__pZ86X',
-  It = 'index-module__compact__-QN-s',
-  Tt = 'index-module__compact-content__wSrCk',
+  Tt = 'index-module__compact__-QN-s',
+  It = 'index-module__compact-content__wSrCk',
   $t = 'index-module__status-icon__7jFiQ',
   Mt = 'index-module__compact-text__7OyGG',
   Dt = 'index-module__expand-button__NusWg',
@@ -2245,11 +2297,11 @@ const ke = ({
       [d, r] = n.useState(!o.isValid)
     return i && o.isValid
       ? y.jsxs('div', {
-          className: `${wt} ${It} ${t} ${l ? St : ''}`,
+          className: `${wt} ${Tt} ${t} ${l ? St : ''}`,
           onClick: l,
           children: [
             y.jsxs('div', {
-              className: Tt,
+              className: It,
               children: [
                 y.jsx('span', { className: $t, children: '✅' }),
                 y.jsx('span', { className: Mt, children: '配置已完成' }),
@@ -3131,7 +3183,7 @@ const ke = ({
     app: 'EventDetailModal-module__app__GneYG',
     dark: 'EventDetailModal-module__dark__4O-jE',
   },
-  Ia = ({ event: e, visible: t, onClose: a }) => {
+  Ta = ({ event: e, visible: t, onClose: a }) => {
     if (!t || !e) return null
     const s = e =>
         new Date(e).toLocaleString('zh-CN', {
@@ -3551,7 +3603,7 @@ const ke = ({
     })
     var l
   },
-  Ta = {
+  Ia = {
     app: 'App-module__app__ZYOJd',
     'web-mode': 'App-module__web-mode__2hnFp',
     webMode: 'App-module__web-mode__2hnFp',
@@ -3625,7 +3677,7 @@ const ke = ({
         setError: g,
         isConfigValid: v,
         getTimeRange: j,
-      } = T(),
+      } = I(),
       {
         createRequest: b,
         isRequestCancelled: f,
@@ -3637,7 +3689,7 @@ const ke = ({
         [t.config.gitlabUrl, t.config.gitlabToken],
       ),
       [E, w] = a.useState(null),
-      [I, M] = a.useState(!1),
+      [T, M] = a.useState(!1),
       [D, A] = a.useState([]),
       L = a.useMemo(
         () =>
@@ -3818,7 +3870,7 @@ const ke = ({
                   })(
                     async () => {
                       const { createDeepSeekApiService: e } = await import(
-                        './deepseek-api-DeLR-BIx.js'
+                        './deepseek-api-MkXp0soB.js'
                       )
                       return { createDeepSeekApiService: e }
                     },
@@ -3915,7 +3967,7 @@ const ke = ({
       )
     return y.jsxs('div', {
       id: 'gitlab-weekly-report-app',
-      className: `${Ta.app} ${e ? Ta.userscriptMode : Ta.webMode} ${Ta[L]}`,
+      className: `${Ia.app} ${e ? Ia.userscriptMode : Ia.webMode} ${Ia[L]}`,
       children: [
         y.jsx(gt, {
           appMode: t.appMode,
@@ -3936,7 +3988,7 @@ const ke = ({
           onOpenSettings: P,
           onOpenAI: G,
         }),
-        y.jsx(Ia, { event: E, visible: I, onClose: Q }),
+        y.jsx(Ta, { event: E, visible: T, onClose: Q }),
         y.jsx(ya, {
           isOpen: 'settings' === t.activePanel,
           config: t.config,
