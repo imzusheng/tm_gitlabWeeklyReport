@@ -1,3 +1,4 @@
+import React, { useMemo, useCallback } from 'react'
 import { GitLabEvent, SortOptions, PaginationOptions } from '@/types'
 import { configErrors } from '@/utils'
 import Pagination from '../../../Pagination'
@@ -30,50 +31,64 @@ const EventsList: React.FC<EventsListProps> = ({
   onSelectAll,
   onEventDetail,
 }) => {
-  const handleSort = (field: SortOptions['field']) => {
-    // 只允许对时间字段进行排序
-    if (field !== 'created_at') return
+  const handleSort = useCallback(
+    (field: SortOptions['field']) => {
+      // 只允许对时间字段进行排序
+      if (field !== 'created_at') return
 
-    const newOrder =
-      sortOptions.field === field && sortOptions.order === 'desc'
-        ? 'asc'
-        : 'desc'
-    onSortChange({ field, order: newOrder })
-  }
+      const newOrder =
+        sortOptions.field === field && sortOptions.order === 'desc'
+          ? 'asc'
+          : 'desc'
+      onSortChange({ field, order: newOrder })
+    },
+    [sortOptions.field, sortOptions.order, onSortChange],
+  )
 
-  const getSortIcon = (field: SortOptions['field']) => {
-    if (sortOptions.field !== field) return ''
-    return sortOptions.order === 'desc' ? '↓' : '↑'
-  }
+  const getSortIcon = useCallback(
+    (field: SortOptions['field']) => {
+      if (sortOptions.field !== field) return ''
+      return sortOptions.order === 'desc' ? '↓' : '↑'
+    },
+    [sortOptions.field, sortOptions.order],
+  )
 
   /**
    * 检查是否全选
    */
-  const isAllSelected =
-    events.length > 0 &&
-    events.every(event => selectedEventIds.includes(event.id))
+  const isAllSelected = useMemo(() => {
+    return (
+      events.length > 0 &&
+      events.every(event => selectedEventIds.includes(event.id))
+    )
+  }, [events, selectedEventIds])
 
   /**
    * 检查是否部分选中
    */
-  const isIndeterminate = selectedEventIds.length > 0 && !isAllSelected
+  const isIndeterminate = useMemo(() => {
+    return selectedEventIds.length > 0 && !isAllSelected
+  }, [selectedEventIds.length, isAllSelected])
 
   /**
    * 处理全选/取消全选
    */
-  const handleSelectAll = () => {
+  const handleSelectAll = useCallback(() => {
     onSelectAll(!isAllSelected)
-  }
+  }, [onSelectAll, isAllSelected])
 
   /**
    * 处理单个事件选择
    */
-  const handleEventSelect = (eventId: number) => {
-    const isSelected = selectedEventIds.includes(eventId)
-    onEventSelect(eventId, !isSelected)
-  }
+  const handleEventSelect = useCallback(
+    (eventId: number) => {
+      const isSelected = selectedEventIds.includes(eventId)
+      onEventSelect(eventId, !isSelected)
+    },
+    [selectedEventIds, onEventSelect],
+  )
 
-  const formatDate = (dateString: string) => {
+  const formatDate = useCallback((dateString: string) => {
     const eventDate = new Date(dateString)
     const now = new Date()
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
@@ -106,94 +121,12 @@ const EventsList: React.FC<EventsListProps> = ({
       hour: '2-digit',
       minute: '2-digit',
     })
-  }
-
-  /**
-   * 统一的事件显示信息获取方案
-   * 综合考虑 target_type、action_name、push_data 等信息
-   * 返回包含图标、操作类型和标题的统一对象
-   */
-  const getEventDisplayInfo = (event: GitLabEvent) => {
-    const { action_name: actionName, target_type: targetType } = event
-
-    // 1. 优先处理推送事件
-    if (event.push_data) {
-      const { action, ref_type, ref } = event.push_data
-      if (action === 'pushed') {
-        if (ref_type === 'branch') {
-          return {
-            icon: '⬆️',
-            actionType: '分支推送',
-            title: `推送到分支 ${ref}`,
-          }
-        }
-        if (ref_type === 'tag') {
-          return {
-            icon: '🏷️',
-            actionType: '标签推送',
-            title: `推送标签 ${ref}`,
-          }
-        }
-      }
-      return {
-        icon: '📤',
-        actionType: '推送',
-        title: `推送到分支 ${ref}`,
-      }
-    }
-
-    const title = getEventTitleByType(event)
-
-    // 2. 根据 target_type 和 action_name 判断
-    const configMap: Record<string, { icon: string; actionType: string }> = {
-      // TargetType based
-      MergeRequest: { icon: '⤴️', actionType: 'MR' },
-      Issue: { icon: '⚠️', actionType: 'Issue' },
-      Commit: { icon: '💾', actionType: '提交' },
-      Note: { icon: '💬', actionType: '评论' },
-      DiscussionNote: { icon: '🗣️', actionType: '讨论-评论' },
-      DiffNote: { icon: '📝', actionType: '代码-评论' },
-      Project: { icon: '📁', actionType: '项目' },
-      Milestone: { icon: '🎯', actionType: '里程碑' },
-      Epic: { icon: '🎪', actionType: 'Epic' },
-      Snippet: { icon: '✂️', actionType: '代码片段' },
-      User: { icon: '👤', actionType: '用户' },
-      // ActionName based
-      'pushed to': { icon: '⬆️', actionType: '推送' },
-      'pushed new': { icon: '⬆️', actionType: '推送新分支' },
-      opened: { icon: '🆕', actionType: '开启' },
-      closed: { icon: '✅', actionType: '关闭' },
-      merged: { icon: '🔀', actionType: '合并' },
-      'commented on': { icon: '💬', actionType: '评论' },
-      joined: { icon: '👋', actionType: '加入' },
-      left: { icon: '👋', actionType: '离开' },
-      created: { icon: '✨', actionType: '创建' },
-      updated: { icon: '🔄', actionType: '更新' },
-      deleted: { icon: '🗑️', actionType: '删除' },
-      approved: { icon: '✅', actionType: '批准' },
-      unapproved: { icon: '❌', actionType: '取消批准' },
-    }
-
-    const config =
-      (targetType && configMap[targetType]) ||
-      (actionName && configMap[actionName])
-
-    if (config) {
-      return { ...config, title }
-    }
-
-    // 4. 兜底情况
-    return {
-      icon: '📋',
-      actionType: targetType || actionName || '未知操作',
-      title: getEventTitleByType(event),
-    }
-  }
+  }, [])
 
   /**
    * 根据事件类型获取标题
    */
-  const getEventTitleByType = (event: GitLabEvent) => {
+  const getEventTitleByType = useCallback((event: GitLabEvent) => {
     // 推送事件的标题在getEventDisplayInfo中已处理
     if (event.push_data) {
       return `推送到分支 ${event.push_data.ref}`
@@ -215,9 +148,82 @@ const EventsList: React.FC<EventsListProps> = ({
 
     // 其他事件使用原有标题
     return event.title || event.target_title || '无标题'
-  }
+  }, [])
 
-  const getEventContent = (event: GitLabEvent) => {
+  /**
+   * 统一的事件显示信息获取方案
+   * 综合考虑 target_type、action_name、push_data 等信息
+   * 返回包含图标、操作类型和标题的统一对象
+   */
+  const getEventDisplayInfo = useCallback(
+    (event: GitLabEvent) => {
+      const { action_name: actionName, target_type: targetType } = event
+
+      // 1. 推送事件特殊处理
+      if (event.push_data) {
+        const { ref, commit_count: commitCount } = event.push_data
+        const title = `推送到分支 ${ref} (${commitCount} 个提交)`
+        return { icon: '⬆️', actionType: '推送', title }
+      }
+
+      // 2. 评论事件特殊处理
+      if (event.note) {
+        const MAX_NOTE_LENGTH = 50
+        const noteBody = event.note.body
+          .replace(/\n/g, ' ')
+          .substring(0, MAX_NOTE_LENGTH)
+        const title = `评论: ${noteBody}${event.note.body.length > MAX_NOTE_LENGTH ? '...' : ''}`
+        return { icon: '💬', actionType: '评论', title }
+      }
+
+      // 3. 通用事件处理
+      const title = event.title || event.target_title || '无标题'
+
+      const configMap: Record<string, { icon: string; actionType: string }> = {
+        // TargetType based
+        Issue: { icon: '🐛', actionType: '问题' },
+        MergeRequest: { icon: '🔀', actionType: '合并请求' },
+        WikiPage: { icon: '📖', actionType: 'Wiki' },
+        Project: { icon: '📁', actionType: '项目' },
+        Milestone: { icon: '🎯', actionType: '里程碑' },
+        Epic: { icon: '🎪', actionType: 'Epic' },
+        Snippet: { icon: '✂️', actionType: '代码片段' },
+        User: { icon: '👤', actionType: '用户' },
+        // ActionName based
+        'pushed to': { icon: '⬆️', actionType: '推送' },
+        'pushed new': { icon: '⬆️', actionType: '推送新分支' },
+        opened: { icon: '🆕', actionType: '开启' },
+        closed: { icon: '✅', actionType: '关闭' },
+        merged: { icon: '🔀', actionType: '合并' },
+        'commented on': { icon: '💬', actionType: '评论' },
+        joined: { icon: '👋', actionType: '加入' },
+        left: { icon: '👋', actionType: '离开' },
+        created: { icon: '✨', actionType: '创建' },
+        updated: { icon: '🔄', actionType: '更新' },
+        deleted: { icon: '🗑️', actionType: '删除' },
+        approved: { icon: '✅', actionType: '批准' },
+        unapproved: { icon: '❌', actionType: '取消批准' },
+      }
+
+      const config =
+        (targetType && configMap[targetType]) ||
+        (actionName && configMap[actionName])
+
+      if (config) {
+        return { ...config, title }
+      }
+
+      // 4. 兜底情况
+      return {
+        icon: '📋',
+        actionType: targetType || actionName || '未知操作',
+        title: getEventTitleByType(event),
+      }
+    },
+    [getEventTitleByType],
+  )
+
+  const getEventContent = useCallback((event: GitLabEvent) => {
     if (event.push_data) {
       return `${event.push_data.commit_count} 个提交: ${event.push_data.commit_title}`
     }
@@ -229,16 +235,7 @@ const EventsList: React.FC<EventsListProps> = ({
       `项目ID: ${event.project_id}` ||
       '未知项目'
     )
-  }
-
-  if (loading) {
-    return (
-      <div className={styles.eventsListLoading}>
-        <div className={styles.loadingSpinner}></div>
-        <p>正在加载事件数据...</p>
-      </div>
-    )
-  }
+  }, [])
 
   return (
     <div className={styles.eventsList}>
@@ -276,7 +273,12 @@ const EventsList: React.FC<EventsListProps> = ({
 
       {/* 事件列表 */}
       <div className={styles.eventsListBody}>
-        {events.length === 0 ? (
+        {loading ? (
+          <div className={styles.eventsListLoading}>
+            <div className={styles.loadingSpinner}></div>
+            <p>正在加载事件数据...</p>
+          </div>
+        ) : events.length === 0 ? (
           <div className={styles.emptyState}>
             <div className={styles.emptyIcon}>📄</div>
             <p>暂无事件数据</p>
@@ -352,4 +354,4 @@ const EventsList: React.FC<EventsListProps> = ({
   )
 }
 
-export default EventsList
+export default React.memo(EventsList)

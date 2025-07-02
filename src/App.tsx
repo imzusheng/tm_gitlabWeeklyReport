@@ -199,155 +199,168 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   // useAbortableRequest Hook 已经处理了组件卸载时的请求取消
 
   // 处理设置面板的打开和关闭
-  const handleOpenSettings = () => {
+  const handleOpenSettings = useCallback(() => {
     setActivePanel('settings')
-  }
+  }, [setActivePanel])
 
-  const handleCloseSettings = () => {
+  const handleCloseSettings = useCallback(() => {
     setActivePanel('main')
-  }
+  }, [setActivePanel])
 
-  const handleSaveSettings = (
-    config: AppConfig,
-    theme: 'light' | 'dark' | 'system',
-  ) => {
-    // 更新配置
-    updateConfig(config)
-    // 更新主题
-    setTheme(theme)
-  }
+  const handleSaveSettings = useCallback(
+    (config: AppConfig, theme: 'light' | 'dark' | 'system') => {
+      // 更新配置
+      updateConfig(config)
+      // 更新主题
+      setTheme(theme)
+    },
+    [updateConfig, setTheme],
+  )
 
   // 处理AI面板的打开和关闭
-  const handleOpenAI = () => {
+  const handleOpenAI = useCallback(() => {
     if (!isConfigValid()) {
       setError(configErrors.INCOMPLETE_GITLAB_DEEPSEEK)
       return
     }
     setActivePanel('ai')
-  }
+  }, [isConfigValid, setError, setActivePanel])
 
-  const handleCloseAI = () => {
+  const handleCloseAI = useCallback(() => {
     setActivePanel('main')
-  }
+  }, [setActivePanel])
 
   // 处理AI周报生成
-  const handleGenerateReport = async (prompt: string) => {
-    if (!isConfigValid()) {
-      setError(configErrors.INCOMPLETE_CONFIG)
-      return
-    }
+  const handleGenerateReport = useCallback(
+    async (prompt: string) => {
+      if (!isConfigValid()) {
+        setError(configErrors.INCOMPLETE_CONFIG)
+        return
+      }
 
-    if (selectedEventIds.length === 0) {
-      setError(configErrors.NO_EVENTS_SELECTED)
-      return
-    }
+      if (selectedEventIds.length === 0) {
+        setError(configErrors.NO_EVENTS_SELECTED)
+        return
+      }
 
-    setLoading(true)
-    setError(null)
+      setLoading(true)
+      setError(null)
 
-    try {
-      // 使用已选中的事件数据
-      const selectedEvents = state.events.filter(event =>
-        selectedEventIds.includes(event.id),
-      )
+      try {
+        // 使用已选中的事件数据
+        const selectedEvents = state.events.filter(event =>
+          selectedEventIds.includes(event.id),
+        )
 
-      // 格式化事件数据为字符串
-      const eventsData = selectedEvents
-        .map((event: GitLabEvent) => {
-          const date = new Date(event.created_at).toLocaleDateString('zh-CN')
-          return `${date} - ${event.action_name}: ${event.target_title || event.push_data?.commit_title || '无标题'}`
+        // 格式化事件数据为字符串
+        const eventsData = selectedEvents
+          .map((event: GitLabEvent) => {
+            const date = new Date(event.created_at).toLocaleDateString('zh-CN')
+            return `${date} - ${event.action_name}: ${event.target_title || event.push_data?.commit_title || '无标题'}`
+          })
+          .join('\n')
+
+        // 使用DeepSeek API生成周报
+        const { createDeepSeekApiService } = await import(
+          '@/services/deepseek-api'
+        )
+        const deepseekService = createDeepSeekApiService(
+          state.config.deepseekApiKey,
+        )
+
+        const result = await deepseekService.generateWeeklyReport(
+          eventsData,
+          prompt,
+          state.config.model,
+          state.config.tokenLimit,
+        )
+
+        setAIGenerationConfig({
+          prompt,
+          tokensUsed: result.tokensUsed,
+          result: result.content,
         })
-        .join('\n')
-
-      // 使用DeepSeek API生成周报
-      const { createDeepSeekApiService } = await import(
-        '@/services/deepseek-api'
-      )
-      const deepseekService = createDeepSeekApiService(
-        state.config.deepseekApiKey,
-      )
-
-      const result = await deepseekService.generateWeeklyReport(
-        eventsData,
-        prompt,
-        state.config.model,
-        state.config.tokenLimit,
-      )
-
-      setAIGenerationConfig({
-        prompt,
-        tokensUsed: result.tokensUsed,
-        result: result.content,
-      })
-      setLoading(false)
-    } catch (error) {
-      const errorMessage = errorUtils.formatErrorMessage(error)
-      setError(errorMessage)
-      setLoading(false)
-    }
-  }
+        setLoading(false)
+      } catch (error) {
+        const errorMessage = errorUtils.formatErrorMessage(error)
+        setError(errorMessage)
+        setLoading(false)
+      }
+    },
+    [
+      isConfigValid,
+      selectedEventIds,
+      state.events,
+      state.config.deepseekApiKey,
+      state.config.model,
+      state.config.tokenLimit,
+      setError,
+      setLoading,
+      setAIGenerationConfig,
+    ],
+  )
 
   // 处理分页变化
-  const handlePaginationChange = (paginationOptions: PaginationOptions) => {
-    updatePaginationOptions(paginationOptions)
-  }
+  const handlePaginationChange = useCallback(
+    (paginationOptions: PaginationOptions) => {
+      updatePaginationOptions(paginationOptions)
+    },
+    [updatePaginationOptions],
+  )
 
   // 处理筛选条件变化
-  const handleFilterChange = (filters: FilterConditions) => {
-    updateFilterConditions(filters)
-    // 立即使用新的筛选条件加载事件
-    loadEvents(filters)
-  }
+  const handleFilterChange = useCallback(
+    (filters: FilterConditions) => {
+      updateFilterConditions(filters)
+      // 立即使用新的筛选条件加载事件
+      loadEvents(filters)
+    },
+    [updateFilterConditions, loadEvents],
+  )
 
   // 处理排序变化
-  const handleSortChange = (sort: SortOptions) => {
-    updateSortOptions(sort)
-    // loadEvents会通过useEffect自动触发，因为依赖数组中包含了state.sortOptions
-  }
+  const handleSortChange = useCallback(
+    (sort: SortOptions) => {
+      updateSortOptions(sort)
+      // loadEvents会通过useEffect自动触发，因为依赖数组中包含了state.sortOptions
+    },
+    [updateSortOptions],
+  )
 
   // 处理事件选择
-  const handleEventSelect = (eventId: number, selected: boolean) => {
-    setSelectedEventIds(prev =>
-      selected ? [...prev, eventId] : prev.filter(id => id !== eventId),
-    )
-  }
+  const handleEventSelect = useCallback(
+    (eventId: number, selected: boolean) => {
+      setSelectedEventIds(prev =>
+        selected ? [...prev, eventId] : prev.filter(id => id !== eventId),
+      )
+    },
+    [],
+  )
 
   // 处理全选/取消全选
-  const handleSelectAll = (selected: boolean) => {
-    if (selected) {
-      // 选中当前页面的所有事件
-      setSelectedEventIds(state.events.map(event => event.id))
-    } else {
-      // 取消选中所有事件
-      setSelectedEventIds([])
-    }
-  }
+  const handleSelectAll = useCallback(
+    (selected: boolean) => {
+      if (selected) {
+        // 选中当前页面的所有事件
+        setSelectedEventIds(state.events.map(event => event.id))
+      } else {
+        // 取消选中所有事件
+        setSelectedEventIds([])
+      }
+    },
+    [state.events],
+  )
 
   // 处理事件详情
-  const handleEventDetail = (event: GitLabEvent) => {
+  const handleEventDetail = useCallback((event: GitLabEvent) => {
     setSelectedEvent(event)
     setIsDetailModalVisible(true)
-  }
+  }, [])
 
-  const handleCloseEventDetail = () => {
+  const handleCloseEventDetail = useCallback(() => {
     setIsDetailModalVisible(false)
     setSelectedEvent(null)
-  }
-
-  // 处理应用模式切换
-  const handleModeChange = async (mode: AppMode) => {
-    setAppMode(mode)
-
-    if (mode === 'changelog') {
-      // 切换到Changelog模式时，加载项目列表
-      await loadProjects()
-    } else {
-      // 切换到Events模式时，重新加载事件
-      if (isConfigValid()) {
-        loadEvents()
-      }
-    }
-  }
+  }, [])
 
   // 加载项目列表
   const loadProjects = useCallback(async () => {
@@ -380,6 +393,24 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
       setLoading(false)
     }
   }, [gitlabService, isConfigValid, setProjects, setLoading, setError])
+
+  // 处理应用模式切换
+  const handleModeChange = useCallback(
+    async (mode: AppMode) => {
+      setAppMode(mode)
+
+      if (mode === 'changelog') {
+        // 切换到Changelog模式时，加载项目列表
+        await loadProjects()
+      } else {
+        // 切换到Events模式时，重新加载事件
+        if (isConfigValid()) {
+          loadEvents()
+        }
+      }
+    },
+    [setAppMode, loadProjects, isConfigValid, loadEvents],
+  )
 
   return (
     <div
