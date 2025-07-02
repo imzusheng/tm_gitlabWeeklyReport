@@ -2,15 +2,15 @@ const __vite__mapDeps = (
   i,
   m = __vite__mapDeps,
   d = m.f ||
-    (m.f = ['assets/deepseek-api-Bw3vL-a0.js', 'assets/utils-C7LPnpoy.js']),
+    (m.f = ['assets/deepseek-api-CNcWWZRV.js', 'assets/utils-EGKi2QSB.js']),
 ) => i.map(i => d[i])
 var e = Object.defineProperty,
-  t = (t, a, n) =>
-    ((t, a, n) =>
+  t = (t, a, s) =>
+    ((t, a, s) =>
       a in t
-        ? e(t, a, { enumerable: !0, configurable: !0, writable: !0, value: n })
-        : (t[a] = n))(t, 'symbol' != typeof a ? a + '' : a, n)
-import { r as a, a as n, R as s } from './vendor-DtYzeC-x.js'
+        ? e(t, a, { enumerable: !0, configurable: !0, writable: !0, value: s })
+        : (t[a] = s))(t, 'symbol' != typeof a ? a + '' : a, s)
+import { r as a, a as s, R as n } from './vendor-DtYzeC-x.js'
 import {
   D as l,
   a as i,
@@ -23,7 +23,7 @@ import {
   A as u,
   e as p,
   C as h,
-} from './utils-C7LPnpoy.js'
+} from './utils-EGKi2QSB.js'
 !(function () {
   const e = document.createElement('link').relList
   if (!(e && e.supports && e.supports('modulepreload'))) {
@@ -62,24 +62,24 @@ var x = { exports: {} },
   f = Object.prototype.hasOwnProperty,
   N = v.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,
   C = { key: !0, ref: !0, __self: !0, __source: !0 }
-function y(e, t, a) {
-  var n,
-    s = {},
+function k(e, t, a) {
+  var s,
+    n = {},
     l = null,
     i = null
-  for (n in (void 0 !== a && (l = '' + a),
+  for (s in (void 0 !== a && (l = '' + a),
   void 0 !== t.key && (l = '' + t.key),
   void 0 !== t.ref && (i = t.ref),
   t))
-    f.call(t, n) && !C.hasOwnProperty(n) && (s[n] = t[n])
+    f.call(t, s) && !C.hasOwnProperty(s) && (n[s] = t[s])
   if (e && e.defaultProps)
-    for (n in (t = e.defaultProps)) void 0 === s[n] && (s[n] = t[n])
-  return { $$typeof: j, type: e, key: l, ref: i, props: s, _owner: N.current }
+    for (s in (t = e.defaultProps)) void 0 === n[s] && (n[s] = t[s])
+  return { $$typeof: j, type: e, key: l, ref: i, props: n, _owner: N.current }
 }
-;(g.Fragment = b), (g.jsx = y), (g.jsxs = y), (x.exports = g)
-var k = x.exports,
+;(g.Fragment = b), (g.jsx = k), (g.jsxs = k), (x.exports = g)
+var y = x.exports,
   E = {},
-  w = n
+  w = s
 ;(E.createRoot = w.createRoot), (E.hydrateRoot = w.hydrateRoot)
 const S = {},
   T = {
@@ -114,18 +114,18 @@ function I() {
       }
     })()
   }, [])
-  const n = a.useCallback(e => {
+  const s = a.useCallback(e => {
       t(t => {
         const a = { ...t.config, ...e }
         try {
           d.saveConfig(a)
-        } catch (n) {
-          console.error('Failed to save config:', n)
+        } catch (s) {
+          console.error('Failed to save config:', s)
         }
         return { ...t, config: a }
       })
     }, []),
-    s = a.useCallback(e => {
+    n = a.useCallback(e => {
       t(t => ({ ...t, activePanel: e }))
     }, []),
     l = a.useCallback(e => {
@@ -180,8 +180,8 @@ function I() {
         const a = { ...t.config, theme: e }
         try {
           d.saveConfig(a)
-        } catch (n) {
-          console.error('Failed to save theme:', n)
+        } catch (s) {
+          console.error('Failed to save theme:', s)
         }
         return { ...t, config: a, theme: e }
       })
@@ -202,8 +202,8 @@ function I() {
         const a = { ...e.config, theme: t }
         try {
           d.saveConfig(a)
-        } catch (n) {
-          console.error('Failed to save theme:', n)
+        } catch (s) {
+          console.error('Failed to save theme:', s)
         }
         return { ...e, config: a, theme: t }
       })
@@ -215,36 +215,36 @@ function I() {
       const {
         gitlabUrl: t,
         gitlabToken: a,
-        deepseekApiKey: n,
-        defaultPrompt: s,
+        deepseekApiKey: s,
+        defaultPrompt: n,
       } = e.config
-      return !!(t.trim() && a.trim() && n.trim() && s.trim())
+      return !!(t.trim() && a.trim() && s.trim() && n.trim())
     }, [e.config]),
-    y = a.useCallback(() => {
+    k = a.useCallback(() => {
       const t = new Date(),
         a = e.filterConditions.timeRange,
-        n = 864e5,
-        s = new Date(t.getTime() + n)
+        s = 864e5,
+        n = new Date(t.getTime() + s)
       if ('week' === a) {
         const e = t.getDay()
         let a = 0 === e ? 6 : e - 1
         1 === e && (a += 1)
         return {
-          startDate: new Date(t.getTime() - a * n).toISOString().split('T')[0],
-          endDate: s.toISOString().split('T')[0],
+          startDate: new Date(t.getTime() - a * s).toISOString().split('T')[0],
+          endDate: n.toISOString().split('T')[0],
         }
       }
       let l = 7
       l = { '7d': 7, '30d': 30, '90d': 90, '180d': 180, '365d': 365 }[a] || 7
       return {
-        startDate: new Date(t.getTime() - l * n).toISOString().split('T')[0],
-        endDate: s.toISOString().split('T')[0],
+        startDate: new Date(t.getTime() - l * s).toISOString().split('T')[0],
+        endDate: n.toISOString().split('T')[0],
       }
     }, [e.filterConditions.timeRange])
   return {
     state: e,
-    updateConfig: n,
-    setActivePanel: s,
+    updateConfig: s,
+    setActivePanel: n,
     setAppMode: l,
     setProjects: i,
     setSelectedProjectId: o,
@@ -262,7 +262,7 @@ function I() {
     toggleTheme: f,
     resetState: N,
     isConfigValid: C,
-    getTimeRange: y,
+    getTimeRange: k,
   }
 }
 const M = () => {
@@ -272,10 +272,10 @@ const M = () => {
         const t = new AbortController()
         return (e.current = t), t
       }, []),
-      n = a.useCallback(() => {
+      s = a.useCallback(() => {
         e.current && (e.current.abort(), (e.current = null))
       }, []),
-      s = a.useCallback(e => e.signal.aborted, []),
+      n = a.useCallback(e => e.signal.aborted, []),
       l = a.useCallback(t => {
         e.current === t && (e.current = null)
       }, []),
@@ -283,14 +283,14 @@ const M = () => {
     return (
       a.useEffect(
         () => () => {
-          n()
+          s()
         },
-        [n],
+        [s],
       ),
       {
         createRequest: t,
-        cancelRequest: n,
-        isRequestCancelled: s,
+        cancelRequest: s,
+        isRequestCancelled: n,
         cleanupRequest: l,
         isAbortError: i,
       }
@@ -333,29 +333,29 @@ const M = () => {
     { value: 'deleted', label: 'Deleted' },
   ],
   F = ({ filterConditions: e, onFilterChange: t }) => {
-    const a = (a, n) => {
-        t({ ...e, [a]: n })
+    const a = (a, s) => {
+        t({ ...e, [a]: s })
       },
-      n = [
+      s = [
         { key: 'targetType', label: '目标类型', options: U },
         { key: 'action', label: '操作类型', options: G },
       ]
-    return k.jsxs('div', {
+    return y.jsxs('div', {
       className: $,
       children: [
-        k.jsxs('div', {
+        y.jsxs('div', {
           className: D,
           children: [
-            k.jsx('label', { className: A, children: '时间范围' }),
-            k.jsx('div', {
+            y.jsx('label', { className: A, children: '时间范围' }),
+            y.jsx('div', {
               className: L,
-              children: R.map(({ value: t, label: n }) =>
-                k.jsx(
+              children: R.map(({ value: t, label: s }) =>
+                y.jsx(
                   'button',
                   {
                     className: `${O} ${e.timeRange === t ? P : ''}`,
                     onClick: () => a('timeRange', t),
-                    children: n,
+                    children: s,
                   },
                   t,
                 ),
@@ -363,35 +363,35 @@ const M = () => {
             }),
           ],
         }),
-        n.map(({ key: t, label: n, options: s }) =>
-          k.jsxs(
+        s.map(({ key: t, label: s, options: n }) =>
+          y.jsxs(
             'div',
             {
               className: D,
               children: [
-                k.jsx('label', { className: A, children: n }),
-                k.jsxs('div', {
+                y.jsx('label', { className: A, children: s }),
+                y.jsxs('div', {
                   className: L,
                   children: [
-                    k.jsx('button', {
+                    y.jsx('button', {
                       className: `${O} ${0 === e[t].length ? P : ''}`,
                       onClick: () => a(t, []),
                       children: '全部',
                     }),
-                    s.map(({ value: n, label: s }) =>
-                      k.jsx(
+                    n.map(({ value: s, label: n }) =>
+                      y.jsx(
                         'button',
                         {
-                          className: `${O} ${Array.isArray(e[t]) && e[t].includes(n) ? P : ''}`,
+                          className: `${O} ${Array.isArray(e[t]) && e[t].includes(s) ? P : ''}`,
                           onClick: () =>
-                            ((t, n, s) => {
+                            ((t, s, n) => {
                               const l = e[t],
-                                i = s ? [...l, n] : l.filter(e => e !== n)
+                                i = n ? [...l, s] : l.filter(e => e !== s)
                               a(t, i)
-                            })(t, n, !e[t].includes(n)),
-                          children: s,
+                            })(t, s, !e[t].includes(s)),
+                          children: n,
                         },
-                        n,
+                        s,
                       ),
                     ),
                   ],
@@ -415,112 +415,115 @@ const M = () => {
     paginationSizeChanger: 'index-module__pagination-size-changer__SufyI',
     paginationSelect: 'index-module__pagination-select__JwvbH',
   },
-  q = ({
-    current: e,
-    pageSize: t,
-    total: a,
-    onChange: n,
-    showSizeChanger: l = !0,
-    pageSizeOptions: i = [20, 50, 100, 200],
-    onShowSizeChange: o,
-    selectedCount: r = 0,
-  }) => {
-    const d = Math.ceil(a / t),
-      c = (e - 1) * t + 1,
-      _ = Math.min(e * t, a),
-      m = t => {
-        t >= 1 && t <= d && t !== e && n(t)
-      }
-    return 0 === a
-      ? k.jsx('div', {
-          className: B.pagination,
-          children: k.jsx('div', {
-            className: B.info,
-            children: k.jsx('span', { children: '暂无数据' }),
-          }),
-        })
-      : k.jsxs('div', {
-          className: B.pagination,
-          children: [
-            k.jsxs('div', {
-              className: B.paginationInfo,
-              children: [
-                '显示 ',
-                c,
-                '-',
-                _,
-                ' 条，共 ',
-                a,
-                ' 条',
-                r > 0 ? `，已选中 ${r} 条` : '',
-              ],
+  q = n.memo(
+    ({
+      current: e,
+      pageSize: t,
+      total: a,
+      onChange: s,
+      showSizeChanger: l = !0,
+      pageSizeOptions: i = [20, 50, 100, 200],
+      onShowSizeChange: o,
+      selectedCount: r = 0,
+    }) => {
+      const d = Math.ceil(a / t),
+        c = (e - 1) * t + 1,
+        _ = Math.min(e * t, a),
+        m = t => {
+          t >= 1 && t <= d && t !== e && s(t)
+        }
+      return 0 === a
+        ? y.jsx('div', {
+            className: B.pagination,
+            children: y.jsx('div', {
+              className: B.info,
+              children: y.jsx('span', { children: '暂无数据' }),
             }),
-            k.jsxs('div', {
-              className: B.paginationControls,
-              children: [
-                k.jsx('button', {
-                  className: `${B.paginationBtn} ${1 === e ? B.disabled : ''}`,
-                  onClick: () => m(e - 1),
-                  disabled: 1 === e,
-                  children: k.jsx('span', { children: '‹' }),
-                }),
-                (() => {
-                  if (d <= 7) return Array.from({ length: d }, (e, t) => t + 1)
-                  const t = [1],
-                    a = Math.max(2, e - 2),
-                    n = Math.min(d - 1, e + 2)
-                  e > 4 && t.push('...')
-                  for (let e = a; e <= n; e++) t.push(e)
-                  return e < d - 2 - 1 && t.push('...'), t.push(d), t
-                })().map((t, a) =>
-                  k.jsx(
-                    s.Fragment,
-                    {
-                      children:
-                        'number' == typeof t
-                          ? k.jsx('button', {
-                              className: `${B.paginationBtn} ${e === t ? B.active : ''}`,
-                              onClick: () => m(t),
-                              children: t,
-                            })
-                          : k.jsx('span', {
-                              className: B.paginationEllipsis,
-                              children: t,
-                            }),
-                    },
-                    a,
-                  ),
-                ),
-                k.jsx('button', {
-                  className: `${B.paginationBtn} ${e === d ? B.disabled : ''}`,
-                  onClick: () => m(e + 1),
-                  disabled: e === d,
-                  children: k.jsx('span', { children: '›' }),
-                }),
-              ],
-            }),
-            l &&
-              k.jsxs('div', {
-                className: B.paginationSizeChanger,
+          })
+        : y.jsxs('div', {
+            className: B.pagination,
+            children: [
+              y.jsxs('div', {
+                className: B.paginationInfo,
                 children: [
-                  k.jsx('span', { children: '每页' }),
-                  k.jsx('select', {
-                    value: t,
-                    onChange: e => {
-                      return (t = Number(e.target.value)), void (o && o(1, t))
-                      var t
-                    },
-                    className: B.paginationSelect,
-                    children: i.map(e =>
-                      k.jsx('option', { value: e, children: e }, e),
-                    ),
-                  }),
-                  k.jsx('span', { children: '条' }),
+                  '显示 ',
+                  c,
+                  '-',
+                  _,
+                  ' 条，共 ',
+                  a,
+                  ' 条',
+                  r > 0 ? `，已选中 ${r} 条` : '',
                 ],
               }),
-          ],
-        })
-  },
+              y.jsxs('div', {
+                className: B.paginationControls,
+                children: [
+                  y.jsx('button', {
+                    className: `${B.paginationBtn} ${1 === e ? B.disabled : ''}`,
+                    onClick: () => m(e - 1),
+                    disabled: 1 === e,
+                    children: y.jsx('span', { children: '‹' }),
+                  }),
+                  (() => {
+                    if (d <= 7)
+                      return Array.from({ length: d }, (e, t) => t + 1)
+                    const t = [1],
+                      a = Math.max(2, e - 2),
+                      s = Math.min(d - 1, e + 2)
+                    e > 4 && t.push('...')
+                    for (let e = a; e <= s; e++) t.push(e)
+                    return e < d - 2 - 1 && t.push('...'), t.push(d), t
+                  })().map((t, a) =>
+                    y.jsx(
+                      n.Fragment,
+                      {
+                        children:
+                          'number' == typeof t
+                            ? y.jsx('button', {
+                                className: `${B.paginationBtn} ${e === t ? B.active : ''}`,
+                                onClick: () => m(t),
+                                children: t,
+                              })
+                            : y.jsx('span', {
+                                className: B.paginationEllipsis,
+                                children: t,
+                              }),
+                      },
+                      a,
+                    ),
+                  ),
+                  y.jsx('button', {
+                    className: `${B.paginationBtn} ${e === d ? B.disabled : ''}`,
+                    onClick: () => m(e + 1),
+                    disabled: e === d,
+                    children: y.jsx('span', { children: '›' }),
+                  }),
+                ],
+              }),
+              l &&
+                y.jsxs('div', {
+                  className: B.paginationSizeChanger,
+                  children: [
+                    y.jsx('span', { children: '每页' }),
+                    y.jsx('select', {
+                      value: t,
+                      onChange: e => {
+                        return (t = Number(e.target.value)), void (o && o(1, t))
+                        var t
+                      },
+                      className: B.paginationSelect,
+                      children: i.map(e =>
+                        y.jsx('option', { value: e, children: e }, e),
+                      ),
+                    }),
+                    y.jsx('span', { children: '条' }),
+                  ],
+                }),
+            ],
+          })
+    },
+  ),
   z = 'index-module__events-list__-m-9O',
   H = 'index-module__events-list-header__IFdcr',
   V = 'index-module__header-cell__Q50BV',
@@ -534,8 +537,8 @@ const M = () => {
   ee = 'index-module__event-row__nD7Rz',
   te = 'index-module__selected__QNHpl',
   ae = 'index-module__cell__KsOts',
-  ne = 'index-module__event-icon__9UCQ3',
-  se = 'index-module__event-content__YCPED',
+  se = 'index-module__event-icon__9UCQ3',
+  ne = 'index-module__event-content__YCPED',
   le = 'index-module__event-title__530MV',
   ie = 'index-module__event-description__C3Fjc',
   oe = 'index-module__action-tag__GZU05',
@@ -549,314 +552,290 @@ const M = () => {
   he = 'index-module__loading-spinner__C04N8',
   xe = 'index-module__checkbox-container__UxYEH',
   ge = 'index-module__checkmark__-Dj1c',
-  ve = ({
-    events: e,
-    totalCount: t,
-    loading: a,
-    sortOptions: n,
-    onSortChange: s,
-    paginationOptions: l,
-    onPaginationChange: i,
-    selectedEventIds: o,
-    onEventSelect: r,
-    onSelectAll: d,
-    onEventDetail: _,
-  }) => {
-    const m = e.length > 0 && e.every(e => o.includes(e.id)),
-      u = o.length > 0 && !m,
-      p = e => {
-        const t = new Date(e),
-          a = new Date(),
-          n =
-            new Date(a.getFullYear(), a.getMonth(), a.getDate()).getTime() -
-            new Date(t.getFullYear(), t.getMonth(), t.getDate()).getTime(),
-          s = Math.floor(n / 864e5),
-          l = t.toLocaleTimeString('zh-CN', {
-            hour: '2-digit',
-            minute: '2-digit',
-          })
-        return 0 === s
-          ? `今天 ${l}`
-          : 1 === s
-            ? `昨天 ${l}`
-            : s > 1 && s <= 7
-              ? `${s}天前`
-              : t.toLocaleDateString('zh-CN', {
-                  month: '2-digit',
-                  day: '2-digit',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })
-      },
-      h = e => {
-        if (e.push_data) return `推送到分支 ${e.push_data.ref}`
-        if (e.note) {
-          const t = 50
-          return `评论: ${e.note.body.replace(/\n/g, ' ').substring(0, t)}${e.note.body.length > t ? '...' : ''}`
-        }
-        return 'joined' === e.action_name
-          ? '加入项目'
-          : e.title || e.target_title || '无标题'
-      },
-      x = e => {
-        var t
-        return e.push_data
-          ? `${e.push_data.commit_count} 个提交: ${e.push_data.commit_title}`
-          : e.note && e.target_title
-            ? e.target_title
-            : (null == (t = e.project) ? void 0 : t.path_with_namespace) ||
-              `项目ID: ${e.project_id}` ||
-              '未知项目'
-      }
-    return a
-      ? k.jsxs('div', {
-          className: pe,
-          children: [
-            k.jsx('div', { className: he }),
-            k.jsx('p', { children: '正在加载事件数据...' }),
-          ],
-        })
-      : k.jsxs('div', {
-          className: z,
-          children: [
-            k.jsxs('div', {
-              className: H,
-              children: [
-                k.jsx('div', {
-                  className: `${V} ${X}`,
-                  children: k.jsxs('label', {
-                    className: xe,
-                    children: [
-                      k.jsx('input', {
-                        type: 'checkbox',
-                        checked: m,
-                        ref: e => {
-                          e && (e.indeterminate = u)
-                        },
-                        onChange: () => {
-                          d(!m)
-                        },
-                        title: m ? '取消全选' : '全选',
-                      }),
-                      k.jsx('span', { className: ge }),
-                    ],
-                  }),
-                }),
-                k.jsx('div', {
-                  className: `${V} ${K}`,
-                  children: k.jsx('span', { children: '标题和内容' }),
-                }),
-                k.jsx('div', {
-                  className: `${V} ${Q}`,
-                  children: k.jsx('span', { children: '操作' }),
-                }),
-                k.jsxs('div', {
-                  className: `${V} ${Z}`,
-                  onClick: () =>
-                    (e => {
-                      const t =
-                        n.field === e && 'desc' === n.order ? 'asc' : 'desc'
-                      s({ field: e, order: t })
-                    })('created_at'),
+  ve = n.memo(
+    ({
+      events: e,
+      totalCount: t,
+      loading: s,
+      sortOptions: n,
+      onSortChange: l,
+      paginationOptions: i,
+      onPaginationChange: o,
+      selectedEventIds: r,
+      onEventSelect: d,
+      onSelectAll: _,
+      onEventDetail: m,
+    }) => {
+      const u = a.useCallback(
+          e => {
+            if ('created_at' !== e) return
+            const t = n.field === e && 'desc' === n.order ? 'asc' : 'desc'
+            l({ field: e, order: t })
+          },
+          [n.field, n.order, l],
+        ),
+        p = a.useCallback(
+          e => (n.field !== e ? '' : 'desc' === n.order ? '↓' : '↑'),
+          [n.field, n.order],
+        ),
+        h = a.useMemo(
+          () => e.length > 0 && e.every(e => r.includes(e.id)),
+          [e, r],
+        ),
+        x = a.useMemo(() => r.length > 0 && !h, [r.length, h]),
+        g = a.useCallback(() => {
+          _(!h)
+        }, [_, h]),
+        v = a.useCallback(
+          e => {
+            const t = r.includes(e)
+            d(e, !t)
+          },
+          [r, d],
+        ),
+        j = a.useCallback(e => {
+          const t = new Date(e),
+            a = new Date(),
+            s =
+              new Date(a.getFullYear(), a.getMonth(), a.getDate()).getTime() -
+              new Date(t.getFullYear(), t.getMonth(), t.getDate()).getTime(),
+            n = Math.floor(s / 864e5),
+            l = t.toLocaleTimeString('zh-CN', {
+              hour: '2-digit',
+              minute: '2-digit',
+            })
+          return 0 === n
+            ? `今天 ${l}`
+            : 1 === n
+              ? `昨天 ${l}`
+              : n > 1 && n <= 7
+                ? `${n}天前`
+                : t.toLocaleDateString('zh-CN', {
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })
+        }, []),
+        b = a.useCallback(e => {
+          if (e.push_data) return `推送到分支 ${e.push_data.ref}`
+          if (e.note) {
+            const t = 50
+            return `评论: ${e.note.body.replace(/\n/g, ' ').substring(0, t)}${e.note.body.length > t ? '...' : ''}`
+          }
+          return 'joined' === e.action_name
+            ? '加入项目'
+            : e.title || e.target_title || '无标题'
+        }, []),
+        f = a.useCallback(
+          e => {
+            const { action_name: t, target_type: a } = e
+            if (e.push_data) {
+              const { ref: t, commit_count: a } = e.push_data
+              return {
+                icon: '⬆️',
+                actionType: '推送',
+                title: `推送到分支 ${t} (${a} 个提交)`,
+              }
+            }
+            if (e.note) {
+              const t = 50
+              return {
+                icon: '💬',
+                actionType: '评论',
+                title: `评论: ${e.note.body.replace(/\n/g, ' ').substring(0, t)}${e.note.body.length > t ? '...' : ''}`,
+              }
+            }
+            const s = e.title || e.target_title || '无标题',
+              n = {
+                Issue: { icon: '🐛', actionType: '问题' },
+                MergeRequest: { icon: '🔀', actionType: '合并请求' },
+                WikiPage: { icon: '📖', actionType: 'Wiki' },
+                Project: { icon: '📁', actionType: '项目' },
+                Milestone: { icon: '🎯', actionType: '里程碑' },
+                Epic: { icon: '🎪', actionType: 'Epic' },
+                Snippet: { icon: '✂️', actionType: '代码片段' },
+                User: { icon: '👤', actionType: '用户' },
+                'pushed to': { icon: '⬆️', actionType: '推送' },
+                'pushed new': { icon: '⬆️', actionType: '推送新分支' },
+                opened: { icon: '🆕', actionType: '开启' },
+                closed: { icon: '✅', actionType: '关闭' },
+                merged: { icon: '🔀', actionType: '合并' },
+                'commented on': { icon: '💬', actionType: '评论' },
+                joined: { icon: '👋', actionType: '加入' },
+                left: { icon: '👋', actionType: '离开' },
+                created: { icon: '✨', actionType: '创建' },
+                updated: { icon: '🔄', actionType: '更新' },
+                deleted: { icon: '🗑️', actionType: '删除' },
+                approved: { icon: '✅', actionType: '批准' },
+                unapproved: { icon: '❌', actionType: '取消批准' },
+              },
+              l = (a && n[a]) || (t && n[t])
+            return l
+              ? { ...l, title: s }
+              : { icon: '📋', actionType: a || t || '未知操作', title: b(e) }
+          },
+          [b],
+        ),
+        N = a.useCallback(e => {
+          var t
+          return e.push_data
+            ? `${e.push_data.commit_count} 个提交: ${e.push_data.commit_title}`
+            : e.note && e.target_title
+              ? e.target_title
+              : (null == (t = e.project) ? void 0 : t.path_with_namespace) ||
+                `项目ID: ${e.project_id}` ||
+                '未知项目'
+        }, [])
+      return y.jsxs('div', {
+        className: z,
+        children: [
+          y.jsxs('div', {
+            className: H,
+            children: [
+              y.jsx('div', {
+                className: `${V} ${X}`,
+                children: y.jsxs('label', {
+                  className: xe,
                   children: [
-                    k.jsx('span', { children: '时间' }),
-                    k.jsx('span', {
-                      className: J,
-                      children:
-                        ((g = 'created_at'),
-                        n.field !== g ? '' : 'desc' === n.order ? '↓' : '↑'),
+                    y.jsx('input', {
+                      type: 'checkbox',
+                      checked: h,
+                      ref: e => {
+                        e && (e.indeterminate = x)
+                      },
+                      onChange: g,
+                      title: h ? '取消全选' : '全选',
                     }),
+                    y.jsx('span', { className: ge }),
                   ],
                 }),
-                k.jsx('div', { className: `${V} ${Y}`, children: '详情' }),
-              ],
-            }),
-            k.jsx('div', {
-              className: W,
-              children:
-                0 === e.length
-                  ? k.jsxs('div', {
-                      className: _e,
-                      children: [
-                        k.jsx('div', { className: me, children: '📄' }),
-                        k.jsx('p', { children: '暂无事件数据' }),
-                        k.jsx('span', { children: c.INVALID_FILTER_OR_CONFIG }),
-                      ],
-                    })
-                  : e.map(e => {
-                      const t = o.includes(e.id),
-                        {
-                          icon: a,
-                          title: n,
-                          actionType: s,
-                        } = (e => {
-                          const { action_name: t, target_type: a } = e
-                          if (e.push_data) {
-                            const {
-                              action: t,
-                              ref_type: a,
-                              ref: n,
-                            } = e.push_data
-                            if ('pushed' === t) {
-                              if ('branch' === a)
-                                return {
-                                  icon: '⬆️',
-                                  actionType: '分支推送',
-                                  title: `推送到分支 ${n}`,
-                                }
-                              if ('tag' === a)
-                                return {
-                                  icon: '🏷️',
-                                  actionType: '标签推送',
-                                  title: `推送标签 ${n}`,
-                                }
-                            }
-                            return {
-                              icon: '📤',
-                              actionType: '推送',
-                              title: `推送到分支 ${n}`,
-                            }
-                          }
-                          const n = h(e),
-                            s = {
-                              MergeRequest: { icon: '⤴️', actionType: 'MR' },
-                              Issue: { icon: '⚠️', actionType: 'Issue' },
-                              Commit: { icon: '💾', actionType: '提交' },
-                              Note: { icon: '💬', actionType: '评论' },
-                              DiscussionNote: {
-                                icon: '🗣️',
-                                actionType: '讨论-评论',
-                              },
-                              DiffNote: { icon: '📝', actionType: '代码-评论' },
-                              Project: { icon: '📁', actionType: '项目' },
-                              Milestone: { icon: '🎯', actionType: '里程碑' },
-                              Epic: { icon: '🎪', actionType: 'Epic' },
-                              Snippet: { icon: '✂️', actionType: '代码片段' },
-                              User: { icon: '👤', actionType: '用户' },
-                              'pushed to': { icon: '⬆️', actionType: '推送' },
-                              'pushed new': {
-                                icon: '⬆️',
-                                actionType: '推送新分支',
-                              },
-                              opened: { icon: '🆕', actionType: '开启' },
-                              closed: { icon: '✅', actionType: '关闭' },
-                              merged: { icon: '🔀', actionType: '合并' },
-                              'commented on': {
-                                icon: '💬',
-                                actionType: '评论',
-                              },
-                              joined: { icon: '👋', actionType: '加入' },
-                              left: { icon: '👋', actionType: '离开' },
-                              created: { icon: '✨', actionType: '创建' },
-                              updated: { icon: '🔄', actionType: '更新' },
-                              deleted: { icon: '🗑️', actionType: '删除' },
-                              approved: { icon: '✅', actionType: '批准' },
-                              unapproved: {
-                                icon: '❌',
-                                actionType: '取消批准',
-                              },
-                            },
-                            l = (a && s[a]) || (t && s[t])
-                          return l
-                            ? { ...l, title: n }
-                            : {
-                                icon: '📋',
-                                actionType: a || t || '未知操作',
-                                title: h(e),
-                              }
-                        })(e)
-                      return k.jsxs(
-                        'div',
-                        {
-                          className: `${ee} ${t ? te : ''}`,
-                          children: [
-                            k.jsx('div', {
-                              className: `${ae} ${X}`,
-                              children: k.jsxs('label', {
-                                className: xe,
-                                children: [
-                                  k.jsx('input', {
-                                    type: 'checkbox',
-                                    checked: t,
-                                    onChange: () =>
-                                      (e => {
-                                        const t = o.includes(e)
-                                        r(e, !t)
-                                      })(e.id),
-                                    title: t ? '取消选择' : '选择此事件',
-                                  }),
-                                  k.jsx('span', { className: ge }),
-                                ],
-                              }),
-                            }),
-                            k.jsxs('div', {
-                              className: `${ae} ${K}`,
+              }),
+              y.jsx('div', {
+                className: `${V} ${K}`,
+                children: y.jsx('span', { children: '标题和内容' }),
+              }),
+              y.jsx('div', {
+                className: `${V} ${Q}`,
+                children: y.jsx('span', { children: '操作' }),
+              }),
+              y.jsxs('div', {
+                className: `${V} ${Z}`,
+                onClick: () => u('created_at'),
+                children: [
+                  y.jsx('span', { children: '时间' }),
+                  y.jsx('span', { className: J, children: p('created_at') }),
+                ],
+              }),
+              y.jsx('div', { className: `${V} ${Y}`, children: '详情' }),
+            ],
+          }),
+          y.jsx('div', {
+            className: W,
+            children: s
+              ? y.jsxs('div', {
+                  className: pe,
+                  children: [
+                    y.jsx('div', { className: he }),
+                    y.jsx('p', { children: '正在加载事件数据...' }),
+                  ],
+                })
+              : 0 === e.length
+                ? y.jsxs('div', {
+                    className: _e,
+                    children: [
+                      y.jsx('div', { className: me, children: '📄' }),
+                      y.jsx('p', { children: '暂无事件数据' }),
+                      y.jsx('span', { children: c.INVALID_FILTER_OR_CONFIG }),
+                    ],
+                  })
+                : e.map(e => {
+                    const t = r.includes(e.id),
+                      { icon: a, title: s, actionType: n } = f(e)
+                    return y.jsxs(
+                      'div',
+                      {
+                        className: `${ee} ${t ? te : ''}`,
+                        children: [
+                          y.jsx('div', {
+                            className: `${ae} ${X}`,
+                            children: y.jsxs('label', {
+                              className: xe,
                               children: [
-                                k.jsx('div', { className: ne, children: a }),
-                                k.jsxs('div', {
-                                  className: se,
-                                  children: [
-                                    k.jsx('div', {
-                                      className: le,
-                                      children: n,
-                                    }),
-                                    k.jsx('div', {
-                                      className: ie,
-                                      children: x(e),
-                                    }),
-                                  ],
+                                y.jsx('input', {
+                                  type: 'checkbox',
+                                  checked: t,
+                                  onChange: () => v(e.id),
+                                  title: t ? '取消选择' : '选择此事件',
                                 }),
+                                y.jsx('span', { className: ge }),
                               ],
                             }),
-                            k.jsx('div', {
-                              className: `${ae} ${Q}`,
-                              children: k.jsx('span', {
-                                className: oe,
-                                children: s,
+                          }),
+                          y.jsxs('div', {
+                            className: `${ae} ${K}`,
+                            children: [
+                              y.jsx('div', { className: se, children: a }),
+                              y.jsxs('div', {
+                                className: ne,
+                                children: [
+                                  y.jsx('div', { className: le, children: s }),
+                                  y.jsx('div', {
+                                    className: ie,
+                                    children: N(e),
+                                  }),
+                                ],
+                              }),
+                            ],
+                          }),
+                          y.jsx('div', {
+                            className: `${ae} ${Q}`,
+                            children: y.jsx('span', {
+                              className: oe,
+                              children: n,
+                            }),
+                          }),
+                          y.jsx('div', {
+                            className: `${ae} ${Z}`,
+                            children: y.jsx('span', {
+                              className: re,
+                              children: j(e.created_at),
+                            }),
+                          }),
+                          y.jsx('div', {
+                            className: `${ae} ${Y}`,
+                            children: y.jsx('button', {
+                              className: de,
+                              onClick: () => m(e),
+                              title: '查看详情',
+                              children: y.jsx('span', {
+                                className: ce,
+                                children: '🔍',
                               }),
                             }),
-                            k.jsx('div', {
-                              className: `${ae} ${Z}`,
-                              children: k.jsx('span', {
-                                className: re,
-                                children: p(e.created_at),
-                              }),
-                            }),
-                            k.jsx('div', {
-                              className: `${ae} ${Y}`,
-                              children: k.jsx('button', {
-                                className: de,
-                                onClick: () => _(e),
-                                title: '查看详情',
-                                children: k.jsx('span', {
-                                  className: ce,
-                                  children: '🔍',
-                                }),
-                              }),
-                            }),
-                          ],
-                        },
-                        e.id,
-                      )
-                    }),
+                          }),
+                        ],
+                      },
+                      e.id,
+                    )
+                  }),
+          }),
+          y.jsx('div', {
+            className: ue,
+            children: y.jsx(q, {
+              current: i.page,
+              pageSize: i.pageSize,
+              total: t,
+              onChange: e => o({ ...i, page: e }),
+              showSizeChanger: !0,
+              onShowSizeChange: (e, a) => o({ page: e, pageSize: a, total: t }),
+              selectedCount: r.length,
             }),
-            k.jsx('div', {
-              className: ue,
-              children: k.jsx(q, {
-                current: l.page,
-                pageSize: l.pageSize,
-                total: t,
-                onChange: e => i({ ...l, page: e }),
-                showSizeChanger: !0,
-                onShowSizeChange: (e, a) =>
-                  i({ page: e, pageSize: a, total: t }),
-                selectedCount: o.length,
-              }),
-            }),
-          ],
-        })
-    var g
-  }
+          }),
+        ],
+      })
+    },
+  )
 class je {
   constructor(e, a) {
     t(this, 'baseUrl'),
@@ -867,7 +846,7 @@ class je {
   }
   async request(e, t = {}) {
     const a = `${this.baseUrl}${e}`,
-      n = {
+      s = {
         method: t.method || 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -876,15 +855,15 @@ class je {
         timeout: u.REQUEST_TIMEOUT,
         body: t.body,
       },
-      s = await _(a, n)
-    if (!s.ok) {
+      n = await _(a, s)
+    if (!n.ok) {
       let e
       try {
-        e = await s.text()
+        e = await n.text()
       } catch {
-        e = s.statusText
+        e = n.statusText
       }
-      console.error(`GitLab API Error [${s.status}]:`, e)
+      console.error(`GitLab API Error [${n.status}]:`, e)
       const t =
         {
           401: 'GitLab认证失败，请检查Token是否有效',
@@ -895,12 +874,12 @@ class je {
           502: 'GitLab服务器错误，请稍后重试',
           503: 'GitLab服务器错误，请稍后重试',
           504: 'GitLab服务器错误，请稍后重试',
-        }[s.status] ||
+        }[n.status] ||
         e ||
-        s.statusText
-      throw m.createApiError(s.status, t, 'GitLab API')
+        n.statusText
+      throw m.createApiError(n.status, t, 'GitLab API')
     }
-    return s.json()
+    return n.json()
   }
   validateToken() {
     if (!this.token) throw new Error('GitLab Token为空')
@@ -951,8 +930,8 @@ class je {
           .reduce((e, [t, a]) => ({ ...e, [t]: String(a) }), {}),
       ).toString(),
       a = t ? `/projects?${t}` : '/projects',
-      n = `${this.baseUrl}${a}`,
-      s = {
+      s = `${this.baseUrl}${a}`,
+      n = {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -960,7 +939,7 @@ class je {
         },
         timeout: u.REQUEST_TIMEOUT,
       },
-      l = await _(n, s)
+      l = await _(s, n)
     if (!l.ok) {
       const e = await l.text()
       throw m.createApiError(l.status, e || l.statusText, 'GitLab API')
@@ -1014,9 +993,9 @@ class je {
       t.per_page && a.set('per_page', t.per_page.toString()),
       t.action && t.action.forEach(e => a.append('action', e)),
       t.target_type && t.target_type.forEach(e => a.append('target_type', e))
-    const n = `/users/${e}/events?${a.toString()}`,
-      s = await this.request(n, { method: 'GET' })
-    return { events: s, total: s.length }
+    const s = `/users/${e}/events?${a.toString()}`,
+      n = await this.request(s, { method: 'GET' })
+    return { events: n, total: n.length }
   }
   async getProjectEventsWithTotal(e, t = {}) {
     const a = new URLSearchParams()
@@ -1027,9 +1006,9 @@ class je {
       t.per_page && a.set('per_page', t.per_page.toString()),
       t.action && t.action.forEach(e => a.append('action', e)),
       t.target_type && t.target_type.forEach(e => a.append('target_type', e))
-    const n = a.toString(),
-      s = n ? `/projects/${e}/events?${n}` : `/projects/${e}/events`,
-      l = `${this.baseUrl}${s}`,
+    const s = a.toString(),
+      n = s ? `/projects/${e}/events?${s}` : `/projects/${e}/events`,
+      l = `${this.baseUrl}${n}`,
       i = {
         method: 'GET',
         headers: {
@@ -1156,25 +1135,25 @@ const fe = {
     static getInstance() {
       return e.instance || (e.instance = new e()), e.instance
     }
-    getCacheKey(e, t, a, n, s) {
-      return `${e}_${t}_${JSON.stringify(a)}_${n}_${s}`
+    getCacheKey(e, t, a, s, n) {
+      return `${e}_${t}_${JSON.stringify(a)}_${s}_${n}`
     }
-    get(e, t, a, n, s) {
-      const l = this.getCacheKey(e, t, a, n, s),
+    get(e, t, a, s, n) {
+      const l = this.getCacheKey(e, t, a, s, n),
         i = this.cache.get(l)
       return i && Date.now() - i.timestamp < this.CACHE_DURATION
         ? i
         : (this.cache.delete(l), null)
     }
-    set(e, t, a, n, s, l, i) {
-      const o = this.getCacheKey(e, t, a, n, s)
+    set(e, t, a, s, n, l, i) {
+      const o = this.getCacheKey(e, t, a, s, n)
       this.cache.set(o, {
         projects: l,
         totalCount: i,
         timestamp: Date.now(),
         filters: a,
-        sortBy: n,
-        searchValue: s,
+        sortBy: s,
+        searchValue: n,
       })
     }
     clear() {
@@ -1188,41 +1167,42 @@ const fe = {
   }
 t(Ne, 'instance')
 let Ce = Ne
-const ye = ({
+const ke = ({
     gitlabService: e,
     selectedProjectId: t,
-    onProjectSelect: n,
-    isConfigValid: s,
+    onProjectSelect: s,
+    isConfigValid: n,
     disabled: l = !1,
+    autoLoad: i = !1,
   }) => {
-    const { state: i } = I(),
-      [o, r] = a.useState(!1),
-      [d, c] = a.useState([]),
-      [_, u] = a.useState(!1),
-      [p, h] = a.useState(''),
-      [x, g] = a.useState('last_activity_at'),
-      [v, j] = a.useState({ starred: !1, membership: !0 }),
-      [b, f] = a.useState(1),
-      [N, C] = a.useState(0),
-      [y, E] = a.useState(null),
-      w = a.useRef(null),
+    const { state: o } = I(),
+      [r, d] = a.useState(!1),
+      [c, _] = a.useState([]),
+      [u, p] = a.useState(!1),
+      [h, x] = a.useState(''),
+      [g, v] = a.useState('last_activity_at'),
+      [j, b] = a.useState({ starred: !1, membership: !0 }),
+      [f, N] = a.useState(1),
+      [C, k] = a.useState(0),
+      [E, w] = a.useState(null),
       S = a.useRef(null),
-      T = a.useRef(Ce.getInstance()),
-      M = a.useRef(null),
-      $ = a.useCallback(
+      T = a.useRef(null),
+      M = a.useRef(Ce.getInstance()),
+      $ = a.useRef(null),
+      D = a.useCallback(
         async (a, l) => {
-          if (!s()) return
-          const o = a || p || '',
-            r = v,
-            d = x,
-            _ = T.current.get(i.config.gitlabUrl, i.config.gitlabToken, r, d, o)
-          if (_ && 1 === (l || b))
+          if (!n()) return
+          const i = a || h || '',
+            r = j,
+            d = g,
+            c = M.current.get(o.config.gitlabUrl, o.config.gitlabToken, r, d, i)
+          if (c && 1 === (l || f))
             return (
-              c(_.projects),
-              C(_.totalCount),
-              void (!t && _.projects.length > 0 && n(_.projects[0].id))
+              _(c.projects),
+              k(c.totalCount),
+              void (!t && c.projects.length > 0 && s(c.projects[0].id))
             )
-          u(!0), E(null)
+          p(!0), w(null)
           try {
             await e.init()
             const a = {
@@ -1230,72 +1210,75 @@ const ye = ({
                 starred: r.starred || void 0,
                 simple: !0,
                 order_by: d,
-                search: o || void 0,
-                page: l || b,
+                search: i || void 0,
+                page: l || f,
                 per_page: 20,
               },
-              { projects: s, total: _ } = await e.getProjectsWithTotal(a)
-            1 === (l || b) &&
-              T.current.set(
-                i.config.gitlabUrl,
-                i.config.gitlabToken,
+              { projects: n, total: c } = await e.getProjectsWithTotal(a)
+            1 === (l || f) &&
+              M.current.set(
+                o.config.gitlabUrl,
+                o.config.gitlabToken,
                 r,
                 d,
-                o,
-                s,
-                _,
+                i,
+                n,
+                c,
               ),
-              c(s),
-              C(_),
-              !t && s.length > 0 && n(s[0].id)
-          } catch (h) {
-            console.error('Failed to fetch projects:', m.formatErrorMessage(h)),
-              E('获取项目列表失败'),
-              c([]),
-              C(0)
+              _(n),
+              k(c),
+              !t && n.length > 0 && s(n[0].id)
+          } catch (u) {
+            console.error('Failed to fetch projects:', m.formatErrorMessage(u)),
+              w('获取项目列表失败'),
+              _([]),
+              k(0)
           } finally {
-            u(!1)
+            p(!1)
           }
         },
-        [s, e, v, x, p, b, t, n, i.config.gitlabUrl, i.config.gitlabToken],
+        [n, e, j, g, h, f, t, s, o.config.gitlabUrl, o.config.gitlabToken],
       ),
-      D = a.useMemo(
+      A = a.useMemo(
         () => e => {
-          M.current && clearTimeout(M.current),
-            (M.current = setTimeout(() => {
-              f(1), $(e, 1)
+          $.current && clearTimeout($.current),
+            ($.current = setTimeout(() => {
+              N(1), D(e, 1)
             }, 300))
         },
-        [$],
+        [D],
       )
     a.useEffect(() => {
-      o && $()
-    }, [o, v, x, b, $])
-    const A = a.useCallback(
+      r && D()
+    }, [r, j, g, f, D]),
+      a.useEffect(() => {
+        i && n() && D()
+      }, [i, n, D])
+    const L = a.useCallback(
         e => {
           const t = e.target.value
-          h(t), D(t)
+          x(t), A(t)
         },
-        [D],
+        [A],
       ),
-      L = a.useCallback(e => {
-        g(e), f(1)
+      O = a.useCallback(e => {
+        v(e), N(1)
       }, []),
-      O = a.useCallback((e, t) => {
-        j(a => ({ ...a, [e]: t })), f(1)
+      P = a.useCallback((e, t) => {
+        b(a => ({ ...a, [e]: t })), N(1)
       }, []),
-      P = a.useCallback(
+      R = a.useCallback(
         e => {
-          n(e), r(!1)
+          s(e), d(!1)
         },
-        [n],
+        [s],
       ),
-      R = a.useCallback(e => {
-        f(e)
+      U = a.useCallback(e => {
+        N(e)
       }, [])
     a.useEffect(() => {
       const e = e => {
-        w.current && !w.current.contains(e.target) && r(!1)
+        S.current && !S.current.contains(e.target) && d(!1)
       }
       return (
         document.addEventListener('mousedown', e),
@@ -1305,100 +1288,100 @@ const ye = ({
       )
     }, []),
       a.useEffect(() => {
-        o && S.current && S.current.focus()
-      }, [o])
-    const U = a.useMemo(() => d.find(e => e.id === t), [d, t]),
-      G = Math.ceil(N / 20)
-    return k.jsxs('div', {
+        r && T.current && T.current.focus()
+      }, [r])
+    const G = a.useMemo(() => c.find(e => e.id === t), [c, t]),
+      F = Math.ceil(C / 20)
+    return y.jsxs('div', {
       className: fe.projectSelector,
-      ref: w,
+      ref: S,
       children: [
-        k.jsxs('div', {
-          className: `${fe.selectorTrigger} ${o ? fe.open : ''} ${l ? fe.disabled : ''}`,
-          onClick: () => !l && r(!o),
+        y.jsxs('div', {
+          className: `${fe.selectorTrigger} ${r ? fe.open : ''} ${l ? fe.disabled : ''}`,
+          onClick: () => !l && d(!r),
           children: [
-            k.jsx('span', {
+            y.jsx('span', {
               className: fe.selectedText,
-              children: U ? U.path_with_namespace : '请选择项目',
+              children: G ? G.path_with_namespace : '请选择项目',
             }),
-            k.jsx('span', {
-              className: `${fe.arrow} ${o ? fe.up : fe.down}`,
+            y.jsx('span', {
+              className: `${fe.arrow} ${r ? fe.up : fe.down}`,
               children: '▼',
             }),
           ],
         }),
-        o &&
+        r &&
           !l &&
-          k.jsxs('div', {
+          y.jsxs('div', {
             className: fe.dropdown,
             children: [
-              k.jsxs('div', {
+              y.jsxs('div', {
                 className: fe.searchSection,
                 children: [
-                  k.jsxs('div', {
+                  y.jsxs('div', {
                     className: fe.searchInput,
                     children: [
-                      k.jsx('span', {
+                      y.jsx('span', {
                         className: fe.searchIcon,
                         children: '🔍',
                       }),
-                      k.jsx('input', {
-                        ref: S,
+                      y.jsx('input', {
+                        ref: T,
                         type: 'text',
                         placeholder: '搜索项目...',
-                        value: p,
-                        onChange: A,
+                        value: h,
+                        onChange: L,
                       }),
                     ],
                   }),
-                  k.jsxs('div', {
+                  y.jsxs('div', {
                     className: fe.filtersSection,
                     children: [
-                      k.jsxs('div', {
+                      y.jsxs('div', {
                         className: fe.filterOptions,
                         children: [
-                          k.jsxs('label', {
+                          y.jsxs('label', {
                             className: fe.filterOption,
                             children: [
-                              k.jsx('input', {
+                              y.jsx('input', {
                                 type: 'checkbox',
-                                checked: v.membership,
+                                checked: j.membership,
                                 onChange: e =>
-                                  O('membership', e.target.checked),
+                                  P('membership', e.target.checked),
                               }),
                               '我的项目',
                             ],
                           }),
-                          k.jsxs('label', {
+                          y.jsxs('label', {
                             className: fe.filterOption,
                             children: [
-                              k.jsx('input', {
+                              y.jsx('input', {
                                 type: 'checkbox',
-                                checked: v.starred,
-                                onChange: e => O('starred', e.target.checked),
+                                checked: j.starred,
+                                onChange: e => P('starred', e.target.checked),
                               }),
                               '已收藏',
                             ],
                           }),
                         ],
                       }),
-                      k.jsxs('div', {
+                      y.jsxs('div', {
                         className: fe.sortOptions,
                         children: [
-                          k.jsx('label', { children: '排序：' }),
-                          k.jsxs('select', {
-                            value: x,
-                            onChange: e => L(e.target.value),
+                          y.jsx('label', { children: '排序：' }),
+                          y.jsxs('select', {
+                            value: g,
+                            onChange: e => O(e.target.value),
                             children: [
-                              k.jsx('option', {
+                              y.jsx('option', {
                                 value: 'last_activity_at',
                                 children: '按活跃度排序',
                               }),
-                              k.jsx('option', {
+                              y.jsx('option', {
                                 value: 'name',
                                 children: '按名称排序',
                               }),
-                              k.jsx('option', {
+                              y.jsx('option', {
                                 value: 'created_at',
                                 children: '按创建时间排序',
                               }),
@@ -1410,68 +1393,68 @@ const ye = ({
                   }),
                 ],
               }),
-              k.jsx('div', {
+              y.jsx('div', {
                 className: fe.projectList,
-                children: _
-                  ? k.jsxs('div', {
+                children: u
+                  ? y.jsxs('div', {
                       className: fe.loading,
                       children: [
-                        k.jsx('div', { className: fe.spinner }),
+                        y.jsx('div', { className: fe.spinner }),
                         '加载中...',
                       ],
                     })
-                  : y
-                    ? k.jsx('div', { className: fe.error, children: y })
-                    : 0 === d.length
-                      ? k.jsxs('div', {
+                  : E
+                    ? y.jsx('div', { className: fe.error, children: E })
+                    : 0 === c.length
+                      ? y.jsxs('div', {
                           className: fe.emptyState,
                           children: [
-                            k.jsx('div', {
+                            y.jsx('div', {
                               className: fe.emptyIcon,
                               children: '📄',
                             }),
-                            k.jsx('div', {
+                            y.jsx('div', {
                               className: fe.emptyText,
                               children: '暂无项目',
                             }),
-                            k.jsx('div', {
+                            y.jsx('div', {
                               className: fe.emptyHint,
                               children: '请检查筛选条件或搜索关键词',
                             }),
                           ],
                         })
-                      : d.map(e =>
-                          k.jsxs(
+                      : c.map(e =>
+                          y.jsxs(
                             'div',
                             {
                               className: `${fe.projectItem} ${e.id === t ? fe.selected : ''}`,
-                              onClick: () => P(e.id),
+                              onClick: () => R(e.id),
                               children: [
-                                k.jsxs('div', {
+                                y.jsxs('div', {
                                   className: fe.projectInfo,
                                   children: [
-                                    k.jsx('div', {
+                                    y.jsx('div', {
                                       className: fe.projectName,
                                       children: e.name,
                                     }),
-                                    k.jsx('div', {
+                                    y.jsx('div', {
                                       className: fe.projectPath,
                                       children: e.path_with_namespace,
                                     }),
                                     e.description &&
-                                      k.jsx('div', {
+                                      y.jsx('div', {
                                         className: fe.projectDescription,
                                         children: e.description,
                                       }),
                                   ],
                                 }),
                                 e.starred &&
-                                  k.jsx('span', {
+                                  y.jsx('span', {
                                     className: fe.starIcon,
                                     children: '⭐',
                                   }),
                                 e.id === t &&
-                                  k.jsx('span', {
+                                  y.jsx('span', {
                                     className: fe.checkIcon,
                                     children: '✓',
                                   }),
@@ -1481,30 +1464,30 @@ const ye = ({
                           ),
                         ),
               }),
-              G > 1 &&
-                k.jsxs('div', {
+              F > 1 &&
+                y.jsxs('div', {
                   className: fe.pagination,
                   children: [
-                    k.jsx('button', {
+                    y.jsx('button', {
                       className: fe.pageButton,
-                      disabled: b <= 1,
-                      onClick: () => R(b - 1),
+                      disabled: f <= 1,
+                      onClick: () => U(f - 1),
                       children: '上一页',
                     }),
-                    k.jsxs('div', {
+                    y.jsxs('div', {
                       className: fe.pageInfo,
                       children: [
-                        k.jsxs('span', { children: [b, ' / ', G] }),
-                        k.jsxs('div', {
+                        y.jsxs('span', { children: [f, ' / ', F] }),
+                        y.jsxs('div', {
                           className: fe.totalCount,
-                          children: ['共 ', N, ' 个项目'],
+                          children: ['共 ', C, ' 个项目'],
                         }),
                       ],
                     }),
-                    k.jsx('button', {
+                    y.jsx('button', {
                       className: fe.pageButton,
-                      disabled: b >= G,
-                      onClick: () => R(b + 1),
+                      disabled: f >= F,
+                      onClick: () => U(f + 1),
                       children: '下一页',
                     }),
                   ],
@@ -1514,14 +1497,15 @@ const ye = ({
       ],
     })
   },
-  ke = 'index-module__changelogPanel__bsoH5',
+  ye = 'index-module__changelogPanel__bsoH5',
   Ee = 'index-module__projectSelectorContainer__DVUJQ',
   we = 'index-module__eventsListContainer__JlSig',
-  Se = () => {
+  Se = 'gitlab-changelog-selected-project',
+  Te = () => {
     const { state: e, isConfigValid: t } = I(),
       {
-        createRequest: n,
-        isRequestCancelled: s,
+        createRequest: s,
+        isRequestCancelled: n,
         cleanupRequest: l,
         isAbortError: i,
       } = M(),
@@ -1529,7 +1513,10 @@ const ye = ({
         () => be(e.config.gitlabUrl, e.config.gitlabToken),
         [e.config.gitlabUrl, e.config.gitlabToken],
       ),
-      [r, d] = a.useState(null),
+      [r, d] = a.useState(() => {
+        const e = localStorage.getItem(Se)
+        return e ? parseInt(e, 10) : null
+      }),
       [c, _] = a.useState([]),
       [u, p] = a.useState(0),
       [h, x] = a.useState(!1),
@@ -1537,11 +1524,15 @@ const ye = ({
       [j, b] = a.useState({ page: 1, pageSize: 20, total: 0 }),
       [f, N] = a.useState([]),
       C = a.useCallback(e => {
-        d(e), b(e => ({ ...e, page: 1 }))
+        d(e),
+          e
+            ? localStorage.setItem(Se, e.toString())
+            : localStorage.removeItem(Se),
+          b(e => ({ ...e, page: 1 }))
       }, []),
-      y = a.useCallback(async () => {
+      k = a.useCallback(async () => {
         if (!t() || !r) return _([]), void p(0)
-        const e = n()
+        const e = s()
         x(!0)
         try {
           await o.init()
@@ -1551,9 +1542,9 @@ const ye = ({
               sort: g.order,
               signal: e.signal,
             },
-            { events: a, total: n } = await o.getProjectEventsWithTotal(r, t)
-          if (s(e)) return
-          _(a), N(a.map(e => e.id)), p(n)
+            { events: a, total: s } = await o.getProjectEventsWithTotal(r, t)
+          if (n(e)) return
+          _(a), N(a.map(e => e.id)), p(s)
         } catch (a) {
           if (i(a)) return
           console.error(
@@ -1563,12 +1554,12 @@ const ye = ({
             _([]),
             p(0)
         } finally {
-          s(e) || x(!1), l(e)
+          n(e) || x(!1), l(e)
         }
-      }, [t, o, r, j, g, n, s, i, l])
+      }, [t, o, r, j, g, s, n, i, l])
     a.useEffect(() => {
-      y()
-    }, [y])
+      k()
+    }, [k])
     const E = a.useCallback(e => {
         v(e)
       }, []),
@@ -1584,21 +1575,22 @@ const ye = ({
         },
         [c],
       )
-    return k.jsxs('div', {
-      className: ke,
+    return y.jsxs('div', {
+      className: ye,
       children: [
-        k.jsx('div', {
+        y.jsx('div', {
           className: Ee,
-          children: k.jsx(ye, {
+          children: y.jsx(ke, {
             gitlabService: o,
             selectedProjectId: r,
             onProjectSelect: C,
             isConfigValid: t,
+            autoLoad: !0,
           }),
         }),
-        k.jsx('div', {
+        y.jsx('div', {
           className: we,
-          children: k.jsx(ve, {
+          children: y.jsx(ve, {
             events: c,
             totalCount: u,
             loading: h,
@@ -1615,26 +1607,26 @@ const ye = ({
       ],
     })
   },
-  Te = 'index-module__action-btn__To7Ms',
-  Ie = 'index-module__checking__QepNt',
-  Me = 'index-module__version-btn__8d3di',
-  $e = 'index-module__has-update__tNkZZ',
-  De = 'index-module__icon__EhhVu',
-  Ae = 'index-module__text__4iX-h',
-  Le = 'index-module__notification-overlay__E4dh-',
-  Oe = 'index-module__notification__ckX1l',
-  Pe = 'index-module__notification-header__nJZ3Q',
-  Re = 'index-module__close-btn__9uULv',
-  Ue = 'index-module__notification-body__nnab7',
-  Ge = 'index-module__version-info__-pyIP',
-  Fe = 'index-module__release-notes__iU2jG',
-  Be = 'index-module__notes-content__ZpxxA',
-  qe = 'index-module__notification-footer__La-ia',
-  ze = 'index-module__later-btn__Q40Lc',
-  He = 'index-module__update-btn__lD1V2',
-  Ve = ({ currentVersion: e }) => {
-    const [t, n] = a.useState(null),
-      [s, l] = a.useState(!1),
+  Ie = 'index-module__action-btn__To7Ms',
+  Me = 'index-module__checking__QepNt',
+  $e = 'index-module__version-btn__8d3di',
+  De = 'index-module__has-update__tNkZZ',
+  Ae = 'index-module__icon__EhhVu',
+  Le = 'index-module__text__4iX-h',
+  Oe = 'index-module__notification-overlay__E4dh-',
+  Pe = 'index-module__notification__ckX1l',
+  Re = 'index-module__notification-header__nJZ3Q',
+  Ue = 'index-module__close-btn__9uULv',
+  Ge = 'index-module__notification-body__nnab7',
+  Fe = 'index-module__version-info__-pyIP',
+  Be = 'index-module__release-notes__iU2jG',
+  qe = 'index-module__notes-content__ZpxxA',
+  ze = 'index-module__notification-footer__La-ia',
+  He = 'index-module__later-btn__Q40Lc',
+  Ve = 'index-module__update-btn__lD1V2',
+  Xe = ({ currentVersion: e }) => {
+    const [t, s] = a.useState(null),
+      [n, l] = a.useState(!1),
       [i, o] = a.useState(!1),
       [r, d] = a.useState(!1),
       [c, m] = a.useState(null),
@@ -1653,11 +1645,11 @@ const ye = ({
     }, [])
     const j = a.useCallback((e, t) => {
         const a = e.split('.').map(Number),
-          n = t.split('.').map(Number),
-          s = Math.max(a.length, n.length)
-        for (let l = 0; l < s; l++) {
+          s = t.split('.').map(Number),
+          n = Math.max(a.length, s.length)
+        for (let l = 0; l < n; l++) {
           const e = a[l] || 0,
-            t = n[l] || 0
+            t = s[l] || 0
           if (t > e) return !0
           if (t < e) return !1
         }
@@ -1665,7 +1657,7 @@ const ye = ({
       }, []),
       b = a.useCallback(
         async (a = !0) => {
-          if (!s)
+          if (!n)
             if (h && t && i && a)
               (!a && g.has(t.version)) ||
                 (d(!0), console.log(`使用缓存结果显示新版本 ${t.version}`))
@@ -1673,7 +1665,7 @@ const ye = ({
               l(!0), p(null)
               try {
                 const t = new AbortController(),
-                  s = setTimeout(() => t.abort(), 1e4),
+                  n = setTimeout(() => t.abort(), 1e4),
                   l = Date.now(),
                   i = 'undefined' != typeof GM_xmlhttpRequest,
                   r =
@@ -1686,7 +1678,7 @@ const ye = ({
                     signal: t.signal,
                     timeout: 1e4,
                   })
-                if ((clearTimeout(s), !c.ok))
+                if ((clearTimeout(n), !c.ok))
                   throw new Error(`HTTP ${c.status}: ${c.statusText}`)
                 const u = await c.json()
                 console.log('获取到版本信息:', u)
@@ -1696,7 +1688,7 @@ const ye = ({
                     'https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/userscript/gitlab-weekly-report.user.js',
                   releaseNotes: `版本 ${u.version} 已发布，请及时更新以获得最新功能和修复。`,
                 }
-                n(p), m(new Date()), x(!0)
+                s(p), m(new Date()), x(!0)
                 const h = j(e, p.version)
                 o(h),
                   h
@@ -1714,7 +1706,7 @@ const ye = ({
               }
             }
         },
-        [s, j, e, g, h, t, i],
+        [n, j, e, g, h, t, i],
       )
     a.useEffect(() => {
       const e = setTimeout(() => {
@@ -1757,7 +1749,7 @@ const ye = ({
           }
         }
       }, [t, g]),
-      y = a.useCallback(
+      k = a.useCallback(
         e =>
           e.toLocaleTimeString('zh-CN', {
             hour: '2-digit',
@@ -1768,7 +1760,7 @@ const ye = ({
       ),
       E = a.useCallback(
         () =>
-          s
+          n
             ? '检查中...'
             : u
               ? '检查失败'
@@ -1777,63 +1769,63 @@ const ye = ({
                 : h && !i
                   ? '已是最新版本 🎉'
                   : '检查更新',
-        [s, u, i, h],
+        [n, u, i, h],
       ),
       w = a.useCallback(
-        () => (s ? '🔄' : u ? '⚠️' : i ? '🔴' : '🔍'),
-        [s, u, i],
+        () => (n ? '🔄' : u ? '⚠️' : i ? '🔴' : '🔍'),
+        [n, u, i],
       )
     return (
       a.useEffect(() => {}, [N]),
-      k.jsxs(k.Fragment, {
+      y.jsxs(y.Fragment, {
         children: [
-          k.jsxs('button', {
-            className: `${Te} ${Me} ${s ? Ie : ''} ${i ? $e : ''}`,
+          y.jsxs('button', {
+            className: `${Ie} ${$e} ${n ? Me : ''} ${i ? De : ''}`,
             onClick: () => b(!0),
-            disabled: s,
+            disabled: n,
             title: c
-              ? `上次检查: ${y(c)}${u ? `\n错误: ${u}` : ''}`
+              ? `上次检查: ${k(c)}${u ? `\n错误: ${u}` : ''}`
               : '点击检查更新',
             children: [
-              k.jsx('span', { className: De, children: w() }),
-              k.jsx('span', { className: Ae, children: E() }),
+              y.jsx('span', { className: Ae, children: w() }),
+              y.jsx('span', { className: Le, children: E() }),
             ],
           }),
           r &&
             i &&
             t &&
-            k.jsx('div', {
-              className: Le,
-              children: k.jsxs('div', {
-                className: Oe,
+            y.jsx('div', {
+              className: Oe,
+              children: y.jsxs('div', {
+                className: Pe,
                 children: [
-                  k.jsxs('div', {
-                    className: Pe,
+                  y.jsxs('div', {
+                    className: Re,
                     children: [
-                      k.jsx('h3', { children: '🎉 发现新版本' }),
-                      k.jsx('button', {
-                        className: Re,
+                      y.jsx('h3', { children: '🎉 发现新版本' }),
+                      y.jsx('button', {
+                        className: Ue,
                         onClick: C,
                         children: '×',
                       }),
                     ],
                   }),
-                  k.jsxs('div', {
-                    className: Ue,
+                  y.jsxs('div', {
+                    className: Ge,
                     children: [
-                      k.jsxs('div', {
-                        className: Ge,
+                      y.jsxs('div', {
+                        className: Fe,
                         children: [
-                          k.jsxs('p', {
+                          y.jsxs('p', {
                             children: [
-                              k.jsx('strong', { children: '当前版本:' }),
+                              y.jsx('strong', { children: '当前版本:' }),
                               ' v',
                               e,
                             ],
                           }),
-                          k.jsxs('p', {
+                          y.jsxs('p', {
                             children: [
-                              k.jsx('strong', { children: '最新版本:' }),
+                              y.jsx('strong', { children: '最新版本:' }),
                               ' v',
                               t.version,
                             ],
@@ -1841,28 +1833,28 @@ const ye = ({
                         ],
                       }),
                       t.releaseNotes &&
-                        k.jsxs('div', {
-                          className: Fe,
+                        y.jsxs('div', {
+                          className: Be,
                           children: [
-                            k.jsx('h4', { children: '更新说明:' }),
-                            k.jsx('div', {
-                              className: Be,
+                            y.jsx('h4', { children: '更新说明:' }),
+                            y.jsx('div', {
+                              className: qe,
                               children: t.releaseNotes,
                             }),
                           ],
                         }),
                     ],
                   }),
-                  k.jsxs('div', {
-                    className: qe,
+                  y.jsxs('div', {
+                    className: ze,
                     children: [
-                      k.jsx('button', {
-                        className: ze,
+                      y.jsx('button', {
+                        className: He,
                         onClick: C,
                         children: '稍后更新',
                       }),
-                      k.jsx('button', {
-                        className: He,
+                      y.jsx('button', {
+                        className: Ve,
                         onClick: f,
                         children: '立即更新',
                       }),
@@ -1875,73 +1867,73 @@ const ye = ({
       })
     )
   },
-  Xe = 'index-module__config-status__0q8ZM',
-  Ke = 'index-module__clickable__pZ86X',
-  Qe = 'index-module__status-indicator__MeBgW',
-  Ze = 'index-module__status-icon__7jFiQ',
-  Ye = 'index-module__status-text__llRfw',
-  Je = 'index-module__progress-bar__CFedX',
-  We = 'index-module__progress-fill__w-23-',
-  et = 'index-module__valid__Xyroo',
-  tt = 'index-module__invalid__Fn-hL',
-  at = 'index-module__status-details__E1JnL',
+  Ke = 'index-module__config-status__0q8ZM',
+  Qe = 'index-module__clickable__pZ86X',
+  Ze = 'index-module__status-indicator__MeBgW',
+  Ye = 'index-module__status-icon__7jFiQ',
+  Je = 'index-module__status-text__llRfw',
+  We = 'index-module__progress-bar__CFedX',
+  et = 'index-module__progress-fill__w-23-',
+  tt = 'index-module__valid__Xyroo',
+  at = 'index-module__invalid__Fn-hL',
+  st = 'index-module__status-details__E1JnL',
   nt = 'index-module__missing-items__8Wn0w',
-  st = [
+  lt = [
     { key: 'gitlabUrl', label: 'GitLab', required: !0 },
     { key: 'gitlabToken', label: 'Token', required: !0 },
     { key: 'deepseekApiKey', label: 'API Key', required: !0 },
     { key: 'defaultPrompt', label: 'Prompt', required: !0 },
   ].filter(e => e.required),
-  lt = st.length,
-  it = ({ config: e, className: t = '', showDetails: n = !1, onClick: s }) => {
+  it = lt.length,
+  ot = ({ config: e, className: t = '', showDetails: s = !1, onClick: n }) => {
     const l = a.useMemo(() => {
       const t = [],
         a = []
-      st.forEach(n => {
-        const s = e[n.key]
-        ;('string' == typeof s ? '' !== s.trim() : !!s)
-          ? a.push(n.label)
-          : t.push(n.label)
+      lt.forEach(s => {
+        const n = e[s.key]
+        ;('string' == typeof n ? '' !== n.trim() : !!n)
+          ? a.push(s.label)
+          : t.push(s.label)
       })
-      const n = a.length
+      const s = a.length
       return {
         isValid: 0 === t.length,
         missingItems: t,
         completedItems: a,
-        completedCount: n,
-        totalCount: lt,
-        progress: (n / lt) * 100,
+        completedCount: s,
+        totalCount: it,
+        progress: (s / it) * 100,
       }
     }, [e])
-    return k.jsxs('div', {
-      className: `${Xe} ${t} ${s ? Ke : ''}`,
-      onClick: s,
+    return y.jsxs('div', {
+      className: `${Ke} ${t} ${n ? Qe : ''}`,
+      onClick: n,
       children: [
-        k.jsxs('div', {
-          className: `${Qe} ${l.isValid ? et : tt}`,
+        y.jsxs('div', {
+          className: `${Ze} ${l.isValid ? tt : at}`,
           children: [
-            k.jsx('span', { className: Ze, children: l.isValid ? '✅' : '⚠️' }),
-            k.jsx('span', {
-              className: Ye,
+            y.jsx('span', { className: Ye, children: l.isValid ? '✅' : '⚠️' }),
+            y.jsx('span', {
+              className: Je,
               children: l.isValid
                 ? '就绪'
                 : `${l.completedCount}/${l.totalCount}`,
             }),
             !l.isValid &&
-              k.jsx('div', {
-                className: Je,
-                children: k.jsx('div', {
-                  className: We,
+              y.jsx('div', {
+                className: We,
+                children: y.jsx('div', {
+                  className: et,
                   style: { width: `${l.progress}%` },
                 }),
               }),
           ],
         }),
-        n &&
+        s &&
           !l.isValid &&
-          k.jsx('div', {
-            className: at,
-            children: k.jsx('div', {
+          y.jsx('div', {
+            className: st,
+            children: y.jsx('div', {
               className: nt,
               children: l.missingItems.join(' · '),
             }),
@@ -1949,33 +1941,33 @@ const ye = ({
       ],
     })
   },
-  ot = 'index-module__main-panel__82FLm',
-  rt = 'index-module__panel-header__kyx4p',
-  dt = 'index-module__header-left__xT1T5',
-  ct = 'index-module__header-right__7F8Bo',
-  _t = 'index-module__mode-toggle__9yafG',
-  mt = 'index-module__toggle-track__82VKI',
-  ut = 'index-module__toggle-slider__tkY4o',
-  pt = 'index-module__slide-right__qPOZu',
-  ht = 'index-module__toggle-option__ZhXXU',
-  xt = 'index-module__active__Mr5KU',
-  gt = 'index-module__toggle-icon__AI6K7',
-  vt = 'index-module__toggle-label__1qZLz',
-  jt = 'index-module__divider__QXSgp',
-  bt = 'index-module__action-buttons__xGRHl',
-  ft = 'index-module__action-btn__x4IAP',
-  Nt = 'index-module__btn-icon__ZaYHk',
-  Ct = 'index-module__btn-label__tM2Rz',
+  rt = 'index-module__main-panel__82FLm',
+  dt = 'index-module__panel-header__kyx4p',
+  ct = 'index-module__header-left__xT1T5',
+  _t = 'index-module__header-right__7F8Bo',
+  mt = 'index-module__mode-toggle__9yafG',
+  ut = 'index-module__toggle-track__82VKI',
+  pt = 'index-module__toggle-slider__tkY4o',
+  ht = 'index-module__slide-right__qPOZu',
+  xt = 'index-module__toggle-option__ZhXXU',
+  gt = 'index-module__active__Mr5KU',
+  vt = 'index-module__toggle-icon__AI6K7',
+  jt = 'index-module__toggle-label__1qZLz',
+  bt = 'index-module__divider__QXSgp',
+  ft = 'index-module__action-buttons__xGRHl',
+  Nt = 'index-module__action-btn__x4IAP',
+  Ct = 'index-module__btn-icon__ZaYHk',
+  kt = 'index-module__btn-label__tM2Rz',
   yt = 'index-module__ai-btn__5kAV3',
-  kt = 'index-module__changelog-section__afcqm',
-  Et = 'index-module__filter-section__gMBIz',
-  wt = 'index-module__events-section__gJwdk',
-  St = ({
+  Et = 'index-module__changelog-section__afcqm',
+  wt = 'index-module__filter-section__gMBIz',
+  St = 'index-module__events-section__gJwdk',
+  Tt = ({
     appMode: e,
     events: t,
     totalCount: a,
-    loading: n,
-    filterConditions: s,
+    loading: s,
+    filterConditions: n,
     sortOptions: l,
     paginationOptions: i,
     selectedEventIds: o,
@@ -1990,49 +1982,38 @@ const ye = ({
     onOpenAI: g,
   }) => {
     const { state: v } = I()
-    return k.jsxs('div', {
-      className: ot,
+    return y.jsxs('div', {
+      className: rt,
       children: [
-        k.jsxs('div', {
-          className: rt,
+        y.jsxs('div', {
+          className: dt,
           children: [
-            k.jsxs('div', {
-              className: dt,
-              children: [
-                k.jsx('h1', {
-                  children:
-                    'events' === e ? 'GitLab Events' : 'GitLab Changelog',
-                }),
-                k.jsx(it, { config: v.config, onClick: x }),
-              ],
-            }),
-            k.jsxs('div', {
+            y.jsxs('div', {
               className: ct,
               children: [
-                k.jsx(Ve, { currentVersion: p }),
-                k.jsx('div', {
-                  className: _t,
-                  children: k.jsxs('div', {
-                    className: mt,
+                y.jsx('div', {
+                  className: mt,
+                  children: y.jsxs('div', {
+                    className: ut,
                     children: [
-                      k.jsx('div', {
-                        className: `${ut} ${'changelog' === e ? pt : ''}`,
+                      y.jsx('div', {
+                        className: `${pt} ${'changelog' === e ? ht : ''}`,
                       }),
-                      k.jsxs('button', {
-                        className: `${ht} ${'events' === e ? xt : ''}`,
+                      y.jsxs('button', {
+                        className: `${xt} ${'events' === e ? gt : ''}`,
                         onClick: () => r('events'),
                         children: [
-                          k.jsx('span', { className: gt, children: '📋' }),
-                          k.jsx('span', { className: vt, children: 'Events' }),
+                          y.jsx('span', { className: vt, children: '📋' }),
+                          y.jsx('span', { className: jt, children: 'Events' }),
                         ],
                       }),
-                      k.jsxs('button', {
-                        className: `${ht} ${'changelog' === e ? xt : ''}`,
+                      y.jsxs('button', {
+                        className: `${xt} ${'changelog' === e ? gt : ''}`,
                         onClick: () => r('changelog'),
                         children: [
-                          k.jsx('span', { className: gt, children: '📝' }),
-                          k.jsx('span', {
-                            className: vt,
+                          y.jsx('span', { className: vt, children: '📝' }),
+                          y.jsx('span', {
+                            className: jt,
                             children: 'Changelog',
                           }),
                         ],
@@ -2040,29 +2021,36 @@ const ye = ({
                     ],
                   }),
                 }),
-                k.jsx('div', { className: jt }),
-                k.jsxs('div', {
-                  className: bt,
+                y.jsx(ot, { config: v.config, onClick: x }),
+              ],
+            }),
+            y.jsxs('div', {
+              className: _t,
+              children: [
+                y.jsx(Xe, { currentVersion: p }),
+                y.jsx('div', { className: bt }),
+                y.jsxs('div', {
+                  className: ft,
                   children: [
-                    k.jsxs('button', {
-                      className: ft,
+                    y.jsxs('button', {
+                      className: Nt,
                       onClick: x,
                       title: '设置',
                       children: [
-                        k.jsx('span', {
-                          className: Nt,
-                          children: k.jsxs('svg', {
+                        y.jsx('span', {
+                          className: Ct,
+                          children: y.jsxs('svg', {
                             viewBox: '0 0 24 24',
                             fill: 'none',
                             children: [
-                              k.jsx('path', {
+                              y.jsx('path', {
                                 d: 'M12 15a3 3 0 100-6 3 3 0 000 6z',
                                 stroke: 'currentColor',
                                 strokeWidth: '2',
                                 strokeLinecap: 'round',
                                 strokeLinejoin: 'round',
                               }),
-                              k.jsx('path', {
+                              y.jsx('path', {
                                 d: 'M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z',
                                 stroke: 'currentColor',
                                 strokeWidth: '2',
@@ -2072,36 +2060,36 @@ const ye = ({
                             ],
                           }),
                         }),
-                        k.jsx('span', { className: Ct, children: '设置' }),
+                        y.jsx('span', { className: kt, children: '设置' }),
                       ],
                     }),
-                    k.jsxs('button', {
-                      className: `${ft} ${yt}`,
+                    y.jsxs('button', {
+                      className: `${Nt} ${yt}`,
                       onClick: g,
                       title: 'AI 周报',
                       children: [
-                        k.jsx('span', {
-                          className: Nt,
-                          children: k.jsxs('svg', {
+                        y.jsx('span', {
+                          className: Ct,
+                          children: y.jsxs('svg', {
                             viewBox: '0 0 24 24',
                             fill: 'none',
                             children: [
-                              k.jsx('path', {
+                              y.jsx('path', {
                                 d: 'M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z',
                                 fill: 'currentColor',
                               }),
-                              k.jsx('path', {
+                              y.jsx('path', {
                                 d: 'M19 14L19.5 16.5L22 17L19.5 17.5L19 20L18.5 17.5L16 17L18.5 16.5L19 14Z',
                                 fill: 'currentColor',
                               }),
-                              k.jsx('path', {
+                              y.jsx('path', {
                                 d: 'M5 6L5.5 8.5L8 9L5.5 9.5L5 12L4.5 9.5L2 9L4.5 8.5L5 6Z',
                                 fill: 'currentColor',
                               }),
                             ],
                           }),
                         }),
-                        k.jsx('span', { className: Ct, children: 'AI 周报' }),
+                        y.jsx('span', { className: kt, children: 'AI 周报' }),
                       ],
                     }),
                   ],
@@ -2111,21 +2099,21 @@ const ye = ({
           ],
         }),
         'events' === e
-          ? k.jsxs(k.Fragment, {
+          ? y.jsxs(y.Fragment, {
               children: [
-                k.jsx('div', {
-                  className: Et,
-                  children: k.jsx(F, {
-                    filterConditions: s,
+                y.jsx('div', {
+                  className: wt,
+                  children: y.jsx(F, {
+                    filterConditions: n,
                     onFilterChange: d,
                   }),
                 }),
-                k.jsx('div', {
-                  className: wt,
-                  children: k.jsx(ve, {
+                y.jsx('div', {
+                  className: St,
+                  children: y.jsx(ve, {
                     events: t,
                     totalCount: a,
-                    loading: n,
+                    loading: s,
                     sortOptions: l,
                     onSortChange: c,
                     paginationOptions: i,
@@ -2138,23 +2126,23 @@ const ye = ({
                 }),
               ],
             })
-          : k.jsx('div', { className: kt, children: k.jsx(Se, {}) }),
+          : y.jsx('div', { className: Et, children: y.jsx(Te, {}) }),
       ],
     })
   },
-  Tt = 'index-module__modal-mask__XYxyO',
-  It = 'index-module__modal-wrapper__bVZip',
-  Mt = 'index-module__modal__QQS3u',
-  $t = 'index-module__modal-header__GdUjX',
-  Dt = 'index-module__modal-title__cafB-',
-  At = 'index-module__modal-close__ZuUgf',
-  Lt = 'index-module__modal-body__j5X3U',
-  Ot = 'index-module__modal-footer__3q-wn',
-  Pt = ({
+  It = 'index-module__modal-mask__XYxyO',
+  Mt = 'index-module__modal-wrapper__bVZip',
+  $t = 'index-module__modal__QQS3u',
+  Dt = 'index-module__modal-header__GdUjX',
+  At = 'index-module__modal-title__cafB-',
+  Lt = 'index-module__modal-close__ZuUgf',
+  Ot = 'index-module__modal-body__j5X3U',
+  Pt = 'index-module__modal-footer__3q-wn',
+  Rt = ({
     visible: e,
     title: t,
-    width: n = 520,
-    maxHeight: s = window.innerHeight - 180,
+    width: s = 520,
+    maxHeight: n = window.innerHeight - 180,
     children: l,
     footer: i,
     onClose: o,
@@ -2178,100 +2166,100 @@ const ye = ({
       !e)
     )
       return null
-    return k.jsx('div', {
+    return y.jsx('div', {
       id: 'gitlab-weekly-report-container',
-      className: Tt,
+      className: It,
       onClick: e => {
         e.target === e.currentTarget && r && o()
       },
-      children: k.jsx('div', {
-        className: It,
-        children: k.jsxs('div', {
-          className: Mt,
-          style: { width: n, maxHeight: s },
+      children: y.jsx('div', {
+        className: Mt,
+        children: y.jsxs('div', {
+          className: $t,
+          style: { width: s, maxHeight: n },
           children: [
-            k.jsxs('div', {
-              className: $t,
+            y.jsxs('div', {
+              className: Dt,
               children: [
-                k.jsx('div', { className: Dt, children: t }),
-                k.jsx('button', {
-                  className: At,
+                y.jsx('div', { className: At, children: t }),
+                y.jsx('button', {
+                  className: Lt,
                   onClick: o,
-                  children: k.jsx('span', { children: '×' }),
+                  children: y.jsx('span', { children: '×' }),
                 }),
               ],
             }),
-            k.jsx('div', { className: Lt, children: l }),
-            i && k.jsx('div', { className: Ot, children: i }),
+            y.jsx('div', { className: Ot, children: l }),
+            i && y.jsx('div', { className: Pt, children: i }),
           ],
         }),
       }),
     })
   },
-  Rt = 'index-module__settings-panel__UCg3H',
-  Ut = 'index-module__config-overview__kaSMo',
-  Gt = 'index-module__settings-tabs__vPH-t',
-  Ft = 'index-module__tab-button__FG9Nc',
-  Bt = 'index-module__tab-icon__rBe-o',
-  qt = 'index-module__active__bsBC1',
-  zt = 'index-module__settings-content__TqQPH',
-  Ht = 'index-module__tab-panel__Q2QUI',
-  Vt = 'index-module__form-group__zKwiA',
-  Xt = 'index-module__form-label__pwe7O',
-  Kt = 'index-module__required__2vuyW',
-  Qt = 'index-module__form-input__jGbRP',
-  Zt = 'index-module__form-select__jbXdq',
-  Yt = 'index-module__form-textarea__fAVMw',
-  Jt = 'index-module__form-hint__F0dFQ',
-  Wt = 'index-module__version-info__y0NZv',
-  ea = 'index-module__version-text__bx0HU',
-  ta = 'index-module__settings-footer__qA44X',
-  aa = 'index-module__footer-right__bslDg',
+  Ut = 'index-module__settings-panel__UCg3H',
+  Gt = 'index-module__config-overview__kaSMo',
+  Ft = 'index-module__settings-tabs__vPH-t',
+  Bt = 'index-module__tab-button__FG9Nc',
+  qt = 'index-module__tab-icon__rBe-o',
+  zt = 'index-module__active__bsBC1',
+  Ht = 'index-module__settings-content__TqQPH',
+  Vt = 'index-module__tab-panel__Q2QUI',
+  Xt = 'index-module__form-group__zKwiA',
+  Kt = 'index-module__form-label__pwe7O',
+  Qt = 'index-module__required__2vuyW',
+  Zt = 'index-module__form-input__jGbRP',
+  Yt = 'index-module__form-select__jbXdq',
+  Jt = 'index-module__form-textarea__fAVMw',
+  Wt = 'index-module__form-hint__F0dFQ',
+  ea = 'index-module__version-info__y0NZv',
+  ta = 'index-module__version-text__bx0HU',
+  aa = 'index-module__settings-footer__qA44X',
+  sa = 'index-module__footer-right__bslDg',
   na = 'index-module__btn-primary__ZzzFI',
-  sa = 'index-module__switch-container__5xk1J',
-  la = 'index-module__switch-input__V-8fl',
-  ia = 'index-module__switch-label__xrOeQ',
-  oa = 'index-module__switch-slider__dG-6J',
-  ra = 'index-module__btn-secondary__cRCpD',
-  da = ({ isOpen: e, onClose: t, config: n, onSave: s, theme: l }) => {
-    const [i, o] = a.useState(n),
+  la = 'index-module__switch-container__5xk1J',
+  ia = 'index-module__switch-input__V-8fl',
+  oa = 'index-module__switch-label__xrOeQ',
+  ra = 'index-module__switch-slider__dG-6J',
+  da = 'index-module__btn-secondary__cRCpD',
+  ca = ({ isOpen: e, onClose: t, config: s, onSave: n, theme: l }) => {
+    const [i, o] = a.useState(s),
       [r, d] = a.useState(l),
       [c, _] = a.useState('gitlab')
     a.useEffect(() => {
-      o(n)
-    }, [n]),
+      o(s)
+    }, [s]),
       a.useEffect(() => {
         d(l)
       }, [l]),
       a.useEffect(() => {
-        e && (o(n), d(l))
-      }, [e, n, l])
+        e && (o(s), d(l))
+      }, [e, s, l])
     const m = (e, t) => {
       o(a => ({ ...a, [e]: t }))
     }
-    return k.jsx(Pt, {
+    return y.jsx(Rt, {
       visible: e,
       title: '系统设置',
       width: 600,
       onClose: t,
-      footer: k.jsxs('div', {
-        className: ta,
+      footer: y.jsxs('div', {
+        className: aa,
         children: [
-          k.jsx('button', {
-            className: ra,
+          y.jsx('button', {
+            className: da,
             onClick: () => {
-              o(n), d(l)
+              o(s), d(l)
             },
             children: '重置',
           }),
-          k.jsxs('div', {
-            className: aa,
+          y.jsxs('div', {
+            className: sa,
             children: [
-              k.jsx('button', { className: ra, onClick: t, children: '取消' }),
-              k.jsx('button', {
+              y.jsx('button', { className: da, onClick: t, children: '取消' }),
+              y.jsx('button', {
                 className: na,
                 onClick: () => {
-                  s(i, r), t()
+                  n(i, r), t()
                 },
                 disabled: !(
                   i.gitlabUrl.trim() &&
@@ -2285,91 +2273,91 @@ const ye = ({
           }),
         ],
       }),
-      children: k.jsxs('div', {
-        className: Rt,
+      children: y.jsxs('div', {
+        className: Ut,
         children: [
-          k.jsx('div', {
-            className: Ut,
-            children: k.jsx(it, { config: i, showDetails: !0 }),
-          }),
-          k.jsxs('div', {
+          y.jsx('div', {
             className: Gt,
+            children: y.jsx(ot, { config: i, showDetails: !0 }),
+          }),
+          y.jsxs('div', {
+            className: Ft,
             children: [
-              k.jsxs('button', {
-                className: `${Ft} ${'gitlab' === c ? qt : ''}`,
+              y.jsxs('button', {
+                className: `${Bt} ${'gitlab' === c ? zt : ''}`,
                 onClick: () => _('gitlab'),
                 children: [
-                  k.jsx('span', { className: Bt, children: '🦊' }),
+                  y.jsx('span', { className: qt, children: '🦊' }),
                   'GitLab 配置',
                 ],
               }),
-              k.jsxs('button', {
-                className: `${Ft} ${'deepseek' === c ? qt : ''}`,
+              y.jsxs('button', {
+                className: `${Bt} ${'deepseek' === c ? zt : ''}`,
                 onClick: () => _('deepseek'),
                 children: [
-                  k.jsx('span', { className: Bt, children: '🤖' }),
+                  y.jsx('span', { className: qt, children: '🤖' }),
                   'DeepSeek 配置',
                 ],
               }),
-              k.jsxs('button', {
-                className: `${Ft} ${'appearance' === c ? qt : ''}`,
+              y.jsxs('button', {
+                className: `${Bt} ${'appearance' === c ? zt : ''}`,
                 onClick: () => _('appearance'),
                 children: [
-                  k.jsx('span', { className: Bt, children: '🎨' }),
+                  y.jsx('span', { className: qt, children: '🎨' }),
                   '外观设置',
                 ],
               }),
             ],
           }),
-          k.jsxs('div', {
-            className: zt,
+          y.jsxs('div', {
+            className: Ht,
             children: [
               'gitlab' === c &&
-                k.jsxs('div', {
-                  className: Ht,
+                y.jsxs('div', {
+                  className: Vt,
                   children: [
-                    k.jsxs('div', {
-                      className: Vt,
+                    y.jsxs('div', {
+                      className: Xt,
                       children: [
-                        k.jsxs('label', {
-                          className: Xt,
+                        y.jsxs('label', {
+                          className: Kt,
                           children: [
                             'GitLab 项目地址 ',
-                            k.jsx('span', { className: Kt, children: '*' }),
+                            y.jsx('span', { className: Qt, children: '*' }),
                           ],
                         }),
-                        k.jsx('input', {
+                        y.jsx('input', {
                           type: 'text',
-                          className: Qt,
+                          className: Zt,
                           placeholder: h.gitlabUrl,
                           value: i.gitlabUrl,
                           onChange: e => m('gitlabUrl', e.target.value),
                         }),
-                        k.jsx('div', {
-                          className: Jt,
+                        y.jsx('div', {
+                          className: Wt,
                           children: '请输入完整的 GitLab 项目 URL',
                         }),
                       ],
                     }),
-                    k.jsxs('div', {
-                      className: Vt,
+                    y.jsxs('div', {
+                      className: Xt,
                       children: [
-                        k.jsxs('label', {
-                          className: Xt,
+                        y.jsxs('label', {
+                          className: Kt,
                           children: [
                             '个人访问令牌 ',
-                            k.jsx('span', { className: Kt, children: '*' }),
+                            y.jsx('span', { className: Qt, children: '*' }),
                           ],
                         }),
-                        k.jsx('input', {
+                        y.jsx('input', {
                           type: 'text',
-                          className: Qt,
+                          className: Zt,
                           placeholder: h.gitlabToken,
                           value: i.gitlabToken,
                           onChange: e => m('gitlabToken', e.target.value),
                         }),
-                        k.jsx('div', {
-                          className: Jt,
+                        y.jsx('div', {
+                          className: Wt,
                           children:
                             '在 GitLab 个人设置 → 访问令牌 中创建，需要 read_api 权限',
                         }),
@@ -2378,49 +2366,49 @@ const ye = ({
                   ],
                 }),
               'deepseek' === c &&
-                k.jsxs('div', {
-                  className: Ht,
+                y.jsxs('div', {
+                  className: Vt,
                   children: [
-                    k.jsxs('div', {
-                      className: Vt,
+                    y.jsxs('div', {
+                      className: Xt,
                       children: [
-                        k.jsxs('label', {
-                          className: Xt,
+                        y.jsxs('label', {
+                          className: Kt,
                           children: [
                             'DeepSeek API Key ',
-                            k.jsx('span', { className: Kt, children: '*' }),
+                            y.jsx('span', { className: Qt, children: '*' }),
                           ],
                         }),
-                        k.jsx('input', {
+                        y.jsx('input', {
                           type: 'text',
-                          className: Qt,
+                          className: Zt,
                           placeholder: h.deepseekApiKey,
                           value: i.deepseekApiKey,
                           onChange: e => m('deepseekApiKey', e.target.value),
                         }),
-                        k.jsx('div', {
-                          className: Jt,
+                        y.jsx('div', {
+                          className: Wt,
                           children: '在 DeepSeek 平台获取 API Key',
                         }),
                       ],
                     }),
-                    k.jsxs('div', {
-                      className: Vt,
+                    y.jsxs('div', {
+                      className: Xt,
                       children: [
-                        k.jsx('label', {
-                          className: Xt,
+                        y.jsx('label', {
+                          className: Kt,
                           children: '使用的模型',
                         }),
-                        k.jsxs('select', {
-                          className: Zt,
+                        y.jsxs('select', {
+                          className: Yt,
                           value: i.model,
                           onChange: e => m('model', e.target.value),
                           children: [
-                            k.jsx('option', {
+                            y.jsx('option', {
                               value: 'deepseek-chat',
                               children: 'deepseek-chat',
                             }),
-                            k.jsx('option', {
+                            y.jsx('option', {
                               value: 'deepseek-coder',
                               children: 'deepseek-coder',
                             }),
@@ -2428,16 +2416,16 @@ const ye = ({
                         }),
                       ],
                     }),
-                    k.jsxs('div', {
-                      className: Vt,
+                    y.jsxs('div', {
+                      className: Xt,
                       children: [
-                        k.jsx('label', {
-                          className: Xt,
+                        y.jsx('label', {
+                          className: Kt,
                           children: 'Token 数量限制',
                         }),
-                        k.jsx('input', {
+                        y.jsx('input', {
                           type: 'number',
-                          className: Qt,
+                          className: Zt,
                           min: '1000',
                           max: '10000',
                           placeholder: '4000',
@@ -2445,31 +2433,31 @@ const ye = ({
                           onChange: e =>
                             m('tokenLimit', parseInt(e.target.value)),
                         }),
-                        k.jsx('div', {
-                          className: Jt,
+                        y.jsx('div', {
+                          className: Wt,
                           children: '单次生成的最大 Token 数量（1000-10000）',
                         }),
                       ],
                     }),
-                    k.jsxs('div', {
-                      className: Vt,
+                    y.jsxs('div', {
+                      className: Xt,
                       children: [
-                        k.jsxs('label', {
-                          className: Xt,
+                        y.jsxs('label', {
+                          className: Kt,
                           children: [
                             '默认提示词 ',
-                            k.jsx('span', { className: Kt, children: '*' }),
+                            y.jsx('span', { className: Qt, children: '*' }),
                           ],
                         }),
-                        k.jsx('textarea', {
-                          className: Yt,
+                        y.jsx('textarea', {
+                          className: Jt,
                           rows: 6,
                           placeholder: h.defaultPrompt,
                           value: i.defaultPrompt,
                           onChange: e => m('defaultPrompt', e.target.value),
                         }),
-                        k.jsx('div', {
-                          className: Jt,
+                        y.jsx('div', {
+                          className: Wt,
                           children: '用于生成周报的默认提示词模板',
                         }),
                       ],
@@ -2477,96 +2465,96 @@ const ye = ({
                   ],
                 }),
               'appearance' === c &&
-                k.jsxs('div', {
-                  className: Ht,
+                y.jsxs('div', {
+                  className: Vt,
                   children: [
-                    k.jsxs('div', {
-                      className: Vt,
+                    y.jsxs('div', {
+                      className: Xt,
                       children: [
-                        k.jsx('label', { className: Xt, children: '主题模式' }),
-                        k.jsxs('select', {
-                          className: Zt,
+                        y.jsx('label', { className: Kt, children: '主题模式' }),
+                        y.jsxs('select', {
+                          className: Yt,
                           value: r,
                           onChange: e => d(e.target.value),
                           children: [
-                            k.jsx('option', {
+                            y.jsx('option', {
                               value: 'system',
                               children: '🔄 跟随系统',
                             }),
-                            k.jsx('option', {
+                            y.jsx('option', {
                               value: 'light',
                               children: '☀️ 浅色模式',
                             }),
-                            k.jsx('option', {
+                            y.jsx('option', {
                               value: 'dark',
                               children: '🌙 深色模式',
                             }),
                           ],
                         }),
-                        k.jsx('div', {
-                          className: Jt,
+                        y.jsx('div', {
+                          className: Wt,
                           children:
                             '选择应用的主题模式，跟随系统将根据系统设置自动切换',
                         }),
                       ],
                     }),
-                    k.jsxs('div', {
-                      className: Vt,
+                    y.jsxs('div', {
+                      className: Xt,
                       children: [
-                        k.jsx('label', {
-                          className: Xt,
+                        y.jsx('label', {
+                          className: Kt,
                           children: '自动检查更新',
                         }),
-                        k.jsxs('div', {
-                          className: sa,
+                        y.jsxs('div', {
+                          className: la,
                           children: [
-                            k.jsx('input', {
+                            y.jsx('input', {
                               type: 'checkbox',
                               id: 'autoCheckUpdate',
-                              className: la,
+                              className: ia,
                               checked: i.autoCheckUpdate ?? !0,
                               onChange: e =>
                                 m('autoCheckUpdate', e.target.checked),
                             }),
-                            k.jsx('label', {
+                            y.jsx('label', {
                               htmlFor: 'autoCheckUpdate',
-                              className: ia,
-                              children: k.jsx('span', { className: oa }),
+                              className: oa,
+                              children: y.jsx('span', { className: ra }),
                             }),
                           ],
                         }),
-                        k.jsx('div', {
-                          className: Jt,
+                        y.jsx('div', {
+                          className: Wt,
                           children: '开启后将自动检查版本更新并提醒',
                         }),
                       ],
                     }),
-                    k.jsxs('div', {
-                      className: Vt,
+                    y.jsxs('div', {
+                      className: Xt,
                       children: [
-                        k.jsx('label', {
-                          className: Xt,
+                        y.jsx('label', {
+                          className: Kt,
                           children: '检查更新间隔',
                         }),
-                        k.jsxs('select', {
-                          className: Zt,
+                        y.jsxs('select', {
+                          className: Yt,
                           value: i.updateCheckInterval ?? 3e5,
                           onChange: e =>
                             m('updateCheckInterval', parseInt(e.target.value)),
                           disabled: !(i.autoCheckUpdate ?? 1),
                           children: [
-                            k.jsx('option', { value: 6e4, children: '1分钟' }),
-                            k.jsx('option', { value: 3e5, children: '5分钟' }),
-                            k.jsx('option', { value: 6e5, children: '10分钟' }),
-                            k.jsx('option', {
+                            y.jsx('option', { value: 6e4, children: '1分钟' }),
+                            y.jsx('option', { value: 3e5, children: '5分钟' }),
+                            y.jsx('option', { value: 6e5, children: '10分钟' }),
+                            y.jsx('option', {
                               value: 18e5,
                               children: '30分钟',
                             }),
-                            k.jsx('option', { value: 36e5, children: '1小时' }),
+                            y.jsx('option', { value: 36e5, children: '1小时' }),
                           ],
                         }),
-                        k.jsx('div', {
-                          className: Jt,
+                        y.jsx('div', {
+                          className: Wt,
                           children: '设置自动检查版本更新的时间间隔',
                         }),
                       ],
@@ -2575,15 +2563,15 @@ const ye = ({
                 }),
             ],
           }),
-          k.jsx('div', {
-            className: Wt,
-            children: k.jsxs('span', { className: ea, children: ['v', p] }),
+          y.jsx('div', {
+            className: ea,
+            children: y.jsxs('span', { className: ta, children: ['v', p] }),
           }),
         ],
       }),
     })
   },
-  ca = {
+  _a = {
     aiPanel: 'index-module__ai-panel__R0K19',
     dataOverview: 'index-module__data-overview__J-ZoM',
     overviewHeader: 'index-module__overview-header__ae0e8',
@@ -2625,77 +2613,77 @@ const ye = ({
     regenerate: 'index-module__regenerate__MPpEF',
     btnText: 'index-module__btn-text__f3PZM',
   },
-  _a = ({
+  ma = ({
     visible: e,
     config: t,
-    defaultPrompt: n,
-    onClose: s,
+    defaultPrompt: s,
+    onClose: n,
     onGenerate: l,
     isLoading: i,
     selectedEventsCount: o = 0,
     dateRange: r,
   }) => {
-    const [d, c] = a.useState(n),
+    const [d, c] = a.useState(s),
       [_, m] = a.useState(!1),
       [u, p] = a.useState(!1)
     a.useEffect(() => {
-      c(n)
-    }, [n])
-    return k.jsx(Pt, {
+      c(s)
+    }, [s])
+    return y.jsx(Rt, {
       visible: e,
       title: 'AI 周报生成',
       width: 800,
-      onClose: s,
+      onClose: n,
       maskClosable: !i,
-      children: k.jsxs('div', {
-        className: ca.aiPanel,
+      children: y.jsxs('div', {
+        className: _a.aiPanel,
         children: [
-          k.jsxs('div', {
-            className: ca.dataOverview,
+          y.jsxs('div', {
+            className: _a.dataOverview,
             children: [
-              k.jsx('div', {
-                className: ca.overviewHeader,
-                children: k.jsx('h4', { children: '📊 数据概览' }),
+              y.jsx('div', {
+                className: _a.overviewHeader,
+                children: y.jsx('h4', { children: '📊 数据概览' }),
               }),
-              k.jsxs('div', {
-                className: ca.overviewContent,
+              y.jsxs('div', {
+                className: _a.overviewContent,
                 children: [
-                  k.jsxs('div', {
-                    className: ca.overviewItem,
+                  y.jsxs('div', {
+                    className: _a.overviewItem,
                     children: [
-                      k.jsx('span', {
-                        className: ca.overviewLabel,
+                      y.jsx('span', {
+                        className: _a.overviewLabel,
                         children: '选中事件：',
                       }),
-                      k.jsxs('span', {
-                        className: ca.overviewValue,
+                      y.jsxs('span', {
+                        className: _a.overviewValue,
                         children: [o, ' 条'],
                       }),
                     ],
                   }),
                   r &&
-                    k.jsxs('div', {
-                      className: ca.overviewItem,
+                    y.jsxs('div', {
+                      className: _a.overviewItem,
                       children: [
-                        k.jsx('span', {
-                          className: ca.overviewLabel,
+                        y.jsx('span', {
+                          className: _a.overviewLabel,
                           children: '日期范围：',
                         }),
-                        k.jsxs('span', {
-                          className: ca.overviewValue,
+                        y.jsxs('span', {
+                          className: _a.overviewValue,
                           children: [r.startDate, ' 至 ', r.endDate],
                         }),
                       ],
                     }),
-                  k.jsxs('div', {
-                    className: ca.overviewItem,
+                  y.jsxs('div', {
+                    className: _a.overviewItem,
                     children: [
-                      k.jsx('span', {
-                        className: ca.overviewLabel,
+                      y.jsx('span', {
+                        className: _a.overviewLabel,
                         children: '状态：',
                       }),
-                      k.jsx('span', {
-                        className: `${ca.overviewValue} ${o > 0 ? ca.ready : ca.waiting}`,
+                      y.jsx('span', {
+                        className: `${_a.overviewValue} ${o > 0 ? _a.ready : _a.waiting}`,
                         children: o > 0 ? '✅ 数据就绪' : '⏳ 等待选择事件',
                       }),
                     ],
@@ -2704,25 +2692,25 @@ const ye = ({
               }),
             ],
           }),
-          k.jsxs('div', {
-            className: ca.promptSection,
+          y.jsxs('div', {
+            className: _a.promptSection,
             children: [
-              k.jsxs('div', {
-                className: ca.sectionHeader,
+              y.jsxs('div', {
+                className: _a.sectionHeader,
                 children: [
-                  k.jsx('h3', { children: '提示词' }),
-                  k.jsxs('div', {
-                    className: ca.headerActions,
+                  y.jsx('h3', { children: '提示词' }),
+                  y.jsxs('div', {
+                    className: _a.headerActions,
                     children: [
-                      k.jsx('button', {
-                        className: ca.btnText,
+                      y.jsx('button', {
+                        className: _a.btnText,
                         onClick: () => m(!_),
                         children: _ ? '收起' : '展开',
                       }),
-                      k.jsx('button', {
-                        className: ca.btnText,
+                      y.jsx('button', {
+                        className: _a.btnText,
                         onClick: () => {
-                          c(n)
+                          c(s)
                         },
                         children: '重置',
                       }),
@@ -2730,26 +2718,26 @@ const ye = ({
                   }),
                 ],
               }),
-              k.jsxs('div', {
-                className: `${ca.promptEditor} ${_ ? ca.expanded : ''}`,
+              y.jsxs('div', {
+                className: `${_a.promptEditor} ${_ ? _a.expanded : ''}`,
                 children: [
-                  k.jsx('textarea', {
-                    className: ca.promptTextarea,
+                  y.jsx('textarea', {
+                    className: _a.promptTextarea,
                     value: d,
                     onChange: e => c(e.target.value),
                     placeholder: '请输入用于生成周报的提示词...',
                     rows: _ ? 15 : 6,
                     disabled: i,
                   }),
-                  k.jsxs('div', {
-                    className: ca.promptFooter,
+                  y.jsxs('div', {
+                    className: _a.promptFooter,
                     children: [
-                      k.jsxs('span', {
-                        className: ca.charCount,
+                      y.jsxs('span', {
+                        className: _a.charCount,
                         children: [d.length, ' 字符'],
                       }),
-                      k.jsx('button', {
-                        className: `${ca.btnPrimary} ${(null == t ? void 0 : t.result) ? ca.regenerate : ''}`,
+                      y.jsx('button', {
+                        className: `${_a.btnPrimary} ${(null == t ? void 0 : t.result) ? _a.regenerate : ''}`,
                         onClick: () => {
                           l(d)
                         },
@@ -2767,40 +2755,40 @@ const ye = ({
             ],
           }),
           i &&
-            k.jsxs('div', {
-              className: ca.loadingSection,
+            y.jsxs('div', {
+              className: _a.loadingSection,
               children: [
-                k.jsx('div', { className: ca.loadingSpinner }),
-                k.jsx('p', { children: 'AI 正在分析事件数据，生成周报中...' }),
-                k.jsx('div', {
-                  className: ca.loadingTips,
-                  children: k.jsx('span', {
+                y.jsx('div', { className: _a.loadingSpinner }),
+                y.jsx('p', { children: 'AI 正在分析事件数据，生成周报中...' }),
+                y.jsx('div', {
+                  className: _a.loadingTips,
+                  children: y.jsx('span', {
                     children: '💡 生成时间通常为 10-30 秒',
                   }),
                 }),
               ],
             }),
           (null == t ? void 0 : t.result) &&
-            k.jsxs('div', {
-              className: ca.resultSection,
+            y.jsxs('div', {
+              className: _a.resultSection,
               children: [
-                k.jsxs('div', {
-                  className: ca.resultHeader,
+                y.jsxs('div', {
+                  className: _a.resultHeader,
                   children: [
-                    k.jsxs('h3', {
-                      className: ca.resultTitle,
+                    y.jsxs('h3', {
+                      className: _a.resultTitle,
                       children: [
-                        k.jsx('span', {
-                          className: ca.titleIcon,
+                        y.jsx('span', {
+                          className: _a.titleIcon,
                           children: '✨',
                         }),
                         '生成结果',
                       ],
                     }),
-                    k.jsx('div', {
-                      className: ca.resultActions,
-                      children: k.jsxs('button', {
-                        className: `${ca.actionBtn} ${u ? ca.copied : ''}`,
+                    y.jsx('div', {
+                      className: _a.resultActions,
+                      children: y.jsxs('button', {
+                        className: `${_a.actionBtn} ${u ? _a.copied : ''}`,
                         onClick: () => {
                           ;(null == t ? void 0 : t.result) &&
                             navigator.clipboard.writeText(t.result).then(() => {
@@ -2810,8 +2798,8 @@ const ye = ({
                         title: '一键复制',
                         disabled: u,
                         children: [
-                          k.jsx('span', {
-                            className: ca.btnIcon,
+                          y.jsx('span', {
+                            className: _a.btnIcon,
                             children: u ? '✅' : '📋',
                           }),
                           u ? '已复制' : '复制',
@@ -2820,27 +2808,27 @@ const ye = ({
                     }),
                   ],
                 }),
-                k.jsx('div', {
-                  className: ca.resultContent,
-                  children: k.jsx('div', {
-                    className: ca.resultText,
+                y.jsx('div', {
+                  className: _a.resultContent,
+                  children: y.jsx('div', {
+                    className: _a.resultText,
                     children: t.result,
                   }),
                 }),
-                k.jsx('div', {
-                  className: ca.resultMeta,
-                  children: k.jsxs('div', {
-                    className: ca.metaLeft,
+                y.jsx('div', {
+                  className: _a.resultMeta,
+                  children: y.jsxs('div', {
+                    className: _a.metaLeft,
                     children: [
-                      k.jsx('div', {
-                        className: ca.metaItem,
-                        children: k.jsxs('span', {
+                      y.jsx('div', {
+                        className: _a.metaItem,
+                        children: y.jsxs('span', {
                           children: [t.result.split('\n').length, ' 行'],
                         }),
                       }),
-                      k.jsx('div', {
-                        className: ca.metaItem,
-                        children: k.jsxs('span', {
+                      y.jsx('div', {
+                        className: _a.metaItem,
+                        children: y.jsxs('span', {
                           children: [t.result.length, ' 字符'],
                         }),
                       }),
@@ -2851,46 +2839,46 @@ const ye = ({
             }),
           !t &&
             !i &&
-            k.jsxs('div', {
-              className: ca.emptyResult,
+            y.jsxs('div', {
+              className: _a.emptyResult,
               children: [
-                k.jsx('div', { className: ca.emptyIcon, children: '🤖' }),
-                k.jsx('h3', { children: '准备生成 AI 周报' }),
-                k.jsx('p', {
+                y.jsx('div', { className: _a.emptyIcon, children: '🤖' }),
+                y.jsx('h3', { children: '准备生成 AI 周报' }),
+                y.jsx('p', {
                   children:
                     '点击"生成周报"按钮，AI 将基于您的 GitLab 事件数据生成专业的工作周报',
                 }),
-                k.jsxs('div', {
-                  className: ca.emptyFeatures,
+                y.jsxs('div', {
+                  className: _a.emptyFeatures,
                   children: [
-                    k.jsxs('div', {
-                      className: ca.featureItem,
+                    y.jsxs('div', {
+                      className: _a.featureItem,
                       children: [
-                        k.jsx('span', {
-                          className: ca.featureIcon,
+                        y.jsx('span', {
+                          className: _a.featureIcon,
                           children: '📊',
                         }),
-                        k.jsx('span', { children: '智能分析工作数据' }),
+                        y.jsx('span', { children: '智能分析工作数据' }),
                       ],
                     }),
-                    k.jsxs('div', {
-                      className: ca.featureItem,
+                    y.jsxs('div', {
+                      className: _a.featureItem,
                       children: [
-                        k.jsx('span', {
-                          className: ca.featureIcon,
+                        y.jsx('span', {
+                          className: _a.featureIcon,
                           children: '📝',
                         }),
-                        k.jsx('span', { children: '自动生成周报内容' }),
+                        y.jsx('span', { children: '自动生成周报内容' }),
                       ],
                     }),
-                    k.jsxs('div', {
-                      className: ca.featureItem,
+                    y.jsxs('div', {
+                      className: _a.featureItem,
                       children: [
-                        k.jsx('span', {
-                          className: ca.featureIcon,
+                        y.jsx('span', {
+                          className: _a.featureIcon,
                           children: '🎯',
                         }),
-                        k.jsx('span', { children: '突出重点工作成果' }),
+                        y.jsx('span', { children: '突出重点工作成果' }),
                       ],
                     }),
                   ],
@@ -2901,7 +2889,7 @@ const ye = ({
       }),
     })
   },
-  ma = {
+  ua = {
     'event-detail-modal-overlay':
       'EventDetailModal-module__event-detail-modal-overlay__kSKR4',
     eventDetailModalOverlay:
@@ -2981,9 +2969,9 @@ const ye = ({
     app: 'EventDetailModal-module__app__GneYG',
     dark: 'EventDetailModal-module__dark__4O-jE',
   },
-  ua = ({ event: e, visible: t, onClose: a }) => {
+  pa = ({ event: e, visible: t, onClose: a }) => {
     if (!t || !e) return null
-    const n = e =>
+    const s = e =>
         new Date(e).toLocaleString('zh-CN', {
           year: 'numeric',
           month: '2-digit',
@@ -2992,79 +2980,79 @@ const ye = ({
           minute: '2-digit',
           second: '2-digit',
         }),
-      s = () => {
+      n = () => {
         var t, a
         if (!e.project && !e.project_id) return ''
-        const n = 'https://www.lejuhub.com'
-        if (!e.project) return n
-        const s = e.project.path_with_namespace
-        if (!e.target_type || '' === e.target_type.trim()) return `${n}/${s}`
+        const s = 'https://www.lejuhub.com'
+        if (!e.project) return s
+        const n = e.project.path_with_namespace
+        if (!e.target_type || '' === e.target_type.trim()) return `${s}/${n}`
         switch (e.target_type) {
           case 'MergeRequest':
-            return `${n}/${s}/-/merge_requests/${e.target_iid}`
+            return `${s}/${n}/-/merge_requests/${e.target_iid}`
           case 'Issue':
-            return `${n}/${s}/-/issues/${e.target_iid}`
+            return `${s}/${n}/-/issues/${e.target_iid}`
           case 'Note':
             return 'Issue' === (null == (t = e.note) ? void 0 : t.noteable_type)
-              ? `${n}/${s}/-/issues/${e.note.noteable_iid}`
+              ? `${s}/${n}/-/issues/${e.note.noteable_iid}`
               : 'MergeRequest' ===
                   (null == (a = e.note) ? void 0 : a.noteable_type)
-                ? `${n}/${s}/-/merge_requests/${e.note.noteable_iid}`
-                : `${n}/${s}`
+                ? `${s}/${n}/-/merge_requests/${e.note.noteable_iid}`
+                : `${s}/${n}`
           default:
-            return `${n}/${s}`
+            return `${s}/${n}`
         }
       }
-    return k.jsx('div', {
-      className: ma.eventDetailModalOverlay,
+    return y.jsx('div', {
+      className: ua.eventDetailModalOverlay,
       onClick: a,
-      children: k.jsxs('div', {
-        className: ma.eventDetailModal,
+      children: y.jsxs('div', {
+        className: ua.eventDetailModal,
         onClick: e => e.stopPropagation(),
         children: [
-          k.jsxs('div', {
-            className: ma.modalHeader,
+          y.jsxs('div', {
+            className: ua.modalHeader,
             children: [
-              k.jsx('h2', { children: '事件详情' }),
-              k.jsx('button', {
-                className: ma.closeBtn,
+              y.jsx('h2', { children: '事件详情' }),
+              y.jsx('button', {
+                className: ua.closeBtn,
                 onClick: a,
                 children: '×',
               }),
             ],
           }),
-          k.jsxs('div', {
-            className: ma.modalContent,
+          y.jsxs('div', {
+            className: ua.modalContent,
             children: [
-              k.jsxs('div', {
-                className: `${ma.detailSection} ${ma.compact}`,
+              y.jsxs('div', {
+                className: `${ua.detailSection} ${ua.compact}`,
                 children: [
-                  k.jsx('h3', { children: '基本信息' }),
-                  k.jsxs('div', {
-                    className: `${ma.detailGrid} ${ma.compactGrid}`,
+                  y.jsx('h3', { children: '基本信息' }),
+                  y.jsxs('div', {
+                    className: `${ua.detailGrid} ${ua.compactGrid}`,
                     children: [
-                      k.jsxs('div', {
-                        className: ma.detailItem,
+                      y.jsxs('div', {
+                        className: ua.detailItem,
                         children: [
-                          k.jsx('span', {
-                            className: ma.label,
+                          y.jsx('span', {
+                            className: ua.label,
                             children: 'ID:',
                           }),
-                          k.jsx('span', {
-                            className: ma.value,
+                          y.jsx('span', {
+                            className: ua.value,
                             children: e.id,
                           }),
                         ],
                       }),
-                      k.jsxs('div', {
-                        className: ma.detailItem,
+                      y.jsxs('div', {
+                        className: ua.detailItem,
                         children: [
-                          k.jsx('span', {
-                            className: ma.label,
+                          y.jsx('span', {
+                            className: ua.label,
                             children: '类型:',
                           }),
-                          k.jsx('span', {
-                            className: ma.value,
+                          y.jsx('span', {
+                            className: ua.value,
                             children: (e => {
                               if (!e || '' === e.trim()) return '未知类型'
                               return (
@@ -3082,15 +3070,15 @@ const ye = ({
                           }),
                         ],
                       }),
-                      k.jsxs('div', {
-                        className: ma.detailItem,
+                      y.jsxs('div', {
+                        className: ua.detailItem,
                         children: [
-                          k.jsx('span', {
-                            className: ma.label,
+                          y.jsx('span', {
+                            className: ua.label,
                             children: '操作:',
                           }),
-                          k.jsx('span', {
-                            className: `${ma.value} ${ma.actionBadge}`,
+                          y.jsx('span', {
+                            className: `${ua.value} ${ua.actionBadge}`,
                             children:
                               ((l = e.action_name),
                               {
@@ -3105,29 +3093,29 @@ const ye = ({
                           }),
                         ],
                       }),
-                      k.jsxs('div', {
-                        className: ma.detailItem,
+                      y.jsxs('div', {
+                        className: ua.detailItem,
                         children: [
-                          k.jsx('span', {
-                            className: ma.label,
+                          y.jsx('span', {
+                            className: ua.label,
                             children: '时间:',
                           }),
-                          k.jsx('span', {
-                            className: ma.value,
-                            children: n(e.created_at),
+                          y.jsx('span', {
+                            className: ua.value,
+                            children: s(e.created_at),
                           }),
                         ],
                       }),
                       e.state &&
-                        k.jsxs('div', {
-                          className: ma.detailItem,
+                        y.jsxs('div', {
+                          className: ua.detailItem,
                           children: [
-                            k.jsx('span', {
-                              className: ma.label,
+                            y.jsx('span', {
+                              className: ua.label,
                               children: '状态:',
                             }),
-                            k.jsx('span', {
-                              className: `${ma.value} ${ma.statusBadge} ${ma[`status-${e.state}`]}`,
+                            y.jsx('span', {
+                              className: `${ua.value} ${ua.statusBadge} ${ua[`status-${e.state}`]}`,
                               children: e.state,
                             }),
                           ],
@@ -3139,56 +3127,56 @@ const ye = ({
               (e.title ||
                 e.target_title ||
                 (e.labels && e.labels.length > 0)) &&
-                k.jsxs('div', {
-                  className: `${ma.detailSection} ${ma.compact}`,
+                y.jsxs('div', {
+                  className: `${ua.detailSection} ${ua.compact}`,
                   children: [
-                    k.jsx('h3', { children: '内容' }),
-                    k.jsxs('div', {
-                      className: `${ma.detailContent} ${ma.compactContent}`,
+                    y.jsx('h3', { children: '内容' }),
+                    y.jsxs('div', {
+                      className: `${ua.detailContent} ${ua.compactContent}`,
                       children: [
                         e.title &&
-                          k.jsxs('div', {
-                            className: ma.detailItem,
+                          y.jsxs('div', {
+                            className: ua.detailItem,
                             children: [
-                              k.jsx('span', {
-                                className: ma.label,
+                              y.jsx('span', {
+                                className: ua.label,
                                 children: '标题:',
                               }),
-                              k.jsx('span', {
-                                className: ma.value,
+                              y.jsx('span', {
+                                className: ua.value,
                                 children: e.title,
                               }),
                             ],
                           }),
                         e.target_title &&
-                          k.jsxs('div', {
-                            className: ma.detailItem,
+                          y.jsxs('div', {
+                            className: ua.detailItem,
                             children: [
-                              k.jsx('span', {
-                                className: ma.label,
+                              y.jsx('span', {
+                                className: ua.label,
                                 children: '目标:',
                               }),
-                              k.jsx('span', {
-                                className: ma.value,
+                              y.jsx('span', {
+                                className: ua.value,
                                 children: e.target_title,
                               }),
                             ],
                           }),
                         e.labels &&
                           e.labels.length > 0 &&
-                          k.jsxs('div', {
-                            className: ma.detailItem,
+                          y.jsxs('div', {
+                            className: ua.detailItem,
                             children: [
-                              k.jsx('span', {
-                                className: ma.label,
+                              y.jsx('span', {
+                                className: ua.label,
                                 children: '标签:',
                               }),
-                              k.jsx('div', {
-                                className: ma.labels,
+                              y.jsx('div', {
+                                className: ua.labels,
                                 children: e.labels.map((e, t) =>
-                                  k.jsx(
+                                  y.jsx(
                                     'span',
-                                    { className: ma.labelTag, children: e },
+                                    { className: ua.labelTag, children: e },
                                     t,
                                   ),
                                 ),
@@ -3200,28 +3188,28 @@ const ye = ({
                   ],
                 }),
               e.author &&
-                k.jsxs('div', {
-                  className: `${ma.detailSection} ${ma.compact}`,
+                y.jsxs('div', {
+                  className: `${ua.detailSection} ${ua.compact}`,
                   children: [
-                    k.jsx('h3', { children: '作者' }),
-                    k.jsxs('div', {
-                      className: `${ma.authorInfo} ${ma.compactAuthor}`,
+                    y.jsx('h3', { children: '作者' }),
+                    y.jsxs('div', {
+                      className: `${ua.authorInfo} ${ua.compactAuthor}`,
                       children: [
                         e.author.avatar_url &&
-                          k.jsx('img', {
+                          y.jsx('img', {
                             src: `${e.author.avatar_url}?width=100`,
                             alt: e.author.name,
-                            className: ma.authorAvatar,
+                            className: ua.authorAvatar,
                           }),
-                        k.jsxs('div', {
-                          className: ma.authorDetails,
+                        y.jsxs('div', {
+                          className: ua.authorDetails,
                           children: [
-                            k.jsx('div', {
-                              className: ma.authorName,
+                            y.jsx('div', {
+                              className: ua.authorName,
                               children: e.author.name,
                             }),
-                            k.jsxs('div', {
-                              className: ma.authorUsername,
+                            y.jsxs('div', {
+                              className: ua.authorUsername,
                               children: ['@', e.author.username],
                             }),
                           ],
@@ -3231,52 +3219,52 @@ const ye = ({
                   ],
                 }),
               (e.project || e.project_id) &&
-                k.jsxs('div', {
-                  className: `${ma.detailSection} ${ma.compact}`,
+                y.jsxs('div', {
+                  className: `${ua.detailSection} ${ua.compact}`,
                   children: [
-                    k.jsx('h3', { children: '项目' }),
-                    k.jsx('div', {
-                      className: `${ma.projectInfo} ${ma.compactProject}`,
+                    y.jsx('h3', { children: '项目' }),
+                    y.jsx('div', {
+                      className: `${ua.projectInfo} ${ua.compactProject}`,
                       children: e.project
-                        ? k.jsxs(k.Fragment, {
+                        ? y.jsxs(y.Fragment, {
                             children: [
-                              k.jsxs('div', {
-                                className: ma.detailItem,
+                              y.jsxs('div', {
+                                className: ua.detailItem,
                                 children: [
-                                  k.jsx('span', {
-                                    className: ma.label,
+                                  y.jsx('span', {
+                                    className: ua.label,
                                     children: '名称:',
                                   }),
-                                  k.jsx('span', {
-                                    className: ma.value,
+                                  y.jsx('span', {
+                                    className: ua.value,
                                     children: e.project.name,
                                   }),
                                 ],
                               }),
-                              k.jsxs('div', {
-                                className: ma.detailItem,
+                              y.jsxs('div', {
+                                className: ua.detailItem,
                                 children: [
-                                  k.jsx('span', {
-                                    className: ma.label,
+                                  y.jsx('span', {
+                                    className: ua.label,
                                     children: '路径:',
                                   }),
-                                  k.jsx('span', {
-                                    className: ma.value,
+                                  y.jsx('span', {
+                                    className: ua.value,
                                     children: e.project.path_with_namespace,
                                   }),
                                 ],
                               }),
                             ],
                           })
-                        : k.jsxs('div', {
-                            className: ma.detailItem,
+                        : y.jsxs('div', {
+                            className: ua.detailItem,
                             children: [
-                              k.jsx('span', {
-                                className: ma.label,
+                              y.jsx('span', {
+                                className: ua.label,
                                 children: '项目ID:',
                               }),
-                              k.jsx('span', {
-                                className: ma.value,
+                              y.jsx('span', {
+                                className: ua.value,
                                 children: e.project_id,
                               }),
                             ],
@@ -3285,61 +3273,61 @@ const ye = ({
                   ],
                 }),
               e.push_data &&
-                k.jsxs('div', {
-                  className: ma.detailSection,
+                y.jsxs('div', {
+                  className: ua.detailSection,
                   children: [
-                    k.jsx('h3', { children: '推送信息' }),
-                    k.jsxs('div', {
-                      className: ma.pushInfo,
+                    y.jsx('h3', { children: '推送信息' }),
+                    y.jsxs('div', {
+                      className: ua.pushInfo,
                       children: [
-                        k.jsxs('div', {
-                          className: ma.detailItem,
+                        y.jsxs('div', {
+                          className: ua.detailItem,
                           children: [
-                            k.jsx('span', {
-                              className: ma.label,
+                            y.jsx('span', {
+                              className: ua.label,
                               children: '分支:',
                             }),
-                            k.jsx('span', {
-                              className: ma.value,
+                            y.jsx('span', {
+                              className: ua.value,
                               children: e.push_data.ref,
                             }),
                           ],
                         }),
-                        k.jsxs('div', {
-                          className: ma.detailItem,
+                        y.jsxs('div', {
+                          className: ua.detailItem,
                           children: [
-                            k.jsx('span', {
-                              className: ma.label,
+                            y.jsx('span', {
+                              className: ua.label,
                               children: '提交数量:',
                             }),
-                            k.jsx('span', {
-                              className: ma.value,
+                            y.jsx('span', {
+                              className: ua.value,
                               children: e.push_data.commit_count,
                             }),
                           ],
                         }),
-                        k.jsxs('div', {
-                          className: ma.detailItem,
+                        y.jsxs('div', {
+                          className: ua.detailItem,
                           children: [
-                            k.jsx('span', {
-                              className: ma.label,
+                            y.jsx('span', {
+                              className: ua.label,
                               children: '提交标题:',
                             }),
-                            k.jsx('span', {
-                              className: ma.value,
+                            y.jsx('span', {
+                              className: ua.value,
                               children: e.push_data.commit_title,
                             }),
                           ],
                         }),
-                        k.jsxs('div', {
-                          className: ma.detailItem,
+                        y.jsxs('div', {
+                          className: ua.detailItem,
                           children: [
-                            k.jsx('span', {
-                              className: ma.label,
+                            y.jsx('span', {
+                              className: ua.label,
                               children: '提交哈希:',
                             }),
-                            k.jsx('span', {
-                              className: `${ma.value} ${ma.commitHash}`,
+                            y.jsx('span', {
+                              className: `${ua.value} ${ua.commitHash}`,
                               children: e.push_data.commit_to,
                             }),
                           ],
@@ -3349,26 +3337,26 @@ const ye = ({
                   ],
                 }),
               e.note &&
-                k.jsxs('div', {
-                  className: ma.detailSection,
+                y.jsxs('div', {
+                  className: ua.detailSection,
                   children: [
-                    k.jsx('h3', { children: '评论信息' }),
-                    k.jsxs('div', {
-                      className: ma.noteInfo,
+                    y.jsx('h3', { children: '评论信息' }),
+                    y.jsxs('div', {
+                      className: ua.noteInfo,
                       children: [
-                        k.jsx('div', {
-                          className: ma.noteBody,
+                        y.jsx('div', {
+                          className: ua.noteBody,
                           children: e.note.body,
                         }),
-                        k.jsxs('div', {
-                          className: ma.noteMeta,
+                        y.jsxs('div', {
+                          className: ua.noteMeta,
                           children: [
-                            k.jsxs('span', {
-                              children: ['创建时间: ', n(e.note.created_at)],
+                            y.jsxs('span', {
+                              children: ['创建时间: ', s(e.note.created_at)],
                             }),
                             e.note.updated_at !== e.note.created_at &&
-                              k.jsxs('span', {
-                                children: ['更新时间: ', n(e.note.updated_at)],
+                              y.jsxs('span', {
+                                children: ['更新时间: ', s(e.note.updated_at)],
                               }),
                           ],
                         }),
@@ -3378,19 +3366,19 @@ const ye = ({
                 }),
             ],
           }),
-          k.jsxs('div', {
-            className: ma.modalFooter,
+          y.jsxs('div', {
+            className: ua.modalFooter,
             children: [
-              s() &&
-                k.jsx('a', {
-                  href: s(),
+              n() &&
+                y.jsx('a', {
+                  href: n(),
                   target: '_blank',
                   rel: 'noopener noreferrer',
-                  className: ma.sourceLinkBtn,
+                  className: ua.sourceLinkBtn,
                   children: '打开源页面',
                 }),
-              k.jsx('button', {
-                className: ma.closeModalBtn,
+              y.jsx('button', {
+                className: ua.closeModalBtn,
                 onClick: a,
                 children: '关闭',
               }),
@@ -3401,7 +3389,7 @@ const ye = ({
     })
     var l
   },
-  pa = {
+  ha = {
     app: 'App-module__app__ZYOJd',
     'web-mode': 'App-module__web-mode__2hnFp',
     webMode: 'App-module__web-mode__2hnFp',
@@ -3457,11 +3445,11 @@ const ye = ({
     'report-text': 'App-module__report-text__DiDz5',
     reportText: 'App-module__report-text__DiDz5',
   },
-  ha = ({ isUserscript: e = !1 }) => {
+  xa = ({ isUserscript: e = !1 }) => {
     const {
         state: t,
-        updateConfig: n,
-        setTheme: s,
+        updateConfig: s,
+        setTheme: n,
         setActivePanel: l,
         setAppMode: i,
         setProjects: o,
@@ -3482,7 +3470,7 @@ const ye = ({
         cleanupRequest: N,
         isAbortError: C,
       } = M(),
-      y = a.useMemo(
+      k = a.useMemo(
         () => be(t.config.gitlabUrl, t.config.gitlabToken),
         [t.config.gitlabUrl, t.config.gitlabToken],
       ),
@@ -3514,12 +3502,12 @@ const ye = ({
     }, [t.theme])
     const O = a.useCallback(
       async e => {
-        var a, n
+        var a, s
         if (!v()) return void g(c.INVALID_FILTER_OR_CONFIG)
-        const s = b()
+        const n = b()
         x(!0), g(null)
         try {
-          await y.init()
+          await k.init()
           const { startDate: l, endDate: i } = j(),
             o = e || t.filterConditions,
             r =
@@ -3527,11 +3515,11 @@ const ye = ({
                 ? o.targetType
                 : void 0,
             d =
-              (null == (n = o.action) ? void 0 : n.length) > 0
+              (null == (s = o.action) ? void 0 : s.length) > 0
                 ? o.action
                 : void 0,
             c = t.sortOptions.order || 'desc',
-            _ = await y.getCurrentUser(),
+            _ = await k.getCurrentUser(),
             m = {
               after: l,
               before: i,
@@ -3540,17 +3528,17 @@ const ye = ({
               page: t.paginationOptions.page,
               per_page: t.paginationOptions.pageSize,
               sort: c,
-              signal: s.signal,
+              signal: n.signal,
             },
-            { events: h, total: x } = await y.getUserEventsWithTotal(_.id, m)
-          if (f(s)) return
+            { events: h, total: x } = await k.getUserEventsWithTotal(_.id, m)
+          if (f(n)) return
           u(h), A(h.map(e => e.id)), p(x)
         } catch (l) {
           if (C(l)) return
           const e = m.formatErrorMessage(l)
           g(e), u([]), p(0)
         } finally {
-          f(s) || x(!1), N(s)
+          f(n) || x(!1), N(n)
         }
       },
       [
@@ -3564,7 +3552,7 @@ const ye = ({
         x,
         g,
         v,
-        y,
+        k,
         b,
         f,
         C,
@@ -3574,33 +3562,203 @@ const ye = ({
     a.useEffect(() => {
       v() && O()
     }, [v, O])
-    const P = a.useCallback(async () => {
-      if (v()) {
-        x(!0), g(null)
-        try {
-          await y.init()
-          const e = await y.getProjects({
-            membership: !0,
-            per_page: 100,
-            starred: !1,
-            simple: !0,
-            order_by: 'last_activity_at',
-            search: '',
-          })
-          o(e)
-        } catch (e) {
-          const t = m.formatErrorMessage(e)
-          g(t), o([])
-        } finally {
-          x(!1)
-        }
-      } else g(c.INVALID_FILTER_OR_CONFIG)
-    }, [y, v, o, x, g])
-    return k.jsxs('div', {
+    const P = a.useCallback(() => {
+        l('settings')
+      }, [l]),
+      R = a.useCallback(() => {
+        l('main')
+      }, [l]),
+      U = a.useCallback(
+        (e, t) => {
+          s(e), n(t)
+        },
+        [s, n],
+      ),
+      G = a.useCallback(() => {
+        v() ? l('ai') : g(c.INCOMPLETE_GITLAB_DEEPSEEK)
+      }, [v, g, l]),
+      F = a.useCallback(() => {
+        l('main')
+      }, [l]),
+      B = a.useCallback(
+        async e => {
+          if (v())
+            if (0 !== D.length) {
+              x(!0), g(null)
+              try {
+                const a = t.events
+                    .filter(e => D.includes(e.id))
+                    .map(e => {
+                      var t
+                      return `${new Date(e.created_at).toLocaleDateString('zh-CN')} - ${e.action_name}: ${e.target_title || (null == (t = e.push_data) ? void 0 : t.commit_title) || '无标题'}`
+                    })
+                    .join('\n'),
+                  { createDeepSeekApiService: s } = await (function (e, t) {
+                    let a = Promise.resolve()
+                    if (t && t.length > 0) {
+                      document.getElementsByTagName('link')
+                      const e = document.querySelector(
+                          'meta[property=csp-nonce]',
+                        ),
+                        s =
+                          (null == e ? void 0 : e.nonce) ||
+                          (null == e ? void 0 : e.getAttribute('nonce'))
+                      a = Promise.allSettled(
+                        t.map(e => {
+                          if (
+                            (e = (function (e) {
+                              return '/' + e
+                            })(e)) in S
+                          )
+                            return
+                          S[e] = !0
+                          const t = e.endsWith('.css'),
+                            a = t ? '[rel="stylesheet"]' : ''
+                          if (document.querySelector(`link[href="${e}"]${a}`))
+                            return
+                          const n = document.createElement('link')
+                          return (
+                            (n.rel = t ? 'stylesheet' : 'modulepreload'),
+                            t || (n.as = 'script'),
+                            (n.crossOrigin = ''),
+                            (n.href = e),
+                            s && n.setAttribute('nonce', s),
+                            document.head.appendChild(n),
+                            t
+                              ? new Promise((t, a) => {
+                                  n.addEventListener('load', t),
+                                    n.addEventListener('error', () =>
+                                      a(
+                                        new Error(
+                                          `Unable to preload CSS for ${e}`,
+                                        ),
+                                      ),
+                                    )
+                                })
+                              : void 0
+                          )
+                        }),
+                      )
+                    }
+                    function s(e) {
+                      const t = new Event('vite:preloadError', {
+                        cancelable: !0,
+                      })
+                      if (
+                        ((t.payload = e),
+                        window.dispatchEvent(t),
+                        !t.defaultPrevented)
+                      )
+                        throw e
+                    }
+                    return a.then(t => {
+                      for (const e of t || [])
+                        'rejected' === e.status && s(e.reason)
+                      return e().catch(s)
+                    })
+                  })(
+                    async () => {
+                      const { createDeepSeekApiService: e } = await import(
+                        './deepseek-api-CNcWWZRV.js'
+                      )
+                      return { createDeepSeekApiService: e }
+                    },
+                    __vite__mapDeps([0, 1]),
+                  ),
+                  n = s(t.config.deepseekApiKey),
+                  l = await n.generateWeeklyReport(
+                    a,
+                    e,
+                    t.config.model,
+                    t.config.tokenLimit,
+                  )
+                h({ prompt: e, tokensUsed: l.tokensUsed, result: l.content }),
+                  x(!1)
+              } catch (a) {
+                const e = m.formatErrorMessage(a)
+                g(e), x(!1)
+              }
+            } else g(c.NO_EVENTS_SELECTED)
+          else g(c.INCOMPLETE_CONFIG)
+        },
+        [
+          v,
+          D,
+          t.events,
+          t.config.deepseekApiKey,
+          t.config.model,
+          t.config.tokenLimit,
+          g,
+          x,
+          h,
+        ],
+      ),
+      q = a.useCallback(
+        e => {
+          _(e)
+        },
+        [_],
+      ),
+      z = a.useCallback(
+        e => {
+          r(e), O(e)
+        },
+        [r, O],
+      ),
+      H = a.useCallback(
+        e => {
+          d(e)
+        },
+        [d],
+      ),
+      V = a.useCallback((e, t) => {
+        A(a => (t ? [...a, e] : a.filter(t => t !== e)))
+      }, []),
+      X = a.useCallback(
+        e => {
+          A(e ? t.events.map(e => e.id) : [])
+        },
+        [t.events],
+      ),
+      K = a.useCallback(e => {
+        w(e), $(!0)
+      }, []),
+      Q = a.useCallback(() => {
+        $(!1), w(null)
+      }, []),
+      Z = a.useCallback(async () => {
+        if (v()) {
+          x(!0), g(null)
+          try {
+            await k.init()
+            const e = await k.getProjects({
+              membership: !0,
+              per_page: 100,
+              starred: !1,
+              simple: !0,
+              order_by: 'last_activity_at',
+              search: '',
+            })
+            o(e)
+          } catch (e) {
+            const t = m.formatErrorMessage(e)
+            g(t), o([])
+          } finally {
+            x(!1)
+          }
+        } else g(c.INVALID_FILTER_OR_CONFIG)
+      }, [k, v, o, x, g]),
+      Y = a.useCallback(
+        async e => {
+          i(e), 'changelog' === e ? await Z() : v() && O()
+        },
+        [i, Z, v, O],
+      )
+    return y.jsxs('div', {
       id: 'gitlab-weekly-report-app',
-      className: `${pa.app} ${e ? pa.userscriptMode : pa.webMode} ${pa[L]}`,
+      className: `${ha.app} ${e ? ha.userscriptMode : ha.webMode} ${ha[L]}`,
       children: [
-        k.jsx(St, {
+        y.jsx(Tt, {
           appMode: t.appMode,
           events: t.events,
           totalCount: t.totalCount,
@@ -3609,159 +3767,30 @@ const ye = ({
           sortOptions: t.sortOptions,
           paginationOptions: t.paginationOptions,
           selectedEventIds: D,
-          onModeChange: async e => {
-            i(e), 'changelog' === e ? await P() : v() && O()
-          },
-          onFilterChange: e => {
-            r(e), O(e)
-          },
-          onSortChange: e => {
-            d(e)
-          },
-          onPaginationChange: e => {
-            _(e)
-          },
-          onEventSelect: (e, t) => {
-            A(a => (t ? [...a, e] : a.filter(t => t !== e)))
-          },
-          onSelectAll: e => {
-            A(e ? t.events.map(e => e.id) : [])
-          },
-          onEventDetail: e => {
-            w(e), $(!0)
-          },
-          onOpenSettings: () => {
-            l('settings')
-          },
-          onOpenAI: () => {
-            v() ? l('ai') : g(c.INCOMPLETE_GITLAB_DEEPSEEK)
-          },
+          onModeChange: Y,
+          onFilterChange: z,
+          onSortChange: H,
+          onPaginationChange: q,
+          onEventSelect: V,
+          onSelectAll: X,
+          onEventDetail: K,
+          onOpenSettings: P,
+          onOpenAI: G,
         }),
-        k.jsx(ua, {
-          event: E,
-          visible: T,
-          onClose: () => {
-            $(!1), w(null)
-          },
-        }),
-        k.jsx(da, {
+        y.jsx(pa, { event: E, visible: T, onClose: Q }),
+        y.jsx(ca, {
           isOpen: 'settings' === t.activePanel,
           config: t.config,
           theme: t.theme,
-          onClose: () => {
-            l('main')
-          },
-          onSave: (e, t) => {
-            n(e), s(t)
-          },
+          onClose: R,
+          onSave: U,
         }),
-        k.jsx(_a, {
+        y.jsx(ma, {
           visible: 'ai' === t.activePanel,
           config: t.aiGenerationConfig,
           defaultPrompt: t.config.defaultPrompt,
-          onClose: () => {
-            l('main')
-          },
-          onGenerate: async e => {
-            if (v())
-              if (0 !== D.length) {
-                x(!0), g(null)
-                try {
-                  const a = t.events
-                      .filter(e => D.includes(e.id))
-                      .map(e => {
-                        var t
-                        return `${new Date(e.created_at).toLocaleDateString('zh-CN')} - ${e.action_name}: ${e.target_title || (null == (t = e.push_data) ? void 0 : t.commit_title) || '无标题'}`
-                      })
-                      .join('\n'),
-                    { createDeepSeekApiService: n } = await (function (e, t) {
-                      let a = Promise.resolve()
-                      if (t && t.length > 0) {
-                        document.getElementsByTagName('link')
-                        const e = document.querySelector(
-                            'meta[property=csp-nonce]',
-                          ),
-                          n =
-                            (null == e ? void 0 : e.nonce) ||
-                            (null == e ? void 0 : e.getAttribute('nonce'))
-                        a = Promise.allSettled(
-                          t.map(e => {
-                            if (
-                              (e = (function (e) {
-                                return '/' + e
-                              })(e)) in S
-                            )
-                              return
-                            S[e] = !0
-                            const t = e.endsWith('.css'),
-                              a = t ? '[rel="stylesheet"]' : ''
-                            if (document.querySelector(`link[href="${e}"]${a}`))
-                              return
-                            const s = document.createElement('link')
-                            return (
-                              (s.rel = t ? 'stylesheet' : 'modulepreload'),
-                              t || (s.as = 'script'),
-                              (s.crossOrigin = ''),
-                              (s.href = e),
-                              n && s.setAttribute('nonce', n),
-                              document.head.appendChild(s),
-                              t
-                                ? new Promise((t, a) => {
-                                    s.addEventListener('load', t),
-                                      s.addEventListener('error', () =>
-                                        a(
-                                          new Error(
-                                            `Unable to preload CSS for ${e}`,
-                                          ),
-                                        ),
-                                      )
-                                  })
-                                : void 0
-                            )
-                          }),
-                        )
-                      }
-                      function n(e) {
-                        const t = new Event('vite:preloadError', {
-                          cancelable: !0,
-                        })
-                        if (
-                          ((t.payload = e),
-                          window.dispatchEvent(t),
-                          !t.defaultPrevented)
-                        )
-                          throw e
-                      }
-                      return a.then(t => {
-                        for (const e of t || [])
-                          'rejected' === e.status && n(e.reason)
-                        return e().catch(n)
-                      })
-                    })(
-                      async () => {
-                        const { createDeepSeekApiService: e } = await import(
-                          './deepseek-api-Bw3vL-a0.js'
-                        )
-                        return { createDeepSeekApiService: e }
-                      },
-                      __vite__mapDeps([0, 1]),
-                    ),
-                    s = n(t.config.deepseekApiKey),
-                    l = await s.generateWeeklyReport(
-                      a,
-                      e,
-                      t.config.model,
-                      t.config.tokenLimit,
-                    )
-                  h({ prompt: e, tokensUsed: l.tokensUsed, result: l.content }),
-                    x(!1)
-                } catch (a) {
-                  const e = m.formatErrorMessage(a)
-                  g(e), x(!1)
-                }
-              } else g(c.NO_EVENTS_SELECTED)
-            else g(c.INCOMPLETE_CONFIG)
-          },
+          onClose: F,
+          onGenerate: B,
           isLoading: t.isLoading,
           selectedEventsCount: D.length,
           dateRange: j(),
@@ -3770,5 +3799,5 @@ const ye = ({
     })
   }
 E.createRoot(document.getElementById('root')).render(
-  k.jsx(s.StrictMode, { children: k.jsx(ha, {}) }),
+  y.jsx(n.StrictMode, { children: y.jsx(xa, {}) }),
 )

@@ -121,7 +121,7 @@ const s = e => {
       }
     },
   },
-  n = '1.8.0',
+  n = '1.9.0',
   i = {
     DEEPSEEK_BASE_URL: 'https://api.deepseek.com/v1',
     REQUEST_TIMEOUT: 3e4,
