@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 
 import { request } from '@/utils/request'
 import styles from './index.module.less'
@@ -293,6 +294,32 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
     }
   }, [clearDismissedVersions])
 
+  /**
+   * 获取或创建通知弹窗的根节点容器
+   */
+  const getNotificationContainer = useCallback((): HTMLElement => {
+    const containerId = 'version-notification-root'
+    let container = document.getElementById(containerId)
+
+    if (!container) {
+      container = document.createElement('div')
+      container.id = containerId
+      document.body.appendChild(container)
+    }
+
+    return container
+  }, [])
+
+  // 组件卸载时清理容器
+  useEffect(() => {
+    return () => {
+      const container = document.getElementById('version-notification-root')
+      if (container && container.children.length === 0) {
+        document.body.removeChild(container)
+      }
+    }
+  }, [])
+
   return (
     <>
       {/* 版本检查按钮 */}
@@ -310,54 +337,58 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
         <span className={styles.text}>{getButtonText()}</span>
       </button>
 
-      {/* 更新通知弹窗 */}
-      {showNotification && hasNewVersion && latestVersion && (
-        <div className={styles.notificationOverlay}>
-          <div className={styles.notification}>
-            <div className={styles.notificationHeader}>
-              <h3>🎉 发现新版本</h3>
-              <button
-                className={styles.closeBtn}
-                onClick={handleCloseNotification}
-              >
-                ×
-              </button>
-            </div>
-
-            <div className={styles.notificationBody}>
-              <div className={styles.versionInfo}>
-                <p>
-                  <strong>当前版本:</strong> v{currentVersion}
-                </p>
-                <p>
-                  <strong>最新版本:</strong> v{latestVersion.version}
-                </p>
+      {/* 更新通知弹窗 - 使用 Portal 挂载到根节点 */}
+      {showNotification &&
+        hasNewVersion &&
+        latestVersion &&
+        createPortal(
+          <div className={styles.notificationOverlay}>
+            <div className={styles.notification}>
+              <div className={styles.notificationHeader}>
+                <h3>🎉 发现新版本</h3>
+                <button
+                  className={styles.closeBtn}
+                  onClick={handleCloseNotification}
+                >
+                  ×
+                </button>
               </div>
 
-              {latestVersion.releaseNotes && (
-                <div className={styles.releaseNotes}>
-                  <h4>更新说明:</h4>
-                  <div className={styles.notesContent}>
-                    {latestVersion.releaseNotes}
-                  </div>
+              <div className={styles.notificationBody}>
+                <div className={styles.versionInfo}>
+                  <p>
+                    <strong>当前版本:</strong> v{currentVersion}
+                  </p>
+                  <p>
+                    <strong>最新版本:</strong> v{latestVersion.version}
+                  </p>
                 </div>
-              )}
-            </div>
 
-            <div className={styles.notificationFooter}>
-              <button
-                className={styles.laterBtn}
-                onClick={handleCloseNotification}
-              >
-                稍后更新
-              </button>
-              <button className={styles.updateBtn} onClick={handleUpdate}>
-                立即更新
-              </button>
+                {latestVersion.releaseNotes && (
+                  <div className={styles.releaseNotes}>
+                    <h4>更新说明:</h4>
+                    <div className={styles.notesContent}>
+                      {latestVersion.releaseNotes}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className={styles.notificationFooter}>
+                <button
+                  className={styles.laterBtn}
+                  onClick={handleCloseNotification}
+                >
+                  稍后更新
+                </button>
+                <button className={styles.updateBtn} onClick={handleUpdate}>
+                  立即更新
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          getNotificationContainer(),
+        )}
     </>
   )
 }

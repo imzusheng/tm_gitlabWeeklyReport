@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import styles from './index.module.less'
 
 interface ModalProps {
@@ -40,6 +41,19 @@ const Modal: React.FC<ModalProps> = ({
     }
   }, [visible, onClose])
 
+  // 清理模态框容器
+  useEffect(() => {
+    return () => {
+      // 组件卸载时，如果容器为空则移除
+      const container = document.getElementById(
+        'gitlab-weekly-report-modal-root',
+      )
+      if (container && container.children.length === 0) {
+        document.body.removeChild(container)
+      }
+    }
+  }, [])
+
   if (!visible) {
     return null
   }
@@ -50,7 +64,18 @@ const Modal: React.FC<ModalProps> = ({
     }
   }
 
-  return (
+  // 获取或创建模态框容器
+  const getModalContainer = () => {
+    let container = document.getElementById('gitlab-weekly-report-modal-root')
+    if (!container) {
+      container = document.createElement('div')
+      container.id = 'gitlab-weekly-report-modal-root'
+      document.body.appendChild(container)
+    }
+    return container
+  }
+
+  const modalContent = (
     <div
       id="gitlab-weekly-report-container"
       className={styles.modalMask}
@@ -75,6 +100,8 @@ const Modal: React.FC<ModalProps> = ({
       </div>
     </div>
   )
+
+  return createPortal(modalContent, getModalContainer())
 }
 
 export default Modal

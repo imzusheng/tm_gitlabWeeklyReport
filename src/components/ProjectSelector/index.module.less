@@ -7,13 +7,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
+  padding: 8px 12px;
   background: var(--bg-primary);
   border: 1px solid var(--border-primary);
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-height: 48px;
+  min-height: 40px;
 
   &:hover {
     border-color: var(--color-primary);
@@ -43,7 +43,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 2px;
+  gap: 1px;
 }
 
 .project-name {
@@ -97,7 +97,6 @@
   background: var(--bg-primary);
   border: 1px solid var(--color-primary);
   border-top: none;
-  border-radius: 0 0 8px 8px;
   box-shadow: var(--shadow-md);
   z-index: 1000;
   max-height: 480px;
@@ -106,7 +105,7 @@
 }
 
 .search-section {
-  padding: 16px;
+  padding: 12px;
   border-bottom: 1px solid var(--border-primary);
   background: var(--bg-secondary);
 }
@@ -115,8 +114,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin-top: 12px;
+  gap: 12px;
+  margin-top: 8px;
 
   @media (width <= 768px) {
     flex-direction: column;
@@ -127,7 +126,7 @@
 
 .search-input {
   position: relative;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 
   .search-icon {
     position: absolute;
@@ -140,12 +139,12 @@
 
   input {
     width: 100%;
-    padding: 10px 12px 10px 40px;
+    padding: 8px 10px 8px 32px;
     border: 1px solid var(--border-primary);
-    border-radius: 6px;
+    border-radius: 4px;
     background: var(--bg-primary);
     color: var(--text-primary);
-    font-size: 14px;
+    font-size: 13px;
     transition: border-color 0.2s ease;
 
     &:focus {
@@ -162,8 +161,8 @@
 
 .filter-options {
   display: flex;
-  gap: 16px;
-  margin-bottom: 12px;
+  gap: 12px;
+  margin-bottom: 8px;
 }
 
 .filter-option {
@@ -259,7 +258,7 @@
 .project-item {
   display: flex;
   align-items: center;
-  padding: 12px 16px;
+  padding: 8px 12px;
   border-bottom: 1px solid var(--border-primary);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -283,33 +282,35 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   min-width: 0;
 
   .project-name {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 1.2;
   }
 
   .project-path {
-    font-size: 12px;
-    color: var(--text-secondary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .project-description {
     font-size: 11px;
     color: var(--text-secondary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-top: 2px;
+    line-height: 1.2;
+  }
+
+  .project-description {
+    font-size: 10px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
   }
 }
 
@@ -356,18 +357,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
+  padding: 8px 12px;
   border-top: 1px solid var(--border-primary);
   background: var(--bg-secondary);
 }
 
 .page-button {
-  padding: 6px 12px;
+  padding: 4px 8px;
   border: 1px solid var(--border-primary);
-  border-radius: 4px;
+  border-radius: 3px;
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-size: 13px;
+  font-size: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
@@ -389,14 +390,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  font-size: 13px;
+  gap: 1px;
+  font-size: 12px;
   color: var(--text-secondary);
   text-align: center;
 }
 
 .total-count {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-secondary);
 }
 
