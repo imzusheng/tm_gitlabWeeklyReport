@@ -2,7 +2,7 @@ const __vite__mapDeps = (
   i,
   m = __vite__mapDeps,
   d = m.f ||
-    (m.f = ['assets/deepseek-api-BWwTTebD.js', 'assets/utils-Du_70uOm.js']),
+    (m.f = ['assets/deepseek-api-DUs42dcL.js', 'assets/utils-Cwse169z.js']),
 ) => i.map(i => d[i])
 var e = Object.defineProperty,
   t = (t, a, s) =>
@@ -23,7 +23,7 @@ import {
   A as u,
   e as p,
   C as h,
-} from './utils-Du_70uOm.js'
+} from './utils-Cwse169z.js'
 !(function () {
   const e = document.createElement('link').relList
   if (!(e && e.supports && e.supports('modulepreload'))) {
@@ -82,7 +82,7 @@ var y = x.exports,
   w = s
 ;(E.createRoot = w.createRoot), (E.hydrateRoot = w.hydrateRoot)
 const S = {},
-  T = {
+  I = {
     config: d,
     reportData: null,
     isLoading: !1,
@@ -100,8 +100,8 @@ const S = {},
     selectedProjectId: null,
     commits: [],
   }
-function $() {
-  const [e, t] = a.useState(T)
+function T() {
+  const [e, t] = a.useState(I)
   a.useEffect(() => {
     ;(async () => {
       try {
@@ -209,7 +209,7 @@ function $() {
       })
     }, []),
     N = a.useCallback(() => {
-      t(T), r.clearConfig()
+      t(I), r.clearConfig()
     }, []),
     C = a.useCallback(() => {
       const {
@@ -265,7 +265,7 @@ function $() {
     getTimeRange: k,
   }
 }
-const I = () => {
+const $ = () => {
     const e = a.useRef(null),
       t = a.useCallback(() => {
         e.current && e.current.abort()
@@ -1175,7 +1175,7 @@ const ke = ({
     disabled: l = !1,
     autoLoad: i = !1,
   }) => {
-    const { state: o } = $(),
+    const { state: o } = T(),
       [d, r] = a.useState(!1),
       [c, _] = a.useState([]),
       [u, p] = a.useState(!1),
@@ -1186,8 +1186,8 @@ const ke = ({
       [C, k] = a.useState(0),
       [E, w] = a.useState(null),
       S = a.useRef(null),
-      T = a.useRef(null),
-      I = a.useRef(Ce.getInstance()),
+      I = a.useRef(null),
+      $ = a.useRef(Ce.getInstance()),
       M = a.useRef(null),
       D = a.useCallback(
         async (a, l) => {
@@ -1195,7 +1195,7 @@ const ke = ({
           const i = a || h || '',
             d = j,
             r = g,
-            c = I.current.get(o.config.gitlabUrl, o.config.gitlabToken, d, r, i)
+            c = $.current.get(o.config.gitlabUrl, o.config.gitlabToken, d, r, i)
           if (c && 1 === (l || f))
             return (
               _(c.projects),
@@ -1216,7 +1216,7 @@ const ke = ({
               },
               { projects: n, total: c } = await e.getProjectsWithTotal(a)
             1 === (l || f) &&
-              I.current.set(
+              $.current.set(
                 o.config.gitlabUrl,
                 o.config.gitlabToken,
                 d,
@@ -1288,7 +1288,7 @@ const ke = ({
       )
     }, []),
       a.useEffect(() => {
-        d && T.current && T.current.focus()
+        d && I.current && I.current.focus()
       }, [d])
     const G = a.useMemo(() => c.find(e => e.id === t), [c, t]),
       F = Math.ceil(C / 20)
@@ -1326,7 +1326,7 @@ const ke = ({
                         children: '🔍',
                       }),
                       y.jsx('input', {
-                        ref: T,
+                        ref: I,
                         type: 'text',
                         placeholder: '搜索项目...',
                         value: h,
@@ -1501,14 +1501,14 @@ const ke = ({
   Ee = 'index-module__projectSelectorContainer__DVUJQ',
   we = 'index-module__eventsListContainer__JlSig',
   Se = 'gitlab-changelog-selected-project',
-  Te = () => {
-    const { state: e, isConfigValid: t } = $(),
+  Ie = () => {
+    const { state: e, isConfigValid: t } = T(),
       {
         createRequest: s,
         isRequestCancelled: n,
         cleanupRequest: l,
         isAbortError: i,
-      } = I(),
+      } = $(),
       o = a.useMemo(
         () => be(e.config.gitlabUrl, e.config.gitlabToken),
         [e.config.gitlabUrl, e.config.gitlabToken],
@@ -1569,7 +1569,7 @@ const ke = ({
       S = a.useCallback((e, t) => {
         N(a => (t ? [...a, e] : a.filter(t => t !== e)))
       }, []),
-      T = a.useCallback(
+      I = a.useCallback(
         e => {
           N(e ? c.map(e => e.id) : [])
         },
@@ -1600,15 +1600,15 @@ const ke = ({
             onPaginationChange: w,
             selectedEventIds: f,
             onEventSelect: S,
-            onSelectAll: T,
+            onSelectAll: I,
             onEventDetail: () => {},
           }),
         }),
       ],
     })
   },
-  $e = 'index-module__action-btn__To7Ms',
-  Ie = 'index-module__checking__QepNt',
+  Te = 'index-module__action-btn__To7Ms',
+  $e = 'index-module__checking__QepNt',
   Me = 'index-module__version-btn__8d3di',
   De = 'index-module__has-update__tNkZZ',
   Ae = 'index-module__icon__EhhVu',
@@ -1625,25 +1625,25 @@ const ke = ({
   ze = 'index-module__later-btn__Q40Lc',
   He = 'index-module__update-btn__lD1V2',
   Xe = ({ currentVersion: e }) => {
-    const [t, s] = a.useState(null),
-      [n, l] = a.useState(!1),
-      [i, o] = a.useState(!1),
-      [d, r] = a.useState(!1),
-      [c, m] = a.useState(null),
-      [u, p] = a.useState(null),
-      [h, x] = a.useState(!1),
-      [g, v] = a.useState(new Set())
+    const [t, n] = a.useState(null),
+      [l, i] = a.useState(!1),
+      [o, d] = a.useState(!1),
+      [r, c] = a.useState(!1),
+      [m, u] = a.useState(null),
+      [p, h] = a.useState(null),
+      [x, g] = a.useState(!1),
+      [v, j] = a.useState(new Set())
     a.useEffect(() => {
       try {
         const e = localStorage.getItem(
           'gitlab-weekly-report-dismissed-versions',
         )
-        e && v(new Set(JSON.parse(e)))
+        e && j(new Set(JSON.parse(e)))
       } catch (e) {
         console.warn('无法读取忽略版本信息:', e)
       }
     }, [])
-    const j = a.useCallback((e, t) => {
+    const b = a.useCallback((e, t) => {
         const a = e.split('.').map(Number),
           s = t.split('.').map(Number),
           n = Math.max(a.length, s.length)
@@ -1655,90 +1655,90 @@ const ke = ({
         }
         return !1
       }, []),
-      b = a.useCallback(
+      f = a.useCallback(
         async (a = !0) => {
-          if (!n)
-            if (h && t && i && a)
-              (!a && g.has(t.version)) ||
-                (r(!0), console.log(`使用缓存结果显示新版本 ${t.version}`))
+          if (!l)
+            if (x && t && o && a)
+              (!a && v.has(t.version)) ||
+                (c(!0), console.log(`使用缓存结果显示新版本 ${t.version}`))
             else {
-              l(!0), p(null)
+              i(!0), h(null)
               try {
                 const t = new AbortController(),
-                  n = setTimeout(() => t.abort(), 1e4),
+                  s = setTimeout(() => t.abort(), 1e4),
                   l = Date.now(),
                   i = 'undefined' != typeof GM_xmlhttpRequest,
-                  d =
+                  o =
                     !1 && !i
                       ? '/api/github/imzusheng/tm_gitlabWeeklyReport/v2/package.json'
                       : 'https://raw.githubusercontent.com/imzusheng/tm_gitlabWeeklyReport/v2/package.json',
-                  c = await _(`${d}?t=${l}`, {
+                  r = await _(`${o}?t=${l}`, {
                     method: 'GET',
                     headers: { Accept: 'application/json' },
                     signal: t.signal,
                     timeout: 1e4,
                   })
-                if ((clearTimeout(n), !c.ok))
-                  throw new Error(`HTTP ${c.status}: ${c.statusText}`)
-                const u = await c.json()
-                console.log('获取到版本信息:', u)
+                if ((clearTimeout(s), !r.ok))
+                  throw new Error(`HTTP ${r.status}: ${r.statusText}`)
+                const m = await r.json()
+                console.log('获取到版本信息:', m)
                 const p = {
-                  version: u.version,
+                  version: m.version,
                   downloadUrl:
                     'https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/userscript/gitlab-weekly-report.user.js',
-                  releaseNotes: `版本 ${u.version} 已发布，请及时更新以获得最新功能和修复。`,
+                  releaseNotes: `版本 ${m.version} 已发布，请及时更新以获得最新功能和修复。`,
                 }
-                s(p), m(new Date()), x(!0)
-                const h = j(e, p.version)
-                o(h),
+                n(p), u(new Date()), g(!0)
+                const h = b(e, p.version)
+                d(h),
                   h
-                    ? a || !g.has(p.version)
-                      ? (r(!0),
+                    ? a || !v.has(p.version)
+                      ? (c(!0),
                         console.log(`发现新版本 ${p.version}，建议及时更新！`))
                       : console.log(`发现新版本 ${p.version}，但已被忽略`)
                     : console.log('当前已是最新版本')
-              } catch (d) {
-                console.error('检查版本更新失败:', d)
-                const e = d instanceof Error ? d.message : '检查更新失败'
-                p(e), console.error(`检查更新失败: ${e}`)
+              } catch (s) {
+                console.error('检查版本更新失败:', s)
+                const e = s instanceof Error ? s.message : '检查更新失败'
+                h(e), console.error(`检查更新失败: ${e}`)
               } finally {
-                l(!1)
+                i(!1)
               }
             }
         },
-        [n, j, e, g, h, t, i],
+        [l, b, e, v, x, t, o],
       )
     a.useEffect(() => {
       const e = setTimeout(() => {
-        b(!1)
+        f(!1)
       }, 1e3)
       return () => clearTimeout(e)
     }, [])
-    const f = a.useCallback(async () => {
+    const N = a.useCallback(async () => {
         ;(null == t ? void 0 : t.downloadUrl) &&
           (window.open(t.downloadUrl, '_blank'),
-          r(!1),
+          c(!1),
           setTimeout(async () => {
-            await b(!1)
-            !j(e, t.version)
+            await f(!1)
+            !b(e, t.version)
               ? console.log('当前已是最新版本！')
               : console.log(
                   `检测到新版本 ${t.version}，请手动刷新页面或重新安装脚本。`,
                 )
           }, 1e3))
-      }, [t, b, j, e]),
-      N = a.useCallback(() => {
-        v(new Set())
+      }, [t, f, b, e]),
+      C = a.useCallback(() => {
+        j(new Set())
         try {
           localStorage.removeItem('gitlab-weekly-report-dismissed-versions')
         } catch (e) {
           console.warn('无法清除忽略版本信息:', e)
         }
       }, []),
-      C = a.useCallback(() => {
-        if ((r(!1), t)) {
-          const a = new Set(g)
-          a.add(t.version), v(a)
+      k = a.useCallback(() => {
+        if ((c(!1), t)) {
+          const a = new Set(v)
+          a.add(t.version), j(a)
           try {
             localStorage.setItem(
               'gitlab-weekly-report-dismissed-versions',
@@ -1748,8 +1748,8 @@ const ke = ({
             console.warn('无法保存忽略版本信息:', e)
           }
         }
-      }, [t, g]),
-      k = a.useCallback(
+      }, [t, v]),
+      E = a.useCallback(
         e =>
           e.toLocaleTimeString('zh-CN', {
             hour: '2-digit',
@@ -1758,111 +1758,132 @@ const ke = ({
           }),
         [],
       ),
-      E = a.useCallback(
+      w = a.useCallback(
         () =>
-          n
+          l
             ? '检查中...'
-            : u
+            : p
               ? '检查失败'
-              : i
+              : o
                 ? '有更新'
-                : h && !i
+                : x && !o
                   ? '已是最新版本 🎉'
                   : '检查更新',
-        [n, u, i, h],
+        [l, p, o, x],
       ),
-      w = a.useCallback(
-        () => (n ? '🔄' : u ? '⚠️' : i ? '🔴' : '🔍'),
-        [n, u, i],
+      S = a.useCallback(
+        () => (l ? '🔄' : p ? '⚠️' : o ? '🔴' : '🔍'),
+        [l, p, o],
       )
+    a.useEffect(() => {}, [C])
+    const I = a.useCallback(() => {
+      const e = 'version-notification-root'
+      let t = document.getElementById(e)
+      return (
+        t ||
+          ((t = document.createElement('div')),
+          (t.id = e),
+          document.body.appendChild(t)),
+        t
+      )
+    }, [])
     return (
-      a.useEffect(() => {}, [N]),
+      a.useEffect(
+        () => () => {
+          const e = document.getElementById('version-notification-root')
+          e && 0 === e.children.length && document.body.removeChild(e)
+        },
+        [],
+      ),
       y.jsxs(y.Fragment, {
         children: [
           y.jsxs('button', {
-            className: `${$e} ${Me} ${n ? Ie : ''} ${i ? De : ''}`,
-            onClick: () => b(!0),
-            disabled: n,
-            title: c
-              ? `上次检查: ${k(c)}${u ? `\n错误: ${u}` : ''}`
+            className: `${Te} ${Me} ${l ? $e : ''} ${o ? De : ''}`,
+            onClick: () => f(!0),
+            disabled: l,
+            title: m
+              ? `上次检查: ${E(m)}${p ? `\n错误: ${p}` : ''}`
               : '点击检查更新',
             children: [
-              y.jsx('span', { className: Ae, children: w() }),
-              y.jsx('span', { className: Le, children: E() }),
+              y.jsx('span', { className: Ae, children: S() }),
+              y.jsx('span', { className: Le, children: w() }),
             ],
           }),
-          d &&
-            i &&
+          r &&
+            o &&
             t &&
-            y.jsx('div', {
-              className: Oe,
-              children: y.jsxs('div', {
-                className: Pe,
-                children: [
-                  y.jsxs('div', {
-                    className: Re,
-                    children: [
-                      y.jsx('h3', { children: '🎉 发现新版本' }),
-                      y.jsx('button', {
-                        className: Ue,
-                        onClick: C,
-                        children: '×',
-                      }),
-                    ],
-                  }),
-                  y.jsxs('div', {
-                    className: Ge,
-                    children: [
-                      y.jsxs('div', {
-                        className: Fe,
-                        children: [
-                          y.jsxs('p', {
-                            children: [
-                              y.jsx('strong', { children: '当前版本:' }),
-                              ' v',
-                              e,
-                            ],
-                          }),
-                          y.jsxs('p', {
-                            children: [
-                              y.jsx('strong', { children: '最新版本:' }),
-                              ' v',
-                              t.version,
-                            ],
-                          }),
-                        ],
-                      }),
-                      t.releaseNotes &&
+            s.createPortal(
+              y.jsx('div', {
+                className: Oe,
+                children: y.jsxs('div', {
+                  className: Pe,
+                  children: [
+                    y.jsxs('div', {
+                      className: Re,
+                      children: [
+                        y.jsx('h3', { children: '🎉 发现新版本' }),
+                        y.jsx('button', {
+                          className: Ue,
+                          onClick: k,
+                          children: '×',
+                        }),
+                      ],
+                    }),
+                    y.jsxs('div', {
+                      className: Ge,
+                      children: [
                         y.jsxs('div', {
-                          className: Be,
+                          className: Fe,
                           children: [
-                            y.jsx('h4', { children: '更新说明:' }),
-                            y.jsx('div', {
-                              className: Ve,
-                              children: t.releaseNotes,
+                            y.jsxs('p', {
+                              children: [
+                                y.jsx('strong', { children: '当前版本:' }),
+                                ' v',
+                                e,
+                              ],
+                            }),
+                            y.jsxs('p', {
+                              children: [
+                                y.jsx('strong', { children: '最新版本:' }),
+                                ' v',
+                                t.version,
+                              ],
                             }),
                           ],
                         }),
-                    ],
-                  }),
-                  y.jsxs('div', {
-                    className: qe,
-                    children: [
-                      y.jsx('button', {
-                        className: ze,
-                        onClick: C,
-                        children: '稍后更新',
-                      }),
-                      y.jsx('button', {
-                        className: He,
-                        onClick: f,
-                        children: '立即更新',
-                      }),
-                    ],
-                  }),
-                ],
+                        t.releaseNotes &&
+                          y.jsxs('div', {
+                            className: Be,
+                            children: [
+                              y.jsx('h4', { children: '更新说明:' }),
+                              y.jsx('div', {
+                                className: Ve,
+                                children: t.releaseNotes,
+                              }),
+                            ],
+                          }),
+                      ],
+                    }),
+                    y.jsxs('div', {
+                      className: qe,
+                      children: [
+                        y.jsx('button', {
+                          className: ze,
+                          onClick: k,
+                          children: '稍后更新',
+                        }),
+                        y.jsx('button', {
+                          className: He,
+                          onClick: N,
+                          children: '立即更新',
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
               }),
-            }),
+              I(),
+            ),
         ],
       })
     )
@@ -1909,7 +1930,7 @@ const ke = ({
     onOpenSettings: g,
     onOpenAI: v,
   }) => {
-    const { state: j } = $(),
+    const { state: j } = T(),
       b = n.useMemo(() => {
         const e = [
             'gitlabUrl',
@@ -2077,7 +2098,7 @@ const ke = ({
                 }),
               ],
             })
-          : y.jsx('div', { className: pt, children: y.jsx(Te, {}) }),
+          : y.jsx('div', { className: pt, children: y.jsx(Ie, {}) }),
       ],
     })
   },
@@ -2092,17 +2113,17 @@ const ke = ({
   Et = ({
     visible: e,
     title: t,
-    width: s = 520,
-    maxHeight: n = window.innerHeight - 180,
-    children: l,
-    footer: i,
-    onClose: o,
-    maskClosable: d = !0,
+    width: n = 520,
+    maxHeight: l = window.innerHeight - 180,
+    children: i,
+    footer: o,
+    onClose: d,
+    maskClosable: r = !0,
   }) => {
     if (
       (a.useEffect(() => {
         const t = t => {
-          'Escape' === t.key && e && o()
+          'Escape' === t.key && e && d()
         }
         return (
           e &&
@@ -2113,21 +2134,28 @@ const ke = ({
               (document.body.style.overflow = 'unset')
           }
         )
-      }, [e, o]),
+      }, [e, d]),
+      a.useEffect(
+        () => () => {
+          const e = document.getElementById('gitlab-weekly-report-modal-root')
+          e && 0 === e.children.length && document.body.removeChild(e)
+        },
+        [],
+      ),
       !e)
     )
       return null
-    return y.jsx('div', {
+    const c = y.jsx('div', {
       id: 'gitlab-weekly-report-container',
       className: vt,
       onClick: e => {
-        e.target === e.currentTarget && d && o()
+        e.target === e.currentTarget && r && d()
       },
       children: y.jsx('div', {
         className: jt,
         children: y.jsxs('div', {
           className: bt,
-          style: { width: s, maxHeight: n },
+          style: { width: n, maxHeight: l },
           children: [
             y.jsxs('div', {
               className: ft,
@@ -2135,23 +2163,36 @@ const ke = ({
                 y.jsx('div', { className: Nt, children: t }),
                 y.jsx('button', {
                   className: Ct,
-                  onClick: o,
+                  onClick: d,
                   children: y.jsx('span', { children: '×' }),
                 }),
               ],
             }),
-            y.jsx('div', { className: kt, children: l }),
-            i && y.jsx('div', { className: yt, children: i }),
+            y.jsx('div', { className: kt, children: i }),
+            o && y.jsx('div', { className: yt, children: o }),
           ],
         }),
       }),
     })
+    return s.createPortal(
+      c,
+      (() => {
+        let e = document.getElementById('gitlab-weekly-report-modal-root')
+        return (
+          e ||
+            ((e = document.createElement('div')),
+            (e.id = 'gitlab-weekly-report-modal-root'),
+            document.body.appendChild(e)),
+          e
+        )
+      })(),
+    )
   },
   wt = 'index-module__config-status__0q8ZM',
   St = 'index-module__clickable__pZ86X',
-  Tt = 'index-module__compact__-QN-s',
-  $t = 'index-module__compact-content__wSrCk',
-  It = 'index-module__status-icon__7jFiQ',
+  It = 'index-module__compact__-QN-s',
+  Tt = 'index-module__compact-content__wSrCk',
+  $t = 'index-module__status-icon__7jFiQ',
   Mt = 'index-module__compact-text__7OyGG',
   Dt = 'index-module__expand-button__NusWg',
   At = 'index-module__expanded-content__Hih4c',
@@ -2204,13 +2245,13 @@ const ke = ({
       [d, r] = n.useState(!o.isValid)
     return i && o.isValid
       ? y.jsxs('div', {
-          className: `${wt} ${Tt} ${t} ${l ? St : ''}`,
+          className: `${wt} ${It} ${t} ${l ? St : ''}`,
           onClick: l,
           children: [
             y.jsxs('div', {
-              className: $t,
+              className: Tt,
               children: [
-                y.jsx('span', { className: It, children: '✅' }),
+                y.jsx('span', { className: $t, children: '✅' }),
                 y.jsx('span', { className: Mt, children: '配置已完成' }),
                 s &&
                   y.jsx('button', {
@@ -2259,7 +2300,7 @@ const ke = ({
                   className: Bt,
                   children: [
                     y.jsx('span', {
-                      className: It,
+                      className: $t,
                       children: o.isValid ? '✅' : '⚠️',
                     }),
                     y.jsxs('span', {
@@ -3090,7 +3131,7 @@ const ke = ({
     app: 'EventDetailModal-module__app__GneYG',
     dark: 'EventDetailModal-module__dark__4O-jE',
   },
-  Ta = ({ event: e, visible: t, onClose: a }) => {
+  Ia = ({ event: e, visible: t, onClose: a }) => {
     if (!t || !e) return null
     const s = e =>
         new Date(e).toLocaleString('zh-CN', {
@@ -3510,7 +3551,7 @@ const ke = ({
     })
     var l
   },
-  $a = {
+  Ta = {
     app: 'App-module__app__ZYOJd',
     'web-mode': 'App-module__web-mode__2hnFp',
     webMode: 'App-module__web-mode__2hnFp',
@@ -3566,7 +3607,7 @@ const ke = ({
     'report-text': 'App-module__report-text__DiDz5',
     reportText: 'App-module__report-text__DiDz5',
   },
-  Ia = ({ isUserscript: e = !1 }) => {
+  $a = ({ isUserscript: e = !1 }) => {
     const {
         state: t,
         updateConfig: s,
@@ -3584,19 +3625,19 @@ const ke = ({
         setError: g,
         isConfigValid: v,
         getTimeRange: j,
-      } = $(),
+      } = T(),
       {
         createRequest: b,
         isRequestCancelled: f,
         cleanupRequest: N,
         isAbortError: C,
-      } = I(),
+      } = $(),
       k = a.useMemo(
         () => be(t.config.gitlabUrl, t.config.gitlabToken),
         [t.config.gitlabUrl, t.config.gitlabToken],
       ),
       [E, w] = a.useState(null),
-      [T, M] = a.useState(!1),
+      [I, M] = a.useState(!1),
       [D, A] = a.useState([]),
       L = a.useMemo(
         () =>
@@ -3780,7 +3821,7 @@ const ke = ({
                   })(
                     async () => {
                       const { createDeepSeekApiService: e } = await import(
-                        './deepseek-api-BWwTTebD.js'
+                        './deepseek-api-DUs42dcL.js'
                       )
                       return { createDeepSeekApiService: e }
                     },
@@ -3877,7 +3918,7 @@ const ke = ({
       )
     return y.jsxs('div', {
       id: 'gitlab-weekly-report-app',
-      className: `${$a.app} ${e ? $a.userscriptMode : $a.webMode} ${$a[L]}`,
+      className: `${Ta.app} ${e ? Ta.userscriptMode : Ta.webMode} ${Ta[L]}`,
       children: [
         y.jsx(gt, {
           appMode: t.appMode,
@@ -3898,7 +3939,7 @@ const ke = ({
           onOpenSettings: P,
           onOpenAI: G,
         }),
-        y.jsx(Ta, { event: E, visible: T, onClose: Q }),
+        y.jsx(Ia, { event: E, visible: I, onClose: Q }),
         y.jsx(ya, {
           isOpen: 'settings' === t.activePanel,
           config: t.config,
@@ -3920,5 +3961,5 @@ const ke = ({
     })
   }
 E.createRoot(document.getElementById('root')).render(
-  y.jsx(n.StrictMode, { children: y.jsx(Ia, {}) }),
+  y.jsx(n.StrictMode, { children: y.jsx($a, {}) }),
 )
