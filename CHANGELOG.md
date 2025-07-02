@@ -1,3 +1,13 @@
+# [1.9.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.8.0...v1.9.0) (2025-07-02)
+
+### Features
+
+- **ProjectSelector:** 添加自动加载项目数据功能,添加 autoLoad 属性以支持自动加载项目数据 ([da3c322](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/da3c3229216ad98de9e89c14b1800f671b841f5a))
+
+### Performance Improvements
+
+- **组件:** 使用React.memo和useCallback优化性能 ([ff9b007](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/ff9b00747a3ed9d39d91ee33188203f6ba6205e1))
+
 # [1.8.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.7.1...v1.8.0) (2025-07-02)
 
 ### Features
