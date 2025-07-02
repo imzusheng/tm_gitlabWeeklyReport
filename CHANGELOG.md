@@ -1,3 +1,9 @@
+# [1.10.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.9.0...v1.10.0) (2025-07-02)
+
+### Features
+
+- **ConfigStatus:** 重构配置状态组件并添加紧凑模式 ([04d93dd](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/04d93dd47fd58695df77ba123181ad9f64d4770a))
+
 # [1.9.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.8.0...v1.9.0) (2025-07-02)
 
 ### Features
