@@ -304,7 +304,7 @@ export class GitLabApiService {
   ): Promise<{ events: GitLabEvent[]; total: number }> {
     const params = new URLSearchParams()
 
-    // 添加所有筛选参数，交给后端处理
+    // 添加所有筛选参数
     if (options.after) params.set('after', options.after)
     if (options.before) params.set('before', options.before)
     if (options.sort) params.set('sort', options.sort)
@@ -315,28 +315,100 @@ export class GitLabApiService {
     if (options.action) {
       options.action.forEach(action => params.append('action', action))
     }
-
     if (options.target_type) {
-      options.target_type.forEach(targetType =>
-        params.append('target_type', targetType),
-      )
+      options.target_type.forEach(type => params.append('target_type', type))
     }
 
     const queryString = params.toString()
     const endpoint = `/users/${userId}/events?${queryString}`
 
-    // 发起请求并获取响应头中的总数
-    const response = await this.request<GitLabEvent[]>(endpoint, {
-      method: 'GET',
-    })
+    // 构建URL
+    const url = `${this.baseUrl}${endpoint}`
 
-    // 注意：GitLab API 在 /users/:id/events 端点不直接返回 total
-    // 通常，总数信息在响应头的 'X-Total' 字段中
-    // 但这需要修改 request 方法来返回 headers
-    // 这里我们暂时用返回的数组长度作为 total，或者假设调用者会处理分页
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'PRIVATE-TOKEN': this.token,
+      },
+      timeout: API_CONFIG.REQUEST_TIMEOUT,
+      signal: options.signal, // 传递取消信号
+    }
+
+    const response = await request(url, requestOptions)
+
+    if (!response.ok) {
+      const errorText = await response.text()
+      throw errorUtils.createApiError(
+        response.status,
+        errorText || response.statusText,
+        'GitLab API',
+      )
+    }
+
+    const events = (await response.json()) as GitLabEvent[]
+
+    // 从响应头获取总数
+    let total = 0
+    let totalHeader = ''
+
+    if (response.headers instanceof Headers) {
+      // Web环境：使用Headers对象
+      totalHeader =
+        response.headers.get('x-total') ||
+        response.headers.get('X-Total') ||
+        response.headers.get('x-total-count') ||
+        response.headers.get('X-Total-Count') ||
+        ''
+      total = parseInt(totalHeader || '0', 10)
+    } else {
+      // 油猴脚本环境：响应头可能是字符串格式，需要特殊处理
+      if (typeof response.headers === 'string') {
+        // 如果是字符串格式（GM_xmlhttpRequest返回的responseHeaders），需要解析
+        const headerString = response.headers as string
+        const headerLines = headerString.split('\n')
+
+        // 尝试从各种可能的header名称中找到total值
+        for (const line of headerLines) {
+          const parts = line.split(': ')
+          if (parts.length === 2) {
+            const headerName = parts[0].toLowerCase()
+            const headerValue = parts[1]
+
+            if (
+              headerName === 'x-total' ||
+              headerName === 'x-total-count' ||
+              headerName === 'x_total'
+            ) {
+              totalHeader = headerValue
+              break
+            }
+          }
+        }
+      } else {
+        // 如果是对象格式
+        const headers = response.headers as Record<string, string>
+        totalHeader =
+          headers['x-total'] ||
+          headers['X-Total'] ||
+          headers['x-total-count'] ||
+          headers['X-Total-Count'] ||
+          headers['x_total'] ||
+          headers['X_TOTAL'] ||
+          ''
+      }
+
+      total = parseInt(totalHeader || '0', 10)
+    }
+
+    // 如果无法从响应头获取总数，使用当前页的项目数量作为fallback
+    if (!total && events.length > 0) {
+      total = events.length
+    }
+
     return {
-      events: response,
-      total: response.length, // 这是一个简化的处理，实际可能需要解析 'X-Total' 头
+      events,
+      total,
     }
   }
 
