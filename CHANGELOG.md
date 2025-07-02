@@ -1,3 +1,9 @@
+# [1.8.0](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.7.1...v1.8.0) (2025-07-02)
+
+### Features
+
+- **ChangelogPanel:** 添加项目选择器并重构事件获取逻辑 ([67785a6](https://github.com/imzusheng/tm_gitlabWeeklyReport/commit/67785a64ecce4a036184ee7fd18b4900ed036a18))
+
 ## [1.7.1](https://github.com/imzusheng/tm_gitlabWeeklyReport/compare/v1.7.0...v1.7.1) (2025-07-01)
 
 ### Bug Fixes
