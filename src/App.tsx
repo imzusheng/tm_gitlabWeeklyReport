@@ -92,103 +92,101 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   /**
    * 加载GitLab事件数据
    */
-  const loadEvents = useCallback(
-    async (filterConditions?: FilterConditions) => {
-      if (!isConfigValid()) {
-        setError(configErrors.INVALID_FILTER_OR_CONFIG)
+  const loadEvents = useCallback(async () => {
+    if (!isConfigValid()) {
+      setError(configErrors.INVALID_FILTER_OR_CONFIG)
+      return
+    }
+
+    // 创建新请求并取消之前的请求
+    const abortController = createRequest()
+
+    setLoading(true)
+    setError(null)
+
+    try {
+      // 确保GitLab服务已初始化
+      await gitlabService.init()
+
+      const { startDate, endDate } = getTimeRange()
+      const targetTypes =
+        state.filterConditions.targetType?.length > 0
+          ? state.filterConditions.targetType
+          : undefined
+
+      const actions =
+        state.filterConditions.action?.length > 0
+          ? state.filterConditions.action
+          : undefined
+
+      // 只支持created_at字段的排序
+      const sort = state.sortOptions.order || 'desc'
+
+      // 获取当前用户信息
+      const currentUser = await gitlabService.getCurrentUser()
+      const params = {
+        after: startDate,
+        before: endDate,
+        target_type: targetTypes,
+        action: actions,
+        page: state.paginationOptions.page,
+        per_page: state.paginationOptions.pageSize,
+        sort,
+        signal: abortController.signal, // 传递 abort signal
+      }
+
+      // 获取用户事件数据和总数
+      const { events, total } = await gitlabService.getUserEventsWithTotal(
+        currentUser.id,
+        params,
+      )
+
+      // 检查请求是否被取消
+      if (isRequestCancelled(abortController)) {
         return
       }
 
-      // 创建新请求并取消之前的请求
-      const abortController = createRequest()
-
-      setLoading(true)
-      setError(null)
-
-      try {
-        // 确保GitLab服务已初始化
-        await gitlabService.init()
-
-        const { startDate, endDate } = getTimeRange()
-        const currentFilters = filterConditions || state.filterConditions
-        const targetTypes =
-          currentFilters.targetType?.length > 0
-            ? currentFilters.targetType
-            : undefined
-
-        const actions =
-          currentFilters.action?.length > 0 ? currentFilters.action : undefined
-
-        // 只支持created_at字段的排序
-        const sort = state.sortOptions.order || 'desc'
-
-        // 获取当前用户信息
-        const currentUser = await gitlabService.getCurrentUser()
-        const params = {
-          after: startDate,
-          before: endDate,
-          target_type: targetTypes,
-          action: actions,
-          page: state.paginationOptions.page,
-          per_page: state.paginationOptions.pageSize,
-          sort,
-          signal: abortController.signal, // 传递 abort signal
-        }
-
-        // 获取用户事件数据和总数
-        const { events, total } = await gitlabService.getUserEventsWithTotal(
-          currentUser.id,
-          params,
-        )
-
-        // 检查请求是否被取消
-        if (isRequestCancelled(abortController)) {
-          return
-        }
-
-        setEvents(events)
-        // 默认选中所有事件
-        setSelectedEventIds(events.map(event => event.id))
-        // 使用响应头中的总数
-        setTotal(total)
-      } catch (error) {
-        // 忽略被取消的请求错误
-        if (isAbortError(error)) {
-          return
-        }
-
-        const errorMessage = errorUtils.formatErrorMessage(error)
-        setError(errorMessage)
-        setEvents([])
-        setTotal(0)
-      } finally {
-        // 只有当前请求才设置 loading 为 false
-        if (!isRequestCancelled(abortController)) {
-          setLoading(false)
-        }
-
-        // 清理引用
-        cleanupRequest(abortController)
+      setEvents(events)
+      // 默认选中所有事件
+      setSelectedEventIds(events.map(event => event.id))
+      // 使用响应头中的总数
+      setTotal(total)
+    } catch (error) {
+      // 忽略被取消的请求错误
+      if (isAbortError(error)) {
+        return
       }
-    },
-    [
-      state.paginationOptions.page,
-      state.paginationOptions.pageSize,
-      state.sortOptions,
-      state.filterConditions,
-      getTimeRange,
-      setEvents,
-      setTotal,
-      setLoading,
-      setError,
-      isConfigValid,
-      gitlabService,
-      createRequest,
-      isRequestCancelled,
-      isAbortError,
-      cleanupRequest,
-    ],
-  )
+
+      const errorMessage = errorUtils.formatErrorMessage(error)
+      setError(errorMessage)
+      setEvents([])
+      setTotal(0)
+    } finally {
+      // 只有当前请求才设置 loading 为 false
+      if (!isRequestCancelled(abortController)) {
+        setLoading(false)
+      }
+
+      // 清理引用
+      cleanupRequest(abortController)
+    }
+  }, [
+    state.paginationOptions.page,
+    state.paginationOptions.pageSize,
+    state.sortOptions,
+    state.filterConditions,
+    getTimeRange,
+    setEvents,
+    setTotal,
+    setLoading,
+    setError,
+    isConfigValid,
+    gitlabService,
+    createRequest,
+    isRequestCancelled,
+    isAbortError,
+    cleanupRequest,
+  ])
 
   useEffect(() => {
     if (isConfigValid()) {
@@ -312,10 +310,9 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   const handleFilterChange = useCallback(
     (filters: FilterConditions) => {
       updateFilterConditions(filters)
-      // 立即使用新的筛选条件加载事件
-      loadEvents(filters)
+      // 不需要立即调用 loadEvents，因为 useEffect 会监听 state.filterConditions 的变化自动触发
     },
-    [updateFilterConditions, loadEvents],
+    [updateFilterConditions],
   )
 
   // 处理排序变化
