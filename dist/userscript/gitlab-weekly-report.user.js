@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitLab 周报生成器
 // @namespace    https://github.com/imzusheng/tm_gitlabWeeklyReport
-// @version      1.10.1
+// @version      1.10.2
 // @description  基于 DeepSeek AI 的 GitLab 工作周报自动生成工具
 // @author       lizusheng
 // @match        *://www.lejuhub.com/dashboard/*
@@ -191,7 +191,7 @@ var __defProp = Object.defineProperty,
         } catch (t) {}
       },
     },
-    v = '1.10.1',
+    v = '1.10.2',
     b = {
       DEEPSEEK_BASE_URL: 'https://api.deepseek.com/v1',
       REQUEST_TIMEOUT: 3e4,
@@ -3963,65 +3963,63 @@ var __defProp = Object.defineProperty,
           )
         }
       }, [a.theme])
-      const I = e.useCallback(
-        async e => {
-          var t, n
-          if (!g()) return void x(P)
-          const s = b()
-          h(!0), x(null)
-          try {
-            await y.init()
-            const { startDate: l, endDate: i } = v(),
-              o = e || a.filterConditions,
-              r =
-                (null == (t = o.targetType) ? void 0 : t.length) > 0
-                  ? o.targetType
-                  : void 0,
-              d =
-                (null == (n = o.action) ? void 0 : n.length) > 0
-                  ? o.action
-                  : void 0,
-              c = a.sortOptions.order || 'desc',
-              m = await y.getCurrentUser(),
-              p = {
-                after: l,
-                before: i,
-                target_type: r,
-                action: d,
-                page: a.paginationOptions.page,
-                per_page: a.paginationOptions.pageSize,
-                sort: c,
-                signal: s.signal,
-              },
-              { events: h, total: x } = await y.getUserEventsWithTotal(m.id, p)
-            if (j(s)) return
-            _(h), M(h.map(e => e.id)), u(x)
-          } catch (l) {
-            if (N(l)) return
-            const e = S.formatErrorMessage(l)
-            x(e), _([]), u(0)
-          } finally {
-            j(s) || h(!1), f(s)
-          }
-        },
-        [
-          a.paginationOptions.page,
-          a.paginationOptions.pageSize,
-          a.sortOptions,
-          a.filterConditions,
-          v,
-          _,
-          u,
-          h,
-          x,
-          g,
-          y,
-          b,
-          j,
-          N,
-          f,
-        ],
-      )
+      const I = e.useCallback(async () => {
+        var e, t
+        if (!g()) return void x(P)
+        const n = b()
+        h(!0), x(null)
+        try {
+          await y.init()
+          const { startDate: s, endDate: l } = v(),
+            i =
+              (null == (e = a.filterConditions.targetType)
+                ? void 0
+                : e.length) > 0
+                ? a.filterConditions.targetType
+                : void 0,
+            o =
+              (null == (t = a.filterConditions.action) ? void 0 : t.length) > 0
+                ? a.filterConditions.action
+                : void 0,
+            r = a.sortOptions.order || 'desc',
+            d = await y.getCurrentUser(),
+            c = {
+              after: s,
+              before: l,
+              target_type: i,
+              action: o,
+              page: a.paginationOptions.page,
+              per_page: a.paginationOptions.pageSize,
+              sort: r,
+              signal: n.signal,
+            },
+            { events: m, total: p } = await y.getUserEventsWithTotal(d.id, c)
+          if (j(n)) return
+          _(m), M(m.map(e => e.id)), u(p)
+        } catch (s) {
+          if (N(s)) return
+          const e = S.formatErrorMessage(s)
+          x(e), _([]), u(0)
+        } finally {
+          j(n) || h(!1), f(n)
+        }
+      }, [
+        a.paginationOptions.page,
+        a.paginationOptions.pageSize,
+        a.sortOptions,
+        a.filterConditions,
+        v,
+        _,
+        u,
+        h,
+        x,
+        g,
+        y,
+        b,
+        j,
+        N,
+        f,
+      ])
       e.useEffect(() => {
         g() && I()
       }, [g, I])
@@ -4114,9 +4112,9 @@ var __defProp = Object.defineProperty,
         ),
         H = e.useCallback(
           e => {
-            r(e), I(e)
+            r(e)
           },
-          [r, I],
+          [r],
         ),
         K = e.useCallback(
           e => {
