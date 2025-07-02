@@ -182,7 +182,9 @@ const MainPanel: React.FC<MainPanelProps> = ({
           </div>
         </>
       ) : (
-        <ChangelogPanel />
+        <div className={styles.changelogSection}>
+          <ChangelogPanel />
+        </div>
       )}
     </div>
   )

@@ -4,7 +4,6 @@
   height: 100vh;
   background: var(--bg-primary);
   color: var(--text-primary);
-  overflow: hidden;
 
   .panel-header {
     display: flex;
@@ -15,7 +14,7 @@
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border-primary);
     box-shadow: 0 2px 20px rgb(0 0 0 / 10%);
-    position: relative;
+    position: static;
     z-index: 10;
 
     .header-left {
@@ -286,6 +285,10 @@
 
 /* Changelog模式样式 */
 .changelog-section {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
   .projects-section {
     margin-bottom: 20px;
   }
@@ -306,7 +309,7 @@
       margin: 0;
       font-size: 16px;
       font-weight: 600;
-      color: var(--text-color);
+      color: var(--text-primary);
     }
   }
 
@@ -328,7 +331,7 @@
     }
 
     &:hover {
-      background: var(--hover-bg-color);
+      background: var(--bg-hover);
     }
 
     &.selected {
@@ -342,13 +345,13 @@
       margin: 0 0 4px;
       font-size: 14px;
       font-weight: 600;
-      color: var(--text-color);
+      color: var(--text-primary);
     }
 
     .project-description {
       margin: 0 0 8px;
       font-size: 12px;
-      color: var(--text-secondary-color);
+      color: var(--text-secondary);
       line-height: 1.4;
     }
 
@@ -359,7 +362,7 @@
 
       .last-activity {
         font-size: 11px;
-        color: var(--text-secondary-color);
+        color: var(--text-secondary);
       }
     }
   }
@@ -385,19 +388,22 @@
       margin: 0 0 4px;
       font-size: 14px;
       font-weight: 600;
-      color: var(--text-color);
+      color: var(--text-primary);
       line-height: 1.3;
     }
 
     .commit-message {
       margin: 0 0 8px;
       font-size: 12px;
-      color: var(--text-secondary-color);
+      color: var(--text-secondary);
       line-height: 1.4;
       max-height: 40px;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
+
+      /* 设置文本最大显示行数 */
+      line-clamp: 2;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
     }
@@ -409,12 +415,12 @@
       font-size: 11px;
 
       .commit-author {
-        color: var(--text-secondary-color);
+        color: var(--text-secondary);
         font-weight: 500;
       }
 
       .commit-date {
-        color: var(--text-secondary-color);
+        color: var(--text-secondary);
       }
 
       .commit-link {

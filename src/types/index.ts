@@ -287,3 +287,17 @@ export interface GitLabUser {
   website_url?: string
   organization?: string
 }
+
+// GitLab API 服务类型
+export interface GitLabApiService {
+  init(): Promise<void>
+  getProjectsWithTotal(options?: {
+    membership?: boolean
+    per_page?: number
+    starred?: boolean
+    simple?: boolean
+    order_by?: 'last_activity_at' | 'name' | 'created_at'
+    search?: string
+    page?: number
+  }): Promise<{ projects: GitLabProject[]; total: number }>
+}

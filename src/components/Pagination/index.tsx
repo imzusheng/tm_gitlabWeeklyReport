@@ -68,7 +68,9 @@ const Pagination: React.FC<PaginationProps> = ({
   if (total === 0) {
     return (
       <div className={styles.pagination}>
-        <div className={styles.paginationInfo}>暂无数据</div>
+        <div className={styles.info}>
+          <span>暂无数据</span>
+        </div>
       </div>
     )
   }
