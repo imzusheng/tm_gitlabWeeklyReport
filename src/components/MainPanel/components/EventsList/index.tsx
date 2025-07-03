@@ -1,7 +1,8 @@
-import React, { useMemo, useCallback } from 'react'
-import { GitLabEvent, SortOptions, PaginationOptions } from '@/types'
+import React, { useCallback } from 'react'
+import { GitLabEvent, SortOptions, PaginationOptions, AppMode } from '@/types'
 import { configErrors } from '@/utils'
 import Pagination from '../../../Pagination'
+import SelectionManager from '../../../SelectionManager'
 import styles from './index.module.less'
 
 interface EventsListProps {
@@ -13,9 +14,11 @@ interface EventsListProps {
   paginationOptions: PaginationOptions
   onPaginationChange: (paginationOptions: PaginationOptions) => void
   selectedEventIds: number[] // 选中的事件ID列表
-  onEventSelect: (eventId: number, selected: boolean) => void // 事件选择回调
-  onSelectAll: (selected: boolean) => void | Promise<void> // 全选/取消全选回调
+  isFullSelection: boolean // 是否全选状态
+  onSelectionChange: (selectedIds: number[], isFullSelection: boolean) => void // 选择状态变更回调
+  onEventSelect: (eventId: number) => void // 单个事件选择切换
   onEventDetail: (event: GitLabEvent) => void // 查看事件详情回调
+  mode: AppMode // 当前模式
 }
 
 const EventsList: React.FC<EventsListProps> = ({
@@ -27,9 +30,11 @@ const EventsList: React.FC<EventsListProps> = ({
   paginationOptions,
   onPaginationChange,
   selectedEventIds,
+  isFullSelection,
+  onSelectionChange,
   onEventSelect,
-  onSelectAll,
   onEventDetail,
+  // mode, // 暂时不使用
 }) => {
   const handleSort = useCallback(
     (field: SortOptions['field']) => {
@@ -54,38 +59,13 @@ const EventsList: React.FC<EventsListProps> = ({
   )
 
   /**
-   * 检查是否全选
-   */
-  const isAllSelected = useMemo(() => {
-    return (
-      events.length > 0 &&
-      events.every(event => selectedEventIds.includes(event.id))
-    )
-  }, [events, selectedEventIds])
-
-  /**
-   * 检查是否部分选中
-   */
-  const isIndeterminate = useMemo(() => {
-    return selectedEventIds.length > 0 && !isAllSelected
-  }, [selectedEventIds.length, isAllSelected])
-
-  /**
-   * 处理全选/取消全选
-   */
-  const handleSelectAll = useCallback(() => {
-    onSelectAll(!isAllSelected)
-  }, [onSelectAll, isAllSelected])
-
-  /**
    * 处理单个事件选择
    */
   const handleEventSelect = useCallback(
     (eventId: number) => {
-      const isSelected = selectedEventIds.includes(eventId)
-      onEventSelect(eventId, !isSelected)
+      onEventSelect(eventId)
     },
-    [selectedEventIds, onEventSelect],
+    [onEventSelect],
   )
 
   const formatDate = useCallback((dateString: string) => {
@@ -239,21 +219,19 @@ const EventsList: React.FC<EventsListProps> = ({
 
   return (
     <div className={styles.eventsList}>
+      {/* 选择管理器 */}
+      <SelectionManager
+        currentPageEvents={events}
+        selectedEventIds={selectedEventIds}
+        totalCount={totalCount}
+        onSelectionChange={onSelectionChange}
+        loading={loading}
+      />
+
       {/* 表头 */}
       <div className={styles.eventsListHeader}>
         <div className={`${styles.headerCell} ${styles.checkboxCell}`}>
-          <label className={styles.checkboxContainer}>
-            <input
-              type="checkbox"
-              checked={isAllSelected}
-              ref={input => {
-                if (input) input.indeterminate = isIndeterminate
-              }}
-              onChange={handleSelectAll}
-              title={isAllSelected ? '取消全选' : '全选'}
-            />
-            <span className={styles.checkmark}></span>
-          </label>
+          <span>选择</span>
         </div>
         <div className={`${styles.headerCell} ${styles.contentCell}`}>
           <span>标题和内容</span>
@@ -286,7 +264,8 @@ const EventsList: React.FC<EventsListProps> = ({
           </div>
         ) : (
           events.map(event => {
-            const isSelected = selectedEventIds.includes(event.id)
+            const isSelected =
+              isFullSelection || selectedEventIds.includes(event.id)
             const { icon, title, actionType } = getEventDisplayInfo(event)
             return (
               <div
@@ -347,7 +326,6 @@ const EventsList: React.FC<EventsListProps> = ({
           onShowSizeChange={(page, pageSize) =>
             onPaginationChange({ page, pageSize, total: totalCount })
           }
-          selectedCount={selectedEventIds.length}
         />
       </div>
     </div>

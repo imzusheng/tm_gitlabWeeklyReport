@@ -92,7 +92,11 @@
 
 .generate-btn {
   padding: 8px 16px;
-  background: var(--color-primary);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-primary-dark)
+  );
   color: white;
   border: none;
   border-radius: 6px;
@@ -104,7 +108,11 @@
   min-width: fit-content;
 
   &:hover {
-    background: var(--color-primary-hover);
+    background: linear-gradient(
+      135deg,
+      var(--color-primary-hover),
+      var(--color-primary-dark)
+    );
   }
 
   &:disabled {
@@ -192,12 +200,12 @@
 
   &:hover {
     border-color: var(--color-primary);
-    box-shadow: 0 2px 8px rgb(24 144 255 / 10%);
+    box-shadow: var(--shadow-xs);
   }
 
   &.selected {
     border-color: var(--color-primary);
-    background: rgb(24 144 255 / 5%);
+    background: var(--color-primary-lighter);
   }
 }
 
@@ -379,7 +387,7 @@
   }
 
   &:hover {
-    background: rgb(24 144 255 / 5%);
+    background: var(--color-primary-lighter);
   }
 }
 
@@ -444,8 +452,8 @@
   }
 
   &.selected {
-    background: rgb(24 144 255 / 5%);
-    border-color: var(--primary-color);
+    background: var(--color-primary-lighter);
+    border-color: var(--color-primary);
   }
 }
 
@@ -501,8 +509,12 @@
 }
 
 .checkbox-container input:checked ~ .checkmark {
-  background: var(--primary-color);
-  border-color: var(--primary-color);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-primary-dark)
+  );
+  border-color: var(--color-primary);
 
   &::after {
     display: block;
@@ -510,8 +522,12 @@
 }
 
 .checkbox-container input:indeterminate ~ .checkmark {
-  background: var(--primary-color);
-  border-color: var(--primary-color);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-primary-dark)
+  );
+  border-color: var(--color-primary);
 
   &::after {
     display: block;
@@ -553,17 +569,11 @@
   justify-content: center;
 
   &:hover {
-    border-color: var(--primary-color);
-    background: rgb(24 144 255 / 5%);
+    border-color: var(--color-primary);
+    background: var(--color-primary-lighter);
   }
 }
 
 .detail-icon {
   font-size: 14px;
-}
-
-.events-list-footer {
-  margin-top: 16px;
-  display: flex;
-  justify-content: center;
 }

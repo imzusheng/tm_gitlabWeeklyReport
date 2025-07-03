@@ -193,8 +193,27 @@ export interface AppConfig {
   updateCheckInterval?: number // 检查更新间隔（毫秒）
 }
 
+// AI任务类型
+export type AITaskType = 'weekly-report' | 'changelog' | 'custom'
+
+// AI任务配置
+export interface AITaskConfig {
+  type: AITaskType
+  title: string
+  buttonText: string
+  defaultPrompt: string
+  description: string
+  placeholder: string
+  loadingText: string
+  emptyTitle: string
+  emptyDescription: string
+  generateButtonText: string
+  regenerateButtonText: string
+}
+
 // AI生成配置类型
 export interface AIGenerationConfig {
+  taskType: AITaskType
   prompt: string
   tokensUsed: number
   result: string

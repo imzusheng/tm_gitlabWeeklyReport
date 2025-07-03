@@ -1,3 +1,5 @@
+import type { AITaskType, AITaskConfig } from '@/types'
+
 // 应用版本信息
 // 从 package.json 读取版本号
 import packageJson from '../../package.json'
@@ -76,4 +78,51 @@ export const ERROR_MESSAGES = {
   API_RATE_LIMIT: 'API调用频率超限，请稍后重试',
   INSUFFICIENT_DATA: '数据不足，无法生成周报',
   GENERATION_FAILED: '周报生成失败，请重试',
+}
+
+// AI任务配置常量
+export const AI_TASK_CONFIGS: Record<AITaskType, AITaskConfig> = {
+  'weekly-report': {
+    type: 'weekly-report',
+    title: 'AI 周报生成',
+    buttonText: 'AI 周报',
+    defaultPrompt:
+      '你是一名前端工程师, 现在需要提交一份100字左右的周报, 请根据Git提交记录生成一份简洁的周报;请使用中文回答; 请使用简单文本, 不要使用markdown格式;减少笼统的描述;不需要下周计划;',
+    description: '基于选中的GitLab事件数据生成专业的工作周报',
+    placeholder: '请输入用于生成周报的提示词...',
+    loadingText: 'AI 正在分析事件数据，生成周报中...',
+    emptyTitle: '准备生成 AI 周报',
+    emptyDescription:
+      '点击"生成周报"按钮，AI 将基于您的 GitLab 事件数据生成专业的工作周报',
+    generateButtonText: '生成周报',
+    regenerateButtonText: '重新生成',
+  },
+  changelog: {
+    type: 'changelog',
+    title: 'AI 变更日志生成',
+    buttonText: 'AI 变更日志',
+    defaultPrompt:
+      '你是一名技术文档编写专家，现在需要根据GitLab事件数据生成变更日志(CHANGELOG)。请使用简洁、专业的语言描述代码变更内容，突出重要功能和修复。请使用中文回答，使用简洁的文本格式，使用简单的markdown语法。分为修复和新增两个部分',
+    description: '基于项目事件数据生成规范的变更日志文档',
+    placeholder: '请输入用于生成变更日志的提示词...',
+    loadingText: 'AI 正在分析项目数据，生成变更日志中...',
+    emptyTitle: '准备生成 AI 变更日志',
+    emptyDescription:
+      '点击"生成变更日志"按钮，AI 将基于项目事件数据生成规范的变更日志',
+    generateButtonText: '生成变更日志',
+    regenerateButtonText: '重新生成',
+  },
+  custom: {
+    type: 'custom',
+    title: 'AI 内容生成',
+    buttonText: 'AI 生成',
+    defaultPrompt: '请根据提供的数据生成相应的内容...',
+    description: '基于数据使用自定义提示词生成内容',
+    placeholder: '请输入自定义提示词...',
+    loadingText: 'AI 正在处理数据，生成内容中...',
+    emptyTitle: '准备生成 AI 内容',
+    emptyDescription: '点击"生成内容"按钮，AI 将基于您的自定义提示词生成内容',
+    generateButtonText: '生成内容',
+    regenerateButtonText: '重新生成',
+  },
 }

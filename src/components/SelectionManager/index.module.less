@@ -1,0 +1,141 @@
+.selectionManager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: var(--bg-secondary);
+  gap: 20px;
+
+  .selectionInfo {
+    display: flex;
+    align-items: center;
+    min-width: 140px;
+
+    .selectionCount {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      padding: 6px 16px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-primary);
+      border-radius: 20px;
+      box-shadow: var(--shadow-xs);
+    }
+  }
+
+  .selectionActions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex: 1;
+    justify-content: flex-end;
+
+    .actionGroup {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .groupLabel {
+        font-size: 13px;
+        color: var(--text-secondary);
+        font-weight: 500;
+        white-space: nowrap;
+      }
+    }
+
+    .actionBtn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+      border: 1px solid var(--border-primary);
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      box-shadow: var(--shadow-xs);
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      &:not(:disabled):hover {
+        background: var(--btn-hover-bg);
+        border-color: var(--border-secondary);
+        box-shadow: var(--shadow-sm);
+      }
+
+      &:not(:disabled):active {
+        background: var(--bg-hover);
+        box-shadow: var(--shadow-xs);
+        transform: translateY(1px);
+      }
+
+      /* 按钮图标样式 */
+      .btnIcon {
+        display: inline-block;
+        margin-right: 6px;
+        font-size: 14px;
+      }
+    }
+
+    .selectAllBtn {
+      background: var(--btn-bg);
+      color: var(--text-primary);
+      border: 1px solid var(--border-primary);
+      box-shadow: var(--shadow-xs);
+
+      &:not(:disabled):hover {
+        background: var(--bg-tertiary);
+        border-color: var(--border-secondary);
+      }
+
+      &:not(:disabled):active {
+        background: var(--bg-quaternary);
+        opacity: 0.8;
+      }
+    }
+
+    .clearBtn {
+      background: var(--btn-bg);
+      color: var(--text-primary);
+      border: 1px solid var(--border-primary);
+      box-shadow: var(--shadow-xs);
+
+      &:not(:disabled):hover {
+        background: var(--bg-tertiary);
+        border-color: var(--border-secondary);
+      }
+
+      &:not(:disabled):active {
+        background: var(--bg-quaternary);
+        opacity: 0.8;
+      }
+    }
+  }
+
+  /* 响应式设计 */
+  @media (width <= 768px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+
+    .selectionInfo {
+      justify-content: center;
+      min-width: auto;
+    }
+
+    .selectionActions {
+      flex-direction: column;
+      gap: 12px;
+
+      .actionGroup {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+    }
+  }
+}

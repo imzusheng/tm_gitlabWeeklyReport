@@ -11,7 +11,16 @@ import styles from './index.module.less'
 // 本地存储键名
 const SELECTED_PROJECT_KEY = 'gitlab-changelog-selected-project'
 
-const ChangelogPanel: React.FC = () => {
+interface ChangelogPanelProps {
+  onStateChange?: (state: {
+    selectedEventIds: number[]
+    isAllEventsSelected: boolean
+    totalCount: number
+    events: GitLabEvent[]
+  }) => void
+}
+
+const ChangelogPanel: React.FC<ChangelogPanelProps> = ({ onStateChange }) => {
   const { state, isConfigValid } = useAppState()
   const { createRequest, isRequestCancelled, cleanupRequest, isAbortError } =
     useAbortableRequest()
@@ -40,6 +49,27 @@ const ChangelogPanel: React.FC = () => {
   )
   const [selectedEventIds, setSelectedEventIds] = useState<number[]>([])
 
+  // 检查是否选择了全部数据
+  const isAllEventsSelected = useMemo(() => {
+    return (
+      selectedEventIds.length === 1 &&
+      selectedEventIds[0] === 0 &&
+      totalCount > 0
+    )
+  }, [selectedEventIds, totalCount])
+
+  // 当状态变化时通知父组件
+  useEffect(() => {
+    if (onStateChange) {
+      onStateChange({
+        selectedEventIds,
+        isAllEventsSelected,
+        totalCount,
+        events,
+      })
+    }
+  }, [selectedEventIds, isAllEventsSelected, totalCount, events, onStateChange])
+
   // 项目选择处理函数
   const handleProjectSelect = useCallback((projectId: number | null) => {
     setSelectedProject(projectId)
@@ -51,6 +81,8 @@ const ChangelogPanel: React.FC = () => {
     }
     // 重置分页到第一页
     setPaginationOptions(prev => ({ ...prev, page: 1 }))
+    // 重置选中状态
+    setSelectedEventIds([])
   }, [])
 
   const fetchEvents = useCallback(async () => {
@@ -80,7 +112,15 @@ const ChangelogPanel: React.FC = () => {
       if (isRequestCancelled(abortController)) return
 
       setEvents(events)
-      setSelectedEventIds(events.map(event => event.id))
+      // 如果不是全选状态，则清空选中事件（翻页时保持全选状态）
+      setSelectedEventIds(prev => {
+        // 如果当前是全选状态（[0]），保持全选状态
+        if (prev.length === 1 && prev[0] === 0) {
+          return prev
+        }
+        // 否则清空选中状态
+        return []
+      })
       setTotalCount(total)
     } catch (error) {
       if (isAbortError(error)) return
@@ -124,18 +164,37 @@ const ChangelogPanel: React.FC = () => {
     [],
   )
 
-  const onEventSelect = useCallback((eventId: number, selected: boolean) => {
-    setSelectedEventIds(prev =>
-      selected ? [...prev, eventId] : prev.filter(id => id !== eventId),
-    )
-  }, [])
+  // 暂时注释掉，使用内联逻辑
+  // const onEventSelect = useCallback((eventId: number, selected: boolean) => {
+  //   if (isAllEventsSelected && !selected) {
+  //     // 如果是全选状态且要取消选择某个事件，则退出全选状态，选中当前页面除了该事件的所有事件
+  //     const currentPageEventIds = events
+  //       .filter(event => event.id !== eventId)
+  //       .map(event => event.id)
+  //     setSelectedEventIds(currentPageEventIds)
+  //   } else if (isAllEventsSelected && selected) {
+  //     // 如果是全选状态且要选择某个事件，保持全选状态（不需要操作）
+  //     return
+  //   } else {
+  //     // 正常的选择/取消选择逻辑
+  //     setSelectedEventIds(prev =>
+  //       selected ? [...prev, eventId] : prev.filter(id => id !== eventId),
+  //     )
+  //   }
+  // }, [isAllEventsSelected, events])
 
-  const onSelectAll = useCallback(
-    (selected: boolean) => {
-      setSelectedEventIds(selected ? events.map(e => e.id) : [])
-    },
-    [events],
-  )
+  // const onSelectAll = useCallback(
+  //   (selected: boolean) => {
+  //     if (selected) {
+  //       // 全选 - 设置选中数量为总数，但不实际获取所有事件ID
+  //       setSelectedEventIds([0]) // 使用一个占位符表示全选状态
+  //     } else {
+  //       // 取消选中所有事件
+  //       setSelectedEventIds([])
+  //     }
+  //   },
+  //   [],
+  // )
 
   return (
     <div className={styles.changelogPanel}>
@@ -158,9 +217,38 @@ const ChangelogPanel: React.FC = () => {
           paginationOptions={paginationOptions}
           onPaginationChange={onPaginationChange}
           selectedEventIds={selectedEventIds}
-          onEventSelect={onEventSelect}
-          onSelectAll={onSelectAll}
+          onSelectionChange={(selectedIds, isFullSelection) => {
+            // 暂时兼容，使用内部状态管理
+            setSelectedEventIds(selectedIds)
+            // 如果是全选状态，设置特殊标记
+            if (isFullSelection) {
+              setSelectedEventIds([0]) // 使用0作为全选状态标记
+            }
+          }}
+          isFullSelection={isAllEventsSelected}
+          onEventSelect={eventId => {
+            // 切换选择状态
+            const isSelected = selectedEventIds.includes(eventId)
+            if (isAllEventsSelected && !isSelected) {
+              // 如果是全选状态且要取消选择某个事件，则退出全选状态，选中当前页面除了该事件的所有事件
+              const currentPageEventIds = events
+                .filter(event => event.id !== eventId)
+                .map(event => event.id)
+              setSelectedEventIds(currentPageEventIds)
+            } else if (isAllEventsSelected && isSelected) {
+              // 如果是全选状态且要选择某个事件，保持全选状态（不需要操作）
+              return
+            } else {
+              // 正常的选择/取消选择逻辑
+              setSelectedEventIds(prev =>
+                isSelected
+                  ? prev.filter(id => id !== eventId)
+                  : [...prev, eventId],
+              )
+            }
+          }}
           onEventDetail={() => {}}
+          mode="changelog"
         />
       </div>
     </div>

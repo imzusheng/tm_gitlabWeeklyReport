@@ -7,7 +7,7 @@ import type {
   PaginationOptions,
   AppMode,
 } from '@/types'
-import { APP_VERSION } from '@/constants'
+import { APP_VERSION, AI_TASK_CONFIGS } from '@/constants'
 import FilterSection from './components/FilterSection'
 import EventsList from './components/EventsList'
 import ChangelogPanel from './components/ChangelogPanel'
@@ -27,11 +27,19 @@ interface MainPanelProps {
   onFilterChange: (filters: FilterConditions) => void
   onSortChange: (sort: SortOptions) => void
   onPaginationChange: (pagination: PaginationOptions) => void
-  onEventSelect: (eventId: number, selected: boolean) => void
+  onEventSelect: (eventId: number) => void
   onSelectAll: (selected: boolean) => void
+  onSelectionChange: (selectedIds: number[], isFullSelection: boolean) => void
   onEventDetail: (event: GitLabEvent) => void
   onOpenSettings: () => void
   onOpenAI: () => void
+  isAllEventsSelected?: boolean
+  onChangelogStateChange?: (state: {
+    selectedEventIds: number[]
+    isAllEventsSelected: boolean
+    totalCount: number
+    events: GitLabEvent[]
+  }) => void
 }
 
 const MainPanel: React.FC<MainPanelProps> = ({
@@ -48,10 +56,13 @@ const MainPanel: React.FC<MainPanelProps> = ({
   onSortChange,
   onPaginationChange,
   onEventSelect,
-  onSelectAll,
+  // onSelectAll, // 暂时不使用
+  onSelectionChange,
   onEventDetail,
   onOpenSettings,
   onOpenAI,
+  isAllEventsSelected = false,
+  onChangelogStateChange,
 }) => {
   const { state } = useAppState()
 
@@ -151,7 +162,11 @@ const MainPanel: React.FC<MainPanelProps> = ({
             <button
               className={`${styles.actionBtn} ${styles.aiBtn}`}
               onClick={onOpenAI}
-              title="AI 周报"
+              title={
+                appMode === 'changelog'
+                  ? AI_TASK_CONFIGS.changelog.title
+                  : AI_TASK_CONFIGS['weekly-report'].title
+              }
             >
               <span className={styles.btnIcon}>
                 <svg viewBox="0 0 24 24" fill="none">
@@ -169,7 +184,11 @@ const MainPanel: React.FC<MainPanelProps> = ({
                   />
                 </svg>
               </span>
-              <span className={styles.btnLabel}>AI 周报</span>
+              <span className={styles.btnLabel}>
+                {appMode === 'changelog'
+                  ? AI_TASK_CONFIGS.changelog.buttonText
+                  : AI_TASK_CONFIGS['weekly-report'].buttonText}
+              </span>
             </button>
           </div>
         </div>
@@ -197,15 +216,17 @@ const MainPanel: React.FC<MainPanelProps> = ({
               paginationOptions={paginationOptions}
               onPaginationChange={onPaginationChange}
               selectedEventIds={selectedEventIds}
+              onSelectionChange={onSelectionChange}
+              isFullSelection={isAllEventsSelected}
               onEventSelect={onEventSelect}
-              onSelectAll={onSelectAll}
               onEventDetail={onEventDetail}
+              mode={appMode}
             />
           </div>
         </>
       ) : (
         <div className={styles.changelogSection}>
-          <ChangelogPanel />
+          <ChangelogPanel onStateChange={onChangelogStateChange} />
         </div>
       )}
     </div>

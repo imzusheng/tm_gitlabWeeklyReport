@@ -228,7 +228,6 @@ button:hover {
     --bg-hover: rgb(255 255 255 / 6%);
 
     /* 自定义变量 */
-
     --border-light: rgb(255 255 255 / 8%);
     --primary-bg-hover: rgb(74 158 255 / 20%);
     --primary-shadow: rgb(74 158 255 / 30%);
@@ -246,6 +245,143 @@ button:hover {
     color: var(--text-primary);
     background-color: var(--bg-primary);
   }
+}
+
+/* ========== 明确的主题类 ========== */
+.dark {
+  /* 主要背景色 */
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #1c1c1e;
+  --bg-tertiary: #2c2c2e;
+  --bg-quaternary: rgb(28 28 30 / 80%);
+
+  /* 文本颜色 */
+  --text-primary: #fff;
+  --text-secondary: #8e8e93;
+  --text-tertiary: #98989d;
+  --text-quaternary: #636366;
+
+  /* 边框颜色 */
+  --border-primary: rgb(255 255 255 / 10%);
+  --border-secondary: rgb(255 255 255 / 8%);
+  --border-tertiary: #424245;
+  --border-quaternary: #48484a;
+
+  /* 品牌色 */
+  --color-primary: #4a9eff;
+  --color-primary-hover: #64b5f6;
+  --color-primary-dark: #3a8eef;
+  --color-primary-light: rgb(74 158 255 / 20%);
+  --color-primary-lighter: rgb(74 158 255 / 10%);
+
+  /* 功能色 */
+  --color-success: #32d74b;
+  --color-success-light: rgb(52 199 89 / 20%);
+  --color-warning: #ff9f0a;
+  --color-warning-light: rgb(255 149 0 / 20%);
+  --color-error: #ff453a;
+  --color-error-bg: #5c2122;
+  --color-error-border: #7c2e2f;
+  --color-error-text: #f8d7da;
+  --color-error-light: rgb(255 69 58 / 20%);
+  --color-info: #5e5ce6;
+  --color-info-light: rgb(88 86 214 / 20%);
+
+  /* 阴影 */
+  --shadow-sm: 0 2px 8px rgb(0 0 0 / 20%);
+  --shadow-md: 0 4px 16px rgb(0 0 0 / 30%);
+  --shadow-lg: 0 8px 32px rgb(0 0 0 / 40%);
+  --shadow-xl: 0 20px 60px rgb(0 0 0 / 50%);
+
+  /* 滚动条 */
+  --scrollbar-thumb: #48484a;
+  --scrollbar-thumb-hover: #636366;
+
+  /* 遮罩层 */
+  --overlay: rgb(0 0 0 / 60%);
+  --overlay-light: rgb(0 0 0 / 60%);
+  --overlay-heavy: rgb(0 0 0 / 80%);
+
+  /* 按钮 */
+  --btn-bg: #1a1a1a;
+  --btn-text: rgb(255 255 255 / 87%);
+  --btn-primary-text: #fff;
+  --btn-border: rgb(255 255 255 / 20%);
+  --btn-hover-bg: rgb(255 255 255 / 10%);
+
+  /* 悬停背景 */
+  --bg-hover: rgb(255 255 255 / 6%);
+
+  /* 自定义变量 */
+  --border-light: rgb(255 255 255 / 8%);
+  --primary-bg-hover: rgb(74 158 255 / 20%);
+  --primary-shadow: rgb(74 158 255 / 30%);
+  --success-color: #32d74b;
+  --warning-color: #ff9f0a;
+  --shadow-xs: 0 1px 4px rgb(0 0 0 / 10%);
+
+  /* 输入框 */
+  --input-bg: #2c2c2e;
+  --input-border: #48484a;
+  --input-focus-border: #64b5f6;
+  --input-focus-shadow: rgb(100 181 246 / 10%);
+
+  /* 应用主色调 */
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+}
+
+.light {
+  /* 确保浅色主题变量正确应用 */
+  --bg-primary: #fff;
+  --bg-secondary: #f5f5f7;
+  --bg-tertiary: #f8f9fa;
+  --bg-quaternary: rgb(248 248 248 / 80%);
+  --text-primary: #1d1d1f;
+  --text-secondary: #86868b;
+  --text-tertiary: #666;
+  --text-quaternary: #8e8e93;
+  --border-primary: rgb(0 0 0 / 8%);
+  --border-secondary: rgb(0 0 0 / 5%);
+  --border-tertiary: #e5e5e7;
+  --border-quaternary: #d2d2d7;
+  --color-primary: #007aff;
+  --color-primary-hover: #0051d5;
+  --color-primary-dark: #0051d5;
+  --color-primary-light: rgb(0 122 255 / 10%);
+  --color-primary-lighter: rgb(0 122 255 / 5%);
+
+  /* 功能色 */
+  --color-success: #34c759;
+  --color-warning: #ff9500;
+  --color-error: #ff3b30;
+  --color-danger: #ff3b30;
+
+  /* 按钮 */
+  --btn-bg: #f9f9f9;
+  --btn-text: #213547;
+  --btn-primary-text: #fff;
+  --btn-border: rgb(0 0 0 / 10%);
+  --btn-hover-bg: rgb(0 0 0 / 6%);
+
+  /* 输入框 */
+  --input-bg: #fff;
+  --input-border: #ddd;
+  --input-focus-border: #007bff;
+  --input-focus-shadow: rgb(0 123 255 / 10%);
+
+  /* 自定义变量 */
+  --border-light: rgb(0 0 0 / 5%);
+  --success-color: #34c759;
+  --warning-color: #ff9500;
+
+  /* 阴影 */
+  --shadow-xs: 0 1px 4px rgb(0 0 0 / 4%);
+  --shadow-sm: 0 2px 8px rgb(0 0 0 / 6%);
+  --shadow-md: 0 4px 16px rgb(0 0 0 / 10%);
+
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
 }
 
 .error-message {

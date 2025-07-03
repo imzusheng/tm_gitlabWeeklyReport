@@ -9,45 +9,45 @@ const r = () =>
 async function o(e, t = {}) {
   const {
     method: o = 'GET',
-    headers: a = {},
-    body: n,
+    headers: n = {},
+    body: s,
     timeout: i = 3e4,
-    signal: c,
+    signal: l,
   } = t
   if (r())
     return new Promise((t, r) => {
-      if (null == c ? void 0 : c.aborted) return r(new Error('Request aborted'))
-      const l = new AbortController(),
-        u = i > 0 ? setTimeout(() => l.abort(), i) : void 0,
+      if (null == l ? void 0 : l.aborted) return r(new Error('Request aborted'))
+      const c = new AbortController(),
+        u = i > 0 ? setTimeout(() => c.abort(), i) : void 0,
         m = () => {
-          clearTimeout(u), l.abort(), r(new Error('Request aborted'))
+          clearTimeout(u), c.abort(), r(new Error('Request aborted'))
         }
-      null == c || c.addEventListener('abort', m),
+      null == l || l.addEventListener('abort', m),
         GM_xmlhttpRequest({
           method: o.toUpperCase(),
           url: e,
-          headers: { 'Content-Type': 'application/json', ...a },
-          data: n,
+          headers: { 'Content-Type': 'application/json', ...n },
+          data: s,
           timeout: i,
           onload: e => {
             clearTimeout(u),
-              null == c || c.removeEventListener('abort', m),
+              null == l || l.removeEventListener('abort', m),
               t({
                 ok: e.status >= 200 && e.status < 300,
                 status: e.status,
                 statusText: e.statusText,
-                headers: s(e.responseHeaders),
+                headers: a(e.responseHeaders),
                 json: () => Promise.resolve(JSON.parse(e.responseText)),
                 text: () => Promise.resolve(e.responseText),
               })
           },
           onerror: e => {
             clearTimeout(u),
-              null == c || c.removeEventListener('abort', m),
+              null == l || l.removeEventListener('abort', m),
               r(new Error(`Network error: ${e.error || 'Unknown error'}`))
           },
           ontimeout: () => {
-            null == c || c.removeEventListener('abort', m),
+            null == l || l.removeEventListener('abort', m),
               r(new Error('Request timeout'))
           },
         })
@@ -55,11 +55,11 @@ async function o(e, t = {}) {
   {
     const t = {
       method: o,
-      headers: { 'Content-Type': 'application/json', ...a },
-      body: n,
-      signal: c,
+      headers: { 'Content-Type': 'application/json', ...n },
+      body: s,
+      signal: l,
     }
-    i > 0 && !c && (t.signal = AbortSignal.timeout(i))
+    i > 0 && !l && (t.signal = AbortSignal.timeout(i))
     try {
       const r = await fetch(e, t)
       return {
@@ -70,13 +70,13 @@ async function o(e, t = {}) {
         json: () => r.json(),
         text: () => r.text(),
       }
-    } catch (l) {
-      if (l instanceof Error) throw l
+    } catch (c) {
+      if (c instanceof Error) throw c
       throw new Error('Network request failed')
     }
   }
 }
-const s = e => {
+const a = e => {
     const t = {}
     return e
       ? (e.split('\n').forEach(e => {
@@ -86,7 +86,7 @@ const s = e => {
         t)
       : t
   },
-  a = {
+  n = {
     setItem: (e, t) => {
       try {
         r() && 'undefined' != typeof GM_setValue
@@ -121,12 +121,12 @@ const s = e => {
       }
     },
   },
-  n = '1.10.3',
+  s = '1.10.3',
   i = {
     DEEPSEEK_BASE_URL: 'https://api.deepseek.com/v1',
     REQUEST_TIMEOUT: 3e4,
   },
-  c = {
+  l = {
     gitlabUrl: 'https://www.lejuhub.com/api/v4',
     gitlabToken: '',
     deepseekApiKey: '',
@@ -137,7 +137,7 @@ const s = e => {
     customPrompt: '',
     theme: 'system',
   },
-  l = {
+  c = {
     gitlabUrl: 'https://gitlab.example.com',
     gitlabToken: '请输入您的GitLab Personal Access Token',
     deepseekApiKey: '请输入您的DeepSeek API Key',
@@ -146,8 +146,53 @@ const s = e => {
   u = { timeRange: 'week', targetType: [], action: [] },
   m = { field: 'created_at', order: 'desc' },
   d = { page: 1, pageSize: 50, total: 0 },
-  E = 'gitlab_weekly_report_config'
-class p extends Error {
+  p = 'gitlab_weekly_report_config',
+  g = {
+    'weekly-report': {
+      type: 'weekly-report',
+      title: 'AI 周报生成',
+      buttonText: 'AI 周报',
+      defaultPrompt:
+        '你是一名前端工程师, 现在需要提交一份100字左右的周报, 请根据Git提交记录生成一份简洁的周报;请使用中文回答; 请使用简单文本, 不要使用markdown格式;减少笼统的描述;不需要下周计划;',
+      description: '基于选中的GitLab事件数据生成专业的工作周报',
+      placeholder: '请输入用于生成周报的提示词...',
+      loadingText: 'AI 正在分析事件数据，生成周报中...',
+      emptyTitle: '准备生成 AI 周报',
+      emptyDescription:
+        '点击"生成周报"按钮，AI 将基于您的 GitLab 事件数据生成专业的工作周报',
+      generateButtonText: '生成周报',
+      regenerateButtonText: '重新生成',
+    },
+    changelog: {
+      type: 'changelog',
+      title: 'AI 变更日志生成',
+      buttonText: 'AI 变更日志',
+      defaultPrompt:
+        '你是一名技术文档编写专家，现在需要根据GitLab事件数据生成变更日志(CHANGELOG)。请使用简洁、专业的语言描述代码变更内容，突出重要功能和修复。请使用中文回答，使用简洁的文本格式，使用简单的markdown语法。分为修复和新增两个部分',
+      description: '基于项目事件数据生成规范的变更日志文档',
+      placeholder: '请输入用于生成变更日志的提示词...',
+      loadingText: 'AI 正在分析项目数据，生成变更日志中...',
+      emptyTitle: '准备生成 AI 变更日志',
+      emptyDescription:
+        '点击"生成变更日志"按钮，AI 将基于项目事件数据生成规范的变更日志',
+      generateButtonText: '生成变更日志',
+      regenerateButtonText: '重新生成',
+    },
+    custom: {
+      type: 'custom',
+      title: 'AI 内容生成',
+      buttonText: 'AI 生成',
+      defaultPrompt: '请根据提供的数据生成相应的内容...',
+      description: '基于数据使用自定义提示词生成内容',
+      placeholder: '请输入自定义提示词...',
+      loadingText: 'AI 正在处理数据，生成内容中...',
+      emptyTitle: '准备生成 AI 内容',
+      emptyDescription: '点击"生成内容"按钮，AI 将基于您的自定义提示词生成内容',
+      generateButtonText: '生成内容',
+      regenerateButtonText: '重新生成',
+    },
+  }
+class E extends Error {
   constructor(e, r, o) {
     super(`[${o}] ${r}`),
       t(this, 'status'),
@@ -165,9 +210,9 @@ class f extends Error {
       (this.service = r)
   }
 }
-class g {
+class h {
   static createApiError(e, t, r) {
-    return new p(e, t, r)
+    return new E(e, t, r)
   }
   static createResponseError(e, t) {
     return new f(e, t)
@@ -235,9 +280,9 @@ class g {
     )
   }
 }
-const h = e => {
+const y = e => {
     try {
-      return e(a)
+      return e(n)
     } catch (t) {
       if ('undefined' != typeof localStorage)
         try {
@@ -247,17 +292,17 @@ const h = e => {
   },
   w = {
     saveConfig: e => {
-      h(t => t.setItem(E, JSON.stringify(e)))
+      y(t => t.setItem(p, JSON.stringify(e)))
     },
     loadConfig: () => {
-      const e = h(e => e.getItem(E))
+      const e = y(e => e.getItem(p))
       return e ? JSON.parse(e) : null
     },
     clearConfig: () => {
-      h(e => e.removeItem(E))
+      y(e => e.removeItem(p))
     },
   },
-  y = {
+  b = {
     INCOMPLETE_GITLAB_DEEPSEEK: '请先完善GitLab和DeepSeek配置信息',
     INCOMPLETE_CONFIG: '请先完善配置信息',
     NO_EVENTS_SELECTED: '请至少选择一个事件来生成周报',
@@ -265,14 +310,15 @@ const h = e => {
   }
 export {
   i as A,
-  l as C,
+  c as C,
   d as D,
-  g as E,
+  h as E,
   m as a,
   u as b,
-  c,
-  y as d,
-  n as e,
+  l as c,
+  b as d,
+  s as e,
+  g as f,
   o as r,
   w as s,
 }

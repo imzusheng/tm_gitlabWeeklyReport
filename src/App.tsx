@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { useAppState } from '@/hooks/useAppState'
 import { useAbortableRequest } from '@/hooks/useAbortableRequest'
+// import { useGlobalSelection } from '@/hooks/useGlobalSelection' // 暂时注释
 
 import MainPanel from '@/components/MainPanel'
 import SettingsPanel from '@/components/SettingsPanel'
@@ -58,8 +59,49 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   const [selectedEvent, setSelectedEvent] = useState<GitLabEvent | null>(null)
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false)
 
-  // 事件选择状态
-  const [selectedEventIds, setSelectedEventIds] = useState<number[]>([])
+  // 暂时保持原有的选择状态管理
+  const [eventsSelectedIds, setEventsSelectedIds] = useState<number[]>([])
+
+  // Changelog面板状态（保留用于兼容）
+  const [changelogState, setChangelogState] = useState<{
+    selectedEventIds: number[]
+    isAllEventsSelected: boolean
+    totalCount: number
+    events: GitLabEvent[]
+  }>({
+    selectedEventIds: [],
+    isAllEventsSelected: false,
+    totalCount: 0,
+    events: [],
+  })
+
+  // 根据当前模式获取相应的选中状态
+  const selectedEventIds = useMemo(() => {
+    return state.appMode === 'events'
+      ? eventsSelectedIds
+      : changelogState.selectedEventIds
+  }, [state.appMode, eventsSelectedIds, changelogState.selectedEventIds])
+
+  // 根据当前模式获取相应的setState函数
+  const setSelectedEventIds = useCallback(
+    (updater: number[] | ((prev: number[]) => number[])) => {
+      if (state.appMode === 'events') {
+        setEventsSelectedIds(updater)
+      }
+      // Changelog模式的状态通过ChangelogPanel内部管理，不需要在这里设置
+    },
+    [state.appMode],
+  )
+
+  // 使用全局选择状态管理 (暂时注释)
+  // const {
+  //   getSelectionForMode,
+  //   updateSelectionForMode,
+  //   isEventSelected,
+  //   getSelectedCount,
+  //   toggleEventSelection,
+  //   getSelectedEvents,
+  // } = useGlobalSelection()
 
   // 计算实际主题
   const actualTheme = useMemo(() => {
@@ -71,8 +113,14 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     return state.theme
   }, [state.theme])
 
-  // 监听系统主题变化
+  // 监听系统主题变化并应用主题类
   useEffect(() => {
+    // 应用主题类到body元素
+    document.body.className = document.body.className
+      .replace(/\b(light|dark)\b/g, '')
+      .trim()
+    document.body.classList.add(actualTheme)
+
     if (state.theme === 'system') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
       const handleChange = () => {
@@ -87,7 +135,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     }
     // 当主题不是system时，确保没有遗留的监听器
     return undefined
-  }, [state.theme])
+  }, [state.theme, actualTheme])
 
   /**
    * 加载GitLab事件数据
@@ -147,8 +195,15 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
       }
 
       setEvents(events)
-      // 默认选中所有事件
-      setSelectedEventIds(events.map(event => event.id))
+      // 如果不是全选状态，则清空选中事件（翻页时保持全选状态）
+      setEventsSelectedIds(prev => {
+        // 如果当前是全选状态（[0]），保持全选状态
+        if (prev.length === 1 && prev[0] === 0) {
+          return prev
+        }
+        // 否则清空选中状态
+        return []
+      })
       // 使用响应头中的总数
       setTotal(total)
     } catch (error) {
@@ -228,7 +283,137 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     setActivePanel('main')
   }, [setActivePanel])
 
-  // 处理AI周报生成
+  // 获取全量事件数据用于AI生成
+  const handleFetchAllEvents = useCallback(async (): Promise<GitLabEvent[]> => {
+    if (!isConfigValid()) {
+      throw new Error('配置不完整')
+    }
+
+    const { createGitLabApiService } = await import('@/services/gitlab-api')
+    const gitlabService = createGitLabApiService(
+      state.config.gitlabUrl,
+      state.config.gitlabToken,
+    )
+
+    await gitlabService.init()
+
+    let allEvents: GitLabEvent[] = []
+    const perPage = 100 // GitLab API 推荐的最大值
+    let page = 1
+    let hasMore = true
+
+    // 根据应用模式获取不同的数据
+    if (state.appMode === 'events') {
+      const currentUser = await gitlabService.getCurrentUser()
+
+      while (hasMore) {
+        const { events, total } = await gitlabService.getUserEventsWithTotal(
+          currentUser.id,
+          {
+            per_page: perPage,
+            page,
+            after: getTimeRange().startDate,
+            before: getTimeRange().endDate,
+            sort: state.sortOptions.order,
+          },
+        )
+
+        allEvents = [...allEvents, ...events]
+        hasMore = events.length === perPage && allEvents.length < total
+        page++
+
+        // 避免无限循环，设置最大页数限制
+        if (page > 100) break
+      }
+    } else if (state.appMode === 'changelog' && state.selectedProjectId) {
+      while (hasMore) {
+        const { events, total } = await gitlabService.getProjectEventsWithTotal(
+          state.selectedProjectId,
+          {
+            per_page: perPage,
+            page,
+            sort: state.sortOptions.order,
+          },
+        )
+
+        allEvents = [...allEvents, ...events]
+        hasMore = events.length === perPage && allEvents.length < total
+        page++
+
+        // 避免无限循环，设置最大页数限制
+        if (page > 100) break
+      }
+    }
+
+    return allEvents
+  }, [
+    isConfigValid,
+    state.config.gitlabUrl,
+    state.config.gitlabToken,
+    state.appMode,
+    state.sortOptions.order,
+    state.selectedProjectId,
+    getTimeRange,
+  ])
+
+  // 处理全选/取消全选
+  const handleSelectAll = useCallback(
+    (selected: boolean) => {
+      if (selected) {
+        // 全选 - 设置选中数量为总数，但不实际获取所有事件ID
+        setSelectedEventIds([0]) // 使用一个占位符表示全选状态
+      } else {
+        // 取消选中所有事件
+        setSelectedEventIds([])
+      }
+    },
+    [setSelectedEventIds],
+  )
+
+  // 检查是否选择了全部数据
+  const isAllEventsSelected = useMemo(() => {
+    if (state.appMode === 'events') {
+      return eventsSelectedIds.includes(-1) && state.totalCount > 0
+    } else {
+      return changelogState.isAllEventsSelected
+    }
+  }, [
+    state.appMode,
+    eventsSelectedIds,
+    state.totalCount,
+    changelogState.isAllEventsSelected,
+  ])
+
+  // 获取显示的选中数量
+  const displaySelectedCount = useMemo(() => {
+    if (state.appMode === 'events') {
+      if (eventsSelectedIds.includes(-1)) {
+        return state.totalCount
+      }
+      // 排除-1标记计算真实的选中数量
+      return eventsSelectedIds.filter(id => id !== -1).length
+    } else {
+      if (changelogState.isAllEventsSelected) {
+        return changelogState.totalCount
+      }
+      return changelogState.selectedEventIds.length
+    }
+  }, [state.appMode, eventsSelectedIds, state.totalCount, changelogState])
+
+  // 处理Changelog状态变化
+  const handleChangelogStateChange = useCallback(
+    (newState: {
+      selectedEventIds: number[]
+      isAllEventsSelected: boolean
+      totalCount: number
+      events: GitLabEvent[]
+    }) => {
+      setChangelogState(newState)
+    },
+    [setChangelogState],
+  )
+
+  // 处理AI生成
   const handleGenerateReport = useCallback(
     async (prompt: string) => {
       if (!isConfigValid()) {
@@ -236,6 +421,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
         return
       }
 
+      // 检查是否需要选择事件
       if (selectedEventIds.length === 0) {
         setError(configErrors.NO_EVENTS_SELECTED)
         return
@@ -245,10 +431,27 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
       setError(null)
 
       try {
-        // 使用已选中的事件数据
-        const selectedEvents = state.events.filter(event =>
-          selectedEventIds.includes(event.id),
-        )
+        let selectedEvents: GitLabEvent[]
+
+        // 如果是全选状态，需要先获取所有事件
+        if (isAllEventsSelected) {
+          selectedEvents = await handleFetchAllEvents()
+        } else {
+          // 使用已选中的事件数据
+          if (state.appMode === 'events') {
+            selectedEvents = state.events.filter(event =>
+              selectedEventIds.includes(event.id),
+            )
+          } else {
+            selectedEvents = changelogState.events.filter(event =>
+              selectedEventIds.includes(event.id),
+            )
+          }
+        }
+
+        // 根据应用模式确定任务类型
+        const taskType =
+          state.appMode === 'changelog' ? 'changelog' : 'weekly-report'
 
         // 格式化事件数据为字符串
         const eventsData = selectedEvents
@@ -258,7 +461,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
           })
           .join('\n')
 
-        // 使用DeepSeek API生成周报
+        // 使用DeepSeek API生成报告
         const { createDeepSeekApiService } = await import(
           '@/services/deepseek-api'
         )
@@ -274,6 +477,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
         )
 
         setAIGenerationConfig({
+          taskType,
           prompt,
           tokensUsed: result.tokensUsed,
           result: result.content,
@@ -288,10 +492,14 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     [
       isConfigValid,
       selectedEventIds,
+      isAllEventsSelected,
+      handleFetchAllEvents,
       state.events,
+      state.appMode,
       state.config.deepseekApiKey,
       state.config.model,
       state.config.tokenLimit,
+      changelogState.events,
       setError,
       setLoading,
       setAIGenerationConfig,
@@ -324,28 +532,47 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
     [updateSortOptions],
   )
 
-  // 处理事件选择
-  const handleEventSelect = useCallback(
-    (eventId: number, selected: boolean) => {
-      setSelectedEventIds(prev =>
-        selected ? [...prev, eventId] : prev.filter(id => id !== eventId),
-      )
-    },
-    [],
-  )
-
-  // 处理全选/取消全选
-  const handleSelectAll = useCallback(
-    (selected: boolean) => {
-      if (selected) {
-        // 选中当前页面的所有事件
-        setSelectedEventIds(state.events.map(event => event.id))
+  // 处理选择状态变更
+  const handleSelectionChange = useCallback(
+    (selectedIds: number[], isFullSelection: boolean) => {
+      console.log('App: 处理选择状态变更', { selectedIds, isFullSelection })
+      if (isFullSelection) {
+        // 全选状态
+        setSelectedEventIds([-1])
       } else {
-        // 取消选中所有事件
-        setSelectedEventIds([])
+        // 部分选择状态
+        setSelectedEventIds(selectedIds)
       }
     },
-    [state.events],
+    [setSelectedEventIds],
+  )
+
+  // 处理事件选择（toggle模式）
+  const handleEventSelect = useCallback(
+    (eventId: number) => {
+      // 检查当前是否选中
+      const isCurrentlySelected =
+        isAllEventsSelected || eventsSelectedIds.includes(eventId)
+
+      if (isAllEventsSelected) {
+        if (isCurrentlySelected) {
+          // 如果是全选状态且要取消选择某个事件，则退出全选状态，选中当前页面除了该事件的所有事件
+          const currentPageEventIds = state.events
+            .filter(event => event.id !== eventId)
+            .map(event => event.id)
+          setSelectedEventIds(currentPageEventIds)
+        }
+        // 如果是全选状态且要选择某个事件，保持全选状态（不需要操作）
+      } else {
+        // 正常的toggle逻辑
+        setSelectedEventIds(prev =>
+          isCurrentlySelected
+            ? prev.filter(id => id !== eventId)
+            : [...prev, eventId],
+        )
+      }
+    },
+    [isAllEventsSelected, eventsSelectedIds, state.events, setSelectedEventIds],
   )
 
   // 处理事件详情
@@ -412,7 +639,7 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
   return (
     <div
       id="gitlab-weekly-report-app"
-      className={`${styles.app} ${isUserscript ? styles.userscriptMode : styles.webMode} ${styles[actualTheme]}`}
+      className={`${styles.app} ${isUserscript ? styles.userscriptMode : styles.webMode}`}
     >
       {/* 主面板 */}
       <MainPanel
@@ -430,9 +657,12 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
         onPaginationChange={handlePaginationChange}
         onEventSelect={handleEventSelect}
         onSelectAll={handleSelectAll}
+        onSelectionChange={handleSelectionChange}
         onEventDetail={handleEventDetail}
         onOpenSettings={handleOpenSettings}
         onOpenAI={handleOpenAI}
+        isAllEventsSelected={isAllEventsSelected}
+        onChangelogStateChange={handleChangelogStateChange}
       />
 
       {/* 事件详情弹窗 */}
@@ -452,16 +682,27 @@ const App: React.FC<AppProps> = ({ isUserscript = false }) => {
       />
 
       {/* AI面板 */}
-      <AIPanel
-        visible={state.activePanel === 'ai'}
-        config={state.aiGenerationConfig}
-        defaultPrompt={state.config.defaultPrompt}
-        onClose={handleCloseAI}
-        onGenerate={handleGenerateReport}
-        isLoading={state.isLoading}
-        selectedEventsCount={selectedEventIds.length}
-        dateRange={getTimeRange()}
-      />
+      {state.activePanel === 'ai' && (
+        <AIPanel
+          visible={state.activePanel === 'ai'}
+          config={state.aiGenerationConfig}
+          taskType={
+            state.appMode === 'changelog' ? 'changelog' : 'weekly-report'
+          }
+          onClose={handleCloseAI}
+          onGenerate={handleGenerateReport}
+          isLoading={state.isLoading}
+          selectedEventsCount={displaySelectedCount}
+          allEventsCount={
+            state.appMode === 'events'
+              ? state.totalCount
+              : changelogState.totalCount
+          }
+          dateRange={getTimeRange()}
+          onFetchAllEvents={handleFetchAllEvents}
+          isAllSelected={isAllEventsSelected}
+        />
+      )}
     </div>
   )
 }

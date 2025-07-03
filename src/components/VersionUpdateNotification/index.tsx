@@ -97,8 +97,9 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
         const controller = new AbortController()
         const timeoutId = setTimeout(() => controller.abort(), 10000) // 10秒超时
 
-        // 添加时间戳防止缓存
-        const timestamp = Date.now()
+        // 添加时间戳防止缓存, 精确到小时, 每小时最多更新一次
+        // const timestamp = Date.now()
+        const timestamp = Math.floor(Date.now() / 3600000)
 
         // 在开发环境中且不是油猴脚本环境时，使用代理URL
         const isDev = process.env.NODE_ENV === 'development'
@@ -270,7 +271,7 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
     if (isChecking) return '🔄'
     if (error) return '⚠️'
     if (hasNewVersion) return '🔴'
-    return '🔍'
+    return ''
   }, [isChecking, error, hasNewVersion])
 
   // 开发模式下的快捷键支持
@@ -345,7 +346,7 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
           <div className={styles.notificationOverlay}>
             <div className={styles.notification}>
               <div className={styles.notificationHeader}>
-                <h3>🎉 发现新版本</h3>
+                <h3>发现新版本</h3>
                 <button
                   className={styles.closeBtn}
                   onClick={handleCloseNotification}

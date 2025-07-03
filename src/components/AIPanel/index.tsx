@@ -1,62 +1,184 @@
-import React, { useState, useEffect } from 'react'
-import { AIGenerationConfig } from '@/types'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import type { AIGenerationConfig, AITaskType, GitLabEvent } from '@/types'
+import { AI_TASK_CONFIGS } from '@/constants'
 import Modal from '../Modal'
 import styles from './index.module.less'
 
 interface AIPanelProps {
   visible: boolean
   config: AIGenerationConfig | null
-  defaultPrompt: string
+  taskType: AITaskType
   onClose: () => void
   onGenerate: (prompt: string) => void
   isLoading: boolean
   selectedEventsCount?: number
+  allEventsCount?: number // 总事件数量
   dateRange?: {
     startDate: string
     endDate: string
   }
+  // 获取全量数据的功能
+  onFetchAllEvents?: () => Promise<GitLabEvent[]>
+  isAllSelected?: boolean // 是否选择了全选
 }
 
 const AIPanel: React.FC<AIPanelProps> = ({
   visible,
   config,
-  defaultPrompt,
+  taskType,
   onClose,
   onGenerate,
   isLoading,
   selectedEventsCount = 0,
+  allEventsCount = 0,
   dateRange,
+  onFetchAllEvents,
+  isAllSelected = false,
 }) => {
-  const [prompt, setPrompt] = useState(defaultPrompt)
+  // 根据任务类型获取配置
+  const taskConfig = useMemo(() => AI_TASK_CONFIGS[taskType], [taskType])
+
+  const [prompt, setPrompt] = useState(taskConfig.defaultPrompt)
   const [isExpanded, setIsExpanded] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
 
-  // 当defaultPrompt更新时，同步更新prompt状态
+  // 数据获取状态
+  const [isFetchingData, setIsFetchingData] = useState(false)
+  const [fetchProgress, setFetchProgress] = useState(0)
+  const [allEvents, setAllEvents] = useState<GitLabEvent[] | null>(null)
+  const [hasTriedFetch, setHasTriedFetch] = useState(false)
+  const [fetchStatus, setFetchStatus] = useState<string>('') // 添加状态文本
+
+  // 当taskType或默认prompt更新时，同步更新prompt状态
   useEffect(() => {
-    setPrompt(defaultPrompt)
-  }, [defaultPrompt])
+    setPrompt(taskConfig.defaultPrompt)
+  }, [taskConfig.defaultPrompt])
+
+  // 获取全量数据
+  const fetchAllEventsData = useCallback(async () => {
+    if (!onFetchAllEvents || isFetchingData) return
+
+    setIsFetchingData(true)
+    setFetchProgress(0)
+    setFetchStatus('正在初始化数据获取...')
+    setHasTriedFetch(true)
+
+    try {
+      // 创建一个模拟的进度更新，当实际获取数据时会被覆盖
+      let progressTimeout: NodeJS.Timeout
+      const updateProgress = () => {
+        setFetchProgress(prev => {
+          if (prev >= 85) {
+            clearTimeout(progressTimeout)
+            return prev
+          }
+          const newProgress = prev + Math.random() * 8
+          // 根据进度更新状态文本
+          if (newProgress < 30) {
+            setFetchStatus('正在连接GitLab API...')
+          } else if (newProgress < 60) {
+            setFetchStatus('正在分批获取事件数据...')
+          } else {
+            setFetchStatus('正在处理数据...')
+          }
+          return newProgress
+        })
+        progressTimeout = setTimeout(updateProgress, 400)
+      }
+      updateProgress()
+
+      const events = await onFetchAllEvents()
+
+      clearTimeout(progressTimeout!)
+      setFetchProgress(100)
+      setFetchStatus(`数据获取完成！共获取 ${events.length} 条事件`)
+      setAllEvents(events)
+
+      // 延迟一下让用户看到100%的进度
+      setTimeout(() => {
+        setIsFetchingData(false)
+        setFetchStatus('')
+      }, 1000)
+    } catch (error) {
+      console.error('Failed to fetch all events:', error)
+      setIsFetchingData(false)
+      setFetchProgress(0)
+      setFetchStatus('数据获取失败，请稍后重试')
+      setTimeout(() => setFetchStatus(''), 3000)
+    }
+  }, [onFetchAllEvents, isFetchingData])
+
+  // 当面板打开且需要获取全量数据时，自动获取
+  useEffect(() => {
+    if (visible && isAllSelected && !hasTriedFetch && onFetchAllEvents) {
+      fetchAllEventsData()
+    }
+  }, [
+    visible,
+    isAllSelected,
+    hasTriedFetch,
+    onFetchAllEvents,
+    fetchAllEventsData,
+  ])
+
+  // 检查是否可以生成
+  const canGenerate = useMemo(() => {
+    if (isLoading || !prompt.trim()) return false
+    if (isAllSelected && selectedEventsCount !== allEventsCount) {
+      return !isFetchingData && allEvents !== null
+    }
+    return selectedEventsCount > 0
+  }, [
+    isLoading,
+    prompt,
+    isAllSelected,
+    selectedEventsCount,
+    allEventsCount,
+    isFetchingData,
+    allEvents,
+  ])
 
   const handleGenerate = () => {
-    onGenerate(prompt)
-  }
-
-  const handleCopyResult = () => {
-    if (config?.result) {
-      navigator.clipboard.writeText(config.result).then(() => {
-        setIsCopied(true)
-        setTimeout(() => setIsCopied(false), 2000) // 2秒后重置状态
-      })
+    if (canGenerate) {
+      onGenerate(prompt)
     }
   }
 
-  const resetPrompt = () => {
-    setPrompt(defaultPrompt)
-  }
+  // 复制结果到剪贴板
+  const handleCopy = useCallback(async () => {
+    if (!config?.result) return
+
+    try {
+      await navigator.clipboard.writeText(config.result)
+      setIsCopied(true)
+      setTimeout(() => setIsCopied(false), 2000)
+    } catch (error) {
+      console.error('Failed to copy result:', error)
+      // 回退方案：使用传统的复制方法
+      const textArea = document.createElement('textarea')
+      textArea.value = config.result
+      document.body.appendChild(textArea)
+      textArea.select()
+      try {
+        document.execCommand('copy')
+        setIsCopied(true)
+        setTimeout(() => setIsCopied(false), 2000)
+      } catch (e) {
+        console.error('Fallback copy also failed:', e)
+      }
+      document.body.removeChild(textArea)
+    }
+  }, [config?.result])
+
+  // 重置提示词
+  const resetPrompt = useCallback(() => {
+    setPrompt(taskConfig.defaultPrompt)
+  }, [taskConfig.defaultPrompt])
 
   return (
     <Modal
       visible={visible}
-      title="AI 周报生成"
+      title={taskConfig.title}
       width={800}
       onClose={onClose}
       maskClosable={!isLoading}
@@ -69,14 +191,17 @@ const AIPanel: React.FC<AIPanelProps> = ({
           </div>
           <div className={styles.overviewContent}>
             <div className={styles.overviewItem}>
-              <span className={styles.overviewLabel}>选中事件：</span>
+              <span className={styles.overviewLabel}>已选择事件：</span>
               <span className={styles.overviewValue}>
-                {selectedEventsCount} 条
+                {isAllSelected && allEvents
+                  ? allEvents.length
+                  : selectedEventsCount}{' '}
+                条
               </span>
             </div>
             {dateRange && (
               <div className={styles.overviewItem}>
-                <span className={styles.overviewLabel}>日期范围：</span>
+                <span className={styles.overviewLabel}>时间范围：</span>
                 <span className={styles.overviewValue}>
                   {dateRange.startDate} 至 {dateRange.endDate}
                 </span>
@@ -87,11 +212,36 @@ const AIPanel: React.FC<AIPanelProps> = ({
               <span
                 className={`${styles.overviewValue} ${selectedEventsCount > 0 ? styles.ready : styles.waiting}`}
               >
-                {selectedEventsCount > 0 ? '✅ 数据就绪' : '⏳ 等待选择事件'}
+                {isFetchingData
+                  ? '🔄 获取数据中...'
+                  : allEvents
+                    ? '✅ 数据已就绪'
+                    : selectedEventsCount > 0
+                      ? '✅ 数据就绪'
+                      : '⏳ 等待选择事件'}
               </span>
             </div>
           </div>
         </div>
+
+        {/* 数据获取进度 */}
+        {isFetchingData && (
+          <div className={styles.fetchProgress}>
+            <div className={styles.progressHeader}>
+              <span>{fetchStatus}</span>
+              <span>{Math.round(fetchProgress)}%</span>
+            </div>
+            <div className={styles.progressBar}>
+              <div
+                className={styles.progressFill}
+                style={{ width: `${fetchProgress}%` }}
+              />
+            </div>
+            <p className={styles.progressTip}>
+              正在分批获取事件数据（每批最多100条），请稍候...
+            </p>
+          </div>
+        )}
 
         {/* 提示词编辑区域 */}
         <div className={styles.promptSection}>
@@ -117,7 +267,7 @@ const AIPanel: React.FC<AIPanelProps> = ({
               className={styles.promptTextarea}
               value={prompt}
               onChange={e => setPrompt(e.target.value)}
-              placeholder="请输入用于生成周报的提示词..."
+              placeholder={taskConfig.placeholder}
               rows={isExpanded ? 15 : 6}
               disabled={isLoading}
             />
@@ -126,13 +276,15 @@ const AIPanel: React.FC<AIPanelProps> = ({
               <button
                 className={`${styles.btnPrimary} ${config?.result ? styles.regenerate : ''}`}
                 onClick={handleGenerate}
-                disabled={isLoading || !prompt.trim()}
+                disabled={
+                  isLoading || !prompt.trim() || selectedEventsCount === 0
+                }
               >
                 {isLoading
                   ? '生成中...'
                   : config?.result
-                    ? '重新生成'
-                    : '生成周报'}
+                    ? taskConfig.regenerateButtonText
+                    : taskConfig.generateButtonText}
               </button>
             </div>
           </div>
@@ -142,7 +294,7 @@ const AIPanel: React.FC<AIPanelProps> = ({
         {isLoading && (
           <div className={styles.loadingSection}>
             <div className={styles.loadingSpinner}></div>
-            <p>AI 正在分析事件数据，生成周报中...</p>
+            <p>{taskConfig.loadingText}</p>
             <div className={styles.loadingTips}>
               <span>💡 生成时间通常为 10-30 秒</span>
             </div>
@@ -160,7 +312,7 @@ const AIPanel: React.FC<AIPanelProps> = ({
               <div className={styles.resultActions}>
                 <button
                   className={`${styles.actionBtn} ${isCopied ? styles.copied : ''}`}
-                  onClick={handleCopyResult}
+                  onClick={handleCopy}
                   title="一键复制"
                   disabled={isCopied}
                 >
@@ -189,34 +341,28 @@ const AIPanel: React.FC<AIPanelProps> = ({
           </div>
         )}
 
-        {/* 空状态 */}
-        {!config && !isLoading && (
-          <div className={styles.emptyResult}>
-            <div className={styles.emptyIcon}>🤖</div>
-            <h3>准备生成 AI 周报</h3>
-            <p>
-              点击"生成周报"按钮，AI 将基于您的 GitLab
-              事件数据生成专业的工作周报
-            </p>
-            <div className={styles.emptyFeatures}>
-              <div className={styles.featureItem}>
-                <span className={styles.featureIcon}>📊</span>
-                <span>智能分析工作数据</span>
-              </div>
-              <div className={styles.featureItem}>
-                <span className={styles.featureIcon}>📝</span>
-                <span>自动生成周报内容</span>
-              </div>
-              <div className={styles.featureItem}>
-                <span className={styles.featureIcon}>🎯</span>
-                <span>突出重点工作成果</span>
-              </div>
+        <div className={styles.emptyResult}>
+          <div className={styles.emptyIcon}>🤖</div>
+          <h3>{taskConfig.emptyTitle}</h3>
+          <p>{taskConfig.emptyDescription}</p>
+          <div className={styles.emptyFeatures}>
+            <div className={styles.featureItem}>
+              <span className={styles.featureIcon}>📊</span>
+              <span>智能分析工作数据</span>
+            </div>
+            <div className={styles.featureItem}>
+              <span className={styles.featureIcon}>📝</span>
+              <span>自动生成专业内容</span>
+            </div>
+            <div className={styles.featureItem}>
+              <span className={styles.featureIcon}>🎯</span>
+              <span>突出重点信息</span>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </Modal>
   )
 }
 
-export default AIPanel
+export default React.memo(AIPanel)
