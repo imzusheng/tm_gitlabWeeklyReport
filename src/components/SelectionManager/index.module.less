@@ -1,4 +1,4 @@
-.selectionManager {
+.selection-manager {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -6,12 +6,12 @@
   background: var(--bg-secondary);
   gap: 20px;
 
-  .selectionInfo {
+  .selection-info {
     display: flex;
     align-items: center;
     min-width: 140px;
 
-    .selectionCount {
+    .selection-count {
       font-size: 14px;
       font-weight: 600;
       color: var(--text-primary);
@@ -23,19 +23,19 @@
     }
   }
 
-  .selectionActions {
+  .selection-actions {
     display: flex;
     align-items: center;
     gap: 24px;
     flex: 1;
     justify-content: flex-end;
 
-    .actionGroup {
+    .action-group {
       display: flex;
       align-items: center;
       gap: 8px;
 
-      .groupLabel {
+      .group-label {
         font-size: 13px;
         color: var(--text-secondary);
         font-weight: 500;
@@ -43,7 +43,7 @@
       }
     }
 
-    .actionBtn {
+    .action-btn {
       padding: 8px 16px;
       border-radius: 8px;
       font-size: 13px;
@@ -75,14 +75,14 @@
       }
 
       /* 按钮图标样式 */
-      .btnIcon {
+      .btn-icon {
         display: inline-block;
         margin-right: 6px;
         font-size: 14px;
       }
     }
 
-    .selectAllBtn {
+    .select-all-btn {
       background: var(--btn-bg);
       color: var(--text-primary);
       border: 1px solid var(--border-primary);
@@ -99,7 +99,7 @@
       }
     }
 
-    .clearBtn {
+    .clear-btn {
       background: var(--btn-bg);
       color: var(--text-primary);
       border: 1px solid var(--border-primary);
@@ -123,16 +123,16 @@
     align-items: stretch;
     gap: 12px;
 
-    .selectionInfo {
+    .selection-info {
       justify-content: center;
       min-width: auto;
     }
 
-    .selectionActions {
+    .selection-actions {
       flex-direction: column;
       gap: 12px;
 
-      .actionGroup {
+      .action-group {
         justify-content: center;
         flex-wrap: wrap;
       }

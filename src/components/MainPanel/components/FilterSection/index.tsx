@@ -1,10 +1,6 @@
+import { useAppContext } from '@/context/AppContext'
 import type { FilterConditions } from '@/types'
 import styles from './index.module.less'
-
-interface FilterSectionProps {
-  filterConditions: FilterConditions
-  onFilterChange: (filters: FilterConditions) => void
-}
 
 const timeRangeOptions = [
   { value: 'week', label: '本周' },
@@ -40,15 +36,17 @@ const actionOptions = [
   { value: 'deleted', label: 'Deleted' },
 ]
 
-const FilterSection: React.FC<FilterSectionProps> = ({
-  filterConditions,
-  onFilterChange,
-}) => {
+const FilterSection: React.FC = () => {
+  const {
+    state: { filterConditions },
+    updateFilterConditions,
+  } = useAppContext()
+
   const handleFilterChange = <K extends keyof FilterConditions>(
     key: K,
     value: FilterConditions[K],
   ) => {
-    onFilterChange({ ...filterConditions, [key]: value })
+    updateFilterConditions({ ...filterConditions, [key]: value })
   }
 
   const handleMultiSelectChange = (

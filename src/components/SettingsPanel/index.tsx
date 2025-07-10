@@ -1,48 +1,39 @@
 import React, { useState, useEffect } from 'react'
 import { AppConfig } from '@/types'
+import { useAppContext } from '@/context/AppContext'
 import Modal from '../Modal'
 import ConfigStatus from '@/components/ConfigStatus'
 import { CONFIG_PLACEHOLDERS, APP_VERSION } from '@/constants'
 import styles from './index.module.less'
 
-interface SettingsPanelProps {
-  isOpen: boolean
-  config: AppConfig
-  theme: 'light' | 'dark' | 'system'
-  onClose: () => void
-  onSave: (config: AppConfig, theme: 'light' | 'dark' | 'system') => void
-}
+const SettingsPanel: React.FC = () => {
+  const { state, updateConfig, setTheme, setActivePanel } = useAppContext()
+  const { config, theme, activePanel } = state
+  const isOpen = activePanel === 'settings'
 
-const SettingsPanel: React.FC<SettingsPanelProps> = ({
-  isOpen,
-  onClose,
-  config,
-  onSave,
-  theme,
-}) => {
   const [formData, setFormData] = useState<AppConfig>(config)
   const [localTheme, setLocalTheme] = useState<'light' | 'dark' | 'system'>(
-    theme,
+    theme || 'system',
   )
   const [activeTab, setActiveTab] = useState<
     'gitlab' | 'deepseek' | 'appearance'
   >('gitlab')
 
-  // 当配置更新时，同步表单数据
+  // 当全局配置更新时，同步表单数据
   useEffect(() => {
     setFormData(config)
   }, [config])
 
-  // 当主题更新时，同步本地主题状态
+  // 当全局主题更新时，同步本地主题状态
   useEffect(() => {
-    setLocalTheme(theme)
+    setLocalTheme(theme || 'system')
   }, [theme])
 
   // 当面板打开时，重置表单数据和主题为当前配置
   useEffect(() => {
     if (isOpen) {
       setFormData(config)
-      setLocalTheme(theme)
+      setLocalTheme(theme || 'system')
     }
   }, [isOpen, config, theme])
 
@@ -56,14 +47,19 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
     }))
   }
 
+  const handleClose = () => {
+    setActivePanel('main')
+  }
+
   const handleSave = () => {
-    onSave(formData, localTheme)
-    onClose()
+    updateConfig(formData)
+    setTheme(localTheme)
+    handleClose()
   }
 
   const handleReset = () => {
     setFormData(config)
-    setLocalTheme(theme)
+    setLocalTheme(theme || 'system')
   }
 
   const isFormValid = () => {
@@ -80,14 +76,14 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
       visible={isOpen}
       title="系统设置"
       width={600}
-      onClose={onClose}
+      onClose={handleClose}
       footer={
         <div className={styles.settingsFooter}>
           <button className={styles.btnSecondary} onClick={handleReset}>
             重置
           </button>
           <div className={styles.footerRight}>
-            <button className={styles.btnSecondary} onClick={onClose}>
+            <button className={styles.btnSecondary} onClick={handleClose}>
               取消
             </button>
             <button

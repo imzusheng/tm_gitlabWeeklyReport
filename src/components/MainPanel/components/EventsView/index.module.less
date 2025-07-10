@@ -1,0 +1,18 @@
+.events-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .filter-section {
+    flex-shrink: 0;
+    padding: 16px 20px;
+    background: var(--bg-quaternary);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-secondary);
+  }
+
+  .events-section {
+    flex: 1;
+    min-height: 0;
+  }
+}

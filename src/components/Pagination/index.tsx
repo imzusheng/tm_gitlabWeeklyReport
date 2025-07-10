@@ -1,39 +1,26 @@
 import React from 'react'
+import { useAppContext } from '@/context/AppContext'
 import styles from './index.module.less'
 
-interface PaginationProps {
-  current: number
-  pageSize: number
-  total: number
-  onChange: (page: number) => void
-  showSizeChanger?: boolean
-  pageSizeOptions?: number[]
-  onShowSizeChange?: (current: number, size: number) => void
-}
+const Pagination: React.FC = () => {
+  const { state, updatePaginationOptions } = useAppContext()
+  const { paginationOptions } = state
+  const { page: current, pageSize, total } = paginationOptions
+  const showSizeChanger = true
+  const pageSizeOptions = [20, 50, 100, 200]
 
-const Pagination: React.FC<PaginationProps> = ({
-  current,
-  pageSize,
-  total,
-  onChange,
-  showSizeChanger = true,
-  pageSizeOptions = [20, 50, 100, 200],
-  onShowSizeChange,
-}) => {
   const totalPages = Math.ceil(total / pageSize)
   const startItem = (current - 1) * pageSize + 1
   const endItem = Math.min(current * pageSize, total)
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages && page !== current) {
-      onChange(page)
+      updatePaginationOptions({ page })
     }
   }
 
   const handlePageSizeChange = (newPageSize: number) => {
-    if (onShowSizeChange) {
-      onShowSizeChange(1, newPageSize)
-    }
+    updatePaginationOptions({ page: 1, pageSize: newPageSize })
   }
 
   const getPageNumbers = () => {
@@ -66,8 +53,8 @@ const Pagination: React.FC<PaginationProps> = ({
   if (total === 0) {
     return (
       <div className={styles.pagination}>
-        <div className={styles.info}>
-          <span>暂无数据</span>
+        <div className={styles.paginationInfo}>
+          <span>共 0 条</span>
         </div>
       </div>
     )

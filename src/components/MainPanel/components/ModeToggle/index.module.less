@@ -1,0 +1,134 @@
+.mode-toggle {
+  /* 布局参数 CSS 变量 */
+  --button-width: 110px;
+  --button-count: 3;
+  --track-width: calc(var(--button-width) * var(--button-count));
+  --track-height: 40px;
+  --border-radius: 8px;
+  --container-padding: 4px;
+  --container-border-radius: 12px;
+
+  /* 动画参数 */
+  --transition-duration: 0.25s;
+  --transition-easing: cubic-bezier(0.34, 1.25, 0.64, 1);
+
+  /* 字体参数 */
+  --font-size-main: 14px;
+  --font-size-icon: 14px;
+  --icon-spacing: 4px;
+  --button-padding: 8px;
+
+  display: inline-flex;
+  align-items: center;
+  padding: var(--container-padding);
+  background: var(--bg-primary);
+  border: 1.5px solid var(--border-primary);
+  border-radius: var(--container-border-radius);
+  backdrop-filter: blur(20px);
+  position: relative;
+  box-shadow: 0 4px 20px rgb(0 0 0 / 8%);
+
+  &:hover {
+    border-color: var(--border-secondary);
+    box-shadow: 0 6px 25px rgb(0 0 0 / 12%);
+  }
+
+  .toggle-track {
+    display: flex;
+    position: relative;
+    width: var(--track-width);
+    height: var(--track-height);
+    border-radius: var(--border-radius);
+    background: transparent;
+
+    .toggle-slider {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: var(--button-width);
+      background: linear-gradient(
+        135deg,
+        var(--color-primary) 0%,
+        var(--color-info) 100%
+      );
+      border-radius: var(--border-radius);
+      box-shadow:
+        0 2px 8px rgb(0 122 255 / 25%),
+        inset 0 1px 0 rgb(255 255 255 / 20%);
+      z-index: 1;
+      transition: all var(--transition-duration) var(--transition-easing);
+
+      /* 默认状态：覆盖第一个按钮 (Events) */
+      left: 0;
+    }
+
+    /* Events 激活时 */
+    &.events-active .toggle-slider {
+      left: 0;
+    }
+
+    /* Changelog 激活时，滑块移动到中间 */
+    &.changelog-active .toggle-slider {
+      left: var(--button-width);
+    }
+
+    /* Plan 激活时，滑块移动到最右边 */
+    &.plan-active .toggle-slider {
+      left: calc(var(--button-width) * 2);
+    }
+
+    .toggle-option {
+      width: var(--button-width);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 var(--button-padding);
+      font-size: var(--font-size-main);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      z-index: 2;
+      white-space: nowrap;
+      border-radius: var(--border-radius);
+      border: none;
+      background: transparent;
+
+      &.active {
+        color: white;
+        font-weight: 700;
+        text-shadow: 0 1px 2px rgb(0 0 0 / 30%);
+
+        .toggle-icon {
+          transform: scale(1.05);
+        }
+      }
+
+      &:not(.active) {
+        color: var(--text-secondary);
+
+        &:hover {
+          color: var(--text-primary);
+          background: rgb(255 255 255 / 5%);
+        }
+      }
+
+      .toggle-icon {
+        margin-right: var(--icon-spacing);
+        font-size: var(--font-size-icon);
+        transition: transform 0.3s ease;
+      }
+
+      .toggle-label {
+        font-weight: 500;
+        flex-shrink: 0;
+        font-size: var(--font-size-main);
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
+    }
+  }
+}

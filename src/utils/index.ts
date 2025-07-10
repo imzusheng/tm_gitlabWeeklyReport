@@ -106,3 +106,6 @@ export const configErrors = {
 // 导出错误处理工具
 export * from './error'
 export { ErrorHandler as errorUtils } from './error'
+
+// 导出事件工具
+export * from './eventUtils'

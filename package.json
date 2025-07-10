@@ -4,6 +4,8 @@
   "description": "GitLab 周报生成器 - 基于 DeepSeek AI 的现代化 Tampermonkey 脚本",
   "type": "module",
   "packageManager": "npm@10.9.2",
+  "license": "MIT",
+  "author": "Zusheng",
   "repository": {
     "type": "git",
     "url": "https://github.com/imzusheng/tm_gitlabWeeklyReport.git"
@@ -14,18 +16,20 @@
   "homepage": "https://github.com/imzusheng/tm_gitlabWeeklyReport#readme",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build --mode userscript && vite build --mode web",
-    "build:userscript": "tsc && vite build --mode userscript",
-    "build:web": "tsc && vite build --mode web",
+    "pre-build": "node scripts/create-license-file.cjs",
+    "build": "npm run pre-build && tsc && vite build --mode userscript && vite build --mode web",
+    "build:userscript": "npm run pre-build && tsc && vite build --mode userscript",
+    "build:web": "npm run pre-build && tsc && vite build --mode web",
     "release": "semantic-release",
     "release:dry-run": "semantic-release --dry-run",
     "commitlint": "commitlint --edit",
     "prepare": "husky install",
-    "format": "prettier --write .",
+    "format": "prettier --write . --ignore-path .gitignore",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "stylelint": "stylelint 'src/**/*.less'",
+    "stylelint": "stylelint 'src/**/*.{less,module.less}'",
     "type-check": "tsc --noEmit",
-    "check": "npm run lint && npm run stylelint && npm run type-check"
+    "check": "npm run lint && npm run stylelint && npm run type-check",
+    "check-license": "node scripts/create-license-file.cjs"
   },
   "dependencies": {
     "react": "^18.2.0",

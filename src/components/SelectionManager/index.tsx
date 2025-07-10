@@ -1,22 +1,27 @@
 import React, { useCallback, useMemo, useEffect, useRef } from 'react'
-import { GitLabEvent } from '@/types'
+import { useAppContext } from '@/context/AppContext'
 import styles from './index.module.less'
 
-interface SelectionManagerProps {
-  currentPageEvents: GitLabEvent[]
-  selectedEventIds: number[]
-  totalCount: number
-  onSelectionChange: (selectedIds: number[], isFullSelection: boolean) => void
-  loading?: boolean
-}
+const SelectionManager: React.FC = () => {
+  const {
+    state,
+    setEventsSelectedIds,
+    isAllEventsSelected: isFullSelection,
+  } = useAppContext()
+  const { events: currentPageEvents, totalCount, isLoading: loading } = state
+  const selectedEventIds = state.eventsSelectedIds
 
-const SelectionManager: React.FC<SelectionManagerProps> = ({
-  currentPageEvents,
-  selectedEventIds,
-  totalCount,
-  onSelectionChange,
-  loading = false,
-}) => {
+  const onSelectionChange = useCallback(
+    (selectedIds: number[], isFullSelection: boolean) => {
+      if (isFullSelection) {
+        setEventsSelectedIds([0]) // 0 as the full selection flag
+      } else {
+        setEventsSelectedIds(selectedIds)
+      }
+    },
+    [setEventsSelectedIds],
+  )
+
   // 用于跟踪是否是用户主动清空的标记
   const userClearedRef = useRef(false)
   // 用于跟踪是否已经初始化过的标记
@@ -27,11 +32,6 @@ const SelectionManager: React.FC<SelectionManagerProps> = ({
     return currentPageEvents.map(event => event.id)
   }, [currentPageEvents])
 
-  // 检查是否全选（使用特殊标记-1表示全选状态）
-  const isFullSelection = useMemo(() => {
-    return selectedEventIds.includes(-1)
-  }, [selectedEventIds])
-
   // 计算选中数量显示
   const selectionInfo = useMemo(() => {
     if (isFullSelection) {
@@ -40,8 +40,8 @@ const SelectionManager: React.FC<SelectionManagerProps> = ({
         text: `已全选 ${totalCount} 条`,
       }
     }
-    // 排除-1标记计算真实的选中数量
-    const realSelectedCount = selectedEventIds.filter(id => id !== -1).length
+    // 排除0标记计算真实的选中数量
+    const realSelectedCount = selectedEventIds.filter(id => id !== 0).length
     return {
       count: realSelectedCount,
       text: `已选中 ${realSelectedCount} 条`,
@@ -51,18 +51,13 @@ const SelectionManager: React.FC<SelectionManagerProps> = ({
   // 自动选中当前页（仅在真正的初始化时）
   useEffect(() => {
     if (currentPageEventIds.length > 0 && !isFullSelection && !loading) {
-      const filteredSelectedIds = selectedEventIds.filter(id => id !== -1)
+      const filteredSelectedIds = selectedEventIds.filter(id => id !== 0)
 
-      // 只有在以下情况下才自动选中当前页：
-      // 1. 从未初始化过
-      // 2. 选择列表为空
-      // 3. 不是用户主动清空的
       if (
         !hasInitializedRef.current &&
         filteredSelectedIds.length === 0 &&
         !userClearedRef.current
       ) {
-        console.log('SelectionManager: 初始化自动选择当前页')
         const newSelectedIds = [...currentPageEventIds]
         onSelectionChange(newSelectedIds, false)
         hasInitializedRef.current = true
@@ -85,15 +80,13 @@ const SelectionManager: React.FC<SelectionManagerProps> = ({
 
   // 全选
   const handleSelectAll = useCallback(() => {
-    console.log('SelectionManager: 点击全选按钮')
-    userClearedRef.current = false // 重置清空标记
-    onSelectionChange([-1], true) // 使用-1作为全选标记
+    userClearedRef.current = false
+    onSelectionChange([0], true)
   }, [onSelectionChange])
 
   // 取消全选
   const handleClearAll = useCallback(() => {
-    console.log('SelectionManager: 点击清空按钮')
-    userClearedRef.current = true // 设置用户清空标记
+    userClearedRef.current = true
     onSelectionChange([], false)
   }, [onSelectionChange])
 
@@ -104,7 +97,6 @@ const SelectionManager: React.FC<SelectionManagerProps> = ({
       </div>
 
       <div className={styles.selectionActions}>
-        {/* 全局操作 */}
         <div className={styles.actionGroup}>
           <span className={styles.groupLabel}>全部:</span>
           <button

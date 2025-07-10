@@ -8,6 +8,11 @@ alwaysApply: true
 
 # GitLab 周报生成器开发规范
 
+CSS classname
+
+- TSX使用 camelCase 规范，（如`styles.moduleName`）禁止`styles['module-name']`方括号访问
+- LESS文件使用 kebab-case 规范(如`.modal-header`)
+
 ## 🎨 UI/UX 设计规范
 
 ### 主题系统
@@ -86,6 +91,11 @@ alwaysApply: true
 - 使用中文注释，确保团队成员理解
 - API 接口和工具函数必须有完整的 JSDoc 注释
 - 组件 Props 接口必须添加注释说明
+
+### 工作流规范
+
+- **代码质量检查**: 在进行大的修改或重构后，以及在提交代码前，必须在项目根目录运行 `npm run check` 命令，确保所有代码检查（ESLint, Stylelint, TypeScript）通过。
+- **文档同步**: 在完成一次较大的功能变更或架构重构后，必须及时更新 `README.md` 文件，以反映最新的项目状态、架构和使用方式。
 
 ## 🚀 ES6+ 特性使用
 

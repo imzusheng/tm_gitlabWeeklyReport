@@ -74,6 +74,8 @@ export default defineConfig(({ mode }) => {
         // 启用CSS模块化，为所有.less和.css文件添加hash
         localsConvention: 'camelCase',
         generateScopedName: '[name]__[local]__[hash:base64:5]',
+        // 仅对 .module.less 文件启用模块化
+        auto: (path: string | string[]) => path.includes('.module.less'),
         hashPrefix: 'gitlab-weekly-report',
       },
     },

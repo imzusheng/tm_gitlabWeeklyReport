@@ -164,9 +164,9 @@ const ProjectSelector: React.FC<ProjectSelectorProps> = ({
         setProjects(cached.projects)
         setTotalCount(cached.totalCount)
 
-        // 如果当前没有选中项目且有项目列表，自动选择第一个
+        // 如果当前没有选中项目且有项目列表，自动选择第一个（使用 setTimeout 避免依赖循环）
         if (!selectedProjectId && cached.projects.length > 0) {
-          onProjectSelect(cached.projects[0].id)
+          setTimeout(() => onProjectSelect(cached.projects[0].id), 0)
         }
         return
       }
@@ -206,9 +206,9 @@ const ProjectSelector: React.FC<ProjectSelectorProps> = ({
         setProjects(fetchedProjects)
         setTotalCount(total)
 
-        // 如果当前没有选中项目且有项目列表，自动选择第一个
+        // 如果当前没有选中项目且有项目列表，自动选择第一个（使用 setTimeout 避免依赖循环）
         if (!selectedProjectId && fetchedProjects.length > 0) {
-          onProjectSelect(fetchedProjects[0].id)
+          setTimeout(() => onProjectSelect(fetchedProjects[0].id), 0)
         }
       } catch (err) {
         console.error(
@@ -251,10 +251,11 @@ const ProjectSelector: React.FC<ProjectSelectorProps> = ({
 
   // 初始化加载项目
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !autoLoad) {
+      // 非自动加载模式：只有在打开下拉框时才加载
       fetchProjects()
     }
-  }, [isOpen, filters, sortBy, currentPage, fetchProjects])
+  }, [isOpen, filters, sortBy, currentPage, fetchProjects, autoLoad])
 
   // 自动加载项目数据
   useEffect(() => {
@@ -262,6 +263,14 @@ const ProjectSelector: React.FC<ProjectSelectorProps> = ({
       fetchProjects()
     }
   }, [autoLoad, isConfigValid, fetchProjects])
+
+  // 自动加载模式下的筛选和排序变化处理
+  useEffect(() => {
+    if (autoLoad && isConfigValid() && (filters || sortBy)) {
+      // 在自动加载模式下，当筛选或排序条件改变时重新加载
+      fetchProjects()
+    }
+  }, [autoLoad, isConfigValid, filters, sortBy, fetchProjects])
 
   // 搜索输入处理
   const handleSearchChange = useCallback(

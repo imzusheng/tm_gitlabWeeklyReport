@@ -4,20 +4,30 @@ import { API_CONFIG } from '@/constants'
 import { errorUtils } from '@/utils'
 
 export class GitLabApiService {
-  private baseUrl: string
-  private token: string
+  private baseUrl!: string
+  private token!: string
   private currentUser: GitLabUser | null = null
+  private isInitialized: boolean = false
 
   constructor(baseUrl: string, token: string) {
-    // 在开发环境中且不是油猴脚本环境时，使用代理URL
+    this.updateConfig(baseUrl, token)
+  }
+
+  /**
+   * 更新服务配置
+   */
+  updateConfig(baseUrl: string, token: string) {
     const isDev = process.env.NODE_ENV === 'development'
     if (isDev && !isUserscriptEnvironment()) {
-      // 将GitLab URL转换为代理URL
       this.baseUrl = '/proxy/api/v4'
     } else {
-      this.baseUrl = baseUrl.replace(/\/$/, '') // 移除末尾斜杠
+      this.baseUrl = baseUrl.replace(/\/$/, '')
     }
     this.token = token
+
+    // 重置初始化状态
+    this.isInitialized = false
+    this.currentUser = null
   }
 
   private async request<T>(
@@ -114,11 +124,18 @@ export class GitLabApiService {
    * 初始化GitLab服务
    */
   async init(): Promise<void> {
+    // 如果已经初始化且用户信息存在，直接返回
+    if (this.isInitialized && this.currentUser) {
+      return
+    }
+
     try {
       // 验证当前配置是否有效
       await this.getCurrentUser()
+      this.isInitialized = true
     } catch (error) {
       console.error('GitLab service initialization failed:', error)
+      this.isInitialized = false
 
       // 提供更详细的错误信息
       if (error instanceof Error) {

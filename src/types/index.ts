@@ -116,6 +116,7 @@ export interface GitLabCommit {
     deletions: number
     total: number
   }
+  parent_ids?: string[]
 }
 
 // DeepSeek API 相关类型
@@ -139,7 +140,14 @@ export interface DeepSeekResponse {
 
 // 筛选条件类型
 export interface FilterConditions {
-  timeRange: 'week' | '7d' | '30d' | '90d' | '180d' | '365d'
+  timeRange:
+    | 'week'
+    | '7d'
+    | '30d'
+    | '90d'
+    | '180d'
+    | '365d'
+    | { startDate: string; endDate: string }
   targetType: (
     | 'epic'
     | 'issue'
@@ -162,6 +170,35 @@ export interface FilterConditions {
     | 'joined'
     | 'left'
     | 'deleted'
+  )[]
+}
+
+// Changelog筛选条件类型
+export interface ChangelogFilterConditions {
+  startDate: string
+  endDate: string
+  actionTypes: (
+    | 'created'
+    | 'updated'
+    | 'closed'
+    | 'reopened'
+    | 'pushed'
+    | 'commented'
+    | 'merged'
+    | 'approved'
+    | 'joined'
+    | 'left'
+    | 'deleted'
+  )[]
+  targetTypes: (
+    | 'epic'
+    | 'issue'
+    | 'merge_request'
+    | 'milestone'
+    | 'note'
+    | 'project'
+    | 'snippet'
+    | 'user'
   )[]
 }
 
@@ -236,23 +273,7 @@ export type PanelType = 'main' | 'settings' | 'ai'
 // 应用模式类型
 export type Theme = 'light' | 'dark' | 'system'
 
-export type AppMode = 'events' | 'changelog'
-
-export interface GitLabCommit {
-  id: string
-  short_id: string
-  title: string
-  author_name: string
-  author_email: string
-  authored_date: string
-  committer_name: string
-  committer_email: string
-  committed_date: string
-  created_at: string
-  message: string
-  parent_ids: string[]
-  web_url: string
-}
+export type AppMode = 'events' | 'changelog' | 'plan'
 
 // 应用状态类型
 export interface AppState {
@@ -273,6 +294,16 @@ export interface AppState {
   projects: GitLabProject[]
   selectedProjectId: number | null
   commits: GitLabCommit[]
+  // UI 状态
+  eventsSelectedIds: number[]
+  changelogState: {
+    selectedEventIds: number[]
+    isAllEventsSelected: boolean
+    totalCount: number
+    events: GitLabEvent[]
+  }
+  selectedEvent: GitLabEvent | null
+  isDetailModalVisible: boolean
 }
 
 // GitLab 用户事件获取选项
