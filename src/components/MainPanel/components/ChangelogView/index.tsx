@@ -79,7 +79,9 @@ const ChangelogView: React.FC = () => {
 
       {/* 事件列表部分 */}
       <div className={styles.eventsSection}>
-        <EventsList />
+        <div className={styles.eventsContainer}>
+          <EventsList />
+        </div>
       </div>
     </div>
   )

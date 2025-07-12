@@ -373,9 +373,23 @@ export function useAppState() {
         )
       if (isRequestCancelled(abortController)) return
 
+      // 根据新事件列表同步已选中 ID，避免显示与实际不符的计数
+      const previousSelectedIds = dataState.changelogState.selectedEventIds
+      const isKeepingFullSelection =
+        previousSelectedIds.length === 1 && previousSelectedIds[0] === 0
+      let syncedSelectedIds = previousSelectedIds
+      if (!isKeepingFullSelection) {
+        const idSet = new Set(events.map(e => e.id))
+        syncedSelectedIds = previousSelectedIds.filter(id => idSet.has(id))
+      }
+
       dispatchData({
         type: 'SET_CHANGELOG_STATE',
-        payload: { events, totalCount: total },
+        payload: {
+          events,
+          totalCount: total,
+          selectedEventIds: syncedSelectedIds,
+        },
       })
     } catch (error) {
       if (!isAbortError(error)) {
@@ -614,7 +628,8 @@ export function useAppState() {
     } else {
       if (dataState.changelogState.isAllEventsSelected)
         return dataState.changelogState.totalCount
-      return dataState.changelogState.selectedEventIds.length
+      return dataState.changelogState.selectedEventIds.filter(id => id !== 0)
+        .length
     }
   }, [
     uiState.appMode,

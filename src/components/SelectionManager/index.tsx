@@ -6,20 +6,39 @@ const SelectionManager: React.FC = () => {
   const {
     state,
     setEventsSelectedIds,
+    setChangelogState,
     isAllEventsSelected: isFullSelection,
+    selectedEventIds,
   } = useAppContext()
-  const { events: currentPageEvents, totalCount, isLoading: loading } = state
-  const selectedEventIds = state.eventsSelectedIds
+
+  // 根据当前模式获取相应的数据
+  const isChangelogMode = state.appMode === 'changelog'
+  const currentPageEvents = isChangelogMode
+    ? state.changelogState.events
+    : state.events
+  const totalCount = isChangelogMode
+    ? state.changelogState.totalCount
+    : state.totalCount
+  const loading = state.isLoading
 
   const onSelectionChange = useCallback(
     (selectedIds: number[], isFullSelection: boolean) => {
-      if (isFullSelection) {
-        setEventsSelectedIds([0]) // 0 as the full selection flag
+      if (isChangelogMode) {
+        // Changelog模式下更新changelogState
+        setChangelogState({
+          selectedEventIds: isFullSelection ? [0] : selectedIds,
+          isAllEventsSelected: isFullSelection,
+        })
       } else {
-        setEventsSelectedIds(selectedIds)
+        // Events模式下更新eventsSelectedIds
+        if (isFullSelection) {
+          setEventsSelectedIds([0]) // 0 as the full selection flag
+        } else {
+          setEventsSelectedIds(selectedIds)
+        }
       }
     },
-    [setEventsSelectedIds],
+    [isChangelogMode, setEventsSelectedIds, setChangelogState],
   )
 
   // 用于跟踪是否是用户主动清空的标记
@@ -47,6 +66,12 @@ const SelectionManager: React.FC = () => {
       text: `已选中 ${realSelectedCount} 条`,
     }
   }, [isFullSelection, totalCount, selectedEventIds])
+
+  // 重置初始化状态当模式切换时
+  useEffect(() => {
+    hasInitializedRef.current = false
+    userClearedRef.current = false
+  }, [isChangelogMode])
 
   // 自动选中当前页（仅在真正的初始化时）
   useEffect(() => {
@@ -81,14 +106,32 @@ const SelectionManager: React.FC = () => {
   // 全选
   const handleSelectAll = useCallback(() => {
     userClearedRef.current = false
-    onSelectionChange([0], true)
-  }, [onSelectionChange])
+    if (isChangelogMode) {
+      // Changelog模式下设置全选状态
+      setChangelogState({
+        selectedEventIds: [0],
+        isAllEventsSelected: true,
+      })
+    } else {
+      // Events模式下设置全选状态
+      setEventsSelectedIds([0])
+    }
+  }, [isChangelogMode, setChangelogState, setEventsSelectedIds])
 
   // 取消全选
   const handleClearAll = useCallback(() => {
     userClearedRef.current = true
-    onSelectionChange([], false)
-  }, [onSelectionChange])
+    if (isChangelogMode) {
+      // Changelog模式下清空changelogState
+      setChangelogState({
+        selectedEventIds: [],
+        isAllEventsSelected: false,
+      })
+    } else {
+      // Events模式下清空eventsSelectedIds
+      setEventsSelectedIds([])
+    }
+  }, [isChangelogMode, setChangelogState, setEventsSelectedIds])
 
   return (
     <div className={styles.selectionManager}>

@@ -28,6 +28,7 @@ const EventsList: React.FC<EventsListProps> = props => {
     state: contextState,
     updateSortOptions: contextUpdateSortOptions,
     setEventsSelectedIds: contextSetEventsSelectedIds,
+    setChangelogState: contextSetChangelogState,
     handleEventDetail: contextHandleEventDetail,
     isAllEventsSelected: contextIsAllEventsSelected,
   } = useAppContext()
@@ -37,21 +38,46 @@ const EventsList: React.FC<EventsListProps> = props => {
   const isLoading = props.isLoading ?? contextState.isLoading
   const sortOptions = props.sortOptions ?? contextState.sortOptions
   const onSortChange = props.onSortChange ?? contextUpdateSortOptions
+  const isChangelogMode = contextState.appMode === 'changelog'
   const eventsSelectedIds =
-    props.selectedEventIds ?? contextState.eventsSelectedIds
+    props.selectedEventIds ??
+    (isChangelogMode
+      ? contextState.changelogState.selectedEventIds
+      : contextState.eventsSelectedIds)
   const onEventDetail = props.onEventDetail ?? contextHandleEventDetail
   const isAllEventsSelected =
     props.isFullSelection ?? contextIsAllEventsSelected
 
   const handleEventSelectCallback = useCallback(
     (eventId: number) => {
-      contextSetEventsSelectedIds(prev =>
-        prev.includes(eventId)
-          ? prev.filter(id => id !== eventId)
-          : [...prev, eventId],
-      )
+      if (isChangelogMode) {
+        // Changelog模式下更新changelogState
+        const currentSelectedIds =
+          contextState.changelogState.selectedEventIds || []
+        const newSelectedIds = currentSelectedIds.includes(eventId)
+          ? currentSelectedIds.filter((id: number) => id !== eventId)
+          : [...currentSelectedIds.filter((id: number) => id !== 0), eventId] // 移除全选标记并添加新选中项
+
+        contextSetChangelogState({
+          selectedEventIds: newSelectedIds,
+          isAllEventsSelected: false, // 手动选中时取消全选状态
+        })
+      } else {
+        // Events模式下更新eventsSelectedIds
+        contextSetEventsSelectedIds(prev => {
+          const filteredPrev = prev.filter(id => id !== 0) // 移除全选标记
+          return filteredPrev.includes(eventId)
+            ? filteredPrev.filter(id => id !== eventId)
+            : [...filteredPrev, eventId]
+        })
+      }
     },
-    [contextSetEventsSelectedIds],
+    [
+      contextSetEventsSelectedIds,
+      contextSetChangelogState,
+      isChangelogMode,
+      contextState.changelogState.selectedEventIds,
+    ],
   )
   const handleEventSelect = props.onEventSelect ?? handleEventSelectCallback
 

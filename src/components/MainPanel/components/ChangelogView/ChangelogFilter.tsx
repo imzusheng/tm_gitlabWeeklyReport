@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { useAppContext } from '@/context/AppContext'
 import { FilterConditions } from '@/types'
 import styles from './ChangelogFilter.module.less'
@@ -23,11 +23,43 @@ const ChangelogFilter: React.FC<ChangelogFilterProps> = ({
 }) => {
   const { state } = useAppContext()
 
+  // 可用的操作类型（基于GitLab Events API文档）
+  const actionOptions = useMemo(
+    () => [
+      { value: 'created', label: '创建' },
+      { value: 'updated', label: '更新' },
+      { value: 'closed', label: '关闭' },
+      { value: 'reopened', label: '重新打开' },
+      { value: 'pushed', label: '推送' },
+      { value: 'commented', label: '评论' },
+      { value: 'merged', label: '合并' },
+      { value: 'approved', label: '批准' },
+      { value: 'joined', label: '加入' },
+      { value: 'left', label: '离开' },
+      { value: 'deleted', label: '删除' },
+    ],
+    [],
+  )
+
+  // 可用的目标类型（基于GitLab Events API文档）
+  const targetTypeOptions = useMemo(
+    () => [
+      { value: 'issue', label: 'Issue' },
+      { value: 'merge_request', label: 'Merge Request' },
+      { value: 'milestone', label: '里程碑' },
+      { value: 'note', label: '评论' },
+      { value: 'project', label: '项目' },
+      { value: 'snippet', label: '代码片段' },
+      { value: 'user', label: '用户' },
+    ],
+    [],
+  )
+
   const [filters, setFilters] = useState<ChangelogFilterState>({
     startDate: '',
     endDate: '',
-    actionTypes: [],
-    targetTypes: [],
+    actionTypes: actionOptions.map(option => option.value),
+    targetTypes: targetTypeOptions.map(option => option.value),
   })
 
   const [isExpanded, setIsExpanded] = useState(true)
@@ -42,32 +74,6 @@ const ChangelogFilter: React.FC<ChangelogFilterProps> = ({
       targetTypes: changelogFilters.targetTypes,
     })
   }, [state.changelogFilterConditions])
-
-  // 可用的操作类型（基于GitLab Events API文档）
-  const actionOptions = [
-    { value: 'created', label: '创建' },
-    { value: 'updated', label: '更新' },
-    { value: 'closed', label: '关闭' },
-    { value: 'reopened', label: '重新打开' },
-    { value: 'pushed', label: '推送' },
-    { value: 'commented', label: '评论' },
-    { value: 'merged', label: '合并' },
-    { value: 'approved', label: '批准' },
-    { value: 'joined', label: '加入' },
-    { value: 'left', label: '离开' },
-    { value: 'deleted', label: '删除' },
-  ]
-
-  // 可用的目标类型（基于GitLab Events API文档）
-  const targetTypeOptions = [
-    { value: 'issue', label: 'Issue' },
-    { value: 'merge_request', label: 'Merge Request' },
-    { value: 'milestone', label: '里程碑' },
-    { value: 'note', label: '评论' },
-    { value: 'project', label: '项目' },
-    { value: 'snippet', label: '代码片段' },
-    { value: 'user', label: '用户' },
-  ]
 
   const handleDateChange = useCallback(
     (field: 'startDate' | 'endDate', value: string) => {
@@ -109,8 +115,8 @@ const ChangelogFilter: React.FC<ChangelogFilterProps> = ({
     const resetFilters = {
       startDate: oneWeekAgo.toISOString().split('T')[0],
       endDate: today.toISOString().split('T')[0],
-      actionTypes: [],
-      targetTypes: [],
+      actionTypes: actionOptions.map(option => option.value),
+      targetTypes: targetTypeOptions.map(option => option.value),
     }
 
     setFilters(resetFilters)
@@ -124,7 +130,7 @@ const ChangelogFilter: React.FC<ChangelogFilterProps> = ({
       action: resetFilters.actionTypes as FilterConditions['action'],
       targetType: resetFilters.targetTypes as FilterConditions['targetType'],
     })
-  }, [onFilterChange])
+  }, [onFilterChange, actionOptions, targetTypeOptions])
 
   const handleApply = useCallback(() => {
     onFilterChange?.({

@@ -163,11 +163,38 @@ export const dataReducer = (
 const getDefaultChangelogFilterConditions = (): ChangelogFilterConditions => {
   const today = new Date()
   const oneWeekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000)
+
+  // 默认全选所有操作类型
+  const defaultActionTypes = [
+    'created',
+    'updated',
+    'closed',
+    'reopened',
+    'pushed',
+    'commented',
+    'merged',
+    'approved',
+    'joined',
+    'left',
+    'deleted',
+  ] as const
+
+  // 默认全选所有目标类型
+  const defaultTargetTypes = [
+    'issue',
+    'merge_request',
+    'milestone',
+    'note',
+    'project',
+    'snippet',
+    'user',
+  ] as const
+
   return {
     startDate: oneWeekAgo.toISOString().split('T')[0],
     endDate: today.toISOString().split('T')[0],
-    actionTypes: [],
-    targetTypes: [],
+    actionTypes: [...defaultActionTypes],
+    targetTypes: [...defaultTargetTypes],
   }
 }
 
