@@ -3,7 +3,7 @@
   inset: 0;
   width: 100vw;
   height: 100vh;
-  background: var(--overlay);
+  background: var(--gwrs-overlay);
   backdrop-filter: blur(20px);
   z-index: 9999;
   display: flex;
@@ -20,11 +20,11 @@
     padding: 24px;
 
     .modal {
-      background: var(--bg-quaternary);
+      background: var(--gwrs-bg-quaternary);
       backdrop-filter: blur(40px);
       border-radius: 16px;
-      border: 1px solid var(--border-secondary);
-      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--gwrs-border-secondary);
+      box-shadow: var(--gwrs-shadow-lg);
       max-height: 90vh;
       display: flex;
       flex-direction: column;
@@ -36,13 +36,13 @@
         justify-content: space-between;
         align-items: center;
         padding: 20px 24px 16px;
-        border-bottom: 1px solid var(--border-secondary);
+        border-bottom: 1px solid var(--gwrs-border-secondary);
         flex-shrink: 0;
 
         .modal-title {
           font-size: 18px;
           font-weight: 600;
-          color: var(--text-primary);
+          color: var(--gwrs-text-primary);
           margin: 0;
         }
 
@@ -53,15 +53,15 @@
           width: 28px;
           height: 28px;
           border: none;
-          background: var(--bg-secondary);
+          background: var(--gwrs-bg-secondary);
           border-radius: 6px;
-          color: var(--text-secondary);
+          color: var(--gwrs-text-secondary);
           cursor: pointer;
           transition: all 0.2s ease;
 
           &:hover {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
+            background: var(--gwrs-bg-tertiary);
+            color: var(--gwrs-text-primary);
           }
 
           span {
@@ -86,11 +86,11 @@
         }
 
         &::-webkit-scrollbar-thumb {
-          background: var(--border-primary);
+          background: var(--gwrs-border-primary);
           border-radius: 3px;
 
           &:hover {
-            background: var(--scrollbar-thumb-hover);
+            background: var(--gwrs-scrollbar-thumb-hover);
           }
         }
       }
@@ -98,8 +98,8 @@
       .modal-footer {
         flex-shrink: 0;
         padding: 16px 24px 20px;
-        border-top: 1px solid var(--border-secondary);
-        background: var(--bg-secondary);
+        border-top: 1px solid var(--gwrs-border-secondary);
+        background: var(--gwrs-bg-secondary);
       }
     }
   }
@@ -112,25 +112,25 @@
   border-radius: 10px;
   background: linear-gradient(
     135deg,
-    var(--color-primary),
-    var(--color-primary-dark)
+    var(--gwrs-color-primary),
+    var(--gwrs-color-primary-dark)
   );
-  color: var(--btn-primary-text);
+  color: var(--gwrs-btn-primary-text);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--gwrs-shadow-sm);
 
   &:hover:not(:disabled) {
-    background: var(--color-primary-dark);
+    background: var(--gwrs-color-primary-dark);
     transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--gwrs-shadow-md);
   }
 
   &:active:not(:disabled) {
     transform: translateY(0);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--gwrs-shadow-sm);
   }
 
   &:disabled {
@@ -143,26 +143,26 @@
 
 .btn-secondary {
   padding: 8px 16px;
-  border: 1px solid var(--border-primary);
+  border: 1px solid var(--gwrs-border-primary);
   border-radius: 10px;
-  background: var(--bg-quaternary);
+  background: var(--gwrs-bg-quaternary);
   backdrop-filter: blur(20px);
-  color: var(--text-primary);
+  color: var(--gwrs-text-primary);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover:not(:disabled) {
-    border-color: var(--color-primary);
-    background: var(--color-primary-lighter);
+    border-color: var(--gwrs-color-primary);
+    background: var(--gwrs-color-primary-lighter);
     transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--gwrs-shadow-sm);
   }
 
   &:active:not(:disabled) {
     transform: translateY(0);
-    box-shadow: var(--shadow-xs);
+    box-shadow: var(--gwrs-shadow-xs);
   }
 
   &:disabled {
@@ -177,7 +177,7 @@
   padding: 4px 8px;
   border: none;
   background: transparent;
-  color: var(--color-primary);
+  color: var(--gwrs-color-primary);
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -185,7 +185,7 @@
   transition: all 0.2s ease;
 
   &:hover:not(:disabled) {
-    background: var(--color-primary-lighter);
+    background: var(--gwrs-color-primary-lighter);
   }
 
   &:disabled {

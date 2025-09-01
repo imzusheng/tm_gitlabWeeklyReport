@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
-import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { join } from 'path'
 
@@ -24,8 +23,6 @@ const userscriptHeader = `
 // @grant        GM_getValue
 // @grant        GM_deleteValue
 // @grant        GM_xmlhttpRequest
-// @require      https://unpkg.com/react@18/umd/react.production.min.js
-// @require      https://unpkg.com/react-dom@18/umd/react-dom.production.min.js
 // @updateURL    https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/userscript/gitlab-weekly-report.user.js
 // @downloadURL  https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/userscript/gitlab-weekly-report.user.js
 // ==/UserScript==
@@ -57,7 +54,10 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: isUserscript
-      ? [react(), cssInjectedByJsPlugin(), userscriptPlugin()]
+      ? [
+          // 油猴脚本模式不需要 React 和 CSS 插件
+          userscriptPlugin(),
+        ]
       : [react()],
     resolve: {
       alias: {
@@ -66,14 +66,14 @@ export default defineConfig(({ mode }) => {
     },
     css: {
       preprocessorOptions: {
-        scss: {
-          additionalData: `@import "@/styles/variables.scss";`,
+        less: {
+          javascriptEnabled: true,
         },
       },
       modules: {
         // 启用CSS模块化，为所有.less和.css文件添加hash
         localsConvention: 'camelCase',
-        generateScopedName: '[name]__[local]__[hash:base64:5]',
+        generateScopedName: 'gwrs-[name]__[local]__[hash:base64:5]', // 添加前缀
         hashPrefix: 'gitlab-weekly-report',
       },
     },
@@ -105,21 +105,11 @@ export default defineConfig(({ mode }) => {
           ? resolve(__dirname, 'src/userscript.ts')
           : resolve(__dirname, 'index.html'),
 
-        // 根据是否为油猴脚本来决定是否外部化
-        external: isUserscript
-          ? id => {
-              // 只对真正的外部依赖进行外部化，避免警告
-              return ['react', 'react-dom'].includes(id)
-            }
-          : [],
+        // 油猴脚本模式现在没有外部依赖
+        external: isUserscript ? [] : [],
         output: {
           // 为外部模块提供全局变量名，避免警告
-          globals: isUserscript
-            ? {
-                react: 'React',
-                'react-dom': 'ReactDOM',
-              }
-            : {},
+          globals: isUserscript ? {} : {},
           ...(isUserscript
             ? {
                 format: 'iife',

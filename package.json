@@ -14,9 +14,9 @@
   "homepage": "https://github.com/imzusheng/tm_gitlabWeeklyReport#readme",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build --mode userscript && vite build --mode web",
-    "build:userscript": "tsc && vite build --mode userscript",
-    "build:web": "tsc && vite build --mode web",
+    "build": "vite build --mode userscript && vite build --mode web",
+    "build:userscript": "vite build --mode userscript",
+    "build:web": "vite build --mode web",
     "release": "semantic-release",
     "release:dry-run": "semantic-release --dry-run",
     "commitlint": "commitlint --edit",
@@ -29,10 +29,10 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
-    "@types/tampermonkey": "^5.0.4",
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
     "@semantic-release/changelog": "^6.0.3",
@@ -41,6 +41,7 @@
     "@types/node": "^24.0.1",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
+    "@types/tampermonkey": "^5.0.4",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "@vitejs/plugin-react": "^4.2.1",

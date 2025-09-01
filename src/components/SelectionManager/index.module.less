@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 20px;
-  background: var(--bg-secondary);
+  background: var(--gwrs-bg-secondary);
   gap: 20px;
 
   .selectionInfo {
@@ -14,12 +14,12 @@
     .selectionCount {
       font-size: 14px;
       font-weight: 600;
-      color: var(--text-primary);
+      color: var(--gwrs-text-primary);
       padding: 6px 16px;
-      background: var(--bg-primary);
-      border: 1px solid var(--border-primary);
+      background: var(--gwrs-bg-primary);
+      border: 1px solid var(--gwrs-border-primary);
       border-radius: 20px;
-      box-shadow: var(--shadow-xs);
+      box-shadow: var(--gwrs-shadow-xs);
     }
   }
 
@@ -37,7 +37,7 @@
 
       .groupLabel {
         font-size: 13px;
-        color: var(--text-secondary);
+        color: var(--gwrs-text-secondary);
         font-weight: 500;
         white-space: nowrap;
       }
@@ -52,10 +52,10 @@
       transition: all 0.2s ease;
       white-space: nowrap;
       letter-spacing: 0.02em;
-      border: 1px solid var(--border-primary);
-      background: var(--btn-bg);
-      color: var(--btn-text);
-      box-shadow: var(--shadow-xs);
+      border: 1px solid var(--gwrs-border-primary);
+      background: var(--gwrs-btn-bg);
+      color: var(--gwrs-btn-text);
+      box-shadow: var(--gwrs-shadow-xs);
 
       &:disabled {
         opacity: 0.4;
@@ -63,14 +63,14 @@
       }
 
       &:not(:disabled):hover {
-        background: var(--btn-hover-bg);
-        border-color: var(--border-secondary);
-        box-shadow: var(--shadow-sm);
+        background: var(--gwrs-btn-hover-bg);
+        border-color: var(--gwrs-border-secondary);
+        box-shadow: var(--gwrs-shadow-sm);
       }
 
       &:not(:disabled):active {
-        background: var(--bg-hover);
-        box-shadow: var(--shadow-xs);
+        background: var(--gwrs-bg-hover);
+        box-shadow: var(--gwrs-shadow-xs);
         transform: translateY(1px);
       }
 
@@ -83,35 +83,35 @@
     }
 
     .selectAllBtn {
-      background: var(--btn-bg);
-      color: var(--text-primary);
-      border: 1px solid var(--border-primary);
-      box-shadow: var(--shadow-xs);
+      background: var(--gwrs-btn-bg);
+      color: var(--gwrs-text-primary);
+      border: 1px solid var(--gwrs-border-primary);
+      box-shadow: var(--gwrs-shadow-xs);
 
       &:not(:disabled):hover {
-        background: var(--bg-tertiary);
-        border-color: var(--border-secondary);
+        background: var(--gwrs-bg-tertiary);
+        border-color: var(--gwrs-border-secondary);
       }
 
       &:not(:disabled):active {
-        background: var(--bg-quaternary);
+        background: var(--gwrs-bg-quaternary);
         opacity: 0.8;
       }
     }
 
     .clearBtn {
-      background: var(--btn-bg);
-      color: var(--text-primary);
-      border: 1px solid var(--border-primary);
-      box-shadow: var(--shadow-xs);
+      background: var(--gwrs-btn-bg);
+      color: var(--gwrs-text-primary);
+      border: 1px solid var(--gwrs-border-primary);
+      box-shadow: var(--gwrs-shadow-xs);
 
       &:not(:disabled):hover {
-        background: var(--bg-tertiary);
-        border-color: var(--border-secondary);
+        background: var(--gwrs-bg-tertiary);
+        border-color: var(--gwrs-border-secondary);
       }
 
       &:not(:disabled):active {
-        background: var(--bg-quaternary);
+        background: var(--gwrs-bg-quaternary);
         opacity: 0.8;
       }
     }

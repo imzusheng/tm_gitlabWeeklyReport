@@ -238,22 +238,6 @@ export type Theme = 'light' | 'dark' | 'system'
 
 export type AppMode = 'events' | 'changelog'
 
-export interface GitLabCommit {
-  id: string
-  short_id: string
-  title: string
-  author_name: string
-  author_email: string
-  authored_date: string
-  committer_name: string
-  committer_email: string
-  committed_date: string
-  created_at: string
-  message: string
-  parent_ids: string[]
-  web_url: string
-}
-
 // 应用状态类型
 export interface AppState {
   config: AppConfig
@@ -273,6 +257,41 @@ export interface AppState {
   projects: GitLabProject[]
   selectedProjectId: number | null
   commits: GitLabCommit[]
+}
+
+// 应用 Store 类型
+export interface AppStore extends AppState {
+  // 配置相关操作
+  updateConfig: (newConfig: Partial<AppConfig>) => void
+  resetConfig: () => void
+
+  // UI 状态操作
+  setActivePanel: (panel: PanelType) => void
+  setAppMode: (mode: AppMode) => void
+  setTheme: (theme: Theme) => void
+  setLoading: (loading: boolean) => void
+  setError: (error: string | null) => void
+
+  // 数据操作
+  setProjects: (projects: GitLabProject[]) => void
+  setSelectedProjectId: (id: number | null) => void
+  setCommits: (commits: GitLabCommit[]) => void
+  setEvents: (events: GitLabEvent[]) => void
+  setTotalCount: (count: number) => void
+
+  // 筛选和分页操作
+  setFilterConditions: (filters: Partial<FilterConditions>) => void
+  setSortOptions: (sort: Partial<SortOptions>) => void
+  setPaginationOptions: (pagination: Partial<PaginationOptions>) => void
+
+  // AI 相关操作
+  setAIGenerationConfig: (config: AIGenerationConfig | null) => void
+  setReportData: (data: WeeklyReportData | null) => void
+
+  // 工具方法
+  resetState: () => void
+  getTimeRange: () => { startDate: Date; endDate: Date }
+  validateConfig: () => boolean
 }
 
 // GitLab 用户事件获取选项

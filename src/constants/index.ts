@@ -68,6 +68,17 @@ export const USERSCRIPT_CONFIG = {
   CONTAINER_ID: 'gitlab-weekly-report-container',
   TRIGGER_SELECTOR: '.navbar-nav',
   INJECT_DELAY: 1000, // 注入延迟时间(ms)
+  TRIGGER_BUTTON: {
+    ID: 'gitlab-weekly-report-trigger',
+    ICON: '📊',
+  },
+  OVERLAY_ID: 'gitlab-weekly-report-overlay',
+  SCOPE_CLASS: 'gitlab-weekly-report-scope',
+  // iframe URL 配置 - 开发时使用本地服务器，生产环境使用实际部署地址
+  IFRAME_URL:
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3000'
+      : 'https://your-deployed-domain.com', // 替换为实际部署地址
 }
 
 // 错误消息

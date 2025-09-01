@@ -8,7 +8,7 @@
 .projectSelectorContainer {
   flex-shrink: 0;
   padding: 10px;
-  border-bottom: 1px solid var(--border-primary);
+  border-bottom: 1px solid var(--gwrs-border-primary);
 }
 
 .eventsListContainer {
@@ -22,27 +22,27 @@
   width: 100%;
   padding: 8px 12px;
   border-radius: 6px;
-  border: 1px solid var(--border-primary);
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  border: 1px solid var(--gwrs-border-primary);
+  background-color: var(--gwrs-bg-primary);
+  color: var(--gwrs-text-primary);
   font-size: 14px;
   cursor: pointer;
   transition: border-color 0.2s;
 
   &:hover {
-    border-color: var(--color-primary);
+    border-color: var(--gwrs-color-primary);
   }
 
   &:focus {
     outline: none;
-    border-color: var(--color-primary);
+    border-color: var(--gwrs-color-primary);
     box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
   }
 }
 
 .container {
   padding: 20px;
-  background: var(--bg-primary);
+  background: var(--gwrs-bg-primary);
   border-radius: 8px;
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
 }
@@ -53,13 +53,13 @@
   align-items: center;
   margin-bottom: 20px;
   padding-bottom: 16px;
-  border-bottom: 1px solid var(--border-primary);
+  border-bottom: 1px solid var(--gwrs-border-primary);
 }
 
 .title {
   font-size: 18px;
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--gwrs-text-primary);
   margin: 0;
 }
 
@@ -71,21 +71,21 @@
 
 .sort-select {
   padding: 6px 12px;
-  border: 1px solid var(--border-primary);
+  border: 1px solid var(--gwrs-border-primary);
   border-radius: 4px;
-  background: var(--bg-primary);
-  color: var(--text-primary);
+  background: var(--gwrs-bg-primary);
+  color: var(--gwrs-text-primary);
   font-size: 14px;
   cursor: pointer;
   transition: border-color 0.2s;
 
   &:hover {
-    border-color: var(--color-primary);
+    border-color: var(--gwrs-color-primary);
   }
 
   &:focus {
     outline: none;
-    border-color: var(--color-primary);
+    border-color: var(--gwrs-color-primary);
     box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
   }
 }
@@ -94,8 +94,8 @@
   padding: 8px 16px;
   background: linear-gradient(
     135deg,
-    var(--color-primary),
-    var(--color-primary-dark)
+    var(--gwrs-color-primary),
+    var(--gwrs-color-primary-dark)
   );
   color: white;
   border: none;
@@ -110,13 +110,13 @@
   &:hover {
     background: linear-gradient(
       135deg,
-      var(--color-primary-hover),
-      var(--color-primary-dark)
+      var(--gwrs-color-primary-hover),
+      var(--gwrs-color-primary-dark)
     );
   }
 
   &:disabled {
-    background: var(--border-primary);
+    background: var(--gwrs-border-primary);
     cursor: not-allowed;
   }
 }
@@ -131,14 +131,14 @@
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
-  color: var(--text-secondary);
+  color: var(--gwrs-text-secondary);
 }
 
 .loading-spinner {
   width: 32px;
   height: 32px;
-  border: 3px solid var(--border-primary);
-  border-top: 3px solid var(--color-primary);
+  border: 3px solid var(--gwrs-border-primary);
+  border-top: 3px solid var(--gwrs-color-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 12px;
@@ -169,7 +169,7 @@
   align-items: center;
   gap: 8px;
   padding: 12px;
-  background: var(--bg-secondary);
+  background: var(--gwrs-bg-secondary);
   border-radius: 6px;
   margin-bottom: 16px;
 }
@@ -182,7 +182,7 @@
 
 .select-all-label {
   font-size: 14px;
-  color: var(--text-primary);
+  color: var(--gwrs-text-primary);
   cursor: pointer;
   user-select: none;
   flex-shrink: 0;
@@ -193,19 +193,19 @@
   align-items: flex-start;
   gap: 12px;
   padding: 16px;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-primary);
+  background: var(--gwrs-bg-primary);
+  border: 1px solid var(--gwrs-border-primary);
   border-radius: 8px;
   transition: all 0.2s;
 
   &:hover {
-    border-color: var(--color-primary);
-    box-shadow: var(--shadow-xs);
+    border-color: var(--gwrs-color-primary);
+    box-shadow: var(--gwrs-shadow-xs);
   }
 
   &.selected {
-    border-color: var(--color-primary);
-    background: var(--color-primary-lighter);
+    border-color: var(--gwrs-color-primary);
+    background: var(--gwrs-color-primary-lighter);
   }
 }
 
@@ -233,7 +233,7 @@
 .event-title {
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-primary);
+  color: var(--gwrs-text-primary);
   margin: 0;
   line-height: 1.4;
   flex: 1;
@@ -242,14 +242,14 @@
 
 .event-time {
   font-size: 12px;
-  color: var(--text-secondary);
+  color: var(--gwrs-text-secondary);
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .event-description {
   font-size: 13px;
-  color: var(--text-secondary);
+  color: var(--gwrs-text-secondary);
   line-height: 1.4;
   margin: 0;
   word-break: break-word;
@@ -264,18 +264,18 @@
 .event-action-btn {
   padding: 4px 8px;
   font-size: 12px;
-  border: 1px solid var(--border-primary);
+  border: 1px solid var(--gwrs-border-primary);
   border-radius: 4px;
-  background: var(--bg-primary);
-  color: var(--text-secondary);
+  background: var(--gwrs-bg-primary);
+  color: var(--gwrs-text-secondary);
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;
   min-width: fit-content;
 
   &:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
+    border-color: var(--gwrs-color-primary);
+    color: var(--gwrs-color-primary);
   }
 }
 
@@ -285,7 +285,7 @@
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
-  color: var(--text-secondary);
+  color: var(--gwrs-text-secondary);
   text-align: center;
 }
 
@@ -299,7 +299,7 @@
   font-size: 16px;
   font-weight: 500;
   margin: 0 0 8px;
-  color: var(--text-primary);
+  color: var(--gwrs-text-primary);
 }
 
 .empty-description {
@@ -321,7 +321,7 @@
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
-  color: var(--color-error);
+  color: var(--gwrs-color-error);
   text-align: center;
 }
 
@@ -346,7 +346,7 @@
 
 .retry-btn {
   padding: 8px 16px;
-  background: var(--error-color);
+  background: var(--gwrs-error-color);
   color: white;
   border: none;
   border-radius: 6px;
@@ -357,20 +357,20 @@
   min-width: fit-content;
 
   &:hover {
-    background: var(--error-hover-color);
+    background: var(--gwrs-error-hover-color);
   }
 }
 
 /* 表格样式 */
 .events-list-header {
   display: flex;
-  background: var(--bg-secondary-color);
+  background: var(--gwrs-bg-secondary-color);
   border-radius: 6px 6px 0 0;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--gwrs-border-color);
   border-bottom: none;
   font-weight: 500;
   font-size: 14px;
-  color: var(--text-color);
+  color: var(--gwrs-text-color);
 }
 
 .header-cell {
@@ -378,7 +378,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  border-right: 1px solid var(--border-color);
+  border-right: 1px solid var(--gwrs-border-color);
   cursor: pointer;
   transition: background-color 0.2s;
 
@@ -387,7 +387,7 @@
   }
 
   &:hover {
-    background: var(--color-primary-lighter);
+    background: var(--gwrs-color-primary-lighter);
   }
 }
 
@@ -428,19 +428,19 @@
 
 .sort-icon {
   font-size: 12px;
-  color: var(--text-secondary-color);
+  color: var(--gwrs-text-secondary-color);
   transition: color 0.2s;
 }
 
 .events-list-body {
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--gwrs-border-color);
   border-radius: 0 0 6px 6px;
-  background: var(--bg-color);
+  background: var(--gwrs-bg-color);
 }
 
 .event-row {
   display: flex;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--gwrs-border-color);
   transition: all 0.2s;
 
   &:last-child {
@@ -448,12 +448,12 @@
   }
 
   &:hover {
-    background: var(--bg-hover-color);
+    background: var(--gwrs-bg-hover-color);
   }
 
   &.selected {
-    background: var(--color-primary-lighter);
-    border-color: var(--color-primary);
+    background: var(--gwrs-color-primary-lighter);
+    border-color: var(--gwrs-color-primary);
   }
 }
 
@@ -461,7 +461,7 @@
   padding: 12px 16px;
   display: flex;
   align-items: center;
-  border-right: 1px solid var(--border-color);
+  border-right: 1px solid var(--gwrs-border-color);
   min-height: 60px;
 
   &:last-child {
@@ -489,8 +489,8 @@
   display: inline-block;
   width: 16px;
   height: 16px;
-  background: var(--bg-color);
-  border: 2px solid var(--border-color);
+  background: var(--gwrs-bg-color);
+  border: 2px solid var(--gwrs-border-color);
   border-radius: 3px;
   transition: all 0.2s;
 
@@ -511,10 +511,10 @@
 .checkbox-container input:checked ~ .checkmark {
   background: linear-gradient(
     135deg,
-    var(--color-primary),
-    var(--color-primary-dark)
+    var(--gwrs-color-primary),
+    var(--gwrs-color-primary-dark)
   );
-  border-color: var(--color-primary);
+  border-color: var(--gwrs-color-primary);
 
   &::after {
     display: block;
@@ -524,10 +524,10 @@
 .checkbox-container input:indeterminate ~ .checkmark {
   background: linear-gradient(
     135deg,
-    var(--color-primary),
-    var(--color-primary-dark)
+    var(--gwrs-color-primary),
+    var(--gwrs-color-primary-dark)
   );
-  border-color: var(--color-primary);
+  border-color: var(--gwrs-color-primary);
 
   &::after {
     display: block;
@@ -549,8 +549,8 @@
 
 .action-tag {
   padding: 4px 8px;
-  background: var(--bg-secondary-color);
-  color: var(--text-secondary-color);
+  background: var(--gwrs-bg-secondary-color);
+  color: var(--gwrs-text-secondary-color);
   border-radius: 4px;
   font-size: 12px;
   font-weight: 500;
@@ -560,7 +560,7 @@
 .detail-btn {
   padding: 6px 8px;
   background: transparent;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--gwrs-border-color);
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s;
@@ -569,8 +569,8 @@
   justify-content: center;
 
   &:hover {
-    border-color: var(--color-primary);
-    background: var(--color-primary-lighter);
+    border-color: var(--gwrs-color-primary);
+    background: var(--gwrs-color-primary-lighter);
   }
 }
 

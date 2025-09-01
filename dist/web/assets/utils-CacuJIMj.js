@@ -192,7 +192,7 @@ const a = e => {
       regenerateButtonText: '重新生成',
     },
   }
-class E extends Error {
+class f extends Error {
   constructor(e, r, o) {
     super(`[${o}] ${r}`),
       t(this, 'status'),
@@ -202,7 +202,7 @@ class E extends Error {
       (this.service = o)
   }
 }
-class f extends Error {
+class E extends Error {
   constructor(e, r) {
     super(`[${r}] ${e}`),
       t(this, 'service'),
@@ -212,10 +212,10 @@ class f extends Error {
 }
 class h {
   static createApiError(e, t, r) {
-    return new E(e, t, r)
+    return new f(e, t, r)
   }
   static createResponseError(e, t) {
-    return new f(e, t)
+    return new E(e, t)
   }
   static createNetworkError(e) {
     const t = new Error(`网络错误: ${e}`)
@@ -302,12 +302,7 @@ const y = e => {
       y(e => e.removeItem(p))
     },
   },
-  b = {
-    INCOMPLETE_GITLAB_DEEPSEEK: '请先完善GitLab和DeepSeek配置信息',
-    INCOMPLETE_CONFIG: '请先完善配置信息',
-    NO_EVENTS_SELECTED: '请至少选择一个事件来生成周报',
-    INVALID_FILTER_OR_CONFIG: '请检查筛选条件或GitLab配置',
-  }
+  b = { INVALID_FILTER_OR_CONFIG: '请检查筛选条件或GitLab配置' }
 export {
   i as A,
   c as C,
