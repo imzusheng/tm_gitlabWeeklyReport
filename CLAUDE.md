@@ -137,7 +137,7 @@ src/
 - 采用语义化版本控制
 - 使用 Conventional Commits 规范
 - 版本号自动同步到所有相关文件
-- 自动生成 CHANGELOG
+- ~~自动生成 CHANGELOG~~（功能已移除）
 - 版本号从 `package.json` 统一管理，通过构建脚本同步到油猴脚本头部
 
 ## 常见任务

@@ -194,7 +194,7 @@ export interface AppConfig {
 }
 
 // AI任务类型
-export type AITaskType = 'weekly-report' | 'changelog' | 'custom'
+export type AITaskType = 'weekly-report' | 'custom'
 
 // AI任务配置
 export interface AITaskConfig {
@@ -236,8 +236,6 @@ export type PanelType = 'main' | 'settings' | 'ai'
 // 应用模式类型
 export type Theme = 'light' | 'dark' | 'system'
 
-export type AppMode = 'events' | 'changelog'
-
 // 应用状态类型
 export interface AppState {
   config: AppConfig
@@ -246,17 +244,12 @@ export interface AppState {
   error: string | null
   theme: 'light' | 'dark' | 'system'
   activePanel: PanelType
-  appMode: AppMode
   filterConditions: FilterConditions
   sortOptions: SortOptions
   paginationOptions: PaginationOptions
   events: GitLabEvent[]
   totalCount: number
   aiGenerationConfig: AIGenerationConfig | null
-  // Changelog模式相关状态
-  projects: GitLabProject[]
-  selectedProjectId: number | null
-  commits: GitLabCommit[]
 }
 
 // 应用 Store 类型
@@ -267,15 +260,11 @@ export interface AppStore extends AppState {
 
   // UI 状态操作
   setActivePanel: (panel: PanelType) => void
-  setAppMode: (mode: AppMode) => void
   setTheme: (theme: Theme) => void
   setLoading: (loading: boolean) => void
   setError: (error: string | null) => void
 
   // 数据操作
-  setProjects: (projects: GitLabProject[]) => void
-  setSelectedProjectId: (id: number | null) => void
-  setCommits: (commits: GitLabCommit[]) => void
   setEvents: (events: GitLabEvent[]) => void
   setTotalCount: (count: number) => void
 

@@ -3,7 +3,6 @@ import { useAppStore } from '@/stores/app-store'
 import { useEventManagement } from '@/hooks/useEventManagement'
 import { useEventSelection } from '@/hooks/useEventSelection'
 import { useThemeManager } from '@/hooks/useThemeManager'
-import { useProjectManagement } from '@/hooks/useProjectManagement'
 import { useIframeCommunication } from '@/hooks/useIframeCommunication'
 
 import MainPanel from '@/components/MainPanel'
@@ -31,12 +30,10 @@ const App: React.FC<AppProps> = ({ isUserscript: _isUserscript = false }) => {
   const {
     config,
     activePanel,
-    appMode,
     isLoading,
     events,
     aiGenerationConfig,
     setActivePanel,
-    setAppMode,
     updateConfig,
     setAIGenerationConfig,
     setReportData,
@@ -54,7 +51,6 @@ const App: React.FC<AppProps> = ({ isUserscript: _isUserscript = false }) => {
   } = useEventManagement()
   const { selectedEvents, toggleEventSelection, clearSelection } =
     useEventSelection()
-  const { loadProjects } = useProjectManagement()
 
   // 本地状态
   const [selectedEvent, setSelectedEvent] = useState<GitLabEvent | null>(null)
@@ -75,20 +71,12 @@ const App: React.FC<AppProps> = ({ isUserscript: _isUserscript = false }) => {
   // 初始化加载
   useEffect(() => {
     loadEvents()
-    loadProjects()
-  }, [loadEvents, loadProjects])
+  }, [loadEvents])
 
-  // 模式切换时清空选择
+  // 清空选择
   useEffect(() => {
     clearSelection()
-  }, [appMode, clearSelection])
-
-  /**
-   * 处理模式切换
-   */
-  const handleModeChange = (mode: typeof appMode) => {
-    setAppMode(mode)
-  }
+  }, [clearSelection])
 
   /**
    * 处理事件详情查看
@@ -157,7 +145,6 @@ const App: React.FC<AppProps> = ({ isUserscript: _isUserscript = false }) => {
         {/* 主面板 */}
         {activePanel === 'main' && (
           <MainPanel
-            appMode={appMode}
             events={events}
             totalCount={useAppStore.getState().totalCount}
             loading={isLoading}
@@ -165,12 +152,10 @@ const App: React.FC<AppProps> = ({ isUserscript: _isUserscript = false }) => {
             sortOptions={useAppStore.getState().sortOptions}
             paginationOptions={useAppStore.getState().paginationOptions}
             selectedEventIds={selectedEvents.map(e => e.id)}
-            onModeChange={handleModeChange}
             onFilterChange={handleFilterChange}
             onSortChange={handleSortChange}
             onPaginationChange={handlePaginationChange}
             onEventSelect={toggleEventSelection}
-            onSelectAll={() => {}}
             onSelectionChange={() => {}}
             onEventDetail={handleEventDetail}
             onOpenSettings={() => setActivePanel('settings')}
@@ -208,7 +193,7 @@ const App: React.FC<AppProps> = ({ isUserscript: _isUserscript = false }) => {
           <AIPanel
             visible={true}
             config={aiGenerationConfig}
-            taskType={appMode === 'changelog' ? 'changelog' : 'weekly-report'}
+            taskType="weekly-report"
             onClose={() => setActivePanel('main')}
             onGenerate={prompt => {
               if (aiGenerationConfig) {

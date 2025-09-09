@@ -132,7 +132,6 @@ tm_gitlabWeeklyReport_v2/
 ├── 📄 .commitlintrc.json        # Commitlint 配置
 ├── 📄 .releaserc.json           # Semantic Release 配置
 ├── 📄 .gitignore                # Git 忽略文件配置
-├── 📄 CHANGELOG.md              # 版本更新日志
 ├── 📄 CONTRIBUTING.md           # 贡献指南
 └── 📄 README.md                 # 项目文档
 ```
@@ -181,7 +180,6 @@ tm_gitlabWeeklyReport_v2/
 - **语义化发布**: 基于提交信息自动确定版本号
 - **CI/CD 集成**: GitHub Actions 自动构建和发布
 - **约定式提交**: 使用 Conventional Commits 规范
-- **自动化 CHANGELOG**: 自动生成版本更新日志
 
 ### 代码质量
 
@@ -402,7 +400,6 @@ git push origin v2
 - 分析提交信息
 - 自动确定版本号
 - 同步版本号到所有文件
-- 生成 CHANGELOG
 - 创建 Git 标签
 - 发布 GitHub Release
 - 构建并发布新版本
@@ -423,8 +420,7 @@ npm run release
 2. **版本号完全自动管理**，无需手动修改任何文件中的版本号
 3. **只有符合规范的提交才会触发版本发布**
 4. **破坏性变更必须明确标注** (`!` 或 `BREAKING CHANGE:`)
-5. **CHANGELOG.md 会自动生成和更新**
-6. **所有代码必须通过 ESLint、Stylelint 和 TypeScript 检查**
+5. **所有代码必须通过 ESLint、Stylelint 和 TypeScript 检查**
 
 ### 🔧 代码规范
 
@@ -762,9 +758,8 @@ git commit -m "docs: update installation instructions"
 1. 🧪 运行测试和代码检查
 2. 📊 分析提交信息确定版本类型
 3. 🏷️ 自动生成版本号和 Git 标签
-4. 📝 更新 CHANGELOG.md
-5. 🚀 创建 GitHub Release
-6. 📦 更新相关文件中的版本号
+4. 🚀 创建 GitHub Release
+5. 📦 更新相关文件中的版本号
 
 ### 📖 详细开发指南
 

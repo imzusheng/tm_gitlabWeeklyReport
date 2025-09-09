@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { GitLabEvent, SortOptions, PaginationOptions, AppMode } from '@/types'
+import { GitLabEvent, SortOptions, PaginationOptions } from '@/types'
 import { configErrors } from '@/utils'
 import Pagination from '../../../Pagination'
 import SelectionManager from '../../../SelectionManager'
@@ -18,7 +18,6 @@ interface EventsListProps {
   onSelectionChange: (selectedIds: number[], isFullSelection: boolean) => void // 选择状态变更回调
   onEventSelect: (eventId: number) => void // 单个事件选择切换
   onEventDetail: (event: GitLabEvent) => void // 查看事件详情回调
-  mode: AppMode // 当前模式
 }
 
 const EventsList: React.FC<EventsListProps> = ({
@@ -34,7 +33,6 @@ const EventsList: React.FC<EventsListProps> = ({
   onSelectionChange,
   onEventSelect,
   onEventDetail,
-  // mode, // 暂时不使用
 }) => {
   const handleSort = useCallback(
     (field: SortOptions['field']) => {
