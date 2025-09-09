@@ -38,7 +38,23 @@
 }
 
 .generateBtn {
+  border: none;
+  border-radius: 8px;
   padding: 6px 16px;
+  background: var(--gwrs-color-primary);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.generateBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.generateBtn:not(:disabled):hover {
+  background: var(--gwrs-color-primary-dark);
 }
 
 .result {
@@ -57,7 +73,23 @@
 }
 
 .copyBtn {
+  border: none;
+  border-radius: 8px;
   padding: 4px 12px;
+  background: var(--gwrs-bg-tertiary);
+  color: var(--gwrs-text-primary);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.copyBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.copyBtn:not(:disabled):hover {
+  background: var(--gwrs-bg-secondary);
 }
 
 .resultText {

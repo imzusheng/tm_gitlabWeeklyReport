@@ -1,217 +1,61 @@
-.modal-mask {
+.modalMask {
   position: fixed;
   inset: 0;
-  width: 100vw;
-  height: 100vh;
-  background: var(--gwrs-overlay);
-  backdrop-filter: blur(20px);
-  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: modal-mask-fade-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-  .modal-wrapper {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    padding: 24px;
-
-    .modal {
-      background: var(--gwrs-bg-quaternary);
-      backdrop-filter: blur(40px);
-      border-radius: 16px;
-      border: 1px solid var(--gwrs-border-secondary);
-      box-shadow: var(--gwrs-shadow-lg);
-      max-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      animation: modal-slide-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-
-      .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 24px 16px;
-        border-bottom: 1px solid var(--gwrs-border-secondary);
-        flex-shrink: 0;
-
-        .modal-title {
-          font-size: 18px;
-          font-weight: 600;
-          color: var(--gwrs-text-primary);
-          margin: 0;
-        }
-
-        .modal-close {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 28px;
-          height: 28px;
-          border: none;
-          background: var(--gwrs-bg-secondary);
-          border-radius: 6px;
-          color: var(--gwrs-text-secondary);
-          cursor: pointer;
-          transition: all 0.2s ease;
-
-          &:hover {
-            background: var(--gwrs-bg-tertiary);
-            color: var(--gwrs-text-primary);
-          }
-
-          span {
-            font-size: 18px;
-            line-height: 1;
-          }
-        }
-      }
-
-      .modal-body {
-        flex: 1;
-        overflow-y: auto;
-        padding: 20px 24px;
-
-        /* 自定义滚动条样式 */
-        &::-webkit-scrollbar {
-          width: 6px;
-        }
-
-        &::-webkit-scrollbar-track {
-          background: transparent;
-        }
-
-        &::-webkit-scrollbar-thumb {
-          background: var(--gwrs-border-primary);
-          border-radius: 3px;
-
-          &:hover {
-            background: var(--gwrs-scrollbar-thumb-hover);
-          }
-        }
-      }
-
-      .modal-footer {
-        flex-shrink: 0;
-        padding: 16px 24px 20px;
-        border-top: 1px solid var(--gwrs-border-secondary);
-        background: var(--gwrs-bg-secondary);
-      }
-    }
-  }
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
 }
 
-/* 通用按钮样式 */
-.btn-primary {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 10px;
-  background: linear-gradient(
-    135deg,
-    var(--gwrs-color-primary),
-    var(--gwrs-color-primary-dark)
-  );
-  color: var(--gwrs-btn-primary-text);
-  font-size: 14px;
+.modalWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal {
+  background: var(--gwrs-bg-primary);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid var(--gwrs-border-primary);
+}
+
+.modalTitle {
+  font-size: 16px;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: var(--gwrs-shadow-sm);
-
-  &:hover:not(:disabled) {
-    background: var(--gwrs-color-primary-dark);
-    transform: translateY(-1px);
-    box-shadow: var(--gwrs-shadow-md);
-  }
-
-  &:active:not(:disabled) {
-    transform: translateY(0);
-    box-shadow: var(--gwrs-shadow-sm);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
 }
 
-.btn-secondary {
-  padding: 8px 16px;
-  border: 1px solid var(--gwrs-border-primary);
-  border-radius: 10px;
-  background: var(--gwrs-bg-quaternary);
-  backdrop-filter: blur(20px);
-  color: var(--gwrs-text-primary);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-  &:hover:not(:disabled) {
-    border-color: var(--gwrs-color-primary);
-    background: var(--gwrs-color-primary-lighter);
-    transform: translateY(-1px);
-    box-shadow: var(--gwrs-shadow-sm);
-  }
-
-  &:active:not(:disabled) {
-    transform: translateY(0);
-    box-shadow: var(--gwrs-shadow-xs);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
-}
-
-.btn-text {
-  padding: 4px 8px;
+.modalClose {
   border: none;
   background: transparent;
-  color: var(--gwrs-color-primary);
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 20px;
   cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-
-  &:hover:not(:disabled) {
-    background: var(--gwrs-color-primary-lighter);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
 }
 
-@keyframes modal-mask-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.modalBody {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
 }
 
-@keyframes modal-slide-in {
-  from {
-    opacity: 0;
-    transform: translateY(-20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.modalFooter {
+  padding: 16px;
+  border-top: 1px solid var(--gwrs-border-primary);
 }
-
-/* 深色主题适配已通过CSS变量自动处理 */
