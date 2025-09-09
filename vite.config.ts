@@ -53,6 +53,7 @@ export default defineConfig(({ mode }) => {
   const isUserscript = mode === 'userscript'
 
   return {
+    base: './',
     plugins: isUserscript
       ? [
           // 油猴脚本模式不需要 React 和 CSS 插件
