@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { GitLabEvent, SortOptions, PaginationOptions } from '@/types'
-import { configErrors } from '@/utils'
+import { UI_TEXT, ErrorCode } from '@/constants/ui'
 import Pagination from '../../../Pagination'
 import SelectionManager from '../../../SelectionManager'
 import styles from './index.module.less'
@@ -9,6 +9,7 @@ interface EventsListProps {
   events: GitLabEvent[]
   totalCount: number
   loading: boolean
+  error: ErrorCode | null
   sortOptions: SortOptions
   onSortChange: (sortOptions: SortOptions) => void
   paginationOptions: PaginationOptions
@@ -18,12 +19,15 @@ interface EventsListProps {
   onSelectionChange: (selectedIds: number[], isFullSelection: boolean) => void // 选择状态变更回调
   onEventSelect: (eventId: number) => void // 单个事件选择切换
   onEventDetail: (event: GitLabEvent) => void // 查看事件详情回调
+  onClearFilters: () => void
+  onGoSetup: () => void
 }
 
 const EventsList: React.FC<EventsListProps> = ({
   events,
   totalCount,
   loading,
+  error,
   sortOptions,
   onSortChange,
   paginationOptions,
@@ -33,6 +37,8 @@ const EventsList: React.FC<EventsListProps> = ({
   onSelectionChange,
   onEventSelect,
   onEventDetail,
+  onClearFilters,
+  onGoSetup,
 }) => {
   const handleSort = useCallback(
     (field: SortOptions['field']) => {
@@ -251,14 +257,37 @@ const EventsList: React.FC<EventsListProps> = ({
       <div className={styles.eventsListBody}>
         {loading ? (
           <div className={styles.eventsListLoading}>
-            <div className={styles.loadingSpinner}></div>
-            <p>正在加载事件数据...</p>
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className={styles.skeletonRow} />
+            ))}
           </div>
-        ) : events.length === 0 ? (
+        ) : error ? (
           <div className={styles.emptyState}>
             <div className={styles.emptyIcon}>📄</div>
-            <p>暂无事件数据</p>
-            <span>{configErrors.INVALID_FILTER_OR_CONFIG}</span>
+            <h3>
+              {error === 'NO_MATCHES'
+                ? UI_TEXT.NO_MATCHES.title
+                : UI_TEXT.CONFIG_MISSING.title}
+            </h3>
+            <p>
+              {error === 'NO_MATCHES'
+                ? UI_TEXT.NO_MATCHES.desc
+                : UI_TEXT.CONFIG_MISSING.desc}
+            </p>
+            {error === 'NO_MATCHES' ? (
+              <div className={styles.emptyActions}>
+                <button onClick={onClearFilters}>
+                  {UI_TEXT.CTA.clearFilters}
+                </button>
+                <button onClick={() => alert('示例事件')}>
+                  {UI_TEXT.CTA.viewSample}
+                </button>
+              </div>
+            ) : (
+              <div className={styles.emptyActions}>
+                <button onClick={onGoSetup}>{UI_TEXT.CTA.goSetup}</button>
+              </div>
+            )}
           </div>
         ) : (
           events.map(event => {

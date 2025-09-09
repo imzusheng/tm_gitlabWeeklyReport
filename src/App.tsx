@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useAppStore } from '@/stores/app-store'
 import { useEventManagement } from '@/hooks/useEventManagement'
 import { useEventSelection } from '@/hooks/useEventSelection'
+import type { ErrorCode } from '@/constants/ui'
 import { useThemeManager } from '@/hooks/useThemeManager'
 import { useIframeCommunication } from '@/hooks/useIframeCommunication'
 
@@ -32,6 +33,7 @@ const App: React.FC<AppProps> = ({ isUserscript: _isUserscript = false }) => {
     activePanel,
     isLoading,
     events,
+    error,
     aiGenerationConfig,
     setActivePanel,
     updateConfig,
@@ -49,8 +51,23 @@ const App: React.FC<AppProps> = ({ isUserscript: _isUserscript = false }) => {
     handleSortChange,
     handlePaginationChange,
   } = useEventManagement()
-  const { selectedEvents, toggleEventSelection, clearSelection } =
-    useEventSelection()
+  const {
+    selectedEventIds,
+    selectedEvents,
+    selectedCount,
+    toggleEventSelection,
+    selectEvents,
+    selectAllEvents,
+    clearSelection,
+  } = useEventSelection()
+
+  const handleSelectionChange = (ids: number[], isFull: boolean) => {
+    if (isFull) {
+      selectAllEvents()
+    } else {
+      selectEvents(ids)
+    }
+  }
 
   // 本地状态
   const [selectedEvent, setSelectedEvent] = useState<GitLabEvent | null>(null)
@@ -148,18 +165,22 @@ const App: React.FC<AppProps> = ({ isUserscript: _isUserscript = false }) => {
             events={events}
             totalCount={useAppStore.getState().totalCount}
             loading={isLoading}
+            error={error as ErrorCode}
             filterConditions={useAppStore.getState().filterConditions}
             sortOptions={useAppStore.getState().sortOptions}
             paginationOptions={useAppStore.getState().paginationOptions}
-            selectedEventIds={selectedEvents.map(e => e.id)}
+            selectedEventIds={selectedEventIds}
             onFilterChange={handleFilterChange}
             onSortChange={handleSortChange}
             onPaginationChange={handlePaginationChange}
             onEventSelect={toggleEventSelection}
-            onSelectionChange={() => {}}
+            onSelectionChange={handleSelectionChange}
             onEventDetail={handleEventDetail}
             onOpenSettings={() => setActivePanel('settings')}
             onOpenAI={() => setActivePanel('ai')}
+            isAllEventsSelected={
+              events.length > 0 && selectedEventIds.length === events.length
+            }
           />
         )}
 
@@ -201,7 +222,8 @@ const App: React.FC<AppProps> = ({ isUserscript: _isUserscript = false }) => {
               }
             }}
             isLoading={isLoading}
-            selectedEventsCount={selectedEvents.length}
+            selectedEventsCount={selectedCount}
+            onBack={() => setActivePanel('main')}
           />
         )}
 

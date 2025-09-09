@@ -6,7 +6,12 @@ import type {
   SortOptions,
   PaginationOptions,
 } from '@/types'
-import { APP_VERSION, AI_TASK_CONFIGS } from '@/constants'
+import {
+  APP_VERSION,
+  AI_TASK_CONFIGS,
+  DEFAULT_FILTER_CONDITIONS,
+} from '@/constants'
+import { UI_TEXT, ErrorCode } from '@/constants/ui'
 import FilterSection from './components/FilterSection'
 import EventsList from './components/EventsList'
 import VersionUpdateNotification from '@/components/VersionUpdateNotification'
@@ -16,6 +21,7 @@ interface MainPanelProps {
   events: GitLabEvent[]
   totalCount: number
   loading: boolean
+  error: ErrorCode | null
   filterConditions: FilterConditions
   sortOptions: SortOptions
   paginationOptions: PaginationOptions
@@ -35,6 +41,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
   events,
   totalCount,
   loading,
+  error,
   filterConditions,
   sortOptions,
   paginationOptions,
@@ -118,7 +125,12 @@ const MainPanel: React.FC<MainPanelProps> = ({
             <button
               className={`${styles.actionBtn} ${styles.aiBtn}`}
               onClick={onOpenAI}
-              title={AI_TASK_CONFIGS['weekly-report'].title}
+              title={
+                selectedEventIds.length === 0
+                  ? UI_TEXT.TOOLTIP.selectEvents
+                  : AI_TASK_CONFIGS['weekly-report'].title
+              }
+              disabled={selectedEventIds.length === 0}
             >
               <span className={styles.btnIcon}>
                 <svg viewBox="0 0 24 24" fill="none">
@@ -158,6 +170,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
           events={events}
           totalCount={totalCount}
           loading={loading}
+          error={error}
           sortOptions={sortOptions}
           onSortChange={onSortChange}
           paginationOptions={paginationOptions}
@@ -167,6 +180,8 @@ const MainPanel: React.FC<MainPanelProps> = ({
           isFullSelection={isAllEventsSelected}
           onEventSelect={onEventSelect}
           onEventDetail={onEventDetail}
+          onClearFilters={() => onFilterChange(DEFAULT_FILTER_CONDITIONS)}
+          onGoSetup={onOpenSettings}
         />
       </div>
     </div>

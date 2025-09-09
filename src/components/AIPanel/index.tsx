@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import type { AIGenerationConfig, AITaskType } from '@/types'
 import { AI_TASK_CONFIGS } from '@/constants'
+import { UI_TEXT } from '@/constants/ui'
 import Modal from '../Modal'
 import styles from './index.module.less'
 
@@ -12,6 +13,7 @@ interface AIPanelProps {
   onGenerate: (prompt: string) => void
   isLoading: boolean
   selectedEventsCount?: number
+  onBack: () => void
 }
 
 const AIPanel: React.FC<AIPanelProps> = ({
@@ -22,14 +24,27 @@ const AIPanel: React.FC<AIPanelProps> = ({
   onGenerate,
   isLoading,
   selectedEventsCount = 0,
+  onBack,
 }) => {
   const taskConfig = AI_TASK_CONFIGS[taskType]
   const [prompt, setPrompt] = useState(taskConfig.defaultPrompt)
   const [isCopied, setIsCopied] = useState(false)
+  const [phase, setPhase] = useState(0)
 
   useEffect(() => {
     setPrompt(taskConfig.defaultPrompt)
   }, [taskConfig.defaultPrompt])
+
+  useEffect(() => {
+    if (isLoading) {
+      setPhase(0)
+      const t = setTimeout(() => setPhase(1), 500)
+      return () => clearTimeout(t)
+    }
+    if (config?.result) {
+      setPhase(2)
+    }
+  }, [isLoading, config?.result])
 
   const handleGenerate = () => {
     if (!prompt.trim()) return
@@ -43,10 +58,32 @@ const AIPanel: React.FC<AIPanelProps> = ({
     setTimeout(() => setIsCopied(false), 1500)
   }
 
+  if (selectedEventsCount === 0) {
+    return (
+      <Modal visible={visible} title={taskConfig.title} onClose={onClose}>
+        <div className={styles.panel}>
+          <div className={styles.empty}>
+            <p className={styles.emptyText}>需要先返回勾选事件</p>
+            <button className={styles.backBtn} onClick={onBack}>
+              {UI_TEXT.CTA.backToSelect}
+            </button>
+          </div>
+        </div>
+      </Modal>
+    )
+  }
+
   return (
     <Modal visible={visible} title={taskConfig.title} onClose={onClose}>
       <div className={styles.panel}>
-        <div className={styles.overview}>已选择事件：{selectedEventsCount}</div>
+        <div className={styles.overview}>
+          已选择事件：{selectedEventsCount}{' '}
+          <button className={styles.backLink} onClick={onBack}>
+            {UI_TEXT.CTA.backToSelect}
+          </button>
+        </div>
+
+        <div className={styles.phase}>{UI_TEXT.PHASES[phase]}</div>
 
         <div className={styles.prompt}>
           <textarea
@@ -62,18 +99,22 @@ const AIPanel: React.FC<AIPanelProps> = ({
             <button
               className={styles.generateBtn}
               onClick={handleGenerate}
-              disabled={
-                isLoading || !prompt.trim() || selectedEventsCount === 0
-              }
+              disabled={isLoading || !prompt.trim()}
+              title={!prompt.trim() ? UI_TEXT.TOOLTIP.selectEvents : undefined}
             >
               {isLoading
-                ? '生成中...'
+                ? UI_TEXT.CTA.generating
                 : config?.result
                   ? taskConfig.regenerateButtonText
-                  : taskConfig.generateButtonText}
+                  : UI_TEXT.CTA.generate}
             </button>
           </div>
         </div>
+
+        <details className={styles.help}>
+          <summary>写作约束</summary>
+          <p>{taskConfig.defaultPrompt}</p>
+        </details>
 
         {config?.result ? (
           <div className={styles.result}>
@@ -83,7 +124,10 @@ const AIPanel: React.FC<AIPanelProps> = ({
                 onClick={handleCopy}
                 disabled={isCopied}
               >
-                {isCopied ? '已复制' : '复制'}
+                {isCopied ? UI_TEXT.CTA.copied : UI_TEXT.CTA.copy}
+              </button>
+              <button className={styles.backBtn} onClick={onBack}>
+                {UI_TEXT.CTA.backToSelect}
               </button>
             </div>
             <pre className={styles.resultText}>{config.result}</pre>

@@ -2,8 +2,8 @@ import { useCallback } from 'react'
 import { useAppStore } from '@/stores/app-store'
 import { useAbortableRequest } from '@/hooks/useAbortableRequest'
 import { createGitLabApiService } from '@/services/gitlab-api'
-import { configErrors } from '@/utils'
 import type { FilterConditions, SortOptions, PaginationOptions } from '@/types'
+import type { ErrorCode } from '@/constants/ui'
 
 /**
  * 事件管理 Hook
@@ -30,7 +30,9 @@ export const useEventManagement = () => {
    */
   const loadEvents = useCallback(async () => {
     if (!validateConfig()) {
-      setError(configErrors.INVALID_FILTER_OR_CONFIG)
+      setEvents([])
+      setTotalCount(0)
+      setError('CONFIG_MISSING')
       return
     }
 
@@ -79,13 +81,16 @@ export const useEventManagement = () => {
 
       setEvents(events)
       setTotalCount(total)
+      setError(events.length === 0 ? ('NO_MATCHES' as ErrorCode) : null)
     } catch (error) {
       if (isRequestCancelled(abortController)) {
         return
       }
 
       console.error('Failed to load events:', error)
-      setError(error instanceof Error ? error.message : '加载事件数据失败')
+      setEvents([])
+      setTotalCount(0)
+      setError('CONFIG_MISSING')
     } finally {
       setLoading(false)
     }
