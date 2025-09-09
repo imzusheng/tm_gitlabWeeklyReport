@@ -9,8 +9,8 @@ const r = () =>
 async function o(e, t = {}) {
   const {
     method: o = 'GET',
-    headers: n = {},
-    body: s,
+    headers: s = {},
+    body: n,
     timeout: i = 3e4,
     signal: l,
   } = t
@@ -26,8 +26,8 @@ async function o(e, t = {}) {
         GM_xmlhttpRequest({
           method: o.toUpperCase(),
           url: e,
-          headers: { 'Content-Type': 'application/json', ...n },
-          data: s,
+          headers: { 'Content-Type': 'application/json', ...s },
+          data: n,
           timeout: i,
           onload: e => {
             clearTimeout(u),
@@ -55,8 +55,8 @@ async function o(e, t = {}) {
   {
     const t = {
       method: o,
-      headers: { 'Content-Type': 'application/json', ...n },
-      body: s,
+      headers: { 'Content-Type': 'application/json', ...s },
+      body: n,
       signal: l,
     }
     i > 0 && !l && (t.signal = AbortSignal.timeout(i))
@@ -86,7 +86,7 @@ const a = e => {
         t)
       : t
   },
-  n = {
+  s = {
     setItem: (e, t) => {
       try {
         r() && 'undefined' != typeof GM_setValue
@@ -121,7 +121,7 @@ const a = e => {
       }
     },
   },
-  s = '1.10.3',
+  n = '1.10.4',
   i = {
     DEEPSEEK_BASE_URL: 'https://api.deepseek.com/v1',
     REQUEST_TIMEOUT: 3e4,
@@ -147,7 +147,8 @@ const a = e => {
   m = { field: 'created_at', order: 'desc' },
   d = { page: 1, pageSize: 50, total: 0 },
   p = 'gitlab_weekly_report_config',
-  g = {
+  g = { SCOPE_CLASS: 'gitlab-weekly-report-scope' },
+  f = {
     'weekly-report': {
       type: 'weekly-report',
       title: 'AI 周报生成',
@@ -161,21 +162,6 @@ const a = e => {
       emptyDescription:
         '点击"生成周报"按钮，AI 将基于您的 GitLab 事件数据生成专业的工作周报',
       generateButtonText: '生成周报',
-      regenerateButtonText: '重新生成',
-    },
-    changelog: {
-      type: 'changelog',
-      title: 'AI 变更日志生成',
-      buttonText: 'AI 变更日志',
-      defaultPrompt:
-        '你是一名技术文档编写专家，现在需要根据GitLab事件数据生成变更日志(CHANGELOG)。请使用简洁、专业的语言描述代码变更内容，突出重要功能和修复。请使用中文回答，使用简洁的文本格式，使用简单的markdown语法。分为修复和新增两个部分',
-      description: '基于项目事件数据生成规范的变更日志文档',
-      placeholder: '请输入用于生成变更日志的提示词...',
-      loadingText: 'AI 正在分析项目数据，生成变更日志中...',
-      emptyTitle: '准备生成 AI 变更日志',
-      emptyDescription:
-        '点击"生成变更日志"按钮，AI 将基于项目事件数据生成规范的变更日志',
-      generateButtonText: '生成变更日志',
       regenerateButtonText: '重新生成',
     },
     custom: {
@@ -192,7 +178,7 @@ const a = e => {
       regenerateButtonText: '重新生成',
     },
   }
-class f extends Error {
+class E extends Error {
   constructor(e, r, o) {
     super(`[${o}] ${r}`),
       t(this, 'status'),
@@ -202,7 +188,7 @@ class f extends Error {
       (this.service = o)
   }
 }
-class E extends Error {
+class h extends Error {
   constructor(e, r) {
     super(`[${r}] ${e}`),
       t(this, 'service'),
@@ -210,12 +196,12 @@ class E extends Error {
       (this.service = r)
   }
 }
-class h {
+class w {
   static createApiError(e, t, r) {
-    return new f(e, t, r)
+    return new E(e, t, r)
   }
   static createResponseError(e, t) {
-    return new E(e, t)
+    return new h(e, t)
   }
   static createNetworkError(e) {
     const t = new Error(`网络错误: ${e}`)
@@ -282,7 +268,7 @@ class h {
 }
 const y = e => {
     try {
-      return e(n)
+      return e(s)
     } catch (t) {
       if ('undefined' != typeof localStorage)
         try {
@@ -290,7 +276,7 @@ const y = e => {
         } catch (r) {}
     }
   },
-  w = {
+  b = {
     saveConfig: e => {
       y(t => t.setItem(p, JSON.stringify(e)))
     },
@@ -302,18 +288,19 @@ const y = e => {
       y(e => e.removeItem(p))
     },
   },
-  b = { INVALID_FILTER_OR_CONFIG: '请检查筛选条件或GitLab配置' }
+  k = { INVALID_FILTER_OR_CONFIG: '请检查筛选条件或GitLab配置' }
 export {
   i as A,
   c as C,
   d as D,
-  h as E,
+  w as E,
+  g as U,
   m as a,
   u as b,
   l as c,
-  b as d,
-  s as e,
-  g as f,
+  k as d,
+  n as e,
+  f,
   o as r,
-  w as s,
+  b as s,
 }
