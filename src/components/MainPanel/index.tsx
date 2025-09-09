@@ -1,21 +1,18 @@
 import React from 'react'
-import { useAppState } from '@/hooks/useAppState'
+import { useAppStore } from '@/stores/app-store'
 import type {
   GitLabEvent,
   FilterConditions,
   SortOptions,
   PaginationOptions,
-  AppMode,
 } from '@/types'
 import { APP_VERSION, AI_TASK_CONFIGS } from '@/constants'
 import FilterSection from './components/FilterSection'
 import EventsList from './components/EventsList'
-import ChangelogPanel from './components/ChangelogPanel'
 import VersionUpdateNotification from '@/components/VersionUpdateNotification'
 import styles from './index.module.less'
 
 interface MainPanelProps {
-  appMode: AppMode
   events: GitLabEvent[]
   totalCount: number
   loading: boolean
@@ -23,27 +20,18 @@ interface MainPanelProps {
   sortOptions: SortOptions
   paginationOptions: PaginationOptions
   selectedEventIds: number[]
-  onModeChange: (mode: AppMode) => void
   onFilterChange: (filters: FilterConditions) => void
   onSortChange: (sort: SortOptions) => void
   onPaginationChange: (pagination: PaginationOptions) => void
   onEventSelect: (eventId: number) => void
-  onSelectAll: (selected: boolean) => void
   onSelectionChange: (selectedIds: number[], isFullSelection: boolean) => void
   onEventDetail: (event: GitLabEvent) => void
   onOpenSettings: () => void
   onOpenAI: () => void
   isAllEventsSelected?: boolean
-  onChangelogStateChange?: (state: {
-    selectedEventIds: number[]
-    isAllEventsSelected: boolean
-    totalCount: number
-    events: GitLabEvent[]
-  }) => void
 }
 
 const MainPanel: React.FC<MainPanelProps> = ({
-  appMode,
   events,
   totalCount,
   loading,
@@ -51,20 +39,17 @@ const MainPanel: React.FC<MainPanelProps> = ({
   sortOptions,
   paginationOptions,
   selectedEventIds,
-  onModeChange,
   onFilterChange,
   onSortChange,
   onPaginationChange,
   onEventSelect,
-  // onSelectAll, // 暂时不使用
   onSelectionChange,
   onEventDetail,
   onOpenSettings,
   onOpenAI,
   isAllEventsSelected = false,
-  onChangelogStateChange,
 }) => {
-  const { state } = useAppState()
+  const { config } = useAppStore()
 
   // 计算配置状态
   const configStatus = React.useMemo(() => {
@@ -75,46 +60,17 @@ const MainPanel: React.FC<MainPanelProps> = ({
       'defaultPrompt',
     ] as const
     const completedCount = requiredFields.filter(field => {
-      const value = state.config[field]
+      const value = config[field]
       return typeof value === 'string' ? value.trim() !== '' : !!value
     }).length
     const isValid = completedCount === requiredFields.length
     return { isValid, completedCount, totalCount: requiredFields.length }
-  }, [state.config])
+  }, [config])
 
   return (
     <div className={styles.mainPanel}>
       {/* 标题栏 */}
       <div className={styles.panelHeader}>
-        <div className={styles.headerLeft}>
-          <div className={styles.modeToggle}>
-            <div className={styles.toggleTrack}>
-              <div
-                className={`${styles.toggleSlider} ${
-                  appMode === 'changelog' ? styles.slideRight : ''
-                }`}
-              />
-              <button
-                className={`${styles.toggleOption} ${
-                  appMode === 'events' ? styles.active : ''
-                }`}
-                onClick={() => onModeChange('events')}
-              >
-                <span className={styles.toggleIcon}>📋</span>
-                <span className={styles.toggleLabel}>Events</span>
-              </button>
-              <button
-                className={`${styles.toggleOption} ${
-                  appMode === 'changelog' ? styles.active : ''
-                }`}
-                onClick={() => onModeChange('changelog')}
-              >
-                <span className={styles.toggleIcon}>📝</span>
-                <span className={styles.toggleLabel}>Changelog</span>
-              </button>
-            </div>
-          </div>
-        </div>
         <div className={styles.headerRight}>
           <VersionUpdateNotification currentVersion={APP_VERSION} />
 
@@ -162,11 +118,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
             <button
               className={`${styles.actionBtn} ${styles.aiBtn}`}
               onClick={onOpenAI}
-              title={
-                appMode === 'changelog'
-                  ? AI_TASK_CONFIGS.changelog.title
-                  : AI_TASK_CONFIGS['weekly-report'].title
-              }
+              title={AI_TASK_CONFIGS['weekly-report'].title}
             >
               <span className={styles.btnIcon}>
                 <svg viewBox="0 0 24 24" fill="none">
@@ -185,50 +137,38 @@ const MainPanel: React.FC<MainPanelProps> = ({
                 </svg>
               </span>
               <span className={styles.btnLabel}>
-                {appMode === 'changelog'
-                  ? AI_TASK_CONFIGS.changelog.buttonText
-                  : AI_TASK_CONFIGS['weekly-report'].buttonText}
+                {AI_TASK_CONFIGS['weekly-report'].buttonText}
               </span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* 根据模式显示不同内容 */}
-      {appMode === 'events' ? (
-        <>
-          {/* 筛选条件部分 */}
-          <div className={styles.filterSection}>
-            <FilterSection
-              filterConditions={filterConditions}
-              onFilterChange={onFilterChange}
-            />
-          </div>
+      {/* 筛选条件部分 */}
+      <div className={styles.filterSection}>
+        <FilterSection
+          filterConditions={filterConditions}
+          onFilterChange={onFilterChange}
+        />
+      </div>
 
-          {/* 事件列表部分 */}
-          <div className={styles.eventsSection}>
-            <EventsList
-              events={events}
-              totalCount={totalCount}
-              loading={loading}
-              sortOptions={sortOptions}
-              onSortChange={onSortChange}
-              paginationOptions={paginationOptions}
-              onPaginationChange={onPaginationChange}
-              selectedEventIds={selectedEventIds}
-              onSelectionChange={onSelectionChange}
-              isFullSelection={isAllEventsSelected}
-              onEventSelect={onEventSelect}
-              onEventDetail={onEventDetail}
-              mode={appMode}
-            />
-          </div>
-        </>
-      ) : (
-        <div className={styles.changelogSection}>
-          <ChangelogPanel onStateChange={onChangelogStateChange} />
-        </div>
-      )}
+      {/* 事件列表部分 */}
+      <div className={styles.eventsSection}>
+        <EventsList
+          events={events}
+          totalCount={totalCount}
+          loading={loading}
+          sortOptions={sortOptions}
+          onSortChange={onSortChange}
+          paginationOptions={paginationOptions}
+          onPaginationChange={onPaginationChange}
+          selectedEventIds={selectedEventIds}
+          onSelectionChange={onSelectionChange}
+          isFullSelection={isAllEventsSelected}
+          onEventSelect={onEventSelect}
+          onEventDetail={onEventDetail}
+        />
+      </div>
     </div>
   )
 }

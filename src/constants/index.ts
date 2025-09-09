@@ -108,21 +108,6 @@ export const AI_TASK_CONFIGS: Record<AITaskType, AITaskConfig> = {
     generateButtonText: '生成周报',
     regenerateButtonText: '重新生成',
   },
-  changelog: {
-    type: 'changelog',
-    title: 'AI 变更日志生成',
-    buttonText: 'AI 变更日志',
-    defaultPrompt:
-      '你是一名技术文档编写专家，现在需要根据GitLab事件数据生成变更日志(CHANGELOG)。请使用简洁、专业的语言描述代码变更内容，突出重要功能和修复。请使用中文回答，使用简洁的文本格式，使用简单的markdown语法。分为修复和新增两个部分',
-    description: '基于项目事件数据生成规范的变更日志文档',
-    placeholder: '请输入用于生成变更日志的提示词...',
-    loadingText: 'AI 正在分析项目数据，生成变更日志中...',
-    emptyTitle: '准备生成 AI 变更日志',
-    emptyDescription:
-      '点击"生成变更日志"按钮，AI 将基于项目事件数据生成规范的变更日志',
-    generateButtonText: '生成变更日志',
-    regenerateButtonText: '重新生成',
-  },
   custom: {
     type: 'custom',
     title: 'AI 内容生成',

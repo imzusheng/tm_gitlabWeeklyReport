@@ -15,10 +15,7 @@ import type {
   AIGenerationConfig,
   WeeklyReportData,
   PanelType,
-  AppMode,
   Theme,
-  GitLabProject,
-  GitLabCommit,
   GitLabEvent,
 } from '@/types'
 /**
@@ -31,16 +28,12 @@ interface AppState {
   error: string | null
   theme: Theme
   activePanel: PanelType
-  appMode: AppMode
   filterConditions: FilterConditions
   sortOptions: SortOptions
   paginationOptions: PaginationOptions
   events: GitLabEvent[]
   totalCount: number
   aiGenerationConfig: AIGenerationConfig | null
-  projects: GitLabProject[]
-  selectedProjectId: number | null
-  commits: GitLabCommit[]
 }
 
 /**
@@ -53,15 +46,11 @@ interface AppStore extends AppState {
 
   // UI 状态操作
   setActivePanel: (panel: PanelType) => void
-  setAppMode: (mode: AppMode) => void
   setTheme: (theme: Theme) => void
   setLoading: (loading: boolean) => void
   setError: (error: string | null) => void
 
   // 数据操作
-  setProjects: (projects: GitLabProject[]) => void
-  setSelectedProjectId: (id: number | null) => void
-  setCommits: (commits: GitLabCommit[]) => void
   setEvents: (events: GitLabEvent[]) => void
   setTotalCount: (count: number) => void
 
@@ -90,16 +79,12 @@ const initialState: AppState = {
   error: null,
   theme: 'system',
   activePanel: 'main',
-  appMode: 'events',
   filterConditions: DEFAULT_FILTER_CONDITIONS,
   sortOptions: DEFAULT_SORT_OPTIONS,
   paginationOptions: DEFAULT_PAGINATION_OPTIONS,
   events: [],
   totalCount: 0,
   aiGenerationConfig: null,
-  projects: [],
-  selectedProjectId: null,
-  commits: [],
 }
 
 /**
@@ -180,16 +165,11 @@ export const useAppStore = create<AppStore>()(
 
       // UI 状态操作
       setActivePanel: (panel: PanelType) => set({ activePanel: panel }),
-      setAppMode: (mode: AppMode) => set({ appMode: mode }),
       setTheme: (theme: Theme) => set({ theme }),
       setLoading: (loading: boolean) => set({ isLoading: loading }),
       setError: (error: string | null) => set({ error }),
 
       // 数据操作
-      setProjects: (projects: GitLabProject[]) => set({ projects }),
-      setSelectedProjectId: (id: number | null) =>
-        set({ selectedProjectId: id }),
-      setCommits: (commits: GitLabCommit[]) => set({ commits }),
       setEvents: (events: GitLabEvent[]) => set({ events }),
       setTotalCount: (count: number) => set({ totalCount: count }),
 
@@ -239,7 +219,6 @@ export const useAppStore = create<AppStore>()(
       partialize: (state: AppStore) => ({
         config: state.config,
         theme: state.theme,
-        appMode: state.appMode,
         filterConditions: state.filterConditions,
         sortOptions: state.sortOptions,
       }),
@@ -253,11 +232,9 @@ export const useAppStore = create<AppStore>()(
 export const useConfig = () => useAppStore(state => state.config)
 export const useTheme = () => useAppStore(state => state.theme)
 export const useActivePanel = () => useAppStore(state => state.activePanel)
-export const useAppMode = () => useAppStore(state => state.appMode)
 export const useLoading = () => useAppStore(state => state.isLoading)
 export const useError = () => useAppStore(state => state.error)
 export const useEvents = () => useAppStore(state => state.events)
-export const useProjects = () => useAppStore(state => state.projects)
 export const useFilterConditions = () =>
   useAppStore(state => state.filterConditions)
 export const usePaginationOptions = () =>
@@ -272,12 +249,10 @@ export const useAppActions = () => {
   return {
     updateConfig: store.updateConfig,
     setActivePanel: store.setActivePanel,
-    setAppMode: store.setAppMode,
     setTheme: store.setTheme,
     setLoading: store.setLoading,
     setError: store.setError,
     setEvents: store.setEvents,
-    setProjects: store.setProjects,
     setFilterConditions: store.setFilterConditions,
     setPaginationOptions: store.setPaginationOptions,
     setReportData: store.setReportData,
