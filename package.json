@@ -23,7 +23,7 @@
     "prepare": "husky install",
     "format": "prettier --write .",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "stylelint": "stylelint 'src/**/*.less'",
+    "stylelint": "stylelint \"src/**/*.less\"",
     "type-check": "tsc --noEmit",
     "check": "npm run lint && npm run stylelint && npm run type-check"
   },
