@@ -1,10 +1,16 @@
 /* Minimal base styles for scoped area */
 .gitlab-weekly-report-scope {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: var(--gwrs-text-primary);
   background: var(--gwrs-bg-primary);
 
   * {
     box-sizing: border-box;
+  }
+
+  /* provide basic spacing between buttons */
+  button + button {
+    margin-left: 8px;
   }
 }

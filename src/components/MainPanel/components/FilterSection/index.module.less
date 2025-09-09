@@ -1,11 +1,9 @@
 .filter-section-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
   .filter-group {
-    margin-bottom: 16px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-
     .filter-label {
       display: block;
       font-size: 14px;
@@ -46,7 +44,7 @@
             var(--gwrs-color-primary) 0%,
             var(--gwrs-color-info) 100%
           );
-          color: white;
+          color: var(--gwrs-btn-primary-text);
           box-shadow: 0 4px 12px rgb(0 122 255 / 30%);
         }
       }
