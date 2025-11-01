@@ -101,13 +101,11 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
         // const timestamp = Date.now()
         const timestamp = Math.floor(Date.now() / 3600000)
 
-        // 在开发环境中且不是油猴脚本环境时，使用代理URL
+        // 在开发环境中使用代理URL
         const isDev = process.env.NODE_ENV === 'development'
-        const isUserscript = typeof GM_xmlhttpRequest !== 'undefined'
-        const baseUrl =
-          isDev && !isUserscript
-            ? '/api/github/imzusheng/tm_gitlabWeeklyReport/v2/package.json'
-            : 'https://raw.githubusercontent.com/imzusheng/tm_gitlabWeeklyReport/v2/package.json'
+        const baseUrl = isDev
+          ? '/api/github/imzusheng/tm_gitlabWeeklyReport/v2/package.json'
+          : 'https://raw.githubusercontent.com/imzusheng/tm_gitlabWeeklyReport/v2/package.json'
 
         const response = await request(`${baseUrl}?t=${timestamp}`, {
           method: 'GET',
@@ -129,8 +127,7 @@ const VersionUpdateNotification: React.FC<VersionUpdateNotificationProps> = ({
 
         const versionInfo: VersionInfo = {
           version: packageData.version,
-          downloadUrl:
-            'https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/userscript/gitlab-weekly-report.user.js',
+          downloadUrl: 'https://github.com/imzusheng/tm_gitlabWeeklyReport',
           releaseNotes: `版本 ${packageData.version} 已发布，请及时更新以获得最新功能和修复。`,
         }
 

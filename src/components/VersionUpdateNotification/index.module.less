@@ -6,8 +6,8 @@
   align-items: center;
   gap: 6px;
   padding: 8px 12px;
-  background: var(--gwrs-color-primary-lighter);
-  color: var(--gwrs-color-primary);
+  background: var(--glwr-color-primary-lighter);
+  color: var(--glwr-color-primary);
   border: none;
   border-radius: 8px;
   font-size: 13px;
@@ -18,7 +18,7 @@
   outline: none;
 
   &:hover {
-    background: var(--gwrs-color-primary-light);
+    background: var(--glwr-color-primary-light);
   }
 
   &:disabled {
@@ -28,19 +28,19 @@
   }
 
   &.version-btn {
-    background: var(--gwrs-color-warning-light);
-    color: var(--gwrs-color-warning);
+    background: var(--glwr-color-warning-light);
+    color: var(--glwr-color-warning);
 
     &:hover {
-      background: var(--gwrs-color-warning-light);
+      background: var(--glwr-color-warning-light);
     }
 
     &.has-update {
-      background: var(--gwrs-color-error-light);
-      color: var(--gwrs-color-error);
+      background: var(--glwr-color-error-light);
+      color: var(--glwr-color-error);
 
       &:hover {
-        background: var(--gwrs-color-error-light);
+        background: var(--glwr-color-error-light);
       }
     }
   }
@@ -57,7 +57,7 @@
 
 .error {
   font-size: 12px;
-  color: var(--gwrs-color-danger);
+  color: var(--glwr-color-danger);
   cursor: help;
 }
 
@@ -65,7 +65,7 @@
 .notification-overlay {
   position: fixed;
   inset: 0;
-  background: var(--gwrs-overlay);
+  background: var(--glwr-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,15 +74,15 @@
 }
 
 .notification {
-  background: var(--gwrs-bg-primary);
+  background: var(--glwr-bg-primary);
   border-radius: 12px;
-  box-shadow: var(--gwrs-shadow-xl);
+  box-shadow: var(--glwr-shadow-xl);
   max-width: 480px;
   width: 90vw;
   max-height: 80vh;
   overflow: hidden;
   animation: slide-in 0.3s ease-out;
-  border: 1px solid var(--gwrs-border-primary);
+  border: 1px solid var(--glwr-border-primary);
   position: relative;
 }
 
@@ -91,13 +91,13 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px 16px;
-  border-bottom: 1px solid var(--gwrs-border-primary);
+  border-bottom: 1px solid var(--glwr-border-primary);
 
   h3 {
     margin: 0;
     font-size: 18px;
     font-weight: 600;
-    color: var(--gwrs-text-primary);
+    color: var(--glwr-text-primary);
   }
 }
 
@@ -105,15 +105,15 @@
   background: none;
   border: none;
   font-size: 24px;
-  color: var(--gwrs-text-secondary);
+  color: var(--glwr-text-secondary);
   cursor: pointer;
   padding: 4px;
   border-radius: 4px;
   transition: all 0.2s ease;
 
   &:hover {
-    background: var(--gwrs-btn-hover-bg);
-    color: var(--gwrs-text-primary);
+    background: var(--glwr-btn-hover-bg);
+    color: var(--glwr-text-primary);
   }
 }
 
@@ -127,7 +127,7 @@
   p {
     margin: 8px 0;
     font-size: 14px;
-    color: var(--gwrs-text-primary);
+    color: var(--glwr-text-primary);
 
     strong {
       font-weight: 600;
@@ -140,18 +140,18 @@
     margin: 0 0 12px;
     font-size: 14px;
     font-weight: 600;
-    color: var(--gwrs-text-primary);
+    color: var(--glwr-text-primary);
   }
 }
 
 .notes-content {
-  background: var(--gwrs-bg-secondary);
-  border: 1px solid var(--gwrs-border-primary);
+  background: var(--glwr-bg-secondary);
+  border: 1px solid var(--glwr-border-primary);
   border-radius: 6px;
   padding: 12px;
   font-size: 13px;
   line-height: 1.5;
-  color: var(--gwrs-text-secondary);
+  color: var(--glwr-text-secondary);
   max-height: 200px;
   overflow-y: auto;
   white-space: pre-wrap;
@@ -161,7 +161,7 @@
   display: flex;
   gap: 12px;
   padding: 16px 24px 20px;
-  border-top: 1px solid var(--gwrs-border-primary);
+  border-top: 1px solid var(--glwr-border-primary);
   justify-content: flex-end;
 }
 
@@ -177,28 +177,28 @@
 }
 
 .later-btn {
-  background: var(--gwrs-bg-primary);
-  border-color: var(--gwrs-border-primary);
-  color: var(--gwrs-text-primary);
+  background: var(--glwr-bg-primary);
+  border-color: var(--glwr-border-primary);
+  color: var(--glwr-text-primary);
 
   &:hover {
-    background: var(--gwrs-btn-hover-bg);
-    border-color: var(--gwrs-border-secondary);
+    background: var(--glwr-btn-hover-bg);
+    border-color: var(--glwr-border-secondary);
   }
 }
 
 .update-btn {
   background: linear-gradient(
     135deg,
-    var(--gwrs-color-primary),
-    var(--gwrs-color-primary-dark)
+    var(--glwr-color-primary),
+    var(--glwr-color-primary-dark)
   );
-  border-color: var(--gwrs-color-primary);
-  color: var(--gwrs-btn-primary-text);
+  border-color: var(--glwr-color-primary);
+  color: var(--glwr-btn-primary-text);
 
   &:hover {
-    background: var(--gwrs-color-primary-hover);
-    border-color: var(--gwrs-color-primary-hover);
+    background: var(--glwr-color-primary-hover);
+    border-color: var(--glwr-color-primary-hover);
   }
 }
 

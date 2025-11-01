@@ -24,9 +24,8 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
   const [localTheme, setLocalTheme] = useState<'light' | 'dark' | 'system'>(
     theme,
   )
-  const [activeTab, setActiveTab] = useState<
-    'gitlab' | 'deepseek' | 'appearance'
-  >('gitlab')
+  const [activeTab, setActiveTab] = useState<'env' | 'appearance'>('env')
+  const [error, setError] = useState<string | null>(null)
 
   // 当配置更新时，同步表单数据
   useEffect(() => {
@@ -56,7 +55,35 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
     }))
   }
 
+  const isEnvConfigValid = () => {
+    return !!(
+      formData.gitlabUrl.trim() &&
+      formData.gitlabToken.trim() &&
+      formData.deepseekApiKey.trim() &&
+      formData.defaultPrompt.trim()
+    )
+  }
+
   const handleSave = () => {
+    setError(null)
+
+    if (activeTab === 'env') {
+      if (!isEnvConfigValid()) {
+        setError('请填写所有必填的环境配置项')
+        return
+      }
+
+      // 验证 tokenLimit 范围
+      if (
+        formData.tokenLimit < 1000 ||
+        formData.tokenLimit > 10000 ||
+        !Number.isInteger(formData.tokenLimit)
+      ) {
+        setError('Token 数量限制必须在 1000-10000 之间且为整数')
+        return
+      }
+    }
+
     onSave(formData, localTheme)
     onClose()
   }
@@ -64,15 +91,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
   const handleReset = () => {
     setFormData(config)
     setLocalTheme(theme)
-  }
-
-  const isFormValid = () => {
-    return !!(
-      formData.gitlabUrl.trim() &&
-      formData.gitlabToken.trim() &&
-      formData.deepseekApiKey.trim() &&
-      formData.defaultPrompt.trim()
-    )
+    setError(null)
   }
 
   return (
@@ -90,11 +109,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
             <button className={styles.btnSecondary} onClick={onClose}>
               取消
             </button>
-            <button
-              className={styles.btnPrimary}
-              onClick={handleSave}
-              disabled={!isFormValid()}
-            >
+            <button className={styles.btnPrimary} onClick={handleSave}>
               保存
             </button>
           </div>
@@ -108,31 +123,22 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
         {/* 标签页导航 */}
         <div className={styles.settingsTabs}>
           <button
-            className={`${styles.tabButton} ${activeTab === 'gitlab' ? styles.active : ''}`}
-            onClick={() => setActiveTab('gitlab')}
+            className={`${styles.tabButton} ${activeTab === 'env' ? styles.active : ''}`}
+            onClick={() => setActiveTab('env')}
           >
-            <span className={styles.tabIcon}>🦊</span>
-            GitLab 配置
-          </button>
-          <button
-            className={`${styles.tabButton} ${activeTab === 'deepseek' ? styles.active : ''}`}
-            onClick={() => setActiveTab('deepseek')}
-          >
-            <span className={styles.tabIcon}>🤖</span>
-            DeepSeek 配置
+            环境配置
           </button>
           <button
             className={`${styles.tabButton} ${activeTab === 'appearance' ? styles.active : ''}`}
             onClick={() => setActiveTab('appearance')}
           >
-            <span className={styles.tabIcon}>🎨</span>
             外观设置
           </button>
         </div>
 
         {/* 标签页内容 */}
         <div className={styles.settingsContent}>
-          {activeTab === 'gitlab' && (
+          {activeTab === 'env' && (
             <div className={styles.tabPanel}>
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>
@@ -167,11 +173,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   在 GitLab 个人设置 → 访问令牌 中创建，需要 read_api 权限
                 </div>
               </div>
-            </div>
-          )}
 
-          {activeTab === 'deepseek' && (
-            <div className={styles.tabPanel}>
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>
                   DeepSeek API Key <span className={styles.required}>*</span>
@@ -237,6 +239,8 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   用于生成周报的默认提示词模板
                 </div>
               </div>
+
+              {error && <div className={styles.errorMessage}>{error}</div>}
             </div>
           )}
 
@@ -251,9 +255,9 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     setLocalTheme(e.target.value as 'light' | 'dark' | 'system')
                   }
                 >
-                  <option value="system">🔄 跟随系统</option>
-                  <option value="light">☀️ 浅色模式</option>
-                  <option value="dark">🌙 深色模式</option>
+                  <option value="system">跟随系统</option>
+                  <option value="light">浅色模式</option>
+                  <option value="dark">深色模式</option>
                 </select>
                 <div className={styles.formHint}>
                   选择应用的主题模式，跟随系统将根据系统设置自动切换

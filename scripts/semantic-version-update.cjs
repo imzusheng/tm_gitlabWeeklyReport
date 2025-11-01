@@ -18,9 +18,8 @@ function syncVersionFromPackageJson() {
 
     console.log(`🔄 检查版本号配置: ${version}`)
 
-    // 检查配置并更新构建文件
+    // 检查配置
     checkViteConfig()
-    updateBuiltUserscript(version)
 
     console.log(`✅ 版本同步完成: ${version}`)
   } catch (error) {
@@ -54,33 +53,6 @@ function checkViteConfig() {
   }
 }
 
-/**
- * 更新构建后的 userscript 文件中的版本号
- */
-function updateBuiltUserscript(version) {
-  const userscriptPath = path.join(
-    process.cwd(),
-    'dist/userscript/gitlab-weekly-report.user.js',
-  )
-
-  if (!fs.existsSync(userscriptPath)) {
-    console.log('  ℹ️  构建文件不存在，跳过更新（正常情况）')
-    return
-  }
-
-  let content = fs.readFileSync(userscriptPath, 'utf8')
-
-  // 更新 @version 行
-  const versionRegex = /(\s*\/\/\s*@version\s+)([\d.]+)/
-  if (versionRegex.test(content)) {
-    content = content.replace(versionRegex, `$1${version}`)
-    fs.writeFileSync(userscriptPath, content, 'utf8')
-    console.log(`  ✓ 已更新构建文件版本号`)
-  } else {
-    console.warn('  ⚠️  构建文件中未找到版本号模式')
-  }
-}
-
 // 如果直接运行此脚本
 if (require.main === module) {
   syncVersionFromPackageJson()
@@ -89,5 +61,4 @@ if (require.main === module) {
 module.exports = {
   syncVersionFromPackageJson,
   checkViteConfig,
-  updateBuiltUserscript,
 }

@@ -1,5 +1,5 @@
 import { GitLabEvent, GitLabProject, GitLabUser } from '@/types'
-import { request, isUserscriptEnvironment } from '@/utils/request'
+import { request } from '@/utils/request'
 import { API_CONFIG } from '@/constants'
 import { errorUtils } from '@/utils'
 
@@ -9,10 +9,9 @@ export class GitLabApiService {
   private currentUser: GitLabUser | null = null
 
   constructor(baseUrl: string, token: string) {
-    // 在开发环境中且不是油猴脚本环境时，使用代理URL
+    // 在开发环境中使用代理URL
     const isDev = process.env.NODE_ENV === 'development'
-    if (isDev && !isUserscriptEnvironment()) {
-      // 将GitLab URL转换为代理URL
+    if (isDev) {
       this.baseUrl = '/proxy/api/v4'
     } else {
       this.baseUrl = baseUrl.replace(/\/$/, '') // 移除末尾斜杠
@@ -220,66 +219,23 @@ export class GitLabApiService {
     const projects = (await response.json()) as GitLabProject[]
 
     // 从响应头获取总数
-    let total = 0
-    let totalHeader = ''
-
+    let total: number | null = null
     if (response.headers instanceof Headers) {
-      // Web环境：使用Headers对象
-      totalHeader =
+      const totalHeader =
         response.headers.get('x-total') ||
         response.headers.get('X-Total') ||
         response.headers.get('x-total-count') ||
         response.headers.get('X-Total-Count') ||
-        ''
-      total = parseInt(totalHeader || '0', 10)
-    } else {
-      // 油猴脚本环境：响应头可能是字符串格式，需要特殊处理
-      if (typeof response.headers === 'string') {
-        // 如果是字符串格式（GM_xmlhttpRequest返回的responseHeaders），需要解析
-        const headerString = response.headers as string
-        const headerLines = headerString.split('\n')
-
-        // 尝试从各种可能的header名称中找到total值
-        for (const line of headerLines) {
-          const parts = line.split(': ')
-          if (parts.length === 2) {
-            const headerName = parts[0].toLowerCase()
-            const headerValue = parts[1]
-
-            if (
-              headerName === 'x-total' ||
-              headerName === 'x-total-count' ||
-              headerName === 'x_total'
-            ) {
-              totalHeader = headerValue
-              break
-            }
-          }
-        }
-      } else {
-        // 如果是对象格式
-        const headers = response.headers as Record<string, string>
-        totalHeader =
-          headers['x-total'] ||
-          headers['X-Total'] ||
-          headers['x-total-count'] ||
-          headers['X-Total-Count'] ||
-          headers['x_total'] ||
-          headers['X_TOTAL'] ||
-          ''
+        null
+      if (totalHeader) {
+        total = parseInt(totalHeader, 10)
       }
-
-      total = parseInt(totalHeader || '0', 10)
     }
 
     // 如果无法从响应头获取总数，使用当前页的项目数量作为fallback
-    if (!total && projects.length > 0) {
-      total = projects.length
-    }
-
     return {
       projects,
-      total,
+      total: total !== null ? total : projects.length,
     }
   }
 
@@ -349,66 +305,23 @@ export class GitLabApiService {
     const events = (await response.json()) as GitLabEvent[]
 
     // 从响应头获取总数
-    let total = 0
-    let totalHeader = ''
-
+    let total: number | null = null
     if (response.headers instanceof Headers) {
-      // Web环境：使用Headers对象
-      totalHeader =
+      const totalHeader =
         response.headers.get('x-total') ||
         response.headers.get('X-Total') ||
         response.headers.get('x-total-count') ||
         response.headers.get('X-Total-Count') ||
-        ''
-      total = parseInt(totalHeader || '0', 10)
-    } else {
-      // 油猴脚本环境：响应头可能是字符串格式，需要特殊处理
-      if (typeof response.headers === 'string') {
-        // 如果是字符串格式（GM_xmlhttpRequest返回的responseHeaders），需要解析
-        const headerString = response.headers as string
-        const headerLines = headerString.split('\n')
-
-        // 尝试从各种可能的header名称中找到total值
-        for (const line of headerLines) {
-          const parts = line.split(': ')
-          if (parts.length === 2) {
-            const headerName = parts[0].toLowerCase()
-            const headerValue = parts[1]
-
-            if (
-              headerName === 'x-total' ||
-              headerName === 'x-total-count' ||
-              headerName === 'x_total'
-            ) {
-              totalHeader = headerValue
-              break
-            }
-          }
-        }
-      } else {
-        // 如果是对象格式
-        const headers = response.headers as Record<string, string>
-        totalHeader =
-          headers['x-total'] ||
-          headers['X-Total'] ||
-          headers['x-total-count'] ||
-          headers['X-Total-Count'] ||
-          headers['x_total'] ||
-          headers['X_TOTAL'] ||
-          ''
+        null
+      if (totalHeader) {
+        total = parseInt(totalHeader, 10)
       }
-
-      total = parseInt(totalHeader || '0', 10)
     }
 
     // 如果无法从响应头获取总数，使用当前页的项目数量作为fallback
-    if (!total && events.length > 0) {
-      total = events.length
-    }
-
     return {
       events,
-      total,
+      total: total !== null ? total : events.length,
     }
   }
 
@@ -480,83 +393,21 @@ export class GitLabApiService {
     const events = (await response.json()) as GitLabEvent[]
 
     // 从响应头获取总数
-    let total = 0
-    let totalHeader = ''
-
+    let total: number | null = null
     if (response.headers instanceof Headers) {
-      // Web环境：使用Headers对象
-      totalHeader =
+      const totalHeader =
         response.headers.get('x-total') ||
         response.headers.get('X-Total') ||
         response.headers.get('x-total-count') ||
         response.headers.get('X-Total-Count') ||
-        ''
-      total = parseInt(totalHeader || '0', 10)
-    } else {
-      // 油猴脚本环境：响应头可能是字符串格式，需要特殊处理
-      if (typeof response.headers === 'string') {
-        // 如果是字符串格式（GM_xmlhttpRequest返回的responseHeaders），需要解析
-        const headerString = response.headers as string
-        const headerLines = headerString.split('\n')
-
-        // 尝试从各种可能的header名称中找到total值
-        for (const line of headerLines) {
-          const parts = line.split(': ')
-          if (parts.length === 2) {
-            const headerName = parts[0].toLowerCase()
-            const headerValue = parts[1]
-
-            if (
-              headerName === 'x-total' ||
-              headerName === 'x-total-count' ||
-              headerName === 'x_total'
-            ) {
-              totalHeader = headerValue
-              break
-            }
-          }
-        }
-      } else {
-        // 如果是对象格式
-        const headers = response.headers as Record<string, string>
-        totalHeader =
-          headers['x-total'] ||
-          headers['X-Total'] ||
-          headers['x-total-count'] ||
-          headers['X-Total-Count'] ||
-          headers['x_total'] ||
-          headers['X_TOTAL'] ||
-          ''
+        null
+      if (totalHeader) {
+        total = parseInt(totalHeader, 10)
       }
-
-      total = parseInt(totalHeader || '0', 10)
     }
 
-    // 调试信息
-    console.log('GitLab API Response:', {
-      eventsCount: events.length,
-      totalHeader,
-      calculatedTotal: total,
-      isHeadersInstance: response.headers instanceof Headers,
-      headersType: typeof response.headers,
-      allHeaders:
-        response.headers instanceof Headers
-          ? Object.fromEntries(response.headers.entries())
-          : typeof response.headers === 'string'
-            ? (response.headers as string).split('\n').slice(0, 10).join('; ') // 显示前10行响应头
-            : response.headers,
-    })
-
-    // 如果响应头中没有总数信息，使用事件数组长度作为fallback
-    // 注意：GitLab API可能不总是返回x-total头，特别是在分页查询时
-    if (total === 0 && events.length > 0) {
-      total = events.length
-      console.warn(
-        'No total count in response headers, using events array length as fallback',
-      )
-    }
-
-    return { events, total }
+    // 如果无法从响应头获取总数，使用当前页的项目数量作为fallback
+    return { events, total: total !== null ? total : events.length }
   }
 
   /**

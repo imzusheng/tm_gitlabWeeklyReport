@@ -1,7 +1,7 @@
 {
   "name": "tm-gitlab-weekly-report-v2",
   "version": "1.10.7",
-  "description": "GitLab 周报生成器 - 基于 DeepSeek AI 的现代化 Tampermonkey 脚本",
+  "description": "GitLab 周报生成器 - 基于 DeepSeek AI 的现代化 Web 应用",
   "type": "module",
   "packageManager": "npm@10.9.2",
   "repository": {
@@ -14,9 +14,7 @@
   "homepage": "https://github.com/imzusheng/tm_gitlabWeeklyReport#readme",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --mode userscript && vite build --mode web",
-    "build:userscript": "vite build --mode userscript",
-    "build:web": "vite build --mode web",
+    "build": "vite build",
     "release": "semantic-release",
     "release:dry-run": "semantic-release --dry-run",
     "commitlint": "commitlint --edit",
@@ -40,7 +38,6 @@
     "@types/node": "^24.0.1",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
-    "@types/tampermonkey": "^5.0.4",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "@vitejs/plugin-react": "^4.2.1",

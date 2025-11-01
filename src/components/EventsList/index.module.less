@@ -2,21 +2,21 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: var(--gwrs-bg-quaternary);
+  background: var(--glwr-bg-quaternary);
   backdrop-filter: blur(20px);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: var(--gwrs-shadow-sm);
+  box-shadow: var(--glwr-shadow-sm);
 
   .events-list-header {
     display: flex;
     align-items: center;
     padding: 16px 20px;
-    background: var(--gwrs-bg-tertiary);
-    border-bottom: 1px solid var(--gwrs-border-secondary);
+    background: var(--glwr-bg-tertiary);
+    border-bottom: 1px solid var(--glwr-border-secondary);
     font-weight: 600;
     font-size: 13px;
-    color: var(--gwrs-text-primary);
+    color: var(--glwr-text-primary);
     letter-spacing: -0.08px;
 
     .header-cell {
@@ -29,7 +29,7 @@
       border-radius: 6px;
 
       &:hover {
-        color: var(--gwrs-color-primary);
+        color: var(--glwr-color-primary);
       }
 
       &.checkbox-cell {
@@ -38,7 +38,7 @@
         cursor: default;
 
         &:hover {
-          color: var(--gwrs-text-primary);
+          color: var(--glwr-text-primary);
         }
       }
 
@@ -63,13 +63,13 @@
         cursor: default;
 
         &:hover {
-          color: var(--gwrs-text-primary);
+          color: var(--glwr-text-primary);
         }
       }
 
       .sort-icon {
         font-size: 12px;
-        color: var(--gwrs-color-primary);
+        color: var(--glwr-color-primary);
         opacity: 0.8;
       }
     }
@@ -83,19 +83,19 @@
       display: flex;
       align-items: center;
       padding: 12px 20px;
-      border-bottom: 1px solid var(--gwrs-border-secondary);
+      border-bottom: 1px solid var(--glwr-border-secondary);
       transition: all 0.15s ease;
       cursor: default;
 
       &:hover {
-        background: var(--gwrs-color-primary-lighter);
+        background: var(--glwr-color-primary-lighter);
       }
 
       &.selected {
-        background: var(--gwrs-color-primary-lighter);
+        background: var(--glwr-color-primary-lighter);
 
         &:hover {
-          background: var(--gwrs-color-primary-light);
+          background: var(--glwr-color-primary-light);
         }
       }
 
@@ -128,7 +128,7 @@
             align-items: center;
             justify-content: center;
             border-radius: 6px;
-            background: var(--gwrs-color-primary-lighter);
+            background: var(--glwr-color-primary-lighter);
           }
 
           .event-content {
@@ -138,7 +138,7 @@
             .event-title {
               font-size: 14px;
               font-weight: 500;
-              color: var(--gwrs-text-primary);
+              color: var(--glwr-text-primary);
               line-height: 1.3;
               margin-bottom: 2px;
               overflow: hidden;
@@ -147,7 +147,7 @@
 
             .event-description {
               font-size: 12px;
-              color: var(--gwrs-text-secondary);
+              color: var(--glwr-text-secondary);
               line-height: 1.3;
               overflow: hidden;
               text-overflow: ellipsis;
@@ -164,8 +164,8 @@
             border-radius: 6px;
             font-size: 11px;
             font-weight: 500;
-            background: var(--gwrs-color-success-lighter);
-            color: var(--gwrs-color-success);
+            background: var(--glwr-color-success-lighter);
+            color: var(--glwr-color-success);
             text-align: center;
             white-space: nowrap;
           }
@@ -177,7 +177,7 @@
 
           .event-time {
             font-size: 12px;
-            color: var(--gwrs-text-secondary);
+            color: var(--glwr-text-secondary);
             font-weight: 500;
             text-align: center;
           }
@@ -194,7 +194,7 @@
             height: 28px;
             border: none;
             border-radius: 6px;
-            background: var(--gwrs-color-primary-lighter);
+            background: var(--glwr-color-primary-lighter);
             cursor: pointer;
             transition: all 0.15s ease;
             display: flex;
@@ -203,7 +203,7 @@
             text-decoration: none;
 
             &:hover {
-              background: var(--gwrs-color-primary-light);
+              background: var(--glwr-color-primary-light);
               transform: scale(1.05);
             }
 
@@ -214,10 +214,10 @@
           }
 
           .source-btn {
-            background: var(--gwrs-color-warning-lighter);
+            background: var(--glwr-color-warning-lighter);
 
             &:hover {
-              background: var(--gwrs-color-warning-light);
+              background: var(--glwr-color-warning-light);
             }
           }
         }
@@ -241,13 +241,13 @@
       p {
         font-size: 16px;
         font-weight: 500;
-        color: var(--gwrs-text-primary);
+        color: var(--glwr-text-primary);
         margin-bottom: 8px;
       }
 
       span {
         font-size: 14px;
-        color: var(--gwrs-text-secondary);
+        color: var(--glwr-text-secondary);
       }
     }
   }
@@ -259,15 +259,15 @@
   align-items: center;
   justify-content: center;
   height: 300px;
-  background: var(--gwrs-bg-quaternary);
+  background: var(--glwr-bg-quaternary);
   backdrop-filter: blur(20px);
   border-radius: 12px;
 
   .loading-spinner {
     width: 32px;
     height: 32px;
-    border: 3px solid var(--gwrs-color-primary-lighter);
-    border-top: 3px solid var(--gwrs-color-primary);
+    border: 3px solid var(--glwr-color-primary-lighter);
+    border-top: 3px solid var(--glwr-color-primary);
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin-bottom: 16px;
@@ -275,7 +275,7 @@
 
   p {
     font-size: 14px;
-    color: var(--gwrs-text-secondary);
+    color: var(--glwr-text-secondary);
     font-weight: 500;
   }
 }
@@ -382,8 +382,8 @@
     display: inline-block;
     width: 16px;
     height: 16px;
-    background-color: var(--gwrs-bg-primary);
-    border: 1.5px solid var(--gwrs-border-primary);
+    background-color: var(--glwr-bg-primary);
+    border: 1.5px solid var(--glwr-border-primary);
     border-radius: 3px;
     transition: all 0.2s ease;
 
@@ -395,20 +395,20 @@
       top: 1px;
       width: 4px;
       height: 8px;
-      border: solid var(--gwrs-bg-primary);
+      border: solid var(--glwr-bg-primary);
       border-width: 0 2px 2px 0;
       transform: rotate(45deg);
     }
   }
 
   &:hover .checkmark {
-    border-color: var(--gwrs-color-primary);
-    background-color: var(--gwrs-color-primary-lighter);
+    border-color: var(--glwr-color-primary);
+    background-color: var(--glwr-color-primary-lighter);
   }
 
   input:checked ~ .checkmark {
-    background-color: var(--gwrs-color-primary);
-    border-color: var(--gwrs-color-primary);
+    background-color: var(--glwr-color-primary);
+    border-color: var(--glwr-color-primary);
 
     &::after {
       display: block;
@@ -416,8 +416,8 @@
   }
 
   input:indeterminate ~ .checkmark {
-    background-color: var(--gwrs-color-primary);
-    border-color: var(--gwrs-color-primary);
+    background-color: var(--glwr-color-primary);
+    border-color: var(--glwr-color-primary);
 
     &::after {
       display: block;
@@ -426,7 +426,7 @@
       width: 8px;
       height: 2px;
       border: none;
-      background-color: var(--gwrs-bg-primary);
+      background-color: var(--glwr-bg-primary);
       transform: none;
       border-radius: 1px;
     }

@@ -227,9 +227,6 @@ export interface WeeklyReportData {
   generatedAt: string
 }
 
-// 环境类型
-export type Environment = 'web' | 'userscript'
-
 // 面板类型
 export type PanelType = 'main' | 'settings' | 'ai'
 

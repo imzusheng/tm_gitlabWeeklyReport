@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { useAppStore } from '@/stores/app-store'
+import { useAppStore } from '@/store'
 import { useEventManagement } from '@/hooks/useEventManagement'
 import { useEventSelection } from '@/hooks/useEventSelection'
 import { useThemeManager } from '@/hooks/useThemeManager'
-import { useIframeCommunication } from '@/hooks/useIframeCommunication'
 
 import MainPanel from '@/components/MainPanel'
 import SettingsPanel from '@/components/SettingsPanel'
@@ -14,18 +13,13 @@ import type { GitLabEvent, AIGenerationConfig } from '@/types'
 import { createDeepSeekApiService } from '@/services/deepseek-api'
 import styles from './App.module.less'
 
-interface AppProps {
-  isUserscript?: boolean
-}
+interface AppProps {}
 
 /**
  * 主应用组件
  * 使用 Zustand 进行状态管理，将业务逻辑拆分到自定义 hooks 中
  */
-const App: React.FC<AppProps> = ({ isUserscript: _isUserscript = false }) => {
-  // iframe 通信管理
-  const { isIframe, closePanel } = useIframeCommunication()
-
+const App: React.FC<AppProps> = () => {
   // 全局状态
   const {
     config,
@@ -49,34 +43,16 @@ const App: React.FC<AppProps> = ({ isUserscript: _isUserscript = false }) => {
     handleSortChange,
     handlePaginationChange,
   } = useEventManagement()
-  const { selectedEvents, toggleEventSelection, clearSelection } =
-    useEventSelection()
+  const { selectedEvents, toggleEventSelection } = useEventSelection()
 
   // 本地状态
   const [selectedEvent, setSelectedEvent] = useState<GitLabEvent | null>(null)
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false)
 
-  // 解析 URL 参数
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search)
-    const mode = urlParams.get('mode')
-    const theme = urlParams.get('theme')
-
-    // 如果是 iframe 模式，设置主题
-    if (mode === 'iframe' && (theme === 'light' || theme === 'dark')) {
-      useAppStore.getState().setTheme(theme)
-    }
-  }, [])
-
   // 初始化加载
   useEffect(() => {
     loadEvents()
   }, [loadEvents])
-
-  // 清空选择
-  useEffect(() => {
-    clearSelection()
-  }, [clearSelection])
 
   /**
    * 处理事件详情查看
@@ -138,30 +114,28 @@ const App: React.FC<AppProps> = ({ isUserscript: _isUserscript = false }) => {
 
   return (
     <div
-      className={`${styles.app} ${styles[actualTheme]} ${isIframe ? styles.iframeMode : ''}`}
+      className={`${styles.app} ${styles[actualTheme]}`}
       data-theme={actualTheme}
     >
       <div className={styles.container}>
-        {/* 主面板 */}
-        {activePanel === 'main' && (
-          <MainPanel
-            events={events}
-            totalCount={useAppStore.getState().totalCount}
-            loading={isLoading}
-            filterConditions={useAppStore.getState().filterConditions}
-            sortOptions={useAppStore.getState().sortOptions}
-            paginationOptions={useAppStore.getState().paginationOptions}
-            selectedEventIds={selectedEvents.map(e => e.id)}
-            onFilterChange={handleFilterChange}
-            onSortChange={handleSortChange}
-            onPaginationChange={handlePaginationChange}
-            onEventSelect={toggleEventSelection}
-            onSelectionChange={() => {}}
-            onEventDetail={handleEventDetail}
-            onOpenSettings={() => setActivePanel('settings')}
-            onOpenAI={() => setActivePanel('ai')}
-          />
-        )}
+        {/* 主面板 - 始终渲染，确保 backdrop-filter 能看到背景 */}
+        <MainPanel
+          events={events}
+          totalCount={useAppStore.getState().totalCount}
+          loading={isLoading}
+          filterConditions={useAppStore.getState().filterConditions}
+          sortOptions={useAppStore.getState().sortOptions}
+          paginationOptions={useAppStore.getState().paginationOptions}
+          selectedEventIds={selectedEvents.map(e => e.id)}
+          onFilterChange={handleFilterChange}
+          onSortChange={handleSortChange}
+          onPaginationChange={handlePaginationChange}
+          onEventSelect={toggleEventSelection}
+          onSelectionChange={() => {}}
+          onEventDetail={handleEventDetail}
+          onOpenSettings={() => setActivePanel('settings')}
+          onOpenAI={() => setActivePanel('ai')}
+        />
 
         {/* 设置面板 */}
         {activePanel === 'settings' && (
@@ -175,17 +149,6 @@ const App: React.FC<AppProps> = ({ isUserscript: _isUserscript = false }) => {
               useAppStore.getState().setTheme(newTheme)
             }}
           />
-        )}
-
-        {/* iframe 模式下的关闭按钮 */}
-        {isIframe && (
-          <button
-            className={styles.iframeCloseButton}
-            onClick={closePanel}
-            title="关闭面板"
-          >
-            ×
-          </button>
         )}
 
         {/* AI 面板 */}

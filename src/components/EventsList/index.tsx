@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 import { GitLabEvent, SortOptions, PaginationOptions } from '@/types'
 import { configErrors } from '@/utils'
-import Pagination from '../../../Pagination'
-import SelectionManager from '../../../SelectionManager'
+import Pagination from '@/components/Pagination'
+import SelectionManager from '@/components/SelectionManager'
 import styles from './index.module.less'
 
 interface EventsListProps {
@@ -208,11 +208,13 @@ const EventsList: React.FC<EventsListProps> = ({
     if (event.note && event.target_title) {
       return event.target_title
     }
-    return (
-      event.project?.path_with_namespace ||
-      `项目ID: ${event.project_id}` ||
-      '未知项目'
-    )
+    if (event.project?.path_with_namespace) {
+      return event.project.path_with_namespace
+    }
+    if (event.project_id !== undefined && event.project_id !== null) {
+      return `项目ID: ${event.project_id}`
+    }
+    return '未知项目'
   }, [])
 
   return (

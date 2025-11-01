@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react'
-import { useAppStore } from '@/stores/app-store'
+import { useAppStore } from '@/store'
+import { applyCSSVariables, getThemeVariables } from '@/styles/variables'
 
 /**
  * 主题管理 Hook
@@ -18,8 +19,11 @@ export const useThemeManager = () => {
     return theme
   }, [theme])
 
-  // 监听系统主题变化并应用主题类
+  // 监听主题变化并应用CSS变量和主题类
   useEffect(() => {
+    // 应用CSS变量到:root元素，确保全局可用（包括Modal等Portal组件）
+    applyCSSVariables(document.documentElement, getThemeVariables(theme))
+
     // 应用主题类到 body 元素
     document.body.className = document.body.className
       .replace(/\b(light|dark)\b/g, '')
@@ -29,6 +33,8 @@ export const useThemeManager = () => {
     if (theme === 'system') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
       const handleChange = () => {
+        // 更新CSS变量以响应系统主题变化
+        applyCSSVariables(document.documentElement, getThemeVariables('system'))
         // 强制重新渲染以更新主题
         window.dispatchEvent(new Event('resize'))
       }

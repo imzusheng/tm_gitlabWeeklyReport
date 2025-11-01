@@ -4,129 +4,79 @@ var e = Object.defineProperty,
       r in t
         ? e(t, r, { enumerable: !0, configurable: !0, writable: !0, value: o })
         : (t[r] = o))(t, 'symbol' != typeof r ? r + '' : r, o)
-const r = () =>
-  'undefined' != typeof window && 'undefined' != typeof GM_xmlhttpRequest
-async function o(e, t = {}) {
+async function r(e, t = {}) {
   const {
-    method: o = 'GET',
-    headers: s = {},
-    body: n,
-    timeout: i = 3e4,
-    signal: l,
+    method: r = 'GET',
+    headers: o = {},
+    body: a,
+    timeout: s = 3e4,
+    signal: n,
   } = t
-  if (r())
-    return new Promise((t, r) => {
-      if (null == l ? void 0 : l.aborted) return r(new Error('Request aborted'))
-      const c = new AbortController(),
-        u = i > 0 ? setTimeout(() => c.abort(), i) : void 0,
-        m = () => {
-          clearTimeout(u), c.abort(), r(new Error('Request aborted'))
-        }
-      null == l || l.addEventListener('abort', m),
-        GM_xmlhttpRequest({
-          method: o.toUpperCase(),
-          url: e,
-          headers: { 'Content-Type': 'application/json', ...s },
-          data: n,
-          timeout: i,
-          onload: e => {
-            clearTimeout(u),
-              null == l || l.removeEventListener('abort', m),
-              t({
-                ok: e.status >= 200 && e.status < 300,
-                status: e.status,
-                statusText: e.statusText,
-                headers: a(e.responseHeaders),
-                json: () => Promise.resolve(JSON.parse(e.responseText)),
-                text: () => Promise.resolve(e.responseText),
-              })
-          },
-          onerror: e => {
-            clearTimeout(u),
-              null == l || l.removeEventListener('abort', m),
-              r(new Error(`Network error: ${e.error || 'Unknown error'}`))
-          },
-          ontimeout: () => {
-            null == l || l.removeEventListener('abort', m),
-              r(new Error('Request timeout'))
-          },
-        })
-    })
-  {
-    const t = {
-      method: o,
-      headers: { 'Content-Type': 'application/json', ...s },
-      body: n,
-      signal: l,
-    }
-    i > 0 && !l && (t.signal = AbortSignal.timeout(i))
-    try {
-      const r = await fetch(e, t)
-      return {
-        ok: r.ok,
-        status: r.status,
-        statusText: r.statusText,
-        headers: r.headers,
-        json: () => r.json(),
-        text: () => r.text(),
+  let i = null,
+    c = null,
+    l = n
+  ;(s > 0 || n) &&
+    ((i = new AbortController()),
+    (l = i.signal),
+    s > 0 &&
+      (c = setTimeout(() => {
+        null == i || i.abort()
+      }, s)),
+    n &&
+      n.addEventListener('abort', () => {
+        null == i || i.abort(), c && clearTimeout(c)
+      }))
+  const u = {
+    method: r,
+    headers: { 'Content-Type': 'application/json', ...o },
+    body: a,
+    signal: l,
+  }
+  try {
+    const t = await fetch(e, u)
+    return (
+      c && clearTimeout(c),
+      {
+        ok: t.ok,
+        status: t.status,
+        statusText: t.statusText,
+        headers: t.headers,
+        json: () => t.json(),
+        text: () => t.text(),
       }
-    } catch (c) {
-      if (c instanceof Error) throw c
-      throw new Error('Network request failed')
-    }
+    )
+  } catch (m) {
+    if ((c && clearTimeout(c), m instanceof Error)) throw m
+    throw new Error('Network request failed')
   }
 }
-const a = e => {
-    const t = {}
-    return e
-      ? (e.split('\n').forEach(e => {
-          const r = e.split(': ')
-          2 === r.length && (t[r[0].toLowerCase()] = r[1])
-        }),
-        t)
-      : t
-  },
-  s = {
+const o = {
     setItem: (e, t) => {
       try {
-        r() && 'undefined' != typeof GM_setValue
-          ? GM_setValue(e, t)
-          : 'undefined' != typeof localStorage
-            ? localStorage.setItem(e, t)
-            : console.warn('No storage method available')
-      } catch (o) {
-        console.error('Storage setItem failed:', o)
-      }
+        'undefined' != typeof localStorage && localStorage.setItem(e, t)
+      } catch (r) {}
     },
     getItem: e => {
       try {
-        return r() && 'undefined' != typeof GM_getValue
-          ? GM_getValue(e, null)
-          : 'undefined' != typeof localStorage
-            ? localStorage.getItem(e)
-            : (console.warn('No storage method available'), null)
+        return 'undefined' != typeof localStorage
+          ? localStorage.getItem(e)
+          : null
       } catch (t) {
-        return console.error('Storage getItem failed:', t), null
+        return null
       }
     },
     removeItem: e => {
       try {
-        r() && 'undefined' != typeof GM_deleteValue
-          ? GM_deleteValue(e)
-          : 'undefined' != typeof localStorage
-            ? localStorage.removeItem(e)
-            : console.warn('No storage method available')
-      } catch (t) {
-        console.error('Storage removeItem failed:', t)
-      }
+        'undefined' != typeof localStorage && localStorage.removeItem(e)
+      } catch (t) {}
     },
   },
-  n = '1.10.7',
-  i = {
+  a = '1.10.7',
+  s = {
     DEEPSEEK_BASE_URL: 'https://api.deepseek.com/v1',
     REQUEST_TIMEOUT: 3e4,
   },
-  l = {
+  n = {
     gitlabUrl: 'https://www.lejuhub.com/api/v4',
     gitlabToken: '',
     deepseekApiKey: '',
@@ -137,18 +87,17 @@ const a = e => {
     customPrompt: '',
     theme: 'system',
   },
-  c = {
+  i = {
     gitlabUrl: 'https://gitlab.example.com',
     gitlabToken: '请输入您的GitLab Personal Access Token',
     deepseekApiKey: '请输入您的DeepSeek API Key',
     defaultPrompt: '请根据以下GitLab事件数据生成工作周报...',
   },
-  u = { timeRange: 'week', targetType: [], action: [] },
-  m = { field: 'created_at', order: 'desc' },
-  d = { page: 1, pageSize: 50, total: 0 },
-  p = 'gitlab_weekly_report_config',
-  g = { SCOPE_CLASS: 'gitlab-weekly-report-scope' },
-  f = {
+  c = { timeRange: 'week', targetType: [], action: [] },
+  l = { field: 'created_at', order: 'desc' },
+  u = { page: 1, pageSize: 50, total: 0 },
+  m = 'gitlab_weekly_report_config',
+  p = {
     'weekly-report': {
       type: 'weekly-report',
       title: 'AI 周报生成',
@@ -178,7 +127,7 @@ const a = e => {
       regenerateButtonText: '重新生成',
     },
   }
-class E extends Error {
+class g extends Error {
   constructor(e, r, o) {
     super(`[${o}] ${r}`),
       t(this, 'status'),
@@ -188,7 +137,7 @@ class E extends Error {
       (this.service = o)
   }
 }
-class h extends Error {
+class d extends Error {
   constructor(e, r) {
     super(`[${r}] ${e}`),
       t(this, 'service'),
@@ -196,12 +145,12 @@ class h extends Error {
       (this.service = r)
   }
 }
-class w {
+class f {
   static createApiError(e, t, r) {
-    return new E(e, t, r)
+    return new g(e, t, r)
   }
   static createResponseError(e, t) {
-    return new h(e, t)
+    return new d(e, t)
   }
   static createNetworkError(e) {
     const t = new Error(`网络错误: ${e}`)
@@ -231,11 +180,8 @@ class w {
     return '发生未知错误，请稍后重试'
   }
   static logError(e, t) {
-    const r = new Date().toISOString(),
-      o = t ? `[${t}] ` : ''
-    e instanceof Error
-      ? console.error(`${r} ${o}${e.name}: ${e.message}`, e.stack)
-      : console.error(`${r} ${o}Unknown error:`, e)
+    new Date().toISOString()
+    Error
   }
   static async safeAsync(e, t, r) {
     try {
@@ -266,9 +212,9 @@ class w {
     )
   }
 }
-const y = e => {
+const E = e => {
     try {
-      return e(s)
+      return e(o)
     } catch (t) {
       if ('undefined' != typeof localStorage)
         try {
@@ -276,31 +222,30 @@ const y = e => {
         } catch (r) {}
     }
   },
-  b = {
+  y = {
     saveConfig: e => {
-      y(t => t.setItem(p, JSON.stringify(e)))
+      E(t => t.setItem(m, JSON.stringify(e)))
     },
     loadConfig: () => {
-      const e = y(e => e.getItem(p))
+      const e = E(e => e.getItem(m))
       return e ? JSON.parse(e) : null
     },
     clearConfig: () => {
-      y(e => e.removeItem(p))
+      E(e => e.removeItem(m))
     },
   },
-  k = { INVALID_FILTER_OR_CONFIG: '请检查筛选条件或GitLab配置' }
+  h = { INVALID_FILTER_OR_CONFIG: '请检查筛选条件或GitLab配置' }
 export {
-  i as A,
-  c as C,
-  d as D,
-  w as E,
-  g as U,
-  m as a,
-  u as b,
-  l as c,
-  k as d,
-  n as e,
-  f,
-  o as r,
-  b as s,
+  s as A,
+  i as C,
+  u as D,
+  f as E,
+  l as a,
+  c as b,
+  n as c,
+  h as d,
+  a as e,
+  p as f,
+  r,
+  y as s,
 }

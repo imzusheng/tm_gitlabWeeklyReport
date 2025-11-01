@@ -1,7 +1,7 @@
 .settings-panel {
   .settings-tabs {
     display: flex;
-    border-bottom: 1px solid var(--gwrs-border-light);
+    border-bottom: 1px solid var(--glwr-border-light);
     margin-bottom: 24px;
 
     .tab-button {
@@ -11,7 +11,7 @@
       padding: 12px 16px;
       border: none;
       background: transparent;
-      color: var(--gwrs-text-secondary);
+      color: var(--glwr-text-secondary);
       font-size: 14px;
       font-weight: 500;
       cursor: pointer;
@@ -25,13 +25,13 @@
       }
 
       &:hover {
-        color: var(--gwrs-text-primary);
-        background: var(--gwrs-bg-secondary);
+        color: var(--glwr-text-primary);
+        background: var(--glwr-bg-secondary);
       }
 
       &.active {
-        color: var(--gwrs-color-primary);
-        border-bottom-color: var(--gwrs-color-primary);
+        color: var(--glwr-color-primary);
+        border-bottom-color: var(--glwr-color-primary);
       }
     }
   }
@@ -51,11 +51,11 @@
           display: block;
           font-size: 14px;
           font-weight: 500;
-          color: var(--gwrs-text-primary);
+          color: var(--glwr-text-primary);
           margin-bottom: 8px;
 
           .required {
-            color: var(--gwrs-color-error);
+            color: var(--glwr-color-error);
             margin-left: 4px;
           }
         }
@@ -65,26 +65,26 @@
         .form-textarea {
           width: 100%;
           padding: 10px 12px;
-          border: 1px solid var(--gwrs-input-border);
+          border: 1px solid var(--glwr-input-border);
           border-radius: 8px;
           font-size: 14px;
-          color: var(--gwrs-text-primary);
-          background: var(--gwrs-input-bg);
+          color: var(--glwr-text-primary);
+          background: var(--glwr-input-bg);
           transition: all 0.2s ease;
           box-sizing: border-box;
 
           &:hover {
-            border-color: var(--gwrs-input-focus-border);
+            border-color: var(--glwr-input-focus-border);
           }
 
           &:focus {
             outline: none;
-            border-color: var(--gwrs-input-focus-border);
-            box-shadow: 0 0 0 3px var(--gwrs-input-focus-shadow);
+            border-color: var(--glwr-input-focus-border);
+            box-shadow: 0 0 0 3px var(--glwr-input-focus-shadow);
           }
 
           &::placeholder {
-            color: var(--gwrs-text-secondary);
+            color: var(--glwr-text-secondary);
           }
         }
 
@@ -101,10 +101,21 @@
 
         .form-hint {
           font-size: 12px;
-          color: var(--gwrs-text-secondary);
+          color: var(--glwr-text-secondary);
           margin-top: 6px;
           line-height: 1.4;
         }
+      }
+
+      .error-message {
+        padding: 12px;
+        margin-top: 16px;
+        border-radius: 8px;
+        background-color: var(--glwr-color-error-light);
+        border: 1px solid var(--glwr-color-error);
+        color: var(--glwr-color-error);
+        font-size: 14px;
+        text-align: center;
       }
     }
   }
@@ -112,12 +123,12 @@
   .version-info {
     margin-top: 24px;
     padding-top: 16px;
-    border-top: 1px solid var(--gwrs-border-light);
+    border-top: 1px solid var(--glwr-border-light);
     text-align: center;
 
     .version-text {
       font-size: 12px;
-      color: var(--gwrs-text-secondary);
+      color: var(--glwr-text-secondary);
       opacity: 0.7;
     }
   }
@@ -141,29 +152,29 @@
   border-radius: 10px;
   background: linear-gradient(
     135deg,
-    var(--gwrs-color-primary),
-    var(--gwrs-color-primary-dark)
+    var(--glwr-color-primary),
+    var(--glwr-color-primary-dark)
   );
-  color: var(--gwrs-btn-primary-text);
+  color: var(--glwr-btn-primary-text);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: var(--gwrs-shadow-sm);
+  box-shadow: var(--glwr-shadow-sm);
 
   &:hover:not(:disabled) {
     background: linear-gradient(
       135deg,
-      var(--gwrs-color-primary-hover),
-      var(--gwrs-color-primary-dark)
+      var(--glwr-color-primary-hover),
+      var(--glwr-color-primary-dark)
     );
     transform: translateY(-1px);
-    box-shadow: var(--gwrs-shadow-md);
+    box-shadow: var(--glwr-shadow-md);
   }
 
   &:active:not(:disabled) {
     transform: translateY(0);
-    box-shadow: var(--gwrs-shadow-sm);
+    box-shadow: var(--glwr-shadow-sm);
   }
 
   &:disabled {
@@ -196,7 +207,7 @@
 .switch-slider {
   position: absolute;
   inset: 0;
-  background-color: var(--gwrs-border-primary);
+  background-color: var(--glwr-border-primary);
   border-radius: 24px;
   transition: all 0.3s ease;
 
@@ -210,12 +221,12 @@
     background-color: white;
     border-radius: 50%;
     transition: all 0.3s ease;
-    box-shadow: var(--gwrs-shadow-xs);
+    box-shadow: var(--glwr-shadow-xs);
   }
 }
 
 .switch-input:checked + .switch-label .switch-slider {
-  background-color: var(--gwrs-color-primary);
+  background-color: var(--glwr-color-primary);
 
   &::before {
     transform: translateX(20px);
@@ -223,7 +234,7 @@
 }
 
 .switch-input:focus + .switch-label .switch-slider {
-  box-shadow: 0 0 0 2px var(--gwrs-color-primary-lighter);
+  box-shadow: 0 0 0 2px var(--glwr-color-primary-lighter);
 }
 
 .switch-input:disabled + .switch-label {
@@ -231,32 +242,32 @@
   cursor: not-allowed;
 
   .switch-slider {
-    background-color: var(--gwrs-border-light);
+    background-color: var(--glwr-border-light);
   }
 }
 
 .btn-secondary {
   padding: 8px 16px;
-  border: 1px solid var(--gwrs-border-primary);
+  border: 1px solid var(--glwr-border-primary);
   border-radius: 10px;
-  background: var(--gwrs-bg-quaternary);
+  background: var(--glwr-bg-quaternary);
   backdrop-filter: blur(20px);
-  color: var(--gwrs-text-primary);
+  color: var(--glwr-text-primary);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover:not(:disabled) {
-    border-color: var(--gwrs-color-primary);
-    background: var(--gwrs-color-primary-lighter);
+    border-color: var(--glwr-color-primary);
+    background: var(--glwr-color-primary-lighter);
     transform: translateY(-1px);
-    box-shadow: var(--gwrs-shadow-sm);
+    box-shadow: var(--glwr-shadow-sm);
   }
 
   &:active:not(:disabled) {
     transform: translateY(0);
-    box-shadow: var(--gwrs-shadow-xs);
+    box-shadow: var(--glwr-shadow-xs);
   }
 
   &:disabled {

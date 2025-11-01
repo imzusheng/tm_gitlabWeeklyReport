@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from 'react'
-import { useAppStore } from '@/stores/app-store'
+import { useAppStore } from '@/store'
 
 /**
  * 事件选择管理 Hook

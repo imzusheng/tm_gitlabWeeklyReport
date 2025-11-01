@@ -2,17 +2,17 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: var(--gwrs-bg-primary);
-  color: var(--gwrs-text-primary);
+  background: var(--glwr-bg-primary);
+  color: var(--glwr-text-primary);
 
   .panel-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 24px;
-    background: var(--gwrs-bg-secondary);
+    background: var(--glwr-bg-secondary);
     backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--gwrs-border-primary);
+    border-bottom: 1px solid var(--glwr-border-primary);
     box-shadow: 0 2px 20px rgb(0 0 0 / 10%);
     position: static;
     z-index: 10;
@@ -26,7 +26,7 @@
         margin: 0;
         font-size: 28px;
         font-weight: 700;
-        color: var(--gwrs-text-primary);
+        color: var(--glwr-text-primary);
       }
     }
 
@@ -41,10 +41,10 @@
       .mode-toggle {
         display: flex;
         align-items: center;
-        background: var(--gwrs-bg-secondary);
+        background: var(--glwr-bg-secondary);
         border-radius: 12px;
 
-        border: 1px solid var(--gwrs-border-primary);
+        border: 1px solid var(--glwr-border-primary);
         position: relative;
         height: 40px;
         backdrop-filter: blur(10px);
@@ -52,7 +52,7 @@
         transition: all 0.2s ease-in-out;
 
         &:hover {
-          border-color: var(--gwrs-color-primary);
+          border-color: var(--glwr-color-primary);
           box-shadow: 0 4px 12px rgb(102 126 234 / 15%);
         }
 
@@ -72,8 +72,8 @@
           height: 100%;
           background: linear-gradient(
             135deg,
-            var(--gwrs-color-primary) 0%,
-            var(--gwrs-color-info) 100%
+            var(--glwr-color-primary) 0%,
+            var(--glwr-color-info) 100%
           );
           border-radius: 8px;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -105,8 +105,8 @@
             position: absolute;
             background: linear-gradient(
               135deg,
-              var(--gwrs-color-primary),
-              var(--gwrs-color-info)
+              var(--glwr-color-primary),
+              var(--glwr-color-info)
             );
             border-radius: 10px;
             z-index: -1;
@@ -141,22 +141,22 @@
           background: transparent;
 
           &.active {
-            color: var(--gwrs-btn-primary-text);
+            color: var(--glwr-btn-primary-text);
             font-weight: 700;
             transform: scale(1.02);
             text-shadow: 0 1px 2px rgb(0 0 0 / 30%);
             background: linear-gradient(
               135deg,
-              var(--gwrs-color-primary),
-              var(--gwrs-color-info)
+              var(--glwr-color-primary),
+              var(--glwr-color-info)
             );
           }
 
           &:not(.active) {
-            color: var(--gwrs-text-secondary);
+            color: var(--glwr-text-secondary);
 
             &:hover {
-              color: var(--gwrs-text-primary);
+              color: var(--glwr-text-primary);
               background: rgb(255 255 255 / 5%);
             }
           }
@@ -182,7 +182,7 @@
       .divider {
         width: 1px;
         height: 24px;
-        background: var(--gwrs-border-secondary);
+        background: var(--glwr-border-secondary);
         margin: 0 8px;
       }
 
@@ -199,17 +199,17 @@
           height: 40px;
           padding: 0 16px;
           border-radius: 12px;
-          background: var(--gwrs-bg-secondary);
-          border: 1px solid var(--gwrs-border-primary);
-          color: var(--gwrs-text-primary);
+          background: var(--glwr-bg-secondary);
+          border: 1px solid var(--glwr-border-primary);
+          color: var(--glwr-text-primary);
           cursor: pointer;
           transition: all 0.2s ease-in-out;
           white-space: nowrap;
 
           &:hover {
-            background: var(--gwrs-color-primary-light);
-            color: var(--gwrs-color-primary);
-            border-color: var(--gwrs-color-primary);
+            background: var(--glwr-color-primary-light);
+            color: var(--glwr-color-primary);
+            border-color: var(--glwr-color-primary);
             box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
           }
 
@@ -235,8 +235,8 @@
           &.ai-btn {
             background: linear-gradient(
               135deg,
-              var(--gwrs-color-primary) 0%,
-              var(--gwrs-color-info) 100%
+              var(--glwr-color-primary) 0%,
+              var(--glwr-color-info) 100%
             );
             border: none;
             color: white;
@@ -262,10 +262,10 @@
             &:hover {
               background: linear-gradient(
                 135deg,
-                var(--gwrs-color-primary) 0%,
-                var(--gwrs-color-primary-dark) 100%
+                var(--glwr-color-primary) 0%,
+                var(--glwr-color-primary-dark) 100%
               );
-              box-shadow: var(--gwrs-shadow-lg);
+              box-shadow: var(--glwr-shadow-lg);
               color: white;
 
               &::before {
@@ -284,9 +284,9 @@
           }
 
           &.config-incomplete {
-            border-color: var(--gwrs-color-warning);
-            background: var(--gwrs-color-warning-light);
-            color: var(--gwrs-color-warning);
+            border-color: var(--glwr-color-warning);
+            background: var(--glwr-color-warning-light);
+            color: var(--glwr-color-warning);
             position: relative;
 
             &::before {
@@ -298,22 +298,22 @@
               height: 8px;
               background: linear-gradient(
                 135deg,
-                var(--gwrs-color-warning),
-                var(--gwrs-warning-color)
+                var(--glwr-color-warning),
+                var(--glwr-warning-color)
               );
               border-radius: 50%;
               animation: pulse 2s infinite;
             }
 
             &:hover {
-              border-color: var(--gwrs-color-warning);
+              border-color: var(--glwr-color-warning);
               background: linear-gradient(
                 135deg,
-                var(--gwrs-color-warning),
-                var(--gwrs-warning-color)
+                var(--glwr-color-warning),
+                var(--glwr-warning-color)
               );
               color: white;
-              box-shadow: var(--gwrs-shadow-md);
+              box-shadow: var(--glwr-shadow-md);
             }
 
             .btn-label {
@@ -325,8 +325,8 @@
             .config-badge {
               background: linear-gradient(
                 135deg,
-                var(--gwrs-color-warning),
-                var(--gwrs-warning-color)
+                var(--glwr-color-warning),
+                var(--glwr-warning-color)
               );
               color: white;
               font-size: 10px;
@@ -347,9 +347,9 @@
 .filter-section {
   flex-shrink: 0;
   padding: 16px 20px;
-  background: var(--gwrs-bg-quaternary);
+  background: var(--glwr-bg-quaternary);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--gwrs-border-secondary);
+  border-bottom: 1px solid var(--glwr-border-secondary);
 
   .filter-section-content {
     .filter-group {
@@ -363,7 +363,7 @@
         display: block;
         font-size: 14px;
         font-weight: 600;
-        color: var(--gwrs-text-primary);
+        color: var(--glwr-text-primary);
         margin-bottom: 8px;
       }
 
@@ -374,11 +374,11 @@
 
         .filter-option {
           padding: 6px 12px;
-          border: 1px solid var(--gwrs-btn-border);
+          border: 1px solid var(--glwr-btn-border);
           border-radius: 8px;
-          background: var(--gwrs-input-bg);
+          background: var(--glwr-input-bg);
           backdrop-filter: blur(10px);
-          color: var(--gwrs-text-primary);
+          color: var(--glwr-text-primary);
           font-size: 13px;
           font-weight: 500;
           cursor: pointer;
@@ -387,16 +387,16 @@
 
           &:hover {
             border-color: rgb(0 122 255 / 50%);
-            background: var(--gwrs-color-primary-light);
+            background: var(--glwr-color-primary-light);
             box-shadow: 0 4px 12px rgb(0 122 255 / 15%);
           }
 
           &.active {
-            border-color: var(--gwrs-color-primary);
+            border-color: var(--glwr-color-primary);
             background: linear-gradient(
               135deg,
-              var(--gwrs-color-primary) 0%,
-              var(--gwrs-color-info) 100%
+              var(--glwr-color-primary) 0%,
+              var(--glwr-color-info) 100%
             );
             color: white;
             box-shadow: 0 4px 12px rgb(0 122 255 / 30%);

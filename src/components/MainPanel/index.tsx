@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAppStore } from '@/stores/app-store'
+import { useAppStore } from '@/store'
 import type {
   GitLabEvent,
   FilterConditions,
@@ -7,8 +7,8 @@ import type {
   PaginationOptions,
 } from '@/types'
 import { APP_VERSION, AI_TASK_CONFIGS } from '@/constants'
-import FilterSection from './components/FilterSection'
-import EventsList from './components/EventsList'
+import FilterSection from '@/components/FilterSection'
+import EventsList from '@/components/EventsList'
 import VersionUpdateNotification from '@/components/VersionUpdateNotification'
 import styles from './index.module.less'
 

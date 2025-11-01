@@ -1,6 +1,6 @@
 .config-status {
-  background: var(--gwrs-bg-secondary);
-  border: 1px solid var(--gwrs-border-primary);
+  background: var(--glwr-bg-secondary);
+  border: 1px solid var(--glwr-border-primary);
   border-radius: 12px;
   padding: 16px;
   transition: all 0.2s ease;
@@ -9,7 +9,7 @@
     cursor: pointer;
 
     &:hover {
-      border-color: var(--gwrs-color-primary);
+      border-color: var(--glwr-color-primary);
       box-shadow: 0 4px 12px rgb(102 126 234 / 15%);
     }
   }
@@ -32,25 +32,25 @@
       .compact-text {
         font-size: 13px;
         font-weight: 500;
-        color: var(--gwrs-text-primary);
+        color: var(--glwr-text-primary);
         flex: 1;
       }
 
       .expand-button {
         background: none;
-        border: 1px solid var(--gwrs-border-secondary);
+        border: 1px solid var(--glwr-border-secondary);
         border-radius: 4px;
         padding: 4px 8px;
         font-size: 11px;
-        color: var(--gwrs-text-secondary);
+        color: var(--glwr-text-secondary);
         cursor: pointer;
         transition: all 0.2s ease;
         white-space: nowrap;
 
         &:hover {
-          border-color: var(--gwrs-color-primary);
-          color: var(--gwrs-color-primary);
-          background: var(--gwrs-color-primary-light);
+          border-color: var(--glwr-color-primary);
+          color: var(--glwr-color-primary);
+          background: var(--glwr-color-primary-light);
         }
       }
     }
@@ -58,14 +58,14 @@
     .expanded-content {
       margin-top: 12px;
       padding-top: 12px;
-      border-top: 1px solid var(--gwrs-border-secondary);
+      border-top: 1px solid var(--glwr-border-secondary);
 
       .config-items {
         gap: 6px;
 
         .compact-item {
           padding: 8px 10px;
-          background: var(--gwrs-bg-tertiary);
+          background: var(--glwr-bg-tertiary);
           border-radius: 6px;
           display: flex;
           align-items: center;
@@ -74,7 +74,7 @@
           .item-label {
             font-size: 12px;
             font-weight: 500;
-            color: var(--gwrs-text-primary);
+            color: var(--glwr-text-primary);
           }
 
           .item-icon {
@@ -89,28 +89,28 @@
           }
 
           &.valid {
-            border: 1px solid var(--gwrs-color-success);
-            background: var(--gwrs-color-success-light);
+            border: 1px solid var(--glwr-color-success);
+            background: var(--glwr-color-success-light);
 
             .item-icon {
               background: linear-gradient(
                 135deg,
-                var(--gwrs-color-success),
-                var(--gwrs-success-color)
+                var(--glwr-color-success),
+                var(--glwr-success-color)
               );
               color: white;
             }
           }
 
           &.invalid {
-            border: 1px solid var(--gwrs-color-warning);
-            background: var(--gwrs-color-warning-light);
+            border: 1px solid var(--glwr-color-warning);
+            background: var(--glwr-color-warning-light);
 
             .item-icon {
               background: linear-gradient(
                 135deg,
-                var(--gwrs-color-warning),
-                var(--gwrs-warning-color)
+                var(--glwr-color-warning),
+                var(--glwr-warning-color)
               );
               color: white;
             }
@@ -137,7 +137,7 @@
       .status-text {
         font-size: 14px;
         font-weight: 600;
-        color: var(--gwrs-text-primary);
+        color: var(--glwr-text-primary);
       }
     }
 
@@ -149,18 +149,18 @@
       .progress-bar {
         flex: 1;
         height: 8px;
-        background: var(--gwrs-bg-tertiary);
+        background: var(--glwr-bg-tertiary);
         border-radius: 4px;
         overflow: hidden;
-        border: 1px solid var(--gwrs-border-secondary);
+        border: 1px solid var(--glwr-border-secondary);
 
         .progress-fill {
           height: 100%;
           background: linear-gradient(
             90deg,
-            var(--gwrs-color-warning) 0%,
-            var(--gwrs-color-primary) 50%,
-            var(--gwrs-color-success) 100%
+            var(--glwr-color-warning) 0%,
+            var(--glwr-color-primary) 50%,
+            var(--glwr-color-success) 100%
           );
           transition: all 0.3s ease;
           border-radius: 3px;
@@ -168,10 +168,10 @@
           &.complete {
             background: linear-gradient(
               135deg,
-              var(--gwrs-color-success),
-              var(--gwrs-success-color)
+              var(--glwr-color-success),
+              var(--glwr-success-color)
             );
-            box-shadow: 0 0 8px var(--gwrs-color-success-light);
+            box-shadow: 0 0 8px var(--glwr-color-success-light);
           }
         }
       }
@@ -179,7 +179,7 @@
       .progress-text {
         font-size: 12px;
         font-weight: 600;
-        color: var(--gwrs-text-secondary);
+        color: var(--glwr-text-secondary);
         min-width: 35px;
         text-align: right;
       }
@@ -196,9 +196,9 @@
       align-items: center;
       justify-content: space-between;
       padding: 12px;
-      background: var(--gwrs-bg-tertiary);
+      background: var(--glwr-bg-tertiary);
       border-radius: 8px;
-      border: 1px solid var(--gwrs-border-secondary);
+      border: 1px solid var(--glwr-border-secondary);
       transition: all 0.2s ease;
 
       .item-info {
@@ -209,12 +209,12 @@
         .item-label {
           font-size: 13px;
           font-weight: 600;
-          color: var(--gwrs-text-primary);
+          color: var(--glwr-text-primary);
         }
 
         .item-status {
           font-size: 11px;
-          color: var(--gwrs-text-secondary);
+          color: var(--glwr-text-secondary);
         }
       }
 
@@ -230,38 +230,38 @@
       }
 
       &.valid {
-        border-color: var(--gwrs-color-success);
-        background: var(--gwrs-color-success-light);
+        border-color: var(--glwr-color-success);
+        background: var(--glwr-color-success-light);
 
         .item-icon {
           background: linear-gradient(
             135deg,
-            var(--gwrs-color-success),
-            var(--gwrs-success-color)
+            var(--glwr-color-success),
+            var(--glwr-success-color)
           );
           color: white;
         }
 
         .item-status {
-          color: var(--gwrs-color-success);
+          color: var(--glwr-color-success);
         }
       }
 
       &.invalid {
-        border-color: var(--gwrs-color-warning);
-        background: var(--gwrs-color-warning-light);
+        border-color: var(--glwr-color-warning);
+        background: var(--glwr-color-warning-light);
 
         .item-icon {
           background: linear-gradient(
             135deg,
-            var(--gwrs-color-warning),
-            var(--gwrs-warning-color)
+            var(--glwr-color-warning),
+            var(--glwr-warning-color)
           );
           color: white;
         }
 
         .item-status {
-          color: var(--gwrs-color-warning);
+          color: var(--glwr-color-warning);
         }
       }
 

@@ -1,14 +1,7 @@
 /**
  * 网络请求适配层
- * 支持 Web 环境的 fetch 和油猴脚本环境的 GM_xmlhttpRequest
+ * 使用 Web 环境的 fetch API
  */
-
-// 检测是否在油猴脚本环境中
-export const isUserscriptEnvironment = (): boolean => {
-  return (
-    typeof window !== 'undefined' && typeof GM_xmlhttpRequest !== 'undefined'
-  )
-}
 
 // 请求选项接口
 export interface RequestOptions {
@@ -31,7 +24,7 @@ export interface RequestResponse {
 
 /**
  * 统一的网络请求函数
- * 自动检测环境并使用合适的请求方法
+ * 使用 fetch API
  */
 export async function request(
   url: string,
@@ -45,111 +38,73 @@ export async function request(
     signal,
   } = options
 
-  if (isUserscriptEnvironment()) {
-    // 油猴脚本环境：使用 GM_xmlhttpRequest
-    return new Promise((resolve, reject) => {
-      if (signal?.aborted) {
-        return reject(new Error('Request aborted'))
-      }
+  // 处理 timeout 和 signal 的合并
+  let abortController: AbortController | null = null
+  let timeoutId: NodeJS.Timeout | null = null
+  let finalSignal = signal
 
-      const controller = new AbortController()
-      const timeoutId =
-        timeout > 0 ? setTimeout(() => controller.abort(), timeout) : undefined
+  if (timeout > 0 || signal) {
+    abortController = new AbortController()
+    finalSignal = abortController.signal
 
-      const abortHandler = () => {
-        clearTimeout(timeoutId)
-        controller.abort()
-        reject(new Error('Request aborted'))
-      }
+    // 设置超时
+    if (timeout > 0) {
+      timeoutId = setTimeout(() => {
+        abortController?.abort()
+      }, timeout)
+    }
 
-      signal?.addEventListener('abort', abortHandler)
-
-      GM_xmlhttpRequest({
-        method: method.toUpperCase(),
-        url,
-        headers: { 'Content-Type': 'application/json', ...headers },
-        data: body,
-        timeout,
-        onload: response => {
+    // 监听外部 signal
+    if (signal) {
+      signal.addEventListener('abort', () => {
+        abortController?.abort()
+        if (timeoutId) {
           clearTimeout(timeoutId)
-          signal?.removeEventListener('abort', abortHandler)
-          resolve({
-            ok: response.status >= 200 && response.status < 300,
-            status: response.status,
-            statusText: response.statusText,
-            headers: parseResponseHeaders(response.responseHeaders),
-            json: () => Promise.resolve(JSON.parse(response.responseText)),
-            text: () => Promise.resolve(response.responseText),
-          })
-        },
-        onerror: error => {
-          clearTimeout(timeoutId)
-          signal?.removeEventListener('abort', abortHandler)
-          reject(new Error(`Network error: ${error.error || 'Unknown error'}`))
-        },
-        ontimeout: () => {
-          signal?.removeEventListener('abort', abortHandler)
-          reject(new Error('Request timeout'))
-        },
+        }
       })
-    })
-  } else {
-    // Web 环境：使用 fetch
-    const fetchOptions: RequestInit = {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        ...headers,
-      },
-      body,
-      signal,
+    }
+  }
+
+  const fetchOptions: RequestInit = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      ...headers,
+    },
+    body,
+    signal: finalSignal,
+  }
+
+  try {
+    const response = await fetch(url, fetchOptions)
+    // 成功响应后清理定时器
+    if (timeoutId) {
+      clearTimeout(timeoutId)
     }
 
-    if (timeout > 0 && !signal) {
-      fetchOptions.signal = AbortSignal.timeout(timeout)
+    return {
+      ok: response.ok,
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers,
+      json: () => response.json(),
+      text: () => response.text(),
     }
-
-    try {
-      const response = await fetch(url, fetchOptions)
-
-      return {
-        ok: response.ok,
-        status: response.status,
-        statusText: response.statusText,
-        headers: response.headers,
-        json: () => response.json(),
-        text: () => response.text(),
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        throw error
-      }
-      throw new Error('Network request failed')
+  } catch (error) {
+    // 清理定时器
+    if (timeoutId) {
+      clearTimeout(timeoutId)
     }
+    if (error instanceof Error) {
+      throw error
+    }
+    throw new Error('Network request failed')
   }
 }
 
 /**
- * 解析响应头字符串为对象
- */
-const parseResponseHeaders = (headerString: string): Record<string, string> => {
-  const headers: Record<string, string> = {}
-
-  if (!headerString) return headers
-
-  headerString.split('\n').forEach(line => {
-    const parts = line.split(': ')
-    if (parts.length === 2) {
-      headers[parts[0].toLowerCase()] = parts[1]
-    }
-  })
-
-  return headers
-}
-
-/**
  * 存储适配层
- * 支持 Web localStorage 和油猴脚本的 GM_setValue/GM_getValue
+ * 使用 Web localStorage
  */
 export const storageAdapter = {
   /**
@@ -157,12 +112,10 @@ export const storageAdapter = {
    */
   setItem: (key: string, value: string): void => {
     try {
-      if (isUserscriptEnvironment() && typeof GM_setValue !== 'undefined') {
-        GM_setValue(key, value)
-      } else if (typeof localStorage !== 'undefined') {
+      if (typeof localStorage !== 'undefined') {
         localStorage.setItem(key, value)
       } else {
-        console.warn('No storage method available')
+        console.warn('localStorage is not available')
       }
     } catch (error) {
       console.error('Storage setItem failed:', error)
@@ -174,12 +127,10 @@ export const storageAdapter = {
    */
   getItem: (key: string): string | null => {
     try {
-      if (isUserscriptEnvironment() && typeof GM_getValue !== 'undefined') {
-        return GM_getValue(key, null)
-      } else if (typeof localStorage !== 'undefined') {
+      if (typeof localStorage !== 'undefined') {
         return localStorage.getItem(key)
       } else {
-        console.warn('No storage method available')
+        console.warn('localStorage is not available')
         return null
       }
     } catch (error) {
@@ -193,38 +144,13 @@ export const storageAdapter = {
    */
   removeItem: (key: string): void => {
     try {
-      if (isUserscriptEnvironment() && typeof GM_deleteValue !== 'undefined') {
-        GM_deleteValue(key)
-      } else if (typeof localStorage !== 'undefined') {
+      if (typeof localStorage !== 'undefined') {
         localStorage.removeItem(key)
       } else {
-        console.warn('No storage method available')
+        console.warn('localStorage is not available')
       }
     } catch (error) {
       console.error('Storage removeItem failed:', error)
     }
   },
-}
-
-// 声明油猴脚本的全局函数类型
-declare global {
-  function GM_xmlhttpRequest(details: {
-    method: string
-    url: string
-    headers?: Record<string, string>
-    data?: string
-    timeout?: number
-    onload: (response: {
-      status: number
-      statusText: string
-      responseText: string
-      responseHeaders: string
-    }) => void
-    onerror: (error: { error?: string }) => void
-    ontimeout: () => void
-  }): void
-
-  function GM_setValue(key: string, value: string): void
-  function GM_getValue(key: string, defaultValue?: string | null): string | null
-  function GM_deleteValue(key: string): void
 }

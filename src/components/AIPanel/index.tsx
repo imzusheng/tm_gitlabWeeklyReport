@@ -276,9 +276,7 @@ const AIPanel: React.FC<AIPanelProps> = ({
               <button
                 className={`${styles.btnPrimary} ${config?.result ? styles.regenerate : ''}`}
                 onClick={handleGenerate}
-                disabled={
-                  isLoading || !prompt.trim() || selectedEventsCount === 0
-                }
+                disabled={!canGenerate}
               >
                 {isLoading
                   ? '生成中...'

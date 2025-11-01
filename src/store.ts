@@ -100,7 +100,9 @@ const calculateTimeRange = (timeRange: string) => {
       // 本周（周一到周日）
       const dayOfWeek = now.getDay()
       const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1
+      const daysToSunday = dayOfWeek === 0 ? 0 : 7 - dayOfWeek
       startDate.setDate(now.getDate() - daysToMonday)
+      endDate.setDate(now.getDate() + daysToSunday)
       break
     }
     case '7d':

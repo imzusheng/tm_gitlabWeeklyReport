@@ -1,65 +1,12 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
-import { readFileSync, writeFileSync, existsSync } from 'fs'
-import { join } from 'path'
-
-// 从 package.json 读取版本号
-const packageJson = JSON.parse(
-  readFileSync(resolve(__dirname, 'package.json'), 'utf-8'),
-)
-const version = packageJson.version
-
-// UserScript header
-const userscriptHeader = `
-// ==UserScript==
-// @name         GitLab 周报生成器
-// @namespace    https://github.com/imzusheng/tm_gitlabWeeklyReport
-// @version      ${version}
-// @description  基于 DeepSeek AI 的 GitLab 工作周报自动生成工具
-// @author       lizusheng
-// @match        *://www.lejuhub.com/dashboard/*
-// @grant        GM_setValue
-// @grant        GM_getValue
-// @grant        GM_deleteValue
-// @grant        GM_xmlhttpRequest
-// @updateURL    https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/userscript/gitlab-weekly-report.user.js
-// @downloadURL  https://github.com/imzusheng/tm_gitlabWeeklyReport/raw/v2/dist/userscript/gitlab-weekly-report.user.js
-// ==/UserScript==
-
-`
-
-// Custom plugin to add UserScript header
-function userscriptPlugin() {
-  return {
-    name: 'userscript-header',
-    writeBundle(options, bundle) {
-      for (const fileName in bundle) {
-        if (fileName.endsWith('.user.js')) {
-          const filePath = join(options.dir || 'dist', fileName)
-          if (existsSync(filePath)) {
-            const content = readFileSync(filePath, 'utf-8')
-            const newContent = userscriptHeader + content
-            writeFileSync(filePath, newContent)
-          }
-        }
-      }
-    },
-  }
-}
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const isUserscript = mode === 'userscript'
-
   return {
     base: './',
-    plugins: isUserscript
-      ? [
-          // 油猴脚本模式不需要 React 和 CSS 插件
-          userscriptPlugin(),
-        ]
-      : [react()],
+    plugins: [react()],
     resolve: {
       alias: {
         '@': resolve(__dirname, 'src'),
@@ -72,63 +19,41 @@ export default defineConfig(({ mode }) => {
         },
       },
       modules: {
-        // 启用CSS模块化，为所有.less和.css文件添加hash
         localsConvention: 'camelCase',
-        generateScopedName: 'gwrs-[name]__[local]__[hash:base64:5]', // 添加前缀
-        hashPrefix: 'gitlab-weekly-report',
+        generateScopedName: '[name]-[local]-[hash:5]',
       },
     },
     build: {
-      outDir: isUserscript ? 'dist/userscript' : 'dist/web',
-      cssCodeSplit: !isUserscript, // 在油猴脚本模式下不分割CSS
+      outDir: 'dist/web',
+      cssCodeSplit: true,
       minify: 'terser',
       terserOptions: {
         compress: {
-          // 移除console语句（仅在生产环境）
-          drop_console: mode === 'production' || isUserscript,
+          drop_console: mode === 'production',
           drop_debugger: true,
           pure_funcs:
-            mode === 'production' || isUserscript
+            mode === 'production'
               ? ['console.log', 'console.warn', 'console.error']
               : [],
         },
         mangle: {
-          // 保留函数名以便调试
           keep_fnames: mode === 'development',
         },
         format: {
-          // 在油猴脚本模式下保留所有注释，确保头部不被删除
-          comments: isUserscript ? 'all' : false,
+          comments: false,
         },
       },
       rollupOptions: {
-        input: isUserscript
-          ? resolve(__dirname, 'src/userscript.ts')
-          : resolve(__dirname, 'index.html'),
-
-        // 油猴脚本模式现在没有外部依赖
-        external: isUserscript ? [] : [],
+        input: resolve(__dirname, 'index.html'),
         output: {
-          // 为外部模块提供全局变量名，避免警告
-          globals: isUserscript ? {} : {},
-          ...(isUserscript
-            ? {
-                format: 'iife',
-                name: 'GitLabWeeklyReport',
-                entryFileNames: 'gitlab-weekly-report.user.js',
-                assetFileNames: '[name].[ext]',
-                inlineDynamicImports: true,
-              }
-            : {
-                format: 'es',
-                entryFileNames: 'assets/[name]-[hash].js',
-                chunkFileNames: 'assets/[name]-[hash].js',
-                assetFileNames: 'assets/[name]-[hash].[ext]',
-                manualChunks: {
-                  vendor: ['react', 'react-dom'],
-                  utils: ['@/utils/index', '@/constants/index'],
-                },
-              }),
+          format: 'es',
+          entryFileNames: 'assets/[name]-[hash].js',
+          chunkFileNames: 'assets/[name]-[hash].js',
+          assetFileNames: 'assets/[name]-[hash].[ext]',
+          manualChunks: {
+            vendor: ['react', 'react-dom'],
+            utils: ['@/utils/index', '@/constants'],
+          },
         },
       },
     },

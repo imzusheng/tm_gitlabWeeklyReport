@@ -1,6 +1,6 @@
 import { DeepSeekMessage, DeepSeekResponse } from '@/types'
 import { API_CONFIG } from '@/constants'
-import { request, isUserscriptEnvironment } from '@/utils/request'
+import { request } from '@/utils/request'
 import { errorUtils } from '@/utils'
 
 export class DeepSeekApiService {
@@ -9,9 +9,9 @@ export class DeepSeekApiService {
 
   constructor(apiKey: string) {
     this.apiKey = apiKey
-    // 在开发环境中且不是油猴脚本环境时，使用代理URL
+    // 在开发环境中使用代理URL
     const isDev = process.env.NODE_ENV === 'development'
-    if (isDev && !isUserscriptEnvironment()) {
+    if (isDev) {
       this.baseUrl = '/api/deepseek/v1'
     } else {
       this.baseUrl = API_CONFIG.DEEPSEEK_BASE_URL

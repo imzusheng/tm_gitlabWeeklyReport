@@ -123,4 +123,4 @@ temp-*
 *.temp
 
 # Build outputs
-/build
+build/

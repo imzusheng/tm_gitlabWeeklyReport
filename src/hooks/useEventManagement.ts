@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useAppStore } from '@/stores/app-store'
+import { useAppStore } from '@/store'
 import { useAbortableRequest } from '@/hooks/useAbortableRequest'
 import { createGitLabApiService } from '@/services/gitlab-api'
 import { configErrors } from '@/utils'
@@ -23,7 +23,8 @@ export const useEventManagement = () => {
     getTimeRange,
   } = useAppStore()
 
-  const { createRequest, isRequestCancelled } = useAbortableRequest()
+  const { createRequest, isRequestCancelled, isAbortError } =
+    useAbortableRequest()
 
   /**
    * 加载 GitLab 事件数据
@@ -80,7 +81,7 @@ export const useEventManagement = () => {
       setEvents(events)
       setTotalCount(total)
     } catch (error) {
-      if (isRequestCancelled(abortController)) {
+      if (isRequestCancelled(abortController) || isAbortError(error)) {
         return
       }
 
@@ -104,6 +105,7 @@ export const useEventManagement = () => {
     setError,
     createRequest,
     isRequestCancelled,
+    isAbortError,
   ])
 
   /**

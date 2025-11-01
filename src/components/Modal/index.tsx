@@ -81,22 +81,20 @@ const Modal: React.FC<ModalProps> = ({
       className={styles.modalMask}
       onClick={handleMaskClick}
     >
-      <div className={styles.modalWrapper}>
-        <div className={styles.modal} style={{ width, maxHeight }}>
-          {/* 模态框头部 */}
-          <div className={styles.modalHeader}>
-            <div className={styles.modalTitle}>{title}</div>
-            <button className={styles.modalClose} onClick={onClose}>
-              <span>×</span>
-            </button>
-          </div>
-
-          {/* 模态框内容 */}
-          <div className={styles.modalBody}>{children}</div>
-
-          {/* 模态框底部 */}
-          {footer && <div className={styles.modalFooter}>{footer}</div>}
+      <div className={styles.modal} style={{ width, maxHeight }}>
+        {/* 模态框头部 */}
+        <div className={styles.modalHeader}>
+          <div className={styles.modalTitle}>{title}</div>
+          <button className={styles.modalClose} onClick={onClose}>
+            <span>×</span>
+          </button>
         </div>
+
+        {/* 模态框内容 */}
+        <div className={styles.modalBody}>{children}</div>
+
+        {/* 模态框底部 */}
+        {footer && <div className={styles.modalFooter}>{footer}</div>}
       </div>
     </div>
   )
