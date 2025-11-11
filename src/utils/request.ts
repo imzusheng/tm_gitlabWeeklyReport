@@ -73,6 +73,7 @@ export async function request(
     },
     body,
     signal: finalSignal,
+    cache: 'no-store',
   }
 
   try {

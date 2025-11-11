@@ -3,19 +3,20 @@ import { request } from '@/utils/request'
 import { API_CONFIG } from '@/constants'
 import { errorUtils } from '@/utils'
 
+const normalizeBaseUrl = (url: string): string => {
+  return url ? url.replace(/\/$/, '') : ''
+}
+
 export class GitLabApiService {
   private baseUrl: string
   private token: string
   private currentUser: GitLabUser | null = null
 
   constructor(baseUrl: string, token: string) {
-    // 在开发环境中使用代理URL
-    const isDev = process.env.NODE_ENV === 'development'
-    if (isDev) {
-      this.baseUrl = '/proxy/api/v4'
-    } else {
-      this.baseUrl = baseUrl.replace(/\/$/, '') // 移除末尾斜杠
+    if (!baseUrl) {
+      throw new Error('GitLab API 基础地址不能为空')
     }
+    this.baseUrl = normalizeBaseUrl(baseUrl)
     this.token = token
   }
 
@@ -112,10 +113,10 @@ export class GitLabApiService {
   /**
    * 初始化GitLab服务
    */
-  async init(): Promise<void> {
+  async init(): Promise<GitLabUser> {
     try {
       // 验证当前配置是否有效
-      await this.getCurrentUser()
+      return await this.getCurrentUser()
     } catch (error) {
       console.error('GitLab service initialization failed:', error)
 
@@ -418,6 +419,8 @@ export class GitLabApiService {
   }
 }
 
+const gitlabServiceCache = new Map<string, GitLabApiService>()
+
 /**
  * 创建GitLab API服务实例
  */
@@ -425,5 +428,15 @@ export function createGitLabApiService(
   baseUrl: string,
   token: string,
 ): GitLabApiService {
-  return new GitLabApiService(baseUrl, token)
+  const normalizedBaseUrl = normalizeBaseUrl(baseUrl)
+  const cacheKey = `${normalizedBaseUrl}::${token}`
+
+  const cachedService = gitlabServiceCache.get(cacheKey)
+  if (cachedService) {
+    return cachedService
+  }
+
+  const service = new GitLabApiService(normalizedBaseUrl, token)
+  gitlabServiceCache.set(cacheKey, service)
+  return service
 }

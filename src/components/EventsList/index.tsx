@@ -14,8 +14,8 @@ interface EventsListProps {
   paginationOptions: PaginationOptions
   onPaginationChange: (paginationOptions: PaginationOptions) => void
   selectedEventIds: number[] // 选中的事件ID列表
-  isFullSelection: boolean // 是否全选状态
-  onSelectionChange: (selectedIds: number[], isFullSelection: boolean) => void // 选择状态变更回调
+  onSelectAll: () => void // 全选当前列表
+  onClearSelection: () => void // 清空选择
   onEventSelect: (eventId: number) => void // 单个事件选择切换
   onEventDetail: (event: GitLabEvent) => void // 查看事件详情回调
 }
@@ -29,8 +29,8 @@ const EventsList: React.FC<EventsListProps> = ({
   paginationOptions,
   onPaginationChange,
   selectedEventIds,
-  isFullSelection,
-  onSelectionChange,
+  onSelectAll,
+  onClearSelection,
   onEventSelect,
   onEventDetail,
 }) => {
@@ -224,7 +224,8 @@ const EventsList: React.FC<EventsListProps> = ({
         currentPageEvents={events}
         selectedEventIds={selectedEventIds}
         totalCount={totalCount}
-        onSelectionChange={onSelectionChange}
+        onSelectAll={onSelectAll}
+        onClearSelection={onClearSelection}
         loading={loading}
       />
 
@@ -264,8 +265,7 @@ const EventsList: React.FC<EventsListProps> = ({
           </div>
         ) : (
           events.map(event => {
-            const isSelected =
-              isFullSelection || selectedEventIds.includes(event.id)
+            const isSelected = selectedEventIds.includes(event.id)
             const { icon, title, actionType } = getEventDisplayInfo(event)
             return (
               <div

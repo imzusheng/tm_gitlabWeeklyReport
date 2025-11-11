@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useAppStore } from '@/store'
 import { useEventManagement } from '@/hooks/useEventManagement'
 import { useEventSelection } from '@/hooks/useEventSelection'
@@ -43,7 +43,13 @@ const App: React.FC<AppProps> = () => {
     handleSortChange,
     handlePaginationChange,
   } = useEventManagement()
-  const { selectedEvents, toggleEventSelection } = useEventSelection()
+  const {
+    selectedEvents,
+    selectedEventIds,
+    toggleEventSelection,
+    selectAllEvents,
+    clearSelection,
+  } = useEventSelection()
 
   // 本地状态
   const [selectedEvent, setSelectedEvent] = useState<GitLabEvent | null>(null)
@@ -62,6 +68,17 @@ const App: React.FC<AppProps> = () => {
     setIsDetailModalVisible(true)
   }
 
+  const baseAiGenerationConfig = useMemo<AIGenerationConfig>(() => {
+    return (
+      aiGenerationConfig ?? {
+        taskType: 'weekly-report',
+        prompt: config.defaultPrompt,
+        tokensUsed: 0,
+        result: '',
+      }
+    )
+  }, [aiGenerationConfig, config.defaultPrompt])
+
   /**
    * 处理 AI 报告生成
    */
@@ -73,7 +90,12 @@ const App: React.FC<AppProps> = () => {
 
     setLoading(true)
     setError(null)
-    setAIGenerationConfig(aiConfig)
+    const pendingConfig = {
+      ...aiConfig,
+      tokensUsed: 0,
+      result: '',
+    }
+    setAIGenerationConfig(pendingConfig)
 
     try {
       const deepseekService = createDeepSeekApiService(config.deepseekApiKey)
@@ -103,6 +125,11 @@ const App: React.FC<AppProps> = () => {
       }
 
       setReportData(reportData)
+      setAIGenerationConfig({
+        ...pendingConfig,
+        result: response.content,
+        tokensUsed: response.tokensUsed || 0,
+      })
       setActivePanel('ai')
     } catch (error) {
       console.error('AI 报告生成失败:', error)
@@ -126,12 +153,13 @@ const App: React.FC<AppProps> = () => {
           filterConditions={useAppStore.getState().filterConditions}
           sortOptions={useAppStore.getState().sortOptions}
           paginationOptions={useAppStore.getState().paginationOptions}
-          selectedEventIds={selectedEvents.map(e => e.id)}
+          selectedEventIds={selectedEventIds}
           onFilterChange={handleFilterChange}
           onSortChange={handleSortChange}
           onPaginationChange={handlePaginationChange}
           onEventSelect={toggleEventSelection}
-          onSelectionChange={() => {}}
+          onSelectAllEvents={selectAllEvents}
+          onClearSelection={clearSelection}
           onEventDetail={handleEventDetail}
           onOpenSettings={() => setActivePanel('settings')}
           onOpenAI={() => setActivePanel('ai')}
@@ -155,13 +183,11 @@ const App: React.FC<AppProps> = () => {
         {activePanel === 'ai' && (
           <AIPanel
             visible={true}
-            config={aiGenerationConfig}
+            config={baseAiGenerationConfig}
             taskType="weekly-report"
             onClose={() => setActivePanel('main')}
             onGenerate={prompt => {
-              if (aiGenerationConfig) {
-                handleGenerateReport({ ...aiGenerationConfig, prompt })
-              }
+              handleGenerateReport({ ...baseAiGenerationConfig, prompt })
             }}
             isLoading={isLoading}
             selectedEventsCount={selectedEvents.length}

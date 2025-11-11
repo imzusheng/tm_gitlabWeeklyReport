@@ -188,9 +188,6 @@ export interface AppConfig {
   model: string
   customPrompt?: string
   theme?: 'light' | 'dark' | 'system'
-  // 版本更新配置
-  autoCheckUpdate?: boolean // 是否自动检查更新
-  updateCheckInterval?: number // 检查更新间隔（毫秒）
 }
 
 // AI任务类型

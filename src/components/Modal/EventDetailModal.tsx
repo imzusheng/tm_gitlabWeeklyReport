@@ -1,4 +1,6 @@
+import React, { useMemo } from 'react'
 import { GitLabEvent } from '@/types'
+import { useAppStore } from '@/store'
 import styles from './EventDetailModal.module.less'
 
 interface EventDetailModalProps {
@@ -7,11 +9,38 @@ interface EventDetailModalProps {
   onClose: () => void
 }
 
+const normalizeGitLabWebUrl = (apiUrl: string): string => {
+  if (!apiUrl) return ''
+
+  try {
+    const base =
+      typeof window !== 'undefined'
+        ? window.location.origin
+        : 'http://localhost'
+    const parsedUrl = new URL(apiUrl, base)
+    parsedUrl.pathname = parsedUrl.pathname.replace(/\/api\/v4\/?$/, '')
+    if (parsedUrl.pathname !== '/' && parsedUrl.pathname.endsWith('/')) {
+      parsedUrl.pathname = parsedUrl.pathname.replace(/\/$/, '')
+    }
+    parsedUrl.search = ''
+    parsedUrl.hash = ''
+    return `${parsedUrl.origin}${parsedUrl.pathname}`
+  } catch {
+    return apiUrl.replace(/\/api\/v4\/?$/, '').replace(/\/$/, '')
+  }
+}
+
 const EventDetailModal: React.FC<EventDetailModalProps> = ({
   event,
   visible,
   onClose,
 }) => {
+  const gitlabApiUrl = useAppStore(state => state.config.gitlabUrl)
+  const gitlabBaseUrl = useMemo(
+    () => normalizeGitLabWebUrl(gitlabApiUrl),
+    [gitlabApiUrl],
+  )
+
   if (!visible || !event) return null
 
   const getEventTypeDisplay = (targetType: string | null) => {
@@ -57,37 +86,36 @@ const EventDetailModal: React.FC<EventDetailModalProps> = ({
   }
 
   const getSourceUrl = () => {
+    if (!gitlabBaseUrl) return ''
     // 如果没有project对象且没有project_id，无法生成URL
     if (!event.project && !event.project_id) return ''
 
-    const baseUrl = 'https://www.lejuhub.com'
-
     // 如果没有完整的project对象，只能返回基础URL
     if (!event.project) {
-      return baseUrl
+      return gitlabBaseUrl
     }
 
     const projectPath = event.project.path_with_namespace
 
     // 处理空值情况
     if (!event.target_type || event.target_type.trim() === '') {
-      return `${baseUrl}/${projectPath}`
+      return `${gitlabBaseUrl}/${projectPath}`
     }
 
     switch (event.target_type) {
       case 'MergeRequest':
-        return `${baseUrl}/${projectPath}/-/merge_requests/${event.target_iid}`
+        return `${gitlabBaseUrl}/${projectPath}/-/merge_requests/${event.target_iid}`
       case 'Issue':
-        return `${baseUrl}/${projectPath}/-/issues/${event.target_iid}`
+        return `${gitlabBaseUrl}/${projectPath}/-/issues/${event.target_iid}`
       case 'Note':
         if (event.note?.noteable_type === 'Issue') {
-          return `${baseUrl}/${projectPath}/-/issues/${event.note.noteable_iid}`
+          return `${gitlabBaseUrl}/${projectPath}/-/issues/${event.note.noteable_iid}`
         } else if (event.note?.noteable_type === 'MergeRequest') {
-          return `${baseUrl}/${projectPath}/-/merge_requests/${event.note.noteable_iid}`
+          return `${gitlabBaseUrl}/${projectPath}/-/merge_requests/${event.note.noteable_iid}`
         }
-        return `${baseUrl}/${projectPath}`
+        return `${gitlabBaseUrl}/${projectPath}`
       default:
-        return `${baseUrl}/${projectPath}`
+        return `${gitlabBaseUrl}/${projectPath}`
     }
   }
 

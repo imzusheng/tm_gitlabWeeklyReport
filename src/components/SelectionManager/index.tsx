@@ -6,52 +6,57 @@ interface SelectionManagerProps {
   currentPageEvents: GitLabEvent[]
   selectedEventIds: number[]
   totalCount: number
-  onSelectionChange: (selectedIds: number[], isFullSelection: boolean) => void
+  onSelectAll: () => void
+  onClearSelection: () => void
   loading?: boolean
 }
 
 const SelectionManager: React.FC<SelectionManagerProps> = ({
-  currentPageEvents: _currentPageEvents,
+  currentPageEvents,
   selectedEventIds,
   totalCount,
-  onSelectionChange,
+  onSelectAll,
+  onClearSelection,
   loading = false,
 }) => {
-  // 检查是否全选（使用特殊标记-1表示全选状态）
-  const isFullSelection = useMemo(() => {
-    return selectedEventIds.includes(-1)
-  }, [selectedEventIds])
+  const currentPageIds = useMemo(
+    () => currentPageEvents.map(event => event.id),
+    [currentPageEvents],
+  )
 
-  // 计算选中数量显示
+  const currentPageSelected = useMemo(() => {
+    return (
+      currentPageIds.length > 0 &&
+      currentPageIds.every(id => selectedEventIds.includes(id))
+    )
+  }, [currentPageIds, selectedEventIds])
+
   const selectionInfo = useMemo(() => {
-    if (isFullSelection) {
-      return {
-        count: totalCount,
-        text: `已全选 ${totalCount} 条`,
-      }
-    }
-    // 排除-1标记计算真实的选中数量
-    const realSelectedCount = selectedEventIds.filter(id => id !== -1).length
     return {
-      count: realSelectedCount,
-      text: `已选中 ${realSelectedCount} 条`,
+      count: selectedEventIds.length,
+      text: `已选中 ${selectedEventIds.length} 条`,
     }
-  }, [isFullSelection, totalCount, selectedEventIds])
+  }, [selectedEventIds.length])
 
-  // 全选
   const handleSelectAll = useCallback(() => {
-    onSelectionChange([-1], true) // 使用-1作为全选标记
-  }, [onSelectionChange])
+    if (!currentPageSelected) {
+      onSelectAll()
+    }
+  }, [currentPageSelected, onSelectAll])
 
-  // 取消全选
   const handleClearAll = useCallback(() => {
-    onSelectionChange([], false)
-  }, [onSelectionChange])
+    if (selectedEventIds.length > 0) {
+      onClearSelection()
+    }
+  }, [onClearSelection, selectedEventIds.length])
 
   return (
     <div className={styles.selectionManager}>
       <div className={styles.selectionInfo}>
-        <span className={styles.selectionCount}>{selectionInfo.text}</span>
+        <span className={styles.selectionCount}>
+          {selectionInfo.text}
+          {totalCount > 0 ? ` / 共 ${totalCount} 条` : ''}
+        </span>
       </div>
 
       <div className={styles.selectionActions}>
@@ -61,8 +66,10 @@ const SelectionManager: React.FC<SelectionManagerProps> = ({
           <button
             className={`${styles.actionBtn} ${styles.selectAllBtn}`}
             onClick={handleSelectAll}
-            disabled={loading || isFullSelection}
-            title="选择所有数据"
+            disabled={
+              loading || currentPageSelected || currentPageIds.length === 0
+            }
+            title="选择当前页全部事件"
           >
             全选
           </button>

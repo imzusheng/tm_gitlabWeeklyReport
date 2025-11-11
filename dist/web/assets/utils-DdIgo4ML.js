@@ -31,6 +31,7 @@ async function r(e, t = {}) {
     headers: { 'Content-Type': 'application/json', ...o },
     body: a,
     signal: l,
+    cache: 'no-store',
   }
   try {
     const t = await fetch(e, u)
@@ -222,7 +223,7 @@ const E = e => {
         } catch (r) {}
     }
   },
-  y = {
+  h = {
     saveConfig: e => {
       E(t => t.setItem(m, JSON.stringify(e)))
     },
@@ -234,7 +235,7 @@ const E = e => {
       E(e => e.removeItem(m))
     },
   },
-  h = { INVALID_FILTER_OR_CONFIG: '请检查筛选条件或GitLab配置' }
+  y = { INVALID_FILTER_OR_CONFIG: '请检查筛选条件或GitLab配置' }
 export {
   s as A,
   i as C,
@@ -243,9 +244,9 @@ export {
   l as a,
   c as b,
   n as c,
-  h as d,
+  y as d,
   a as e,
   p as f,
   r,
-  y as s,
+  h as s,
 }

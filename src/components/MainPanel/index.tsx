@@ -6,10 +6,9 @@ import type {
   SortOptions,
   PaginationOptions,
 } from '@/types'
-import { APP_VERSION, AI_TASK_CONFIGS } from '@/constants'
+import { AI_TASK_CONFIGS } from '@/constants'
 import FilterSection from '@/components/FilterSection'
 import EventsList from '@/components/EventsList'
-import VersionUpdateNotification from '@/components/VersionUpdateNotification'
 import styles from './index.module.less'
 
 interface MainPanelProps {
@@ -24,11 +23,11 @@ interface MainPanelProps {
   onSortChange: (sort: SortOptions) => void
   onPaginationChange: (pagination: PaginationOptions) => void
   onEventSelect: (eventId: number) => void
-  onSelectionChange: (selectedIds: number[], isFullSelection: boolean) => void
+  onSelectAllEvents: () => void
+  onClearSelection: () => void
   onEventDetail: (event: GitLabEvent) => void
   onOpenSettings: () => void
   onOpenAI: () => void
-  isAllEventsSelected?: boolean
 }
 
 const MainPanel: React.FC<MainPanelProps> = ({
@@ -43,11 +42,11 @@ const MainPanel: React.FC<MainPanelProps> = ({
   onSortChange,
   onPaginationChange,
   onEventSelect,
-  onSelectionChange,
+  onSelectAllEvents,
+  onClearSelection,
   onEventDetail,
   onOpenSettings,
   onOpenAI,
-  isAllEventsSelected = false,
 }) => {
   const { config } = useAppStore()
 
@@ -72,11 +71,6 @@ const MainPanel: React.FC<MainPanelProps> = ({
       {/* 标题栏 */}
       <div className={styles.panelHeader}>
         <div className={styles.headerRight}>
-          <VersionUpdateNotification currentVersion={APP_VERSION} />
-
-          {/* 分隔线 */}
-          <div className={styles.divider} />
-
           <div className={styles.actionButtons}>
             <button
               className={`${styles.actionBtn} ${!configStatus.isValid ? styles.configIncomplete : ''}`}
@@ -163,8 +157,8 @@ const MainPanel: React.FC<MainPanelProps> = ({
           paginationOptions={paginationOptions}
           onPaginationChange={onPaginationChange}
           selectedEventIds={selectedEventIds}
-          onSelectionChange={onSelectionChange}
-          isFullSelection={isAllEventsSelected}
+          onSelectAll={onSelectAllEvents}
+          onClearSelection={onClearSelection}
           onEventSelect={onEventSelect}
           onEventDetail={onEventDetail}
         />

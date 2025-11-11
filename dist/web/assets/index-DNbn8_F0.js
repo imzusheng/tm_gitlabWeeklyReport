@@ -18,7 +18,7 @@ import {
   e as p,
   f as g,
   C as x,
-} from './utils-DY_kOI1d.js'
+} from './utils-DdIgo4ML.js'
 !(function () {
   const e = document.createElement('link').relList
   if (!(e && e.supports && e.supports('modulepreload'))) {
@@ -74,9 +74,9 @@ function k(e, t, a) {
 ;(b.Fragment = w), (b.jsx = k), (b.jsxs = k), (v.exports = b)
 var E = v.exports,
   S = {},
-  T = l
-;(S.createRoot = T.createRoot), (S.hydrateRoot = T.hydrateRoot)
-const $ = e => {
+  $ = l
+;(S.createRoot = $.createRoot), (S.hydrateRoot = $.hydrateRoot)
+const T = e => {
     let t
     const a = new Set(),
       l = (e, l) => {
@@ -153,7 +153,7 @@ const M = e => t => {
     aiGenerationConfig: null,
   },
   _ = (e => {
-    const t = (e => (e ? $(e) : $))(e),
+    const t = (e => (e ? T(e) : T))(e),
       a = e =>
         (function (e, t = D) {
           const a = n.useSyncExternalStore(
@@ -417,7 +417,7 @@ class A {
   }
   async init() {
     try {
-      await this.getCurrentUser()
+      return await this.getCurrentUser()
     } catch (e) {
       if (e instanceof Error) {
         if (e.message.includes('401'))
@@ -613,30 +613,29 @@ const P = () => {
         const x = m()
         r(!0), i(null)
         try {
-          const r = ((v = e.gitlabUrl), (b = e.gitlabToken), new A(v, b))
-          await r.init()
-          const { startDate: i, endDate: d } = c(),
-            m =
+          const r = ((v = e.gitlabUrl), (b = e.gitlabToken), new A(v, b)),
+            i = await r.init(),
+            { startDate: d, endDate: m } = c(),
+            h =
               (null == (a = t.targetType) ? void 0 : a.length) > 0
                 ? t.targetType
                 : void 0,
-            h =
+            p =
               (null == (g = t.action) ? void 0 : g.length) > 0
                 ? t.action
                 : void 0,
-            p = l.order || 'desc',
-            f = await r.getCurrentUser(),
+            f = l.order || 'desc',
             j = {
-              after: i.toISOString(),
-              before: d.toISOString(),
-              target_type: m,
-              action: h,
+              after: d.toISOString(),
+              before: m.toISOString(),
+              target_type: h,
+              action: p,
               page: n.page,
               per_page: n.pageSize,
-              sort: p,
+              sort: f,
               signal: x.signal,
             },
-            { events: w, total: N } = await r.getUserEventsWithTotal(f.id, j)
+            { events: w, total: N } = await r.getUserEventsWithTotal(i.id, j)
           if (u(x)) return
           s(w), o(N)
         } catch (f) {
@@ -661,6 +660,7 @@ const P = () => {
         i,
         m,
         u,
+        p,
       ]),
       x = a.useCallback(() => {
         g()
@@ -669,21 +669,21 @@ const P = () => {
         e => {
           const { setFilterConditions: t, setPaginationOptions: a } =
             _.getState()
-          t(e), a({ page: 1 }), setTimeout(g, 0)
+          t(e), a({ page: 1 })
         },
         [g],
       ),
       b = a.useCallback(
         e => {
           const { setSortOptions: t, setPaginationOptions: a } = _.getState()
-          t(e), a({ page: 1 }), setTimeout(g, 0)
+          t(e), a({ page: 1 })
         },
         [g],
       ),
       f = a.useCallback(
         e => {
           const { setPaginationOptions: t } = _.getState()
-          t(e), setTimeout(g, 0)
+          t(e)
         },
         [g],
       )
@@ -1119,7 +1119,6 @@ const G = 'index-module-filter-section-content-8525c',
       onSelectionChange: n,
       loading: s = !1,
     }) => {
-      a.useMemo(() => e.map(e => e.id), [e])
       const o = a.useMemo(() => t.includes(-1), [t]),
         r = a.useMemo(() => {
           if (o) return { count: l, text: `已全选 ${l} 条` }
@@ -1620,9 +1619,9 @@ const G = 'index-module-filter-section-content-8525c',
                   : '检查更新',
         [s, p, r, x],
       ),
-      T = a.useCallback(() => (s ? '🔄' : p ? '⚠️' : r ? '🔴' : ''), [s, p, r])
+      $ = a.useCallback(() => (s ? '🔄' : p ? '⚠️' : r ? '🔴' : ''), [s, p, r])
     a.useEffect(() => {}, [y])
-    const $ = a.useCallback(() => {
+    const T = a.useCallback(() => {
       const e = 'version-notification-root'
       let t = document.getElementById(e)
       return (
@@ -1651,7 +1650,7 @@ const G = 'index-module-filter-section-content-8525c',
               ? `上次检查: ${k(u)}${p ? `\n错误: ${p}` : ''}`
               : '点击检查更新',
             children: [
-              E.jsx('span', { className: me.icon, children: T() }),
+              E.jsx('span', { className: me.icon, children: $() }),
               E.jsx('span', { className: me.text, children: S() }),
             ],
           }),
@@ -1728,7 +1727,7 @@ const G = 'index-module-filter-section-content-8525c',
                   ],
                 }),
               }),
-              $(),
+              T(),
             ),
         ],
       })
@@ -1901,8 +1900,8 @@ const G = 'index-module-filter-section-content-8525c',
     })
   },
   Se = 'index-module-modal-mask-2b67e',
-  Te = 'index-module-modal-0b442',
-  $e = 'index-module-modal-header-9ebeb',
+  $e = 'index-module-modal-0b442',
+  Te = 'index-module-modal-header-9ebeb',
   De = 'index-module-modal-title-67221',
   Ie = 'index-module-modal-close-a0e9a',
   Me = 'index-module-modal-body-e5544',
@@ -1949,11 +1948,11 @@ const G = 'index-module-filter-section-content-8525c',
         e.target === e.currentTarget && d && i()
       },
       children: E.jsxs('div', {
-        className: Te,
+        className: $e,
         style: { width: n, maxHeight: s },
         children: [
           E.jsxs('div', {
-            className: $e,
+            className: Te,
             children: [
               E.jsx('div', { className: De, children: t }),
               E.jsx('button', {
@@ -2175,8 +2174,8 @@ const G = 'index-module-filter-section-content-8525c',
   kt = 'index-module-settings-footer-8c678',
   Et = 'index-module-footer-right-a2619',
   St = 'index-module-btn-primary-6df59',
-  Tt = 'index-module-switch-container-1295f',
-  $t = 'index-module-switch-input-32930',
+  $t = 'index-module-switch-container-1295f',
+  Tt = 'index-module-switch-input-32930',
   Dt = 'index-module-switch-label-f72bd',
   It = 'index-module-switch-slider-e3dd8',
   Mt = 'index-module-btn-secondary-4568f',
@@ -2457,12 +2456,12 @@ const G = 'index-module-filter-section-content-8525c',
                           children: '自动检查更新',
                         }),
                         E.jsxs('div', {
-                          className: Tt,
+                          className: $t,
                           children: [
                             E.jsx('input', {
                               type: 'checkbox',
                               id: 'autoCheckUpdate',
-                              className: $t,
+                              className: Tt,
                               checked: o.autoCheckUpdate ?? !0,
                               onChange: e =>
                                 g('autoCheckUpdate', e.target.checked),
@@ -2590,14 +2589,14 @@ const G = 'index-module-filter-section-content-8525c',
         [j, w] = a.useState(!1),
         [N, y] = a.useState(0),
         [C, k] = a.useState(null),
-        [S, T] = a.useState(!1),
-        [$, D] = a.useState('')
+        [S, $] = a.useState(!1),
+        [T, D] = a.useState('')
       a.useEffect(() => {
         p(u.defaultPrompt)
       }, [u.defaultPrompt])
       const I = a.useCallback(async () => {
         if (c && !j) {
-          w(!0), y(0), D('正在初始化数据获取...'), T(!0)
+          w(!0), y(0), D('正在初始化数据获取...'), $(!0)
           try {
             let e
             const t = () => {
@@ -2737,7 +2736,7 @@ const G = 'index-module-filter-section-content-8525c',
                   E.jsxs('div', {
                     className: _t.progressHeader,
                     children: [
-                      E.jsx('span', { children: $ }),
+                      E.jsx('span', { children: T }),
                       E.jsxs('span', { children: [Math.round(N), '%'] }),
                     ],
                   }),

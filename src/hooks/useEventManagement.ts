@@ -10,19 +10,6 @@ import type { FilterConditions, SortOptions, PaginationOptions } from '@/types'
  * 负责加载、筛选和管理 GitLab 事件数据
  */
 export const useEventManagement = () => {
-  const {
-    config,
-    filterConditions,
-    sortOptions,
-    paginationOptions,
-    setEvents,
-    setTotalCount,
-    setLoading,
-    setError,
-    validateConfig,
-    getTimeRange,
-  } = useAppStore()
-
   const { createRequest, isRequestCancelled, isAbortError } =
     useAbortableRequest()
 
@@ -30,6 +17,19 @@ export const useEventManagement = () => {
    * 加载 GitLab 事件数据
    */
   const loadEvents = useCallback(async () => {
+    const {
+      config,
+      validateConfig,
+      setError,
+      setLoading,
+      getTimeRange,
+      filterConditions,
+      sortOptions,
+      paginationOptions,
+      setEvents,
+      setTotalCount,
+    } = useAppStore.getState()
+
     if (!validateConfig()) {
       setError(configErrors.INVALID_FILTER_OR_CONFIG)
       return
@@ -44,7 +44,7 @@ export const useEventManagement = () => {
         config.gitlabUrl,
         config.gitlabToken,
       )
-      await gitlabService.init()
+      const currentUser = await gitlabService.init()
 
       const { startDate, endDate } = getTimeRange()
       const targetTypes =
@@ -57,7 +57,6 @@ export const useEventManagement = () => {
           : undefined
       const sort = sortOptions.order || 'desc'
 
-      const currentUser = await gitlabService.getCurrentUser()
       const params = {
         after: startDate.toISOString(),
         before: endDate.toISOString(),
@@ -90,23 +89,7 @@ export const useEventManagement = () => {
     } finally {
       setLoading(false)
     }
-  }, [
-    config.gitlabUrl,
-    config.gitlabToken,
-    filterConditions,
-    sortOptions.order,
-    paginationOptions.page,
-    paginationOptions.pageSize,
-    validateConfig,
-    getTimeRange,
-    setEvents,
-    setTotalCount,
-    setLoading,
-    setError,
-    createRequest,
-    isRequestCancelled,
-    isAbortError,
-  ])
+  }, [createRequest, isRequestCancelled, isAbortError])
 
   /**
    * 重新加载事件数据
@@ -125,8 +108,7 @@ export const useEventManagement = () => {
       setFilterConditions(newFilters)
       // 重置到第一页
       setPaginationOptions({ page: 1 })
-      // 延迟加载以确保状态更新
-      setTimeout(loadEvents, 0)
+      loadEvents()
     },
     [loadEvents],
   )
@@ -140,8 +122,7 @@ export const useEventManagement = () => {
       setSortOptions(newSort)
       // 重置到第一页
       setPaginationOptions({ page: 1 })
-      // 延迟加载以确保状态更新
-      setTimeout(loadEvents, 0)
+      loadEvents()
     },
     [loadEvents],
   )
@@ -153,8 +134,7 @@ export const useEventManagement = () => {
     (newPagination: Partial<PaginationOptions>) => {
       const { setPaginationOptions } = useAppStore.getState()
       setPaginationOptions(newPagination)
-      // 延迟加载以确保状态更新
-      setTimeout(loadEvents, 0)
+      loadEvents()
     },
     [loadEvents],
   )
