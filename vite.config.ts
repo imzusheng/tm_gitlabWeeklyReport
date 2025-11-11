@@ -5,7 +5,7 @@ import { resolve } from 'path'
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   return {
-    base: './',
+    base: '/wr/',
     plugins: [react()],
     resolve: {
       alias: {

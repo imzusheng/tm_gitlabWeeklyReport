@@ -41,17 +41,17 @@ jobs:
       - name: Type check
         run: npm run type-check
 
-      - name: Build project
-        run: npm run build
+      - name: Build web app
+        run: npm run build:web
 
       - name: Upload build artifacts
         if: matrix.node-version == '20.x'
         uses: actions/upload-artifact@v4
         with:
-          name: build-files
+          name: web-build
           path: |
-            dist/
-            !dist/**/*.map
+            dist/web
+            !dist/web/**/*.map
           retention-days: 30
 
   release:
@@ -83,3 +83,45 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: imzusheng/tm_gitlabWeeklyReport
         run: npm run release
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/v2' && github.event_name == 'push'
+    env:
+      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+      DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+      DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+      DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build
+          path: dist/web
+
+      - name: Prepare SSH key
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        run: |
+          if [ -z "$DEPLOY_HOST" ] || [ -z "$DEPLOY_USER" ] || [ -z "$DEPLOY_PATH" ] || [ -z "$DEPLOY_KEY" ]; then
+            echo "缺少部署所需的环境变量，已中止。"
+            exit 1
+          fi
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          if [ -n "$DEPLOY_PORT" ]; then
+            ssh-keyscan -p "$DEPLOY_PORT" "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+          else
+            ssh-keyscan "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+          fi
+
+      - name: Deploy to server via rsync
+        run: |
+          RSYNC_SSH="ssh"
+          if [ -n "$DEPLOY_PORT" ]; then
+            RSYNC_SSH="ssh -p $DEPLOY_PORT"
+          fi
+          rsync -az --delete -e "$RSYNC_SSH" dist/web/ "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}"
