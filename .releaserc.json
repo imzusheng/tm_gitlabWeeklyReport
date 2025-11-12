@@ -26,7 +26,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "VITE_APP_VERSION=$SEMANTIC_RELEASE_NEXT_RELEASE_VERSION VITE_GIT_SHA=$(echo $GITHUB_SHA | cut -c1-7) node scripts/semantic-version-update.cjs && VITE_APP_VERSION=$SEMANTIC_RELEASE_NEXT_RELEASE_VERSION VITE_GIT_SHA=$(echo $GITHUB_SHA | cut -c1-7) npm run build",
+        "prepareCmd": "VITE_APP_VERSION=${nextRelease.version} VITE_GIT_SHA=$(echo ${nextRelease.gitHead} | cut -c1-7) node scripts/semantic-version-update.cjs && VITE_APP_VERSION=${nextRelease.version} VITE_GIT_SHA=$(echo ${nextRelease.gitHead} | cut -c1-7) npm run build",
         "publishCmd": "echo '✅ 版本发布完成，已上传构建产物到 Release'"
       }
     ],
