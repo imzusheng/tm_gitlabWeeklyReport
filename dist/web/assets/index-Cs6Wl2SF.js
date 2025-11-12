@@ -14,11 +14,11 @@ import {
   r as c,
   E as m,
   A as u,
-  d as h,
-  e as p,
-  f as g,
-  C as x,
-} from './utils-DdIgo4ML.js'
+  d as p,
+  e as g,
+  C as h,
+  f as v,
+} from './utils-CE4wkuuP.js'
 !(function () {
   const e = document.createElement('link').relList
   if (!(e && e.supports && e.supports('modulepreload'))) {
@@ -49,13 +49,13 @@ import {
     fetch(e.href, t)
   }
 })()
-var v = { exports: {} },
+var x = { exports: {} },
   b = {},
   f = a,
   j = Symbol.for('react.element'),
   w = Symbol.for('react.fragment'),
-  N = Object.prototype.hasOwnProperty,
-  y = f.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,
+  y = Object.prototype.hasOwnProperty,
+  N = f.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,
   C = { key: !0, ref: !0, __self: !0, __source: !0 }
 function k(e, t, a) {
   var l,
@@ -66,13 +66,13 @@ function k(e, t, a) {
   void 0 !== t.key && (s = '' + t.key),
   void 0 !== t.ref && (o = t.ref),
   t))
-    N.call(t, l) && !C.hasOwnProperty(l) && (n[l] = t[l])
+    y.call(t, l) && !C.hasOwnProperty(l) && (n[l] = t[l])
   if (e && e.defaultProps)
     for (l in (t = e.defaultProps)) void 0 === n[l] && (n[l] = t[l])
-  return { $$typeof: j, type: e, key: s, ref: o, props: n, _owner: y.current }
+  return { $$typeof: j, type: e, key: s, ref: o, props: n, _owner: N.current }
 }
-;(b.Fragment = w), (b.jsx = k), (b.jsxs = k), (v.exports = b)
-var E = v.exports,
+;(b.Fragment = w), (b.jsx = k), (b.jsxs = k), (x.exports = b)
+var E = x.exports,
   S = {},
   $ = l
 ;(S.createRoot = $.createRoot), (S.hydrateRoot = $.hydrateRoot)
@@ -100,7 +100,7 @@ const T = e => {
     return s
   },
   D = e => e
-function I(e, t) {
+function M(e, t) {
   let a
   try {
     a = e()
@@ -118,13 +118,13 @@ function I(e, t) {
     removeItem: e => a.removeItem(e),
   }
 }
-const M = e => t => {
+const I = e => t => {
     try {
       const a = e(t)
       return a instanceof Promise
         ? a
         : {
-            then: e => M(e)(a),
+            then: e => I(e)(a),
             catch(e) {
               return this
             },
@@ -134,7 +134,7 @@ const M = e => t => {
         then(e) {
           return this
         },
-        catch: e => M(e)(a),
+        catch: e => I(e)(a),
       }
     }
   },
@@ -152,7 +152,7 @@ const M = e => t => {
     totalCount: 0,
     aiGenerationConfig: null,
   },
-  _ = (e => {
+  A = (e => {
     const t = (e => (e ? T(e) : T))(e),
       a = e =>
         (function (e, t = D) {
@@ -167,7 +167,7 @@ const M = e => t => {
   })(
     ((e, t) => (a, l, n) => {
       let s = {
-          storage: I(() => localStorage),
+          storage: M(() => localStorage),
           partialize: e => e,
           version: 0,
           merge: (e, t) => ({ ...t, ...e }),
@@ -200,9 +200,9 @@ const M = e => t => {
         l,
         n,
       )
-      let h
+      let p
       n.getInitialState = () => u
-      const p = () => {
+      const g = () => {
         var e, t
         if (!d) return
         ;(o = !1),
@@ -214,7 +214,7 @@ const M = e => t => {
           (null == (t = s.onRehydrateStorage)
             ? void 0
             : t.call(s, null != (e = l()) ? e : u)) || void 0
-        return M(d.getItem.bind(d))(s.name)
+        return I(d.getItem.bind(d))(s.name)
           .then(e => {
             if (e) {
               if ('number' != typeof e.version || e.version === s.version)
@@ -229,11 +229,11 @@ const M = e => t => {
           .then(e => {
             var t
             const [n, o] = e
-            if (((h = s.merge(o, null != (t = l()) ? t : u)), a(h, !0), n))
+            if (((p = s.merge(o, null != (t = l()) ? t : u)), a(p, !0), n))
               return c()
           })
           .then(() => {
-            null == n || n(h, void 0), (h = l()), (o = !0), i.forEach(e => e(h))
+            null == n || n(p, void 0), (p = l()), (o = !0), i.forEach(e => e(p))
           })
           .catch(e => {
             null == n || n(void 0, e)
@@ -248,7 +248,7 @@ const M = e => t => {
             null == d || d.removeItem(s.name)
           },
           getOptions: () => s,
-          rehydrate: () => p(),
+          rehydrate: () => g(),
           hasHydrated: () => o,
           onHydrate: e => (
             r.add(e),
@@ -263,8 +263,8 @@ const M = e => t => {
             }
           ),
         }),
-        s.skipHydration || p(),
-        h || u
+        s.skipHydration || g(),
+        p || u
       )
     })(
       (e, t) => ({
@@ -357,14 +357,15 @@ const M = e => t => {
         }),
       },
     ),
-  )
-class A {
+  ),
+  _ = e => (e ? e.replace(/\/$/, '') : '')
+class P {
   constructor(e, a) {
-    t(this, 'baseUrl'),
-      t(this, 'token'),
-      t(this, 'currentUser', null),
-      (this.baseUrl = e.replace(/\/$/, '')),
-      (this.token = a)
+    if (
+      (t(this, 'baseUrl'), t(this, 'token'), t(this, 'currentUser', null), !e)
+    )
+      throw new Error('GitLab API 基础地址不能为空')
+    ;(this.baseUrl = _(e)), (this.token = a)
   }
   async request(e, t = {}) {
     const a = `${this.baseUrl}${e}`,
@@ -556,23 +557,12 @@ class A {
     return this.currentUser
   }
 }
-const P = () => {
+const O = new Map()
+const R = () => {
     const {
-        config: e,
-        filterConditions: t,
-        sortOptions: l,
-        paginationOptions: n,
-        setEvents: s,
-        setTotalCount: o,
-        setLoading: r,
-        setError: i,
-        validateConfig: d,
-        getTimeRange: c,
-      } = _(),
-      {
-        createRequest: m,
-        isRequestCancelled: u,
-        isAbortError: p,
+        createRequest: e,
+        isRequestCancelled: t,
+        isAbortError: l,
       } = (() => {
         const e = a.useRef(null),
           t = a.useCallback(() => {
@@ -607,95 +597,97 @@ const P = () => {
           }
         )
       })(),
-      g = a.useCallback(async () => {
-        var a, g
-        if (!d()) return void i(h.INVALID_FILTER_OR_CONFIG)
-        const x = m()
-        r(!0), i(null)
+      n = a.useCallback(async () => {
+        var a, n
+        const {
+          config: s,
+          validateConfig: o,
+          setError: r,
+          setLoading: i,
+          getTimeRange: d,
+          filterConditions: c,
+          sortOptions: m,
+          paginationOptions: u,
+          setEvents: g,
+          setTotalCount: h,
+        } = A.getState()
+        if (!o()) return void r(p.INVALID_FILTER_OR_CONFIG)
+        const v = e()
+        i(!0), r(null)
         try {
-          const r = ((v = e.gitlabUrl), (b = e.gitlabToken), new A(v, b)),
-            i = await r.init(),
-            { startDate: d, endDate: m } = c(),
-            h =
-              (null == (a = t.targetType) ? void 0 : a.length) > 0
-                ? t.targetType
+          const e = (function (e, t) {
+              const a = _(e),
+                l = `${a}::${t}`,
+                n = O.get(l)
+              if (n) return n
+              const s = new P(a, t)
+              return O.set(l, s), s
+            })(s.gitlabUrl, s.gitlabToken),
+            l = await e.init(),
+            { startDate: o, endDate: r } = d(),
+            i =
+              (null == (a = c.targetType) ? void 0 : a.length) > 0
+                ? c.targetType
                 : void 0,
             p =
-              (null == (g = t.action) ? void 0 : g.length) > 0
-                ? t.action
+              (null == (n = c.action) ? void 0 : n.length) > 0
+                ? c.action
                 : void 0,
-            f = l.order || 'desc',
-            j = {
-              after: d.toISOString(),
-              before: m.toISOString(),
-              target_type: h,
+            x = m.order || 'desc',
+            b = {
+              after: o.toISOString(),
+              before: r.toISOString(),
+              target_type: i,
               action: p,
-              page: n.page,
-              per_page: n.pageSize,
-              sort: f,
-              signal: x.signal,
+              page: u.page,
+              per_page: u.pageSize,
+              sort: x,
+              signal: v.signal,
             },
-            { events: w, total: N } = await r.getUserEventsWithTotal(i.id, j)
-          if (u(x)) return
-          s(w), o(N)
-        } catch (f) {
-          if (u(x) || p(f)) return
-          i(f instanceof Error ? f.message : '加载事件数据失败')
+            { events: f, total: j } = await e.getUserEventsWithTotal(l.id, b)
+          if (t(v)) return
+          g(f), h(j)
+        } catch (x) {
+          if (t(v) || l(x)) return
+          r(x instanceof Error ? x.message : '加载事件数据失败')
         } finally {
-          r(!1)
+          i(!1)
         }
-        var v, b
-      }, [
-        e.gitlabUrl,
-        e.gitlabToken,
-        t,
-        l.order,
-        n.page,
-        n.pageSize,
-        d,
-        c,
-        s,
-        o,
-        r,
-        i,
-        m,
-        u,
-        p,
-      ]),
-      x = a.useCallback(() => {
-        g()
-      }, [g]),
-      v = a.useCallback(
+      }, [e, t, l]),
+      s = a.useCallback(() => {
+        n()
+      }, [n]),
+      o = a.useCallback(
         e => {
           const { setFilterConditions: t, setPaginationOptions: a } =
-            _.getState()
-          t(e), a({ page: 1 })
+            A.getState()
+          t(e), a({ page: 1 }), n()
         },
-        [g],
+        [n],
       ),
-      b = a.useCallback(
+      r = a.useCallback(
         e => {
-          const { setSortOptions: t, setPaginationOptions: a } = _.getState()
-          t(e), a({ page: 1 })
+          const { setSortOptions: t, setPaginationOptions: a } = A.getState()
+          t(e), a({ page: 1 }), n()
         },
-        [g],
+        [n],
       ),
-      f = a.useCallback(
+      i = a.useCallback(
         e => {
-          const { setPaginationOptions: t } = _.getState()
-          t(e)
+          const { setPaginationOptions: t } = A.getState()
+          t(e), n()
         },
-        [g],
+        [n],
       )
     return {
-      loadEvents: g,
-      reloadEvents: x,
-      handleFilterChange: v,
-      handleSortChange: b,
-      handlePaginationChange: f,
+      loadEvents: n,
+      reloadEvents: s,
+      handleFilterChange: o,
+      handleSortChange: r,
+      handlePaginationChange: i,
     }
   },
-  O = {
+  U = {
     '--glwr-bg-primary': '#fff',
     '--glwr-bg-secondary': '#f2f2f7',
     '--glwr-bg-tertiary': '#f5f5f7',
@@ -783,7 +775,7 @@ const P = () => {
     '--glwr-close-modal-hover-bg': '#f2f2f7',
     '--glwr-close-modal-hover-border': '#bbb',
   },
-  R = {
+  G = {
     '--glwr-bg-primary': '#1a1a1a',
     '--glwr-bg-secondary': '#1c1c1e',
     '--glwr-bg-tertiary': '#2c2c2e',
@@ -871,24 +863,24 @@ const P = () => {
     '--glwr-close-modal-hover-bg': '#1c1c1e',
     '--glwr-close-modal-hover-border': '#636366',
   }
-function U(e, t) {
+function B(e, t) {
   Object.entries(t).forEach(([t, a]) => {
     e.style.setProperty(t, a)
   })
 }
-function B(e) {
+function q(e) {
   if ('system' === e) {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? R : O
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? G : U
   }
-  return 'dark' === e ? R : O
+  return 'dark' === e ? G : U
 }
-const G = 'index-module-filter-section-content-8525c',
+const H = 'index-module-filter-section-content-8525c',
   F = 'index-module-filter-group-5cf8a',
-  q = 'index-module-filter-label-4629c',
-  H = 'index-module-filter-options-a8f3f',
-  V = 'index-module-filter-option-58c7c',
-  z = 'index-module-active-dbcb9',
-  K = [
+  V = 'index-module-filter-label-4629c',
+  z = 'index-module-filter-options-a8f3f',
+  K = 'index-module-filter-option-58c7c',
+  W = 'index-module-active-dbcb9',
+  X = [
     { value: 'week', label: '本周' },
     { value: '7d', label: '最近7天' },
     { value: '30d', label: '最近30天' },
@@ -896,7 +888,7 @@ const G = 'index-module-filter-section-content-8525c',
     { value: '180d', label: '最近180天' },
     { value: '365d', label: '最近365天' },
   ],
-  W = [
+  Q = [
     { value: 'issue', label: 'Issue' },
     { value: 'merge_request', label: 'Merge Request' },
     { value: 'milestone', label: 'Milestone' },
@@ -918,28 +910,28 @@ const G = 'index-module-filter-section-content-8525c',
     { value: 'left', label: 'Left' },
     { value: 'deleted', label: 'Deleted' },
   ],
-  X = ({ filterConditions: e, onFilterChange: t }) => {
+  Y = ({ filterConditions: e, onFilterChange: t }) => {
     const a = (a, l) => {
         t({ ...e, [a]: l })
       },
       l = [
-        { key: 'targetType', label: '目标类型', options: W },
+        { key: 'targetType', label: '目标类型', options: Q },
         { key: 'action', label: '操作类型', options: J },
       ]
     return E.jsxs('div', {
-      className: G,
+      className: H,
       children: [
         E.jsxs('div', {
           className: F,
           children: [
-            E.jsx('label', { className: q, children: '时间范围' }),
+            E.jsx('label', { className: V, children: '时间范围' }),
             E.jsx('div', {
-              className: H,
-              children: K.map(({ value: t, label: l }) =>
+              className: z,
+              children: X.map(({ value: t, label: l }) =>
                 E.jsx(
                   'button',
                   {
-                    className: `${V} ${e.timeRange === t ? z : ''}`,
+                    className: `${K} ${e.timeRange === t ? W : ''}`,
                     onClick: () => a('timeRange', t),
                     children: l,
                   },
@@ -955,12 +947,12 @@ const G = 'index-module-filter-section-content-8525c',
             {
               className: F,
               children: [
-                E.jsx('label', { className: q, children: l }),
+                E.jsx('label', { className: V, children: l }),
                 E.jsxs('div', {
-                  className: H,
+                  className: z,
                   children: [
                     E.jsx('button', {
-                      className: `${V} ${0 === e[t].length ? z : ''}`,
+                      className: `${K} ${0 === e[t].length ? W : ''}`,
                       onClick: () => a(t, []),
                       children: '全部',
                     }),
@@ -968,7 +960,7 @@ const G = 'index-module-filter-section-content-8525c',
                       E.jsx(
                         'button',
                         {
-                          className: `${V} ${Array.isArray(e[t]) && e[t].includes(l) ? z : ''}`,
+                          className: `${K} ${Array.isArray(e[t]) && e[t].includes(l) ? W : ''}`,
                           onClick: () =>
                             ((t, l, n) => {
                               const s = e[t],
@@ -990,7 +982,7 @@ const G = 'index-module-filter-section-content-8525c',
       ],
     })
   },
-  Q = {
+  Z = {
     pagination: 'index-module-pagination-2f71e',
     paginationInfo: 'index-module-pagination-info-3a241',
     paginationControls: 'index-module-pagination-controls-1f07d',
@@ -1001,7 +993,7 @@ const G = 'index-module-filter-section-content-8525c',
     paginationSizeChanger: 'index-module-pagination-size-changer-ea920',
     paginationSelect: 'index-module-pagination-select-25af3',
   },
-  Y = n.memo(
+  ee = n.memo(
     ({
       current: e,
       pageSize: t,
@@ -1019,26 +1011,26 @@ const G = 'index-module-filter-section-content-8525c',
         }
       return 0 === a
         ? E.jsx('div', {
-            className: Q.pagination,
+            className: Z.pagination,
             children: E.jsx('div', {
-              className: Q.info,
+              className: Z.info,
               children: E.jsx('span', { children: '暂无数据' }),
             }),
           })
         : E.jsxs('div', {
-            className: Q.pagination,
+            className: Z.pagination,
             children: [
               E.jsx('div', {
-                className: Q.paginationInfo,
+                className: Z.paginationInfo,
                 children: E.jsxs('span', {
                   children: ['显示 ', d, '-', c, ' 条，共 ', a, ' 条'],
                 }),
               }),
               E.jsxs('div', {
-                className: Q.paginationControls,
+                className: Z.paginationControls,
                 children: [
                   E.jsx('button', {
-                    className: `${Q.paginationBtn} ${1 === e ? Q.disabled : ''}`,
+                    className: `${Z.paginationBtn} ${1 === e ? Z.disabled : ''}`,
                     onClick: () => m(e - 1),
                     disabled: 1 === e,
                     children: E.jsx('span', { children: '‹' }),
@@ -1059,12 +1051,12 @@ const G = 'index-module-filter-section-content-8525c',
                         children:
                           'number' == typeof t
                             ? E.jsx('button', {
-                                className: `${Q.paginationBtn} ${e === t ? Q.active : ''}`,
+                                className: `${Z.paginationBtn} ${e === t ? Z.active : ''}`,
                                 onClick: () => m(t),
                                 children: t,
                               })
                             : E.jsx('span', {
-                                className: Q.paginationEllipsis,
+                                className: Z.paginationEllipsis,
                                 children: t,
                               }),
                       },
@@ -1072,7 +1064,7 @@ const G = 'index-module-filter-section-content-8525c',
                     ),
                   ),
                   E.jsx('button', {
-                    className: `${Q.paginationBtn} ${e === i ? Q.disabled : ''}`,
+                    className: `${Z.paginationBtn} ${e === i ? Z.disabled : ''}`,
                     onClick: () => m(e + 1),
                     disabled: e === i,
                     children: E.jsx('span', { children: '›' }),
@@ -1081,7 +1073,7 @@ const G = 'index-module-filter-section-content-8525c',
               }),
               s &&
                 E.jsxs('div', {
-                  className: Q.paginationSizeChanger,
+                  className: Z.paginationSizeChanger,
                   children: [
                     E.jsx('span', { children: '每页' }),
                     E.jsx('select', {
@@ -1090,7 +1082,7 @@ const G = 'index-module-filter-section-content-8525c',
                         return (t = Number(e.target.value)), void (r && r(1, t))
                         var t
                       },
-                      className: Q.paginationSelect,
+                      className: Z.paginationSelect,
                       children: o.map(e =>
                         E.jsx('option', { value: e, children: e }, e),
                       ),
@@ -1102,59 +1094,66 @@ const G = 'index-module-filter-section-content-8525c',
           })
     },
   ),
-  Z = 'index-module-selectionManager-8b344',
-  ee = 'index-module-selectionInfo-db6bc',
-  te = 'index-module-selectionCount-0c8ab',
-  ae = 'index-module-selectionActions-179a8',
-  le = 'index-module-actionGroup-eeb2e',
-  ne = 'index-module-groupLabel-cb468',
-  se = 'index-module-actionBtn-09e74',
-  oe = 'index-module-selectAllBtn-997f0',
-  re = 'index-module-clearBtn-2abc9',
-  ie = n.memo(
+  te = 'index-module-selectionManager-8b344',
+  ae = 'index-module-selectionInfo-db6bc',
+  le = 'index-module-selectionCount-0c8ab',
+  ne = 'index-module-selectionActions-179a8',
+  se = 'index-module-actionGroup-eeb2e',
+  oe = 'index-module-groupLabel-cb468',
+  re = 'index-module-actionBtn-09e74',
+  ie = 'index-module-selectAllBtn-997f0',
+  de = 'index-module-clearBtn-2abc9',
+  ce = n.memo(
     ({
       currentPageEvents: e,
       selectedEventIds: t,
       totalCount: l,
-      onSelectionChange: n,
-      loading: s = !1,
+      onSelectAll: n,
+      onClearSelection: s,
+      loading: o = !1,
     }) => {
-      const o = a.useMemo(() => t.includes(-1), [t]),
-        r = a.useMemo(() => {
-          if (o) return { count: l, text: `已全选 ${l} 条` }
-          const e = t.filter(e => -1 !== e).length
-          return { count: e, text: `已选中 ${e} 条` }
-        }, [o, l, t]),
-        i = a.useCallback(() => {
-          n([-1], !0)
-        }, [n]),
-        d = a.useCallback(() => {
-          n([], !1)
-        }, [n])
+      const r = a.useMemo(() => e.map(e => e.id), [e]),
+        i = a.useMemo(
+          () => r.length > 0 && r.every(e => t.includes(e)),
+          [r, t],
+        ),
+        d = a.useMemo(
+          () => ({ count: t.length, text: `已选中 ${t.length} 条` }),
+          [t.length],
+        ),
+        c = a.useCallback(() => {
+          i || n()
+        }, [i, n]),
+        m = a.useCallback(() => {
+          t.length > 0 && s()
+        }, [s, t.length])
       return E.jsxs('div', {
-        className: Z,
+        className: te,
         children: [
           E.jsx('div', {
-            className: ee,
-            children: E.jsx('span', { className: te, children: r.text }),
+            className: ae,
+            children: E.jsxs('span', {
+              className: le,
+              children: [d.text, l > 0 ? ` / 共 ${l} 条` : ''],
+            }),
           }),
           E.jsx('div', {
-            className: ae,
+            className: ne,
             children: E.jsxs('div', {
-              className: le,
+              className: se,
               children: [
-                E.jsx('span', { className: ne, children: '全部:' }),
+                E.jsx('span', { className: oe, children: '全部:' }),
                 E.jsx('button', {
-                  className: `${se} ${oe}`,
-                  onClick: i,
-                  disabled: s || o,
-                  title: '选择所有数据',
+                  className: `${re} ${ie}`,
+                  onClick: c,
+                  disabled: o || i || 0 === r.length,
+                  title: '选择当前页全部事件',
                   children: '全选',
                 }),
                 E.jsx('button', {
-                  className: `${se} ${re}`,
-                  onClick: d,
-                  disabled: s || 0 === r.count,
+                  className: `${re} ${de}`,
+                  onClick: m,
+                  disabled: o || 0 === d.count,
                   title: '清空选择',
                   children: '清空',
                 }),
@@ -1165,7 +1164,7 @@ const G = 'index-module-filter-section-content-8525c',
       })
     },
   ),
-  de = {
+  me = {
     eventsList: 'index-module-events-list-1413b',
     eventsListHeader: 'index-module-events-list-header-59f57',
     headerCell: 'index-module-header-cell-70f90',
@@ -1194,7 +1193,7 @@ const G = 'index-module-filter-section-content-8525c',
     checkboxContainer: 'index-module-checkbox-container-d9d3f',
     checkmark: 'index-module-checkmark-6b6da',
   },
-  ce = n.memo(
+  ue = n.memo(
     ({
       events: e,
       totalCount: t,
@@ -1204,12 +1203,12 @@ const G = 'index-module-filter-section-content-8525c',
       paginationOptions: o,
       onPaginationChange: r,
       selectedEventIds: i,
-      isFullSelection: d,
-      onSelectionChange: c,
+      onSelectAll: d,
+      onClearSelection: c,
       onEventSelect: m,
       onEventDetail: u,
     }) => {
-      const p = a.useCallback(
+      const g = a.useCallback(
           e => {
             if ('created_at' !== e) return
             const t = n.field === e && 'desc' === n.order ? 'asc' : 'desc'
@@ -1217,17 +1216,17 @@ const G = 'index-module-filter-section-content-8525c',
           },
           [n.field, n.order, s],
         ),
-        g = a.useCallback(
+        h = a.useCallback(
           e => (n.field !== e ? '' : 'desc' === n.order ? '↓' : '↑'),
           [n.field, n.order],
         ),
-        x = a.useCallback(
+        v = a.useCallback(
           e => {
             m(e)
           },
           [m],
         ),
-        v = a.useCallback(e => {
+        x = a.useCallback(e => {
           const t = new Date(e),
             a = new Date(),
             l =
@@ -1324,105 +1323,106 @@ const G = 'index-module-filter-section-content-8525c',
                   : '未知项目'
         }, [])
       return E.jsxs('div', {
-        className: de.eventsList,
+        className: me.eventsList,
         children: [
-          E.jsx(ie, {
+          E.jsx(ce, {
             currentPageEvents: e,
             selectedEventIds: i,
             totalCount: t,
-            onSelectionChange: c,
+            onSelectAll: d,
+            onClearSelection: c,
             loading: l,
           }),
           E.jsxs('div', {
-            className: de.eventsListHeader,
+            className: me.eventsListHeader,
             children: [
               E.jsx('div', {
-                className: `${de.headerCell} ${de.checkboxCell}`,
+                className: `${me.headerCell} ${me.checkboxCell}`,
                 children: E.jsx('span', { children: '选择' }),
               }),
               E.jsx('div', {
-                className: `${de.headerCell} ${de.contentCell}`,
+                className: `${me.headerCell} ${me.contentCell}`,
                 children: E.jsx('span', { children: '标题和内容' }),
               }),
               E.jsx('div', {
-                className: `${de.headerCell} ${de.actionCell}`,
+                className: `${me.headerCell} ${me.actionCell}`,
                 children: E.jsx('span', { children: '操作' }),
               }),
               E.jsxs('div', {
-                className: `${de.headerCell} ${de.timeCell}`,
-                onClick: () => p('created_at'),
+                className: `${me.headerCell} ${me.timeCell}`,
+                onClick: () => g('created_at'),
                 children: [
                   E.jsx('span', { children: '时间' }),
                   E.jsx('span', {
-                    className: de.sortIcon,
-                    children: g('created_at'),
+                    className: me.sortIcon,
+                    children: h('created_at'),
                   }),
                 ],
               }),
               E.jsx('div', {
-                className: `${de.headerCell} ${de.detailCell}`,
+                className: `${me.headerCell} ${me.detailCell}`,
                 children: '详情',
               }),
             ],
           }),
           E.jsx('div', {
-            className: de.eventsListBody,
+            className: me.eventsListBody,
             children: l
               ? E.jsxs('div', {
-                  className: de.eventsListLoading,
+                  className: me.eventsListLoading,
                   children: [
-                    E.jsx('div', { className: de.loadingSpinner }),
+                    E.jsx('div', { className: me.loadingSpinner }),
                     E.jsx('p', { children: '正在加载事件数据...' }),
                   ],
                 })
               : 0 === e.length
                 ? E.jsxs('div', {
-                    className: de.emptyState,
+                    className: me.emptyState,
                     children: [
-                      E.jsx('div', { className: de.emptyIcon, children: '📄' }),
+                      E.jsx('div', { className: me.emptyIcon, children: '📄' }),
                       E.jsx('p', { children: '暂无事件数据' }),
-                      E.jsx('span', { children: h.INVALID_FILTER_OR_CONFIG }),
+                      E.jsx('span', { children: p.INVALID_FILTER_OR_CONFIG }),
                     ],
                   })
                 : e.map(e => {
-                    const t = d || i.includes(e.id),
+                    const t = i.includes(e.id),
                       { icon: a, title: l, actionType: n } = f(e)
                     return E.jsxs(
                       'div',
                       {
-                        className: `${de.eventRow} ${t ? de.selected : ''}`,
+                        className: `${me.eventRow} ${t ? me.selected : ''}`,
                         children: [
                           E.jsx('div', {
-                            className: `${de.cell} ${de.checkboxCell}`,
+                            className: `${me.cell} ${me.checkboxCell}`,
                             children: E.jsxs('label', {
-                              className: de.checkboxContainer,
+                              className: me.checkboxContainer,
                               children: [
                                 E.jsx('input', {
                                   type: 'checkbox',
                                   checked: t,
-                                  onChange: () => x(e.id),
+                                  onChange: () => v(e.id),
                                   title: t ? '取消选择' : '选择此事件',
                                 }),
-                                E.jsx('span', { className: de.checkmark }),
+                                E.jsx('span', { className: me.checkmark }),
                               ],
                             }),
                           }),
                           E.jsxs('div', {
-                            className: `${de.cell} ${de.contentCell}`,
+                            className: `${me.cell} ${me.contentCell}`,
                             children: [
                               E.jsx('div', {
-                                className: de.eventIcon,
+                                className: me.eventIcon,
                                 children: a,
                               }),
                               E.jsxs('div', {
-                                className: de.eventContent,
+                                className: me.eventContent,
                                 children: [
                                   E.jsx('div', {
-                                    className: de.eventTitle,
+                                    className: me.eventTitle,
                                     children: l,
                                   }),
                                   E.jsx('div', {
-                                    className: de.eventDescription,
+                                    className: me.eventDescription,
                                     children: j(e),
                                   }),
                                 ],
@@ -1430,27 +1430,27 @@ const G = 'index-module-filter-section-content-8525c',
                             ],
                           }),
                           E.jsx('div', {
-                            className: `${de.cell} ${de.actionCell}`,
+                            className: `${me.cell} ${me.actionCell}`,
                             children: E.jsx('span', {
-                              className: de.actionTag,
+                              className: me.actionTag,
                               children: n,
                             }),
                           }),
                           E.jsx('div', {
-                            className: `${de.cell} ${de.timeCell}`,
+                            className: `${me.cell} ${me.timeCell}`,
                             children: E.jsx('span', {
-                              className: de.eventTime,
-                              children: v(e.created_at),
+                              className: me.eventTime,
+                              children: x(e.created_at),
                             }),
                           }),
                           E.jsx('div', {
-                            className: `${de.cell} ${de.detailCell}`,
+                            className: `${me.cell} ${me.detailCell}`,
                             children: E.jsx('button', {
-                              className: de.detailBtn,
+                              className: me.detailBtn,
                               onClick: () => u(e),
                               title: '查看详情',
                               children: E.jsx('span', {
-                                className: de.detailIcon,
+                                className: me.detailIcon,
                                 children: '🔍',
                               }),
                             }),
@@ -1462,8 +1462,8 @@ const G = 'index-module-filter-section-content-8525c',
                   }),
           }),
           E.jsx('div', {
-            className: de.eventsListFooter,
-            children: E.jsx(Y, {
+            className: me.eventsListFooter,
+            children: E.jsx(ee, {
               current: o.page,
               pageSize: o.pageSize,
               total: t,
@@ -1476,277 +1476,19 @@ const G = 'index-module-filter-section-content-8525c',
       })
     },
   ),
-  me = {
-    actionBtn: 'index-module-action-btn-fcc57',
-    versionBtn: 'index-module-version-btn-d52fd',
-    hasUpdate: 'index-module-has-update-6a26f',
-    icon: 'index-module-icon-063ca',
-    text: 'index-module-text-3aa8d',
-    notificationOverlay: 'index-module-notification-overlay-edc1f',
-    notification: 'index-module-notification-d7f45',
-    notificationHeader: 'index-module-notification-header-49a8f',
-    closeBtn: 'index-module-close-btn-4e53b',
-    notificationBody: 'index-module-notification-body-2d539',
-    versionInfo: 'index-module-version-info-d73d8',
-    releaseNotes: 'index-module-release-notes-25eef',
-    notesContent: 'index-module-notes-content-6a794',
-    notificationFooter: 'index-module-notification-footer-8c25c',
-    laterBtn: 'index-module-later-btn-6d3bb',
-    updateBtn: 'index-module-update-btn-c0c59',
-  },
-  ue = ({ currentVersion: e }) => {
-    const [t, n] = a.useState(null),
-      [s, o] = a.useState(!1),
-      [r, i] = a.useState(!1),
-      [d, m] = a.useState(!1),
-      [u, h] = a.useState(null),
-      [p, g] = a.useState(null),
-      [x, v] = a.useState(!1),
-      [b, f] = a.useState(new Set())
-    a.useEffect(() => {
-      try {
-        const e = localStorage.getItem(
-          'gitlab-weekly-report-dismissed-versions',
-        )
-        e && f(new Set(JSON.parse(e)))
-      } catch (e) {}
-    }, [])
-    const j = a.useCallback((e, t) => {
-        const a = e.split('.').map(Number),
-          l = t.split('.').map(Number),
-          n = Math.max(a.length, l.length)
-        for (let s = 0; s < n; s++) {
-          const e = a[s] || 0,
-            t = l[s] || 0
-          if (t > e) return !0
-          if (t < e) return !1
-        }
-        return !1
-      }, []),
-      w = a.useCallback(
-        async (a = !0) => {
-          if (!s)
-            if (x && t && r && a) (!a && b.has(t.version)) || m(!0)
-            else {
-              o(!0), g(null)
-              try {
-                const t = new AbortController(),
-                  l = setTimeout(() => t.abort(), 1e4),
-                  s = Math.floor(Date.now() / 36e5),
-                  o = !1
-                    ? '/api/github/imzusheng/tm_gitlabWeeklyReport/v2/package.json'
-                    : 'https://raw.githubusercontent.com/imzusheng/tm_gitlabWeeklyReport/v2/package.json',
-                  r = await c(`${o}?t=${s}`, {
-                    method: 'GET',
-                    headers: { Accept: 'application/json' },
-                    signal: t.signal,
-                    timeout: 1e4,
-                  })
-                if ((clearTimeout(l), !r.ok))
-                  throw new Error(`HTTP ${r.status}: ${r.statusText}`)
-                const d = await r.json(),
-                  u = {
-                    version: d.version,
-                    downloadUrl:
-                      'https://github.com/imzusheng/tm_gitlabWeeklyReport',
-                    releaseNotes: `版本 ${d.version} 已发布，请及时更新以获得最新功能和修复。`,
-                  }
-                n(u), h(new Date()), v(!0)
-                const p = j(e, u.version)
-                i(p), p && ((!a && b.has(u.version)) || m(!0))
-              } catch (l) {
-                const e = l instanceof Error ? l.message : '检查更新失败'
-                g(e)
-              } finally {
-                o(!1)
-              }
-            }
-        },
-        [s, j, e, b, x, t, r],
-      )
-    a.useEffect(() => {
-      const e = setTimeout(() => {
-        w(!1)
-      }, 1e3)
-      return () => clearTimeout(e)
-    }, [])
-    const N = a.useCallback(async () => {
-        ;(null == t ? void 0 : t.downloadUrl) &&
-          (window.open(t.downloadUrl, '_blank'),
-          m(!1),
-          setTimeout(async () => {
-            await w(!1)
-            j(e, t.version)
-          }, 1e3))
-      }, [t, w, j, e]),
-      y = a.useCallback(() => {
-        f(new Set())
-        try {
-          localStorage.removeItem('gitlab-weekly-report-dismissed-versions')
-        } catch (e) {}
-      }, []),
-      C = a.useCallback(() => {
-        if ((m(!1), t)) {
-          const a = new Set(b)
-          a.add(t.version), f(a)
-          try {
-            localStorage.setItem(
-              'gitlab-weekly-report-dismissed-versions',
-              JSON.stringify(Array.from(a)),
-            )
-          } catch (e) {}
-        }
-      }, [t, b]),
-      k = a.useCallback(
-        e =>
-          e.toLocaleTimeString('zh-CN', {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-          }),
-        [],
-      ),
-      S = a.useCallback(
-        () =>
-          s
-            ? '检查中...'
-            : p
-              ? '检查失败'
-              : r
-                ? '有更新'
-                : x && !r
-                  ? '已是最新版本 🎉'
-                  : '检查更新',
-        [s, p, r, x],
-      ),
-      $ = a.useCallback(() => (s ? '🔄' : p ? '⚠️' : r ? '🔴' : ''), [s, p, r])
-    a.useEffect(() => {}, [y])
-    const T = a.useCallback(() => {
-      const e = 'version-notification-root'
-      let t = document.getElementById(e)
-      return (
-        t ||
-          ((t = document.createElement('div')),
-          (t.id = e),
-          document.body.appendChild(t)),
-        t
-      )
-    }, [])
-    return (
-      a.useEffect(
-        () => () => {
-          const e = document.getElementById('version-notification-root')
-          e && 0 === e.children.length && document.body.removeChild(e)
-        },
-        [],
-      ),
-      E.jsxs(E.Fragment, {
-        children: [
-          E.jsxs('button', {
-            className: `${me.actionBtn} ${me.versionBtn} ${s ? me.checking : ''} ${r ? me.hasUpdate : ''}`,
-            onClick: () => w(!0),
-            disabled: s,
-            title: u
-              ? `上次检查: ${k(u)}${p ? `\n错误: ${p}` : ''}`
-              : '点击检查更新',
-            children: [
-              E.jsx('span', { className: me.icon, children: $() }),
-              E.jsx('span', { className: me.text, children: S() }),
-            ],
-          }),
-          d &&
-            r &&
-            t &&
-            l.createPortal(
-              E.jsx('div', {
-                className: me.notificationOverlay,
-                children: E.jsxs('div', {
-                  className: me.notification,
-                  children: [
-                    E.jsxs('div', {
-                      className: me.notificationHeader,
-                      children: [
-                        E.jsx('h3', { children: '发现新版本' }),
-                        E.jsx('button', {
-                          className: me.closeBtn,
-                          onClick: C,
-                          children: '×',
-                        }),
-                      ],
-                    }),
-                    E.jsxs('div', {
-                      className: me.notificationBody,
-                      children: [
-                        E.jsxs('div', {
-                          className: me.versionInfo,
-                          children: [
-                            E.jsxs('p', {
-                              children: [
-                                E.jsx('strong', { children: '当前版本:' }),
-                                ' v',
-                                e,
-                              ],
-                            }),
-                            E.jsxs('p', {
-                              children: [
-                                E.jsx('strong', { children: '最新版本:' }),
-                                ' v',
-                                t.version,
-                              ],
-                            }),
-                          ],
-                        }),
-                        t.releaseNotes &&
-                          E.jsxs('div', {
-                            className: me.releaseNotes,
-                            children: [
-                              E.jsx('h4', { children: '更新说明:' }),
-                              E.jsx('div', {
-                                className: me.notesContent,
-                                children: t.releaseNotes,
-                              }),
-                            ],
-                          }),
-                      ],
-                    }),
-                    E.jsxs('div', {
-                      className: me.notificationFooter,
-                      children: [
-                        E.jsx('button', {
-                          className: me.laterBtn,
-                          onClick: C,
-                          children: '稍后更新',
-                        }),
-                        E.jsx('button', {
-                          className: me.updateBtn,
-                          onClick: N,
-                          children: '立即更新',
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
-              }),
-              T(),
-            ),
-        ],
-      })
-    )
-  },
-  he = 'index-module-main-panel-0cebf',
-  pe = 'index-module-panel-header-b58dd',
-  ge = 'index-module-header-right-1ffdf',
-  xe = 'index-module-divider-cf986',
+  pe = 'index-module-main-panel-0cebf',
+  ge = 'index-module-panel-header-b58dd',
+  he = 'index-module-header-right-1ffdf',
   ve = 'index-module-action-buttons-6002e',
-  be = 'index-module-action-btn-23f6c',
-  fe = 'index-module-btn-icon-2bcf1',
-  je = 'index-module-btn-label-8a151',
-  we = 'index-module-ai-btn-ff430',
-  Ne = 'index-module-config-incomplete-c748b',
+  xe = 'index-module-action-btn-23f6c',
+  be = 'index-module-btn-icon-2bcf1',
+  fe = 'index-module-btn-label-8a151',
+  je = 'index-module-ai-btn-ff430',
+  we = 'index-module-config-incomplete-c748b',
   ye = 'index-module-config-badge-73915',
-  Ce = 'index-module-filter-section-44f04',
-  ke = 'index-module-events-section-88ca7',
-  Ee = ({
+  Ne = 'index-module-filter-section-44f04',
+  Ce = 'index-module-events-section-88ca7',
+  ke = ({
     events: e,
     totalCount: t,
     loading: a,
@@ -1758,14 +1500,14 @@ const G = 'index-module-filter-section-content-8525c',
     onSortChange: d,
     onPaginationChange: c,
     onEventSelect: m,
-    onSelectionChange: u,
+    onSelectAllEvents: u,
+    onClearSelection: p,
     onEventDetail: h,
-    onOpenSettings: x,
-    onOpenAI: v,
-    isAllEventsSelected: b = !1,
+    onOpenSettings: v,
+    onOpenAI: x,
   }) => {
-    const { config: f } = _(),
-      j = n.useMemo(() => {
+    const { config: b } = A(),
+      f = n.useMemo(() => {
         const e = [
             'gitlabUrl',
             'gitlabToken',
@@ -1773,7 +1515,7 @@ const G = 'index-module-filter-section-content-8525c',
             'defaultPrompt',
           ],
           t = e.filter(e => {
-            const t = f[e]
+            const t = b[e]
             return 'string' == typeof t ? '' !== t.trim() : !!t
           }).length
         return {
@@ -1781,107 +1523,103 @@ const G = 'index-module-filter-section-content-8525c',
           completedCount: t,
           totalCount: e.length,
         }
-      }, [f])
+      }, [b])
     return E.jsxs('div', {
-      className: he,
+      className: pe,
       children: [
         E.jsx('div', {
-          className: pe,
-          children: E.jsxs('div', {
-            className: ge,
-            children: [
-              E.jsx(ue, { currentVersion: p }),
-              E.jsx('div', { className: xe }),
-              E.jsxs('div', {
-                className: ve,
-                children: [
-                  E.jsxs('button', {
-                    className: `${be} ${j.isValid ? '' : Ne}`,
-                    onClick: x,
-                    title: j.isValid
-                      ? '设置'
-                      : `配置未完成 (${j.completedCount}/${j.totalCount})`,
-                    children: [
-                      E.jsx('span', {
-                        className: fe,
-                        children: E.jsxs('svg', {
-                          viewBox: '0 0 24 24',
-                          fill: 'none',
-                          children: [
-                            E.jsx('path', {
-                              d: 'M12 15a3 3 0 100-6 3 3 0 000 6z',
-                              stroke: 'currentColor',
-                              strokeWidth: '2',
-                              strokeLinecap: 'round',
-                              strokeLinejoin: 'round',
-                            }),
-                            E.jsx('path', {
-                              d: 'M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z',
-                              stroke: 'currentColor',
-                              strokeWidth: '2',
-                              strokeLinecap: 'round',
-                              strokeLinejoin: 'round',
-                            }),
-                          ],
-                        }),
-                      }),
-                      E.jsxs('span', {
-                        className: je,
+          className: ge,
+          children: E.jsx('div', {
+            className: he,
+            children: E.jsxs('div', {
+              className: ve,
+              children: [
+                E.jsxs('button', {
+                  className: `${xe} ${f.isValid ? '' : we}`,
+                  onClick: v,
+                  title: f.isValid
+                    ? '设置'
+                    : `配置未完成 (${f.completedCount}/${f.totalCount})`,
+                  children: [
+                    E.jsx('span', {
+                      className: be,
+                      children: E.jsxs('svg', {
+                        viewBox: '0 0 24 24',
+                        fill: 'none',
                         children: [
-                          '设置',
-                          !j.isValid &&
-                            E.jsxs('span', {
-                              className: ye,
-                              children: [j.completedCount, '/', j.totalCount],
-                            }),
+                          E.jsx('path', {
+                            d: 'M12 15a3 3 0 100-6 3 3 0 000 6z',
+                            stroke: 'currentColor',
+                            strokeWidth: '2',
+                            strokeLinecap: 'round',
+                            strokeLinejoin: 'round',
+                          }),
+                          E.jsx('path', {
+                            d: 'M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z',
+                            stroke: 'currentColor',
+                            strokeWidth: '2',
+                            strokeLinecap: 'round',
+                            strokeLinejoin: 'round',
+                          }),
                         ],
                       }),
-                    ],
-                  }),
-                  E.jsxs('button', {
-                    className: `${be} ${we}`,
-                    onClick: v,
-                    title: g['weekly-report'].title,
-                    children: [
-                      E.jsx('span', {
-                        className: fe,
-                        children: E.jsxs('svg', {
-                          viewBox: '0 0 24 24',
-                          fill: 'none',
-                          children: [
-                            E.jsx('path', {
-                              d: 'M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z',
-                              fill: 'currentColor',
-                            }),
-                            E.jsx('path', {
-                              d: 'M19 14L19.5 16.5L22 17L19.5 17.5L19 20L18.5 17.5L16 17L18.5 16.5L19 14Z',
-                              fill: 'currentColor',
-                            }),
-                            E.jsx('path', {
-                              d: 'M5 6L5.5 8.5L8 9L5.5 9.5L5 12L4.5 9.5L2 9L4.5 8.5L5 6Z',
-                              fill: 'currentColor',
-                            }),
-                          ],
-                        }),
+                    }),
+                    E.jsxs('span', {
+                      className: fe,
+                      children: [
+                        '设置',
+                        !f.isValid &&
+                          E.jsxs('span', {
+                            className: ye,
+                            children: [f.completedCount, '/', f.totalCount],
+                          }),
+                      ],
+                    }),
+                  ],
+                }),
+                E.jsxs('button', {
+                  className: `${xe} ${je}`,
+                  onClick: x,
+                  title: g['weekly-report'].title,
+                  children: [
+                    E.jsx('span', {
+                      className: be,
+                      children: E.jsxs('svg', {
+                        viewBox: '0 0 24 24',
+                        fill: 'none',
+                        children: [
+                          E.jsx('path', {
+                            d: 'M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z',
+                            fill: 'currentColor',
+                          }),
+                          E.jsx('path', {
+                            d: 'M19 14L19.5 16.5L22 17L19.5 17.5L19 20L18.5 17.5L16 17L18.5 16.5L19 14Z',
+                            fill: 'currentColor',
+                          }),
+                          E.jsx('path', {
+                            d: 'M5 6L5.5 8.5L8 9L5.5 9.5L5 12L4.5 9.5L2 9L4.5 8.5L5 6Z',
+                            fill: 'currentColor',
+                          }),
+                        ],
                       }),
-                      E.jsx('span', {
-                        className: je,
-                        children: g['weekly-report'].buttonText,
-                      }),
-                    ],
-                  }),
-                ],
-              }),
-            ],
+                    }),
+                    E.jsx('span', {
+                      className: fe,
+                      children: g['weekly-report'].buttonText,
+                    }),
+                  ],
+                }),
+              ],
+            }),
           }),
         }),
         E.jsx('div', {
-          className: Ce,
-          children: E.jsx(X, { filterConditions: l, onFilterChange: i }),
+          className: Ne,
+          children: E.jsx(Y, { filterConditions: l, onFilterChange: i }),
         }),
         E.jsx('div', {
-          className: ke,
-          children: E.jsx(ce, {
+          className: Ce,
+          children: E.jsx(ue, {
             events: e,
             totalCount: t,
             loading: a,
@@ -1890,8 +1628,8 @@ const G = 'index-module-filter-section-content-8525c',
             paginationOptions: o,
             onPaginationChange: c,
             selectedEventIds: r,
-            onSelectionChange: u,
-            isFullSelection: b,
+            onSelectAll: u,
+            onClearSelection: p,
             onEventSelect: m,
             onEventDetail: h,
           }),
@@ -1899,14 +1637,14 @@ const G = 'index-module-filter-section-content-8525c',
       ],
     })
   },
-  Se = 'index-module-modal-mask-2b67e',
-  $e = 'index-module-modal-0b442',
-  Te = 'index-module-modal-header-9ebeb',
-  De = 'index-module-modal-title-67221',
-  Ie = 'index-module-modal-close-a0e9a',
+  Ee = 'index-module-modal-mask-2b67e',
+  Se = 'index-module-modal-0b442',
+  $e = 'index-module-modal-header-9ebeb',
+  Te = 'index-module-modal-title-67221',
+  De = 'index-module-modal-close-a0e9a',
   Me = 'index-module-modal-body-e5544',
-  Le = 'index-module-modal-footer-6d9a3',
-  _e = ({
+  Ie = 'index-module-modal-footer-6d9a3',
+  Le = ({
     visible: e,
     title: t,
     width: n = 520,
@@ -1943,27 +1681,27 @@ const G = 'index-module-filter-section-content-8525c',
       return null
     const c = E.jsx('div', {
       id: 'gitlab-weekly-report-container',
-      className: Se,
+      className: Ee,
       onClick: e => {
         e.target === e.currentTarget && d && i()
       },
       children: E.jsxs('div', {
-        className: $e,
+        className: Se,
         style: { width: n, maxHeight: s },
         children: [
           E.jsxs('div', {
-            className: Te,
+            className: $e,
             children: [
-              E.jsx('div', { className: De, children: t }),
+              E.jsx('div', { className: Te, children: t }),
               E.jsx('button', {
-                className: Ie,
+                className: De,
                 onClick: i,
                 children: E.jsx('span', { children: '×' }),
               }),
             ],
           }),
           E.jsx('div', { className: Me, children: o }),
-          r && E.jsx('div', { className: Le, children: r }),
+          r && E.jsx('div', { className: Ie, children: r }),
         ],
       }),
     })
@@ -1982,38 +1720,38 @@ const G = 'index-module-filter-section-content-8525c',
     )
   },
   Ae = 'index-module-config-status-9ef0f',
-  Pe = 'index-module-clickable-3bbf4',
-  Oe = 'index-module-compact-d4398',
-  Re = 'index-module-compact-content-93d4f',
-  Ue = 'index-module-status-icon-eb9c8',
-  Be = 'index-module-compact-text-adc2b',
+  _e = 'index-module-clickable-3bbf4',
+  Pe = 'index-module-compact-d4398',
+  Oe = 'index-module-compact-content-93d4f',
+  Re = 'index-module-status-icon-eb9c8',
+  Ue = 'index-module-compact-text-adc2b',
   Ge = 'index-module-expand-button-8d5b0',
-  Fe = 'index-module-expanded-content-f209c',
+  Be = 'index-module-expanded-content-f209c',
   qe = 'index-module-config-items-14961',
   He = 'index-module-compact-item-d0618',
-  Ve = 'index-module-item-label-78917',
-  ze = 'index-module-item-icon-4196d',
-  Ke = 'index-module-valid-26841',
-  We = 'index-module-invalid-f7dc7',
-  Je = 'index-module-status-header-f4c07',
+  Fe = 'index-module-item-label-78917',
+  Ve = 'index-module-item-icon-4196d',
+  ze = 'index-module-valid-26841',
+  Ke = 'index-module-invalid-f7dc7',
+  We = 'index-module-status-header-f4c07',
   Xe = 'index-module-status-title-7047e',
   Qe = 'index-module-status-text-7ac8b',
-  Ye = 'index-module-progress-container-b9d7f',
-  Ze = 'index-module-progress-bar-3951c',
-  et = 'index-module-progress-fill-63172',
-  tt = 'index-module-complete-fc16e',
-  at = 'index-module-progress-text-63324',
-  lt = 'index-module-config-item-a48ac',
-  nt = 'index-module-item-info-9094d',
-  st = 'index-module-item-status-1545d',
-  ot = [
+  Je = 'index-module-progress-container-b9d7f',
+  Ye = 'index-module-progress-bar-3951c',
+  Ze = 'index-module-progress-fill-63172',
+  et = 'index-module-complete-fc16e',
+  tt = 'index-module-progress-text-63324',
+  at = 'index-module-config-item-a48ac',
+  lt = 'index-module-item-info-9094d',
+  nt = 'index-module-item-status-1545d',
+  st = [
     { key: 'gitlabUrl', label: 'GitLab', required: !0 },
     { key: 'gitlabToken', label: 'Token', required: !0 },
     { key: 'deepseekApiKey', label: 'API Key', required: !0 },
     { key: 'defaultPrompt', label: 'Prompt', required: !0 },
   ].filter(e => e.required),
-  rt = ot.length,
-  it = ({
+  ot = st.length,
+  rt = ({
     config: e,
     className: t = '',
     showDetails: l = !0,
@@ -2021,31 +1759,31 @@ const G = 'index-module-filter-section-content-8525c',
     compact: o = !1,
   }) => {
     const r = a.useMemo(() => {
-        const t = ot.map(t => {
+        const t = st.map(t => {
             const a = e[t.key],
               l = 'string' == typeof a ? '' !== a.trim() : !!a
             return { ...t, isValid: l, value: l ? '已配置' : '未配置' }
           }),
           a = t.filter(e => e.isValid).length
         return {
-          isValid: a === rt,
+          isValid: a === ot,
           itemsStatus: t,
           completedCount: a,
-          totalCount: rt,
-          progress: (a / rt) * 100,
+          totalCount: ot,
+          progress: (a / ot) * 100,
         }
       }, [e]),
       [i, d] = n.useState(!r.isValid)
     return o && r.isValid
       ? E.jsxs('div', {
-          className: `${Ae} ${Oe} ${t} ${s ? Pe : ''}`,
+          className: `${Ae} ${Pe} ${t} ${s ? _e : ''}`,
           onClick: s,
           children: [
             E.jsxs('div', {
-              className: Re,
+              className: Oe,
               children: [
-                E.jsx('span', { className: Ue, children: '✅' }),
-                E.jsx('span', { className: Be, children: '配置已完成' }),
+                E.jsx('span', { className: Re, children: '✅' }),
+                E.jsx('span', { className: Ue, children: '配置已完成' }),
                 l &&
                   E.jsx('button', {
                     className: Ge,
@@ -2059,18 +1797,18 @@ const G = 'index-module-filter-section-content-8525c',
             l &&
               i &&
               E.jsx('div', {
-                className: Fe,
+                className: Be,
                 children: E.jsx('div', {
                   className: qe,
                   children: r.itemsStatus.map(e =>
                     E.jsxs(
                       'div',
                       {
-                        className: `${lt} ${He} ${e.isValid ? Ke : We}`,
+                        className: `${at} ${He} ${e.isValid ? ze : Ke}`,
                         children: [
-                          E.jsx('span', { className: Ve, children: e.label }),
+                          E.jsx('span', { className: Fe, children: e.label }),
                           E.jsx('span', {
-                            className: ze,
+                            className: Ve,
                             children: e.isValid ? '✓' : '✗',
                           }),
                         ],
@@ -2083,17 +1821,17 @@ const G = 'index-module-filter-section-content-8525c',
           ],
         })
       : E.jsxs('div', {
-          className: `${Ae} ${t} ${s ? Pe : ''}`,
+          className: `${Ae} ${t} ${s ? _e : ''}`,
           onClick: s,
           children: [
             E.jsxs('div', {
-              className: Je,
+              className: We,
               children: [
                 E.jsxs('div', {
                   className: Xe,
                   children: [
                     E.jsx('span', {
-                      className: Ue,
+                      className: Re,
                       children: r.isValid ? '✅' : '⚠️',
                     }),
                     E.jsxs('span', {
@@ -2109,17 +1847,17 @@ const G = 'index-module-filter-section-content-8525c',
                   ],
                 }),
                 E.jsxs('div', {
-                  className: Ye,
+                  className: Je,
                   children: [
                     E.jsx('div', {
-                      className: Ze,
+                      className: Ye,
                       children: E.jsx('div', {
-                        className: `${et} ${r.isValid ? tt : ''}`,
+                        className: `${Ze} ${r.isValid ? et : ''}`,
                         style: { width: `${r.progress}%` },
                       }),
                     }),
                     E.jsxs('span', {
-                      className: at,
+                      className: tt,
                       children: [Math.round(r.progress), '%'],
                     }),
                   ],
@@ -2133,17 +1871,17 @@ const G = 'index-module-filter-section-content-8525c',
                   E.jsxs(
                     'div',
                     {
-                      className: `${lt} ${e.isValid ? Ke : We}`,
+                      className: `${at} ${e.isValid ? ze : Ke}`,
                       children: [
                         E.jsxs('div', {
-                          className: nt,
+                          className: lt,
                           children: [
-                            E.jsx('span', { className: Ve, children: e.label }),
-                            E.jsx('span', { className: st, children: e.value }),
+                            E.jsx('span', { className: Fe, children: e.label }),
+                            E.jsx('span', { className: nt, children: e.value }),
                           ],
                         }),
                         E.jsx('span', {
-                          className: ze,
+                          className: Ve,
                           children: e.isValid ? '✓' : '✗',
                         }),
                       ],
@@ -2155,35 +1893,31 @@ const G = 'index-module-filter-section-content-8525c',
           ],
         })
   },
-  dt = 'index-module-settings-panel-37e8c',
-  ct = 'index-module-settings-tabs-13ffd',
-  mt = 'index-module-tab-button-72cc2',
-  ut = 'index-module-active-88afc',
-  ht = 'index-module-settings-content-27852',
+  it = 'index-module-settings-panel-37e8c',
+  dt = 'index-module-settings-tabs-13ffd',
+  ct = 'index-module-tab-button-72cc2',
+  mt = 'index-module-active-88afc',
+  ut = 'index-module-settings-content-27852',
   pt = 'index-module-tab-panel-78ed4',
   gt = 'index-module-form-group-5672e',
-  xt = 'index-module-form-label-be41d',
+  ht = 'index-module-form-label-be41d',
   vt = 'index-module-required-6a2a5',
-  bt = 'index-module-form-input-f0c8f',
-  ft = 'index-module-form-select-e5eaa',
-  jt = 'index-module-form-textarea-a0897',
-  wt = 'index-module-form-hint-a4ca3',
-  Nt = 'index-module-error-message-16069',
+  xt = 'index-module-form-input-f0c8f',
+  bt = 'index-module-form-select-e5eaa',
+  ft = 'index-module-form-textarea-a0897',
+  jt = 'index-module-form-hint-a4ca3',
+  wt = 'index-module-error-message-16069',
   yt = 'index-module-version-info-ade91',
-  Ct = 'index-module-version-text-cb226',
-  kt = 'index-module-settings-footer-8c678',
-  Et = 'index-module-footer-right-a2619',
-  St = 'index-module-btn-primary-6df59',
-  $t = 'index-module-switch-container-1295f',
-  Tt = 'index-module-switch-input-32930',
-  Dt = 'index-module-switch-label-f72bd',
-  It = 'index-module-switch-slider-e3dd8',
-  Mt = 'index-module-btn-secondary-4568f',
-  Lt = ({ isOpen: e, onClose: t, config: l, onSave: n, theme: s }) => {
+  Nt = 'index-module-version-text-cb226',
+  Ct = 'index-module-settings-footer-8c678',
+  kt = 'index-module-footer-right-a2619',
+  Et = 'index-module-btn-primary-6df59',
+  St = 'index-module-btn-secondary-4568f',
+  $t = ({ isOpen: e, onClose: t, config: l, onSave: n, theme: s }) => {
     const [o, r] = a.useState(l),
       [i, d] = a.useState(s),
       [c, m] = a.useState('env'),
-      [u, h] = a.useState(null)
+      [u, p] = a.useState(null)
     a.useEffect(() => {
       r(l)
     }, [l]),
@@ -2196,29 +1930,29 @@ const G = 'index-module-filter-section-content-8525c',
     const g = (e, t) => {
       r(a => ({ ...a, [e]: t }))
     }
-    return E.jsx(_e, {
+    return E.jsx(Le, {
       visible: e,
       title: '系统设置',
       width: 600,
       onClose: t,
       footer: E.jsxs('div', {
-        className: kt,
+        className: Ct,
         children: [
           E.jsx('button', {
-            className: Mt,
+            className: St,
             onClick: () => {
-              r(l), d(s), h(null)
+              r(l), d(s), p(null)
             },
             children: '重置',
           }),
           E.jsxs('div', {
-            className: Et,
+            className: kt,
             children: [
-              E.jsx('button', { className: Mt, onClick: t, children: '取消' }),
+              E.jsx('button', { className: St, onClick: t, children: '取消' }),
               E.jsx('button', {
-                className: St,
+                className: Et,
                 onClick: () => {
-                  if ((h(null), 'env' === c)) {
+                  if ((p(null), 'env' === c)) {
                     if (
                       !(
                         o.gitlabUrl.trim() &&
@@ -2227,13 +1961,13 @@ const G = 'index-module-filter-section-content-8525c',
                         o.defaultPrompt.trim()
                       )
                     )
-                      return void h('请填写所有必填的环境配置项')
+                      return void p('请填写所有必填的环境配置项')
                     if (
                       o.tokenLimit < 1e3 ||
                       o.tokenLimit > 1e4 ||
                       !Number.isInteger(o.tokenLimit)
                     )
-                      return void h(
+                      return void p(
                         'Token 数量限制必须在 1000-10000 之间且为整数',
                       )
                   }
@@ -2246,26 +1980,26 @@ const G = 'index-module-filter-section-content-8525c',
         ],
       }),
       children: E.jsxs('div', {
-        className: dt,
+        className: it,
         children: [
-          E.jsx(it, { config: o, showDetails: !0, compact: !0 }),
+          E.jsx(rt, { config: o, showDetails: !0, compact: !0 }),
           E.jsxs('div', {
-            className: ct,
+            className: dt,
             children: [
               E.jsx('button', {
-                className: `${mt} ${'env' === c ? ut : ''}`,
+                className: `${ct} ${'env' === c ? mt : ''}`,
                 onClick: () => m('env'),
                 children: '环境配置',
               }),
               E.jsx('button', {
-                className: `${mt} ${'appearance' === c ? ut : ''}`,
+                className: `${ct} ${'appearance' === c ? mt : ''}`,
                 onClick: () => m('appearance'),
                 children: '外观设置',
               }),
             ],
           }),
           E.jsxs('div', {
-            className: ht,
+            className: ut,
             children: [
               'env' === c &&
                 E.jsxs('div', {
@@ -2275,7 +2009,7 @@ const G = 'index-module-filter-section-content-8525c',
                       className: gt,
                       children: [
                         E.jsxs('label', {
-                          className: xt,
+                          className: ht,
                           children: [
                             'GitLab 项目地址 ',
                             E.jsx('span', { className: vt, children: '*' }),
@@ -2283,13 +2017,13 @@ const G = 'index-module-filter-section-content-8525c',
                         }),
                         E.jsx('input', {
                           type: 'text',
-                          className: bt,
-                          placeholder: x.gitlabUrl,
+                          className: xt,
+                          placeholder: h.gitlabUrl,
                           value: o.gitlabUrl,
                           onChange: e => g('gitlabUrl', e.target.value),
                         }),
                         E.jsx('div', {
-                          className: wt,
+                          className: jt,
                           children: '请输入完整的 GitLab 项目 URL',
                         }),
                       ],
@@ -2298,7 +2032,7 @@ const G = 'index-module-filter-section-content-8525c',
                       className: gt,
                       children: [
                         E.jsxs('label', {
-                          className: xt,
+                          className: ht,
                           children: [
                             '个人访问令牌 ',
                             E.jsx('span', { className: vt, children: '*' }),
@@ -2306,13 +2040,13 @@ const G = 'index-module-filter-section-content-8525c',
                         }),
                         E.jsx('input', {
                           type: 'text',
-                          className: bt,
-                          placeholder: x.gitlabToken,
+                          className: xt,
+                          placeholder: h.gitlabToken,
                           value: o.gitlabToken,
                           onChange: e => g('gitlabToken', e.target.value),
                         }),
                         E.jsx('div', {
-                          className: wt,
+                          className: jt,
                           children:
                             '在 GitLab 个人设置 → 访问令牌 中创建，需要 read_api 权限',
                         }),
@@ -2322,7 +2056,7 @@ const G = 'index-module-filter-section-content-8525c',
                       className: gt,
                       children: [
                         E.jsxs('label', {
-                          className: xt,
+                          className: ht,
                           children: [
                             'DeepSeek API Key ',
                             E.jsx('span', { className: vt, children: '*' }),
@@ -2330,13 +2064,13 @@ const G = 'index-module-filter-section-content-8525c',
                         }),
                         E.jsx('input', {
                           type: 'text',
-                          className: bt,
-                          placeholder: x.deepseekApiKey,
+                          className: xt,
+                          placeholder: h.deepseekApiKey,
                           value: o.deepseekApiKey,
                           onChange: e => g('deepseekApiKey', e.target.value),
                         }),
                         E.jsx('div', {
-                          className: wt,
+                          className: jt,
                           children: '在 DeepSeek 平台获取 API Key',
                         }),
                       ],
@@ -2345,11 +2079,11 @@ const G = 'index-module-filter-section-content-8525c',
                       className: gt,
                       children: [
                         E.jsx('label', {
-                          className: xt,
+                          className: ht,
                           children: '使用的模型',
                         }),
                         E.jsxs('select', {
-                          className: ft,
+                          className: bt,
                           value: o.model,
                           onChange: e => g('model', e.target.value),
                           children: [
@@ -2369,12 +2103,12 @@ const G = 'index-module-filter-section-content-8525c',
                       className: gt,
                       children: [
                         E.jsx('label', {
-                          className: xt,
+                          className: ht,
                           children: 'Token 数量限制',
                         }),
                         E.jsx('input', {
                           type: 'number',
-                          className: bt,
+                          className: xt,
                           min: '1000',
                           max: '10000',
                           placeholder: '4000',
@@ -2383,7 +2117,7 @@ const G = 'index-module-filter-section-content-8525c',
                             g('tokenLimit', parseInt(e.target.value)),
                         }),
                         E.jsx('div', {
-                          className: wt,
+                          className: jt,
                           children: '单次生成的最大 Token 数量（1000-10000）',
                         }),
                       ],
@@ -2392,136 +2126,73 @@ const G = 'index-module-filter-section-content-8525c',
                       className: gt,
                       children: [
                         E.jsxs('label', {
-                          className: xt,
+                          className: ht,
                           children: [
                             '默认提示词 ',
                             E.jsx('span', { className: vt, children: '*' }),
                           ],
                         }),
                         E.jsx('textarea', {
-                          className: jt,
+                          className: ft,
                           rows: 6,
-                          placeholder: x.defaultPrompt,
+                          placeholder: h.defaultPrompt,
                           value: o.defaultPrompt,
                           onChange: e => g('defaultPrompt', e.target.value),
                         }),
                         E.jsx('div', {
-                          className: wt,
+                          className: jt,
                           children: '用于生成周报的默认提示词模板',
                         }),
                       ],
                     }),
-                    u && E.jsx('div', { className: Nt, children: u }),
+                    u && E.jsx('div', { className: wt, children: u }),
                   ],
                 }),
               'appearance' === c &&
-                E.jsxs('div', {
+                E.jsx('div', {
                   className: pt,
-                  children: [
-                    E.jsxs('div', {
-                      className: gt,
-                      children: [
-                        E.jsx('label', { className: xt, children: '主题模式' }),
-                        E.jsxs('select', {
-                          className: ft,
-                          value: i,
-                          onChange: e => d(e.target.value),
-                          children: [
-                            E.jsx('option', {
-                              value: 'system',
-                              children: '跟随系统',
-                            }),
-                            E.jsx('option', {
-                              value: 'light',
-                              children: '浅色模式',
-                            }),
-                            E.jsx('option', {
-                              value: 'dark',
-                              children: '深色模式',
-                            }),
-                          ],
-                        }),
-                        E.jsx('div', {
-                          className: wt,
-                          children:
-                            '选择应用的主题模式，跟随系统将根据系统设置自动切换',
-                        }),
-                      ],
-                    }),
-                    E.jsxs('div', {
-                      className: gt,
-                      children: [
-                        E.jsx('label', {
-                          className: xt,
-                          children: '自动检查更新',
-                        }),
-                        E.jsxs('div', {
-                          className: $t,
-                          children: [
-                            E.jsx('input', {
-                              type: 'checkbox',
-                              id: 'autoCheckUpdate',
-                              className: Tt,
-                              checked: o.autoCheckUpdate ?? !0,
-                              onChange: e =>
-                                g('autoCheckUpdate', e.target.checked),
-                            }),
-                            E.jsx('label', {
-                              htmlFor: 'autoCheckUpdate',
-                              className: Dt,
-                              children: E.jsx('span', { className: It }),
-                            }),
-                          ],
-                        }),
-                        E.jsx('div', {
-                          className: wt,
-                          children: '开启后将自动检查版本更新并提醒',
-                        }),
-                      ],
-                    }),
-                    E.jsxs('div', {
-                      className: gt,
-                      children: [
-                        E.jsx('label', {
-                          className: xt,
-                          children: '检查更新间隔',
-                        }),
-                        E.jsxs('select', {
-                          className: ft,
-                          value: o.updateCheckInterval ?? 3e5,
-                          onChange: e =>
-                            g('updateCheckInterval', parseInt(e.target.value)),
-                          disabled: !(o.autoCheckUpdate ?? 1),
-                          children: [
-                            E.jsx('option', { value: 6e4, children: '1分钟' }),
-                            E.jsx('option', { value: 3e5, children: '5分钟' }),
-                            E.jsx('option', { value: 6e5, children: '10分钟' }),
-                            E.jsx('option', {
-                              value: 18e5,
-                              children: '30分钟',
-                            }),
-                            E.jsx('option', { value: 36e5, children: '1小时' }),
-                          ],
-                        }),
-                        E.jsx('div', {
-                          className: wt,
-                          children: '设置自动检查版本更新的时间间隔',
-                        }),
-                      ],
-                    }),
-                  ],
+                  children: E.jsxs('div', {
+                    className: gt,
+                    children: [
+                      E.jsx('label', { className: ht, children: '主题模式' }),
+                      E.jsxs('select', {
+                        className: bt,
+                        value: i,
+                        onChange: e => d(e.target.value),
+                        children: [
+                          E.jsx('option', {
+                            value: 'system',
+                            children: '跟随系统',
+                          }),
+                          E.jsx('option', {
+                            value: 'light',
+                            children: '浅色模式',
+                          }),
+                          E.jsx('option', {
+                            value: 'dark',
+                            children: '深色模式',
+                          }),
+                        ],
+                      }),
+                      E.jsx('div', {
+                        className: jt,
+                        children:
+                          '选择应用的主题模式，跟随系统将根据系统设置自动切换',
+                      }),
+                    ],
+                  }),
                 }),
             ],
           }),
           E.jsx('div', {
             className: yt,
-            children: E.jsxs('span', { className: Ct, children: ['v', p] }),
+            children: E.jsxs('span', { className: Nt, children: ['v', v] }),
           }),
         ],
       }),
     })
   },
-  _t = {
+  Tt = {
     aiPanel: 'index-module-ai-panel-83f0d',
     dataOverview: 'index-module-data-overview-80a69',
     overviewHeader: 'index-module-overview-header-d7c5d',
@@ -2568,7 +2239,7 @@ const G = 'index-module-filter-section-content-8525c',
     regenerate: 'index-module-regenerate-dd981',
     btnText: 'index-module-btn-text-041d6',
   },
-  At = n.memo(
+  Dt = n.memo(
     ({
       visible: e,
       config: t,
@@ -2583,24 +2254,24 @@ const G = 'index-module-filter-section-content-8525c',
       isAllSelected: m = !1,
     }) => {
       const u = a.useMemo(() => g[l], [l]),
-        [h, p] = a.useState(u.defaultPrompt),
-        [x, v] = a.useState(!1),
+        [p, h] = a.useState(u.defaultPrompt),
+        [v, x] = a.useState(!1),
         [b, f] = a.useState(!1),
         [j, w] = a.useState(!1),
-        [N, y] = a.useState(0),
+        [y, N] = a.useState(0),
         [C, k] = a.useState(null),
         [S, $] = a.useState(!1),
         [T, D] = a.useState('')
       a.useEffect(() => {
-        p(u.defaultPrompt)
+        h(u.defaultPrompt)
       }, [u.defaultPrompt])
-      const I = a.useCallback(async () => {
+      const M = a.useCallback(async () => {
         if (c && !j) {
-          w(!0), y(0), D('正在初始化数据获取...'), $(!0)
+          w(!0), N(0), D('正在初始化数据获取...'), $(!0)
           try {
             let e
             const t = () => {
-              y(t => {
+              N(t => {
                 if (t >= 85) return clearTimeout(e), t
                 const a = t + 8 * Math.random()
                 return (
@@ -2619,7 +2290,7 @@ const G = 'index-module-filter-section-content-8525c',
             t()
             const a = await c()
             clearTimeout(e),
-              y(100),
+              N(100),
               D(`数据获取完成！共获取 ${a.length} 条事件`),
               k(a),
               setTimeout(() => {
@@ -2627,18 +2298,18 @@ const G = 'index-module-filter-section-content-8525c',
               }, 1e3)
           } catch (e) {
             w(!1),
-              y(0),
+              N(0),
               D('数据获取失败，请稍后重试'),
               setTimeout(() => D(''), 3e3)
           }
         }
       }, [c, j])
       a.useEffect(() => {
-        e && m && !S && c && I()
-      }, [e, m, S, c, I])
-      const M = a.useMemo(
-          () => !(o || !h.trim()) && (m && r !== i ? !j && null !== C : r > 0),
-          [o, h, m, r, i, j, C],
+        e && m && !S && c && M()
+      }, [e, m, S, c, M])
+      const I = a.useMemo(
+          () => !(o || !p.trim()) && (m && r !== i ? !j && null !== C : r > 0),
+          [o, p, m, r, i, j, C],
         ),
         L = a.useCallback(async () => {
           if (null == t ? void 0 : t.result)
@@ -2657,64 +2328,64 @@ const G = 'index-module-filter-section-content-8525c',
               document.body.removeChild(l)
             }
         }, [null == t ? void 0 : t.result]),
-        _ = a.useCallback(() => {
-          p(u.defaultPrompt)
+        A = a.useCallback(() => {
+          h(u.defaultPrompt)
         }, [u.defaultPrompt])
-      return E.jsx(_e, {
+      return E.jsx(Le, {
         visible: e,
         title: u.title,
         width: 800,
         onClose: n,
         maskClosable: !o,
         children: E.jsxs('div', {
-          className: _t.aiPanel,
+          className: Tt.aiPanel,
           children: [
             E.jsxs('div', {
-              className: _t.dataOverview,
+              className: Tt.dataOverview,
               children: [
                 E.jsx('div', {
-                  className: _t.overviewHeader,
+                  className: Tt.overviewHeader,
                   children: E.jsx('h4', { children: '📊 数据概览' }),
                 }),
                 E.jsxs('div', {
-                  className: _t.overviewContent,
+                  className: Tt.overviewContent,
                   children: [
                     E.jsxs('div', {
-                      className: _t.overviewItem,
+                      className: Tt.overviewItem,
                       children: [
                         E.jsx('span', {
-                          className: _t.overviewLabel,
+                          className: Tt.overviewLabel,
                           children: '已选择事件：',
                         }),
                         E.jsxs('span', {
-                          className: _t.overviewValue,
+                          className: Tt.overviewValue,
                           children: [m && C ? C.length : r, ' ', '条'],
                         }),
                       ],
                     }),
                     d &&
                       E.jsxs('div', {
-                        className: _t.overviewItem,
+                        className: Tt.overviewItem,
                         children: [
                           E.jsx('span', {
-                            className: _t.overviewLabel,
+                            className: Tt.overviewLabel,
                             children: '时间范围：',
                           }),
                           E.jsxs('span', {
-                            className: _t.overviewValue,
+                            className: Tt.overviewValue,
                             children: [d.startDate, ' 至 ', d.endDate],
                           }),
                         ],
                       }),
                     E.jsxs('div', {
-                      className: _t.overviewItem,
+                      className: Tt.overviewItem,
                       children: [
                         E.jsx('span', {
-                          className: _t.overviewLabel,
+                          className: Tt.overviewLabel,
                           children: '状态：',
                         }),
                         E.jsx('span', {
-                          className: `${_t.overviewValue} ${r > 0 ? _t.ready : _t.waiting}`,
+                          className: `${Tt.overviewValue} ${r > 0 ? Tt.ready : Tt.waiting}`,
                           children: j
                             ? '🔄 获取数据中...'
                             : C
@@ -2731,47 +2402,47 @@ const G = 'index-module-filter-section-content-8525c',
             }),
             j &&
               E.jsxs('div', {
-                className: _t.fetchProgress,
+                className: Tt.fetchProgress,
                 children: [
                   E.jsxs('div', {
-                    className: _t.progressHeader,
+                    className: Tt.progressHeader,
                     children: [
                       E.jsx('span', { children: T }),
-                      E.jsxs('span', { children: [Math.round(N), '%'] }),
+                      E.jsxs('span', { children: [Math.round(y), '%'] }),
                     ],
                   }),
                   E.jsx('div', {
-                    className: _t.progressBar,
+                    className: Tt.progressBar,
                     children: E.jsx('div', {
-                      className: _t.progressFill,
-                      style: { width: `${N}%` },
+                      className: Tt.progressFill,
+                      style: { width: `${y}%` },
                     }),
                   }),
                   E.jsx('p', {
-                    className: _t.progressTip,
+                    className: Tt.progressTip,
                     children:
                       '正在分批获取事件数据（每批最多100条），请稍候...',
                   }),
                 ],
               }),
             E.jsxs('div', {
-              className: _t.promptSection,
+              className: Tt.promptSection,
               children: [
                 E.jsxs('div', {
-                  className: _t.sectionHeader,
+                  className: Tt.sectionHeader,
                   children: [
                     E.jsx('h3', { children: '提示词' }),
                     E.jsxs('div', {
-                      className: _t.headerActions,
+                      className: Tt.headerActions,
                       children: [
                         E.jsx('button', {
-                          className: _t.btnText,
-                          onClick: () => v(!x),
-                          children: x ? '收起' : '展开',
+                          className: Tt.btnText,
+                          onClick: () => x(!v),
+                          children: v ? '收起' : '展开',
                         }),
                         E.jsx('button', {
-                          className: _t.btnText,
-                          onClick: _,
+                          className: Tt.btnText,
+                          onClick: A,
                           children: '重置',
                         }),
                       ],
@@ -2779,29 +2450,29 @@ const G = 'index-module-filter-section-content-8525c',
                   ],
                 }),
                 E.jsxs('div', {
-                  className: `${_t.promptEditor} ${x ? _t.expanded : ''}`,
+                  className: `${Tt.promptEditor} ${v ? Tt.expanded : ''}`,
                   children: [
                     E.jsx('textarea', {
-                      className: _t.promptTextarea,
-                      value: h,
-                      onChange: e => p(e.target.value),
+                      className: Tt.promptTextarea,
+                      value: p,
+                      onChange: e => h(e.target.value),
                       placeholder: u.placeholder,
-                      rows: x ? 15 : 6,
+                      rows: v ? 15 : 6,
                       disabled: o,
                     }),
                     E.jsxs('div', {
-                      className: _t.promptFooter,
+                      className: Tt.promptFooter,
                       children: [
                         E.jsxs('span', {
-                          className: _t.charCount,
-                          children: [h.length, ' 字符'],
+                          className: Tt.charCount,
+                          children: [p.length, ' 字符'],
                         }),
                         E.jsx('button', {
-                          className: `${_t.btnPrimary} ${(null == t ? void 0 : t.result) ? _t.regenerate : ''}`,
+                          className: `${Tt.btnPrimary} ${(null == t ? void 0 : t.result) ? Tt.regenerate : ''}`,
                           onClick: () => {
-                            M && s(h)
+                            I && s(p)
                           },
-                          disabled: !M,
+                          disabled: !I,
                           children: o
                             ? '生成中...'
                             : (null == t ? void 0 : t.result)
@@ -2816,12 +2487,12 @@ const G = 'index-module-filter-section-content-8525c',
             }),
             o &&
               E.jsxs('div', {
-                className: _t.loadingSection,
+                className: Tt.loadingSection,
                 children: [
-                  E.jsx('div', { className: _t.loadingSpinner }),
+                  E.jsx('div', { className: Tt.loadingSpinner }),
                   E.jsx('p', { children: u.loadingText }),
                   E.jsx('div', {
-                    className: _t.loadingTips,
+                    className: Tt.loadingTips,
                     children: E.jsx('span', {
                       children: '💡 生成时间通常为 10-30 秒',
                     }),
@@ -2830,31 +2501,31 @@ const G = 'index-module-filter-section-content-8525c',
               }),
             (null == t ? void 0 : t.result) &&
               E.jsxs('div', {
-                className: _t.resultSection,
+                className: Tt.resultSection,
                 children: [
                   E.jsxs('div', {
-                    className: _t.resultHeader,
+                    className: Tt.resultHeader,
                     children: [
                       E.jsxs('h3', {
-                        className: _t.resultTitle,
+                        className: Tt.resultTitle,
                         children: [
                           E.jsx('span', {
-                            className: _t.titleIcon,
+                            className: Tt.titleIcon,
                             children: '✨',
                           }),
                           '生成结果',
                         ],
                       }),
                       E.jsx('div', {
-                        className: _t.resultActions,
+                        className: Tt.resultActions,
                         children: E.jsxs('button', {
-                          className: `${_t.actionBtn} ${b ? _t.copied : ''}`,
+                          className: `${Tt.actionBtn} ${b ? Tt.copied : ''}`,
                           onClick: L,
                           title: '一键复制',
                           disabled: b,
                           children: [
                             E.jsx('span', {
-                              className: _t.btnIcon,
+                              className: Tt.btnIcon,
                               children: b ? '✅' : '📋',
                             }),
                             b ? '已复制' : '复制',
@@ -2864,25 +2535,25 @@ const G = 'index-module-filter-section-content-8525c',
                     ],
                   }),
                   E.jsx('div', {
-                    className: _t.resultContent,
+                    className: Tt.resultContent,
                     children: E.jsx('div', {
-                      className: _t.resultText,
+                      className: Tt.resultText,
                       children: t.result,
                     }),
                   }),
                   E.jsx('div', {
-                    className: _t.resultMeta,
+                    className: Tt.resultMeta,
                     children: E.jsxs('div', {
-                      className: _t.metaLeft,
+                      className: Tt.metaLeft,
                       children: [
                         E.jsx('div', {
-                          className: _t.metaItem,
+                          className: Tt.metaItem,
                           children: E.jsxs('span', {
                             children: [t.result.split('\n').length, ' 行'],
                           }),
                         }),
                         E.jsx('div', {
-                          className: _t.metaItem,
+                          className: Tt.metaItem,
                           children: E.jsxs('span', {
                             children: [t.result.length, ' 字符'],
                           }),
@@ -2893,39 +2564,39 @@ const G = 'index-module-filter-section-content-8525c',
                 ],
               }),
             E.jsxs('div', {
-              className: _t.emptyResult,
+              className: Tt.emptyResult,
               children: [
-                E.jsx('div', { className: _t.emptyIcon, children: '🤖' }),
+                E.jsx('div', { className: Tt.emptyIcon, children: '🤖' }),
                 E.jsx('h3', { children: u.emptyTitle }),
                 E.jsx('p', { children: u.emptyDescription }),
                 E.jsxs('div', {
-                  className: _t.emptyFeatures,
+                  className: Tt.emptyFeatures,
                   children: [
                     E.jsxs('div', {
-                      className: _t.featureItem,
+                      className: Tt.featureItem,
                       children: [
                         E.jsx('span', {
-                          className: _t.featureIcon,
+                          className: Tt.featureIcon,
                           children: '📊',
                         }),
                         E.jsx('span', { children: '智能分析工作数据' }),
                       ],
                     }),
                     E.jsxs('div', {
-                      className: _t.featureItem,
+                      className: Tt.featureItem,
                       children: [
                         E.jsx('span', {
-                          className: _t.featureIcon,
+                          className: Tt.featureIcon,
                           children: '📝',
                         }),
                         E.jsx('span', { children: '自动生成专业内容' }),
                       ],
                     }),
                     E.jsxs('div', {
-                      className: _t.featureItem,
+                      className: Tt.featureItem,
                       children: [
                         E.jsx('span', {
-                          className: _t.featureIcon,
+                          className: Tt.featureIcon,
                           children: '🎯',
                         }),
                         E.jsx('span', { children: '突出重点信息' }),
@@ -2940,7 +2611,7 @@ const G = 'index-module-filter-section-content-8525c',
       })
     },
   ),
-  Pt = {
+  Mt = {
     'event-detail-modal-overlay':
       'EventDetailModal-module-event-detail-modal-overlay-68f43',
     eventDetailModalOverlay:
@@ -3020,9 +2691,35 @@ const G = 'index-module-filter-section-content-8525c',
     app: 'EventDetailModal-module-app-8ed9f',
     dark: 'EventDetailModal-module-dark-974de',
   },
-  Ot = ({ event: e, visible: t, onClose: a }) => {
+  It = ({ event: e, visible: t, onClose: l }) => {
+    const n = A(e => e.config.gitlabUrl),
+      s = a.useMemo(
+        () =>
+          (e => {
+            if (!e) return ''
+            try {
+              const t =
+                  'undefined' != typeof window
+                    ? window.location.origin
+                    : 'http://localhost',
+                a = new URL(e, t)
+              return (
+                (a.pathname = a.pathname.replace(/\/api\/v4\/?$/, '')),
+                '/' !== a.pathname &&
+                  a.pathname.endsWith('/') &&
+                  (a.pathname = a.pathname.replace(/\/$/, '')),
+                (a.search = ''),
+                (a.hash = ''),
+                `${a.origin}${a.pathname}`
+              )
+            } catch {
+              return e.replace(/\/api\/v4\/?$/, '').replace(/\/$/, '')
+            }
+          })(n),
+        [n],
+      )
     if (!t || !e) return null
-    const l = e =>
+    const o = e =>
         new Date(e).toLocaleString('zh-CN', {
           year: 'numeric',
           month: '2-digit',
@@ -3031,79 +2728,79 @@ const G = 'index-module-filter-section-content-8525c',
           minute: '2-digit',
           second: '2-digit',
         }),
-      n = () => {
+      r = () => {
         var t, a
+        if (!s) return ''
         if (!e.project && !e.project_id) return ''
-        const l = 'https://www.lejuhub.com'
-        if (!e.project) return l
-        const n = e.project.path_with_namespace
-        if (!e.target_type || '' === e.target_type.trim()) return `${l}/${n}`
+        if (!e.project) return s
+        const l = e.project.path_with_namespace
+        if (!e.target_type || '' === e.target_type.trim()) return `${s}/${l}`
         switch (e.target_type) {
           case 'MergeRequest':
-            return `${l}/${n}/-/merge_requests/${e.target_iid}`
+            return `${s}/${l}/-/merge_requests/${e.target_iid}`
           case 'Issue':
-            return `${l}/${n}/-/issues/${e.target_iid}`
+            return `${s}/${l}/-/issues/${e.target_iid}`
           case 'Note':
             return 'Issue' === (null == (t = e.note) ? void 0 : t.noteable_type)
-              ? `${l}/${n}/-/issues/${e.note.noteable_iid}`
+              ? `${s}/${l}/-/issues/${e.note.noteable_iid}`
               : 'MergeRequest' ===
                   (null == (a = e.note) ? void 0 : a.noteable_type)
-                ? `${l}/${n}/-/merge_requests/${e.note.noteable_iid}`
-                : `${l}/${n}`
+                ? `${s}/${l}/-/merge_requests/${e.note.noteable_iid}`
+                : `${s}/${l}`
           default:
-            return `${l}/${n}`
+            return `${s}/${l}`
         }
       }
     return E.jsx('div', {
-      className: Pt.eventDetailModalOverlay,
-      onClick: a,
+      className: Mt.eventDetailModalOverlay,
+      onClick: l,
       children: E.jsxs('div', {
-        className: Pt.eventDetailModal,
+        className: Mt.eventDetailModal,
         onClick: e => e.stopPropagation(),
         children: [
           E.jsxs('div', {
-            className: Pt.modalHeader,
+            className: Mt.modalHeader,
             children: [
               E.jsx('h2', { children: '事件详情' }),
               E.jsx('button', {
-                className: Pt.closeBtn,
-                onClick: a,
+                className: Mt.closeBtn,
+                onClick: l,
                 children: '×',
               }),
             ],
           }),
           E.jsxs('div', {
-            className: Pt.modalContent,
+            className: Mt.modalContent,
             children: [
               E.jsxs('div', {
-                className: `${Pt.detailSection} ${Pt.compact}`,
+                className: `${Mt.detailSection} ${Mt.compact}`,
                 children: [
                   E.jsx('h3', { children: '基本信息' }),
                   E.jsxs('div', {
-                    className: `${Pt.detailGrid} ${Pt.compactGrid}`,
+                    className: `${Mt.detailGrid} ${Mt.compactGrid}`,
                     children: [
                       E.jsxs('div', {
-                        className: Pt.detailItem,
+                        className: Mt.detailItem,
                         children: [
                           E.jsx('span', {
-                            className: Pt.label,
+                            className: Mt.label,
                             children: 'ID:',
                           }),
                           E.jsx('span', {
-                            className: Pt.value,
+                            className: Mt.value,
                             children: e.id,
                           }),
                         ],
                       }),
                       E.jsxs('div', {
-                        className: Pt.detailItem,
+                        className: Mt.detailItem,
                         children: [
                           E.jsx('span', {
-                            className: Pt.label,
+                            className: Mt.label,
                             children: '类型:',
                           }),
                           E.jsx('span', {
-                            className: Pt.value,
+                            className: Mt.value,
                             children: (e => {
                               if (!e || '' === e.trim()) return '未知类型'
                               return (
@@ -3122,16 +2819,16 @@ const G = 'index-module-filter-section-content-8525c',
                         ],
                       }),
                       E.jsxs('div', {
-                        className: Pt.detailItem,
+                        className: Mt.detailItem,
                         children: [
                           E.jsx('span', {
-                            className: Pt.label,
+                            className: Mt.label,
                             children: '操作:',
                           }),
                           E.jsx('span', {
-                            className: `${Pt.value} ${Pt.actionBadge}`,
+                            className: `${Mt.value} ${Mt.actionBadge}`,
                             children:
-                              ((s = e.action_name),
+                              ((i = e.action_name),
                               {
                                 opened: '开启',
                                 closed: '关闭',
@@ -3140,33 +2837,33 @@ const G = 'index-module-filter-section-content-8525c',
                                 'pushed to': '推送到分支',
                                 'commented on': '评论',
                                 joined: '加入',
-                              }[s] || s),
+                              }[i] || i),
                           }),
                         ],
                       }),
                       E.jsxs('div', {
-                        className: Pt.detailItem,
+                        className: Mt.detailItem,
                         children: [
                           E.jsx('span', {
-                            className: Pt.label,
+                            className: Mt.label,
                             children: '时间:',
                           }),
                           E.jsx('span', {
-                            className: Pt.value,
-                            children: l(e.created_at),
+                            className: Mt.value,
+                            children: o(e.created_at),
                           }),
                         ],
                       }),
                       e.state &&
                         E.jsxs('div', {
-                          className: Pt.detailItem,
+                          className: Mt.detailItem,
                           children: [
                             E.jsx('span', {
-                              className: Pt.label,
+                              className: Mt.label,
                               children: '状态:',
                             }),
                             E.jsx('span', {
-                              className: `${Pt.value} ${Pt.statusBadge} ${Pt[`status-${e.state}`]}`,
+                              className: `${Mt.value} ${Mt.statusBadge} ${Mt[`status-${e.state}`]}`,
                               children: e.state,
                             }),
                           ],
@@ -3179,36 +2876,36 @@ const G = 'index-module-filter-section-content-8525c',
                 e.target_title ||
                 (e.labels && e.labels.length > 0)) &&
                 E.jsxs('div', {
-                  className: `${Pt.detailSection} ${Pt.compact}`,
+                  className: `${Mt.detailSection} ${Mt.compact}`,
                   children: [
                     E.jsx('h3', { children: '内容' }),
                     E.jsxs('div', {
-                      className: `${Pt.detailContent} ${Pt.compactContent}`,
+                      className: `${Mt.detailContent} ${Mt.compactContent}`,
                       children: [
                         e.title &&
                           E.jsxs('div', {
-                            className: Pt.detailItem,
+                            className: Mt.detailItem,
                             children: [
                               E.jsx('span', {
-                                className: Pt.label,
+                                className: Mt.label,
                                 children: '标题:',
                               }),
                               E.jsx('span', {
-                                className: Pt.value,
+                                className: Mt.value,
                                 children: e.title,
                               }),
                             ],
                           }),
                         e.target_title &&
                           E.jsxs('div', {
-                            className: Pt.detailItem,
+                            className: Mt.detailItem,
                             children: [
                               E.jsx('span', {
-                                className: Pt.label,
+                                className: Mt.label,
                                 children: '目标:',
                               }),
                               E.jsx('span', {
-                                className: Pt.value,
+                                className: Mt.value,
                                 children: e.target_title,
                               }),
                             ],
@@ -3216,18 +2913,18 @@ const G = 'index-module-filter-section-content-8525c',
                         e.labels &&
                           e.labels.length > 0 &&
                           E.jsxs('div', {
-                            className: Pt.detailItem,
+                            className: Mt.detailItem,
                             children: [
                               E.jsx('span', {
-                                className: Pt.label,
+                                className: Mt.label,
                                 children: '标签:',
                               }),
                               E.jsx('div', {
-                                className: Pt.labels,
+                                className: Mt.labels,
                                 children: e.labels.map((e, t) =>
                                   E.jsx(
                                     'span',
-                                    { className: Pt.labelTag, children: e },
+                                    { className: Mt.labelTag, children: e },
                                     t,
                                   ),
                                 ),
@@ -3240,27 +2937,27 @@ const G = 'index-module-filter-section-content-8525c',
                 }),
               e.author &&
                 E.jsxs('div', {
-                  className: `${Pt.detailSection} ${Pt.compact}`,
+                  className: `${Mt.detailSection} ${Mt.compact}`,
                   children: [
                     E.jsx('h3', { children: '作者' }),
                     E.jsxs('div', {
-                      className: `${Pt.authorInfo} ${Pt.compactAuthor}`,
+                      className: `${Mt.authorInfo} ${Mt.compactAuthor}`,
                       children: [
                         e.author.avatar_url &&
                           E.jsx('img', {
                             src: `${e.author.avatar_url}?width=100`,
                             alt: e.author.name,
-                            className: Pt.authorAvatar,
+                            className: Mt.authorAvatar,
                           }),
                         E.jsxs('div', {
-                          className: Pt.authorDetails,
+                          className: Mt.authorDetails,
                           children: [
                             E.jsx('div', {
-                              className: Pt.authorName,
+                              className: Mt.authorName,
                               children: e.author.name,
                             }),
                             E.jsxs('div', {
-                              className: Pt.authorUsername,
+                              className: Mt.authorUsername,
                               children: ['@', e.author.username],
                             }),
                           ],
@@ -3271,36 +2968,36 @@ const G = 'index-module-filter-section-content-8525c',
                 }),
               (e.project || e.project_id) &&
                 E.jsxs('div', {
-                  className: `${Pt.detailSection} ${Pt.compact}`,
+                  className: `${Mt.detailSection} ${Mt.compact}`,
                   children: [
                     E.jsx('h3', { children: '项目' }),
                     E.jsx('div', {
-                      className: `${Pt.projectInfo} ${Pt.compactProject}`,
+                      className: `${Mt.projectInfo} ${Mt.compactProject}`,
                       children: e.project
                         ? E.jsxs(E.Fragment, {
                             children: [
                               E.jsxs('div', {
-                                className: Pt.detailItem,
+                                className: Mt.detailItem,
                                 children: [
                                   E.jsx('span', {
-                                    className: Pt.label,
+                                    className: Mt.label,
                                     children: '名称:',
                                   }),
                                   E.jsx('span', {
-                                    className: Pt.value,
+                                    className: Mt.value,
                                     children: e.project.name,
                                   }),
                                 ],
                               }),
                               E.jsxs('div', {
-                                className: Pt.detailItem,
+                                className: Mt.detailItem,
                                 children: [
                                   E.jsx('span', {
-                                    className: Pt.label,
+                                    className: Mt.label,
                                     children: '路径:',
                                   }),
                                   E.jsx('span', {
-                                    className: Pt.value,
+                                    className: Mt.value,
                                     children: e.project.path_with_namespace,
                                   }),
                                 ],
@@ -3308,14 +3005,14 @@ const G = 'index-module-filter-section-content-8525c',
                             ],
                           })
                         : E.jsxs('div', {
-                            className: Pt.detailItem,
+                            className: Mt.detailItem,
                             children: [
                               E.jsx('span', {
-                                className: Pt.label,
+                                className: Mt.label,
                                 children: '项目ID:',
                               }),
                               E.jsx('span', {
-                                className: Pt.value,
+                                className: Mt.value,
                                 children: e.project_id,
                               }),
                             ],
@@ -3325,60 +3022,60 @@ const G = 'index-module-filter-section-content-8525c',
                 }),
               e.push_data &&
                 E.jsxs('div', {
-                  className: Pt.detailSection,
+                  className: Mt.detailSection,
                   children: [
                     E.jsx('h3', { children: '推送信息' }),
                     E.jsxs('div', {
-                      className: Pt.pushInfo,
+                      className: Mt.pushInfo,
                       children: [
                         E.jsxs('div', {
-                          className: Pt.detailItem,
+                          className: Mt.detailItem,
                           children: [
                             E.jsx('span', {
-                              className: Pt.label,
+                              className: Mt.label,
                               children: '分支:',
                             }),
                             E.jsx('span', {
-                              className: Pt.value,
+                              className: Mt.value,
                               children: e.push_data.ref,
                             }),
                           ],
                         }),
                         E.jsxs('div', {
-                          className: Pt.detailItem,
+                          className: Mt.detailItem,
                           children: [
                             E.jsx('span', {
-                              className: Pt.label,
+                              className: Mt.label,
                               children: '提交数量:',
                             }),
                             E.jsx('span', {
-                              className: Pt.value,
+                              className: Mt.value,
                               children: e.push_data.commit_count,
                             }),
                           ],
                         }),
                         E.jsxs('div', {
-                          className: Pt.detailItem,
+                          className: Mt.detailItem,
                           children: [
                             E.jsx('span', {
-                              className: Pt.label,
+                              className: Mt.label,
                               children: '提交标题:',
                             }),
                             E.jsx('span', {
-                              className: Pt.value,
+                              className: Mt.value,
                               children: e.push_data.commit_title,
                             }),
                           ],
                         }),
                         E.jsxs('div', {
-                          className: Pt.detailItem,
+                          className: Mt.detailItem,
                           children: [
                             E.jsx('span', {
-                              className: Pt.label,
+                              className: Mt.label,
                               children: '提交哈希:',
                             }),
                             E.jsx('span', {
-                              className: `${Pt.value} ${Pt.commitHash}`,
+                              className: `${Mt.value} ${Mt.commitHash}`,
                               children: e.push_data.commit_to,
                             }),
                           ],
@@ -3389,25 +3086,25 @@ const G = 'index-module-filter-section-content-8525c',
                 }),
               e.note &&
                 E.jsxs('div', {
-                  className: Pt.detailSection,
+                  className: Mt.detailSection,
                   children: [
                     E.jsx('h3', { children: '评论信息' }),
                     E.jsxs('div', {
-                      className: Pt.noteInfo,
+                      className: Mt.noteInfo,
                       children: [
                         E.jsx('div', {
-                          className: Pt.noteBody,
+                          className: Mt.noteBody,
                           children: e.note.body,
                         }),
                         E.jsxs('div', {
-                          className: Pt.noteMeta,
+                          className: Mt.noteMeta,
                           children: [
                             E.jsxs('span', {
-                              children: ['创建时间: ', l(e.note.created_at)],
+                              children: ['创建时间: ', o(e.note.created_at)],
                             }),
                             e.note.updated_at !== e.note.created_at &&
                               E.jsxs('span', {
-                                children: ['更新时间: ', l(e.note.updated_at)],
+                                children: ['更新时间: ', o(e.note.updated_at)],
                               }),
                           ],
                         }),
@@ -3418,19 +3115,19 @@ const G = 'index-module-filter-section-content-8525c',
             ],
           }),
           E.jsxs('div', {
-            className: Pt.modalFooter,
+            className: Mt.modalFooter,
             children: [
-              n() &&
+              r() &&
                 E.jsx('a', {
-                  href: n(),
+                  href: r(),
                   target: '_blank',
                   rel: 'noopener noreferrer',
-                  className: Pt.sourceLinkBtn,
+                  className: Mt.sourceLinkBtn,
                   children: '打开源页面',
                 }),
               E.jsx('button', {
-                className: Pt.closeModalBtn,
-                onClick: a,
+                className: Mt.closeModalBtn,
+                onClick: l,
                 children: '关闭',
               }),
             ],
@@ -3438,9 +3135,9 @@ const G = 'index-module-filter-section-content-8525c',
         ],
       }),
     })
-    var s
+    var i
   }
-class Rt {
+class Lt {
   constructor(e) {
     t(this, 'apiKey'),
       t(this, 'baseUrl'),
@@ -3501,7 +3198,7 @@ class Rt {
     }
   }
 }
-const Ut = {
+const At = {
     app: 'App-module-app-682bf',
     light: 'App-module-light-82872',
     dark: 'App-module-dark-91da8',
@@ -3540,7 +3237,7 @@ const Ut = {
     'report-text': 'App-module-report-text-176d7',
     reportText: 'App-module-report-text-176d7',
   },
-  Bt = () => {
+  _t = () => {
     const {
         config: e,
         activePanel: t,
@@ -3553,9 +3250,9 @@ const Ut = {
         setReportData: d,
         setLoading: c,
         setError: m,
-      } = _(),
+      } = A(),
       { actualTheme: u } = (() => {
-        const { theme: e, setTheme: t } = _(),
+        const { theme: e, setTheme: t } = A(),
           l = a.useMemo(
             () =>
               'system' === e
@@ -3568,7 +3265,7 @@ const Ut = {
         return (
           a.useEffect(() => {
             if (
-              (U(document.documentElement, B(e)),
+              (B(document.documentElement, q(e)),
               (document.body.className = document.body.className
                 .replace(/\b(light|dark)\b/g, '')
                 .trim()),
@@ -3577,7 +3274,7 @@ const Ut = {
             ) {
               const e = window.matchMedia('(prefers-color-scheme: dark)'),
                 t = () => {
-                  U(document.documentElement, B('system')),
+                  B(document.documentElement, q('system')),
                     window.dispatchEvent(new Event('resize'))
                 }
               return (
@@ -3592,13 +3289,19 @@ const Ut = {
         )
       })(),
       {
-        loadEvents: h,
-        handleFilterChange: p,
-        handleSortChange: g,
-        handlePaginationChange: x,
-      } = P(),
-      { selectedEvents: v, toggleEventSelection: b } = (() => {
-        const { events: e } = _(),
+        loadEvents: p,
+        handleFilterChange: g,
+        handleSortChange: h,
+        handlePaginationChange: v,
+      } = R(),
+      {
+        selectedEvents: x,
+        selectedEventIds: b,
+        toggleEventSelection: f,
+        selectAllEvents: j,
+        clearSelection: w,
+      } = (() => {
+        const { events: e } = A(),
           [t, l] = a.useState([]),
           n = a.useMemo(() => e.filter(e => t.includes(e.id)), [e, t]),
           s = a.useCallback(e => t.includes(e), [t]),
@@ -3625,14 +3328,14 @@ const Ut = {
           u = a.useCallback(e => {
             l(e)
           }, []),
-          h = t.length,
-          p = a.useCallback(() => {
+          p = t.length,
+          g = a.useCallback(() => {
             l([])
           }, [])
         return {
           selectedEventIds: t,
           selectedEvents: n,
-          selectedCount: h,
+          selectedCount: p,
           isEventSelected: s,
           toggleEventSelection: o,
           selectAllEvents: r,
@@ -3641,20 +3344,32 @@ const Ut = {
           isIndeterminate: c,
           toggleSelectAll: m,
           selectEvents: u,
-          clearSelection: p,
+          clearSelection: g,
         }
       })(),
-      [f, j] = a.useState(null),
-      [w, N] = a.useState(!1)
+      [y, N] = a.useState(null),
+      [C, k] = a.useState(!1)
     a.useEffect(() => {
-      h()
-    }, [h])
-    const y = async t => {
-      if (0 !== v.length) {
-        c(!0), m(null), i(t)
+      p()
+    }, [p])
+    const S = a.useMemo(
+        () =>
+          s ?? {
+            taskType: 'weekly-report',
+            prompt: e.defaultPrompt,
+            tokensUsed: 0,
+            result: '',
+          },
+        [s, e.defaultPrompt],
+      ),
+      $ = async t => {
+        if (0 === x.length) return void m('请先选择要生成报告的事件')
+        c(!0), m(null)
+        const a = { ...t, tokensUsed: 0, result: '' }
+        i(a)
         try {
-          const l = ((a = e.deepseekApiKey), new Rt(a)),
-            n = v
+          const n = ((l = e.deepseekApiKey), new Lt(l)),
+            s = x
               .map(e => {
                 var t
                 const a =
@@ -3663,92 +3378,94 @@ const Ut = {
                 return `- [${a}] ${e.action_name || '未知操作'}: ${l} (${new Date(e.created_at).toLocaleString('zh-CN')})`
               })
               .join('\n'),
-            s = await l.generateWeeklyReport(
-              n,
+            r = await n.generateWeeklyReport(
+              s,
               t.prompt,
               e.model || 'deepseek-chat',
               e.tokenLimit || 4e3,
             ),
-            r = {
-              events: v,
-              generatedReport: s.content,
-              tokensUsed: s.tokensUsed || 0,
+            c = {
+              events: x,
+              generatedReport: r.content,
+              tokensUsed: r.tokensUsed || 0,
               generatedAt: new Date().toISOString(),
             }
-          d(r), o('ai')
-        } catch (l) {
-          m(l instanceof Error ? l.message : 'AI 报告生成失败')
+          d(c),
+            i({ ...a, result: r.content, tokensUsed: r.tokensUsed || 0 }),
+            o('ai')
+        } catch (n) {
+          m(n instanceof Error ? n.message : 'AI 报告生成失败')
         } finally {
           c(!1)
         }
-        var a
-      } else m('请先选择要生成报告的事件')
-    }
+        var l
+      }
     return E.jsx('div', {
-      className: `${Ut.app} ${Ut[u]}`,
+      className: `${At.app} ${At[u]}`,
       'data-theme': u,
       children: E.jsxs('div', {
-        className: Ut.container,
+        className: At.container,
         children: [
-          E.jsx(Ee, {
+          E.jsx(ke, {
             events: n,
-            totalCount: _.getState().totalCount,
+            totalCount: A.getState().totalCount,
             loading: l,
-            filterConditions: _.getState().filterConditions,
-            sortOptions: _.getState().sortOptions,
-            paginationOptions: _.getState().paginationOptions,
-            selectedEventIds: v.map(e => e.id),
-            onFilterChange: p,
-            onSortChange: g,
-            onPaginationChange: x,
-            onEventSelect: b,
-            onSelectionChange: () => {},
+            filterConditions: A.getState().filterConditions,
+            sortOptions: A.getState().sortOptions,
+            paginationOptions: A.getState().paginationOptions,
+            selectedEventIds: b,
+            onFilterChange: g,
+            onSortChange: h,
+            onPaginationChange: v,
+            onEventSelect: f,
+            onSelectAllEvents: j,
+            onClearSelection: w,
             onEventDetail: e => {
-              j(e), N(!0)
+              N(e), k(!0)
             },
             onOpenSettings: () => o('settings'),
             onOpenAI: () => o('ai'),
           }),
           'settings' === t &&
-            E.jsx(Lt, {
+            E.jsx($t, {
               isOpen: !0,
               config: e,
-              theme: _.getState().theme,
+              theme: A.getState().theme,
               onClose: () => o('main'),
               onSave: (e, t) => {
-                r(e), _.getState().setTheme(t)
+                r(e), A.getState().setTheme(t)
               },
             }),
           'ai' === t &&
-            E.jsx(At, {
+            E.jsx(Dt, {
               visible: !0,
-              config: s,
+              config: S,
               taskType: 'weekly-report',
               onClose: () => o('main'),
               onGenerate: e => {
-                s && y({ ...s, prompt: e })
+                $({ ...S, prompt: e })
               },
               isLoading: l,
-              selectedEventsCount: v.length,
+              selectedEventsCount: x.length,
             }),
-          E.jsx(Ot, {
-            event: f,
-            visible: w,
+          E.jsx(It, {
+            event: y,
+            visible: C,
             onClose: () => {
-              N(!1), j(null)
+              k(!1), N(null)
             },
           }),
         ],
       }),
     })
   },
-  Gt = document.documentElement
-U(Gt, B('system'))
+  Pt = document.documentElement
+B(Pt, q('system'))
 window
   .matchMedia('(prefers-color-scheme: dark)')
   .addEventListener('change', () => {
-    U(Gt, B('system'))
+    B(Pt, q('system'))
   }),
   S.createRoot(document.getElementById('root')).render(
-    E.jsx(n.StrictMode, { children: E.jsx(Bt, {}) }),
+    E.jsx(n.StrictMode, { children: E.jsx(_t, {}) }),
   )
