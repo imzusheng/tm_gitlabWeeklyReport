@@ -3,7 +3,12 @@ import type { AITaskType, AITaskConfig } from '@/types'
 // 应用版本信息
 // 从 package.json 读取版本号
 import packageJson from '../../package.json'
-export const APP_VERSION = packageJson.version
+// 优先使用构建期注入的版本号（例如 CI 注入 VITE_APP_VERSION），否则回退到 package.json
+const env = (
+  import.meta as unknown as { env: Record<string, string | undefined> }
+).env
+export const APP_VERSION = env?.VITE_APP_VERSION || packageJson.version
+export const APP_COMMIT = env?.VITE_GIT_SHA || ''
 
 // API配置
 export const API_CONFIG = {

@@ -24,23 +24,10 @@
     ],
     "@semantic-release/release-notes-generator",
     [
-      "@semantic-release/npm",
-      {
-        "npmPublish": false
-      }
-    ],
-    [
       "@semantic-release/exec",
       {
-        "prepareCmd": "node scripts/semantic-version-update.cjs && npm run build",
-        "publishCmd": "echo '✅ 版本发布完成，所有文件版本号已同步'"
-      }
-    ],
-    [
-      "@semantic-release/git",
-      {
-        "assets": ["package.json", "vite.config.ts", "dist/**/*"],
-        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        "prepareCmd": "VITE_APP_VERSION=$SEMANTIC_RELEASE_NEXT_RELEASE_VERSION VITE_GIT_SHA=$(echo $GITHUB_SHA | cut -c1-7) node scripts/semantic-version-update.cjs && VITE_APP_VERSION=$SEMANTIC_RELEASE_NEXT_RELEASE_VERSION VITE_GIT_SHA=$(echo $GITHUB_SHA | cut -c1-7) npm run build",
+        "publishCmd": "echo '✅ 版本发布完成，已上传构建产物到 Release'"
       }
     ],
     [

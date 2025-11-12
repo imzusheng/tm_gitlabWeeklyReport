@@ -88,8 +88,18 @@ jobs:
           GITHUB_REPOSITORY: imzusheng/tm_gitlabWeeklyReport
         run: npm run release
 
+      - name: Upload release build artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build-release
+          path: |
+            dist/web
+            !dist/web/**/*.map
+          retention-days: 30
+
   deploy:
-    needs: test
+    needs: release
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/v2' && github.event_name == 'push'
     env:
@@ -99,10 +109,10 @@ jobs:
       DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
 
     steps:
-      - name: Download build artifacts
+      - name: Download release build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: web-build
+          name: web-build-release
           path: dist/web
 
       - name: Prepare SSH key

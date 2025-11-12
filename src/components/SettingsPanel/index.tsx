@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { AppConfig } from '@/types'
 import Modal from '../Modal'
 import ConfigStatus from '@/components/ConfigStatus'
-import { CONFIG_PLACEHOLDERS, APP_VERSION } from '@/constants'
+import { CONFIG_PLACEHOLDERS, APP_VERSION, APP_COMMIT } from '@/constants'
 import styles from './index.module.less'
 
 interface SettingsPanelProps {
@@ -269,7 +269,11 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
 
         {/* 版本信息 */}
         <div className={styles.versionInfo}>
-          <span className={styles.versionText}>v{APP_VERSION}</span>
+          <span className={styles.versionText}>
+            {APP_COMMIT
+              ? `v${APP_VERSION} (${APP_COMMIT.slice(0, 7)})`
+              : `v${APP_VERSION}`}
+          </span>
         </div>
       </div>
     </Modal>
