@@ -1,5 +1,5 @@
-import { AppConfig } from '@/types'
-import { storageAdapter } from './request'
+import type { AppConfig, AppSessionState } from '@/types'
+import { sessionStorageAdapter, storageAdapter } from './request'
 import { STORAGE_KEYS } from '@/constants'
 
 /**
@@ -78,6 +78,56 @@ export const storageUtils = {
 }
 
 /**
+ * 会话存储工具函数
+ */
+const withSessionStorageFallback = <T>(
+  operation: (storage: typeof sessionStorageAdapter | Storage) => T,
+) => {
+  try {
+    return operation(sessionStorageAdapter)
+  } catch (error) {
+    if (typeof sessionStorage !== 'undefined') {
+      try {
+        return operation(sessionStorage)
+      } catch (fallbackError) {
+        // 静默处理降级存储失败
+      }
+    }
+  }
+}
+
+export const sessionStorageUtils = {
+  saveSessionState: (state: AppSessionState): void => {
+    withSessionStorageFallback(storage =>
+      storage.setItem(STORAGE_KEYS.SESSION_STATE, JSON.stringify(state)),
+    )
+  },
+
+  loadSessionState: (): AppSessionState | null => {
+    const raw = withSessionStorageFallback(storage =>
+      storage.getItem(STORAGE_KEYS.SESSION_STATE),
+    )
+
+    if (!raw) {
+      return null
+    }
+
+    try {
+      return JSON.parse(raw as string) as AppSessionState
+    } catch (error) {
+      console.warn('Failed to parse session state:', error)
+      return null
+    }
+  },
+
+  clearSessionState: (): void => {
+    withSessionStorageFallback(storage =>
+      storage.removeItem(STORAGE_KEYS.SESSION_STATE),
+    )
+  },
+}
+
+/**
  * URL验证工具
  */
 export const urlUtils = {
@@ -106,3 +156,6 @@ export const configErrors = {
 // 导出错误处理工具
 export * from './error'
 export { ErrorHandler as errorUtils } from './error'
+
+// 导出周报批量处理工具
+export * from './weekly-report'

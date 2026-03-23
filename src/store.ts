@@ -1,23 +1,99 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { storageUtils } from '@/utils'
+import {
+  storageUtils,
+  sessionStorageUtils,
+  createEmptyBatchGenerationState,
+  buildBatchReportData,
+} from '@/utils'
 import {
   DEFAULT_CONFIG,
   DEFAULT_FILTER_CONDITIONS,
   DEFAULT_SORT_OPTIONS,
   DEFAULT_PAGINATION_OPTIONS,
+  DEFAULT_BATCH_WEEKS,
 } from '@/constants'
 import type {
   AppConfig,
+  AppSessionState,
   FilterConditions,
   SortOptions,
   PaginationOptions,
   AIGenerationConfig,
   WeeklyReportData,
+  WeeklyReportBatchData,
+  BatchGenerationState,
   PanelType,
   Theme,
   GitLabEvent,
 } from '@/types'
+/**
+ * 应用状态接口
+ */
+const restoredSessionState = sessionStorageUtils.loadSessionState()
+
+const buildSessionSnapshot = (state: {
+  reportData: AppState['reportData']
+  aiGenerationConfig: AppState['aiGenerationConfig']
+  batchReportData: AppState['batchReportData']
+  batchGenerationState: AppState['batchGenerationState']
+}): Pick<
+  AppSessionState,
+  | 'reportData'
+  | 'aiGenerationConfig'
+  | 'batchReportData'
+  | 'batchGenerationState'
+> => ({
+  reportData: state.reportData,
+  aiGenerationConfig: state.aiGenerationConfig,
+  batchReportData: state.batchReportData,
+  batchGenerationState: state.batchGenerationState,
+})
+
+const normalizeBatchGenerationState = (
+  state: BatchGenerationState | null | undefined,
+  weeks: number,
+  endOffsetWeeks = 0,
+): BatchGenerationState => {
+  const baseState = createEmptyBatchGenerationState(weeks, endOffsetWeeks)
+
+  if (!state) {
+    return baseState
+  }
+
+  const isLoading = state.status === 'loading'
+  const status = isLoading ? 'partial' : state.status
+
+  return {
+    ...baseState,
+    ...state,
+    status,
+    currentWeekKey: isLoading ? null : state.currentWeekKey,
+    currentWeekLabel: isLoading ? null : state.currentWeekLabel,
+  }
+}
+
+const normalizeBatchReportData = (
+  data: WeeklyReportBatchData | null | undefined,
+): WeeklyReportBatchData | null => {
+  if (!data || !Array.isArray(data.items)) {
+    return null
+  }
+
+  return buildBatchReportData({
+    ...data,
+    weeks: data.weeks ?? DEFAULT_BATCH_WEEKS,
+    prompt: data.prompt ?? '',
+    endOffsetWeeks: data.endOffsetWeeks ?? 0,
+    generatedAt: data.generatedAt ?? new Date().toISOString(),
+    totalEvents: data.totalEvents ?? 0,
+    meaningfulEvents: data.meaningfulEvents ?? 0,
+    totalTokensUsed: data.totalTokensUsed ?? 0,
+    combinedMarkdown: data.combinedMarkdown ?? '',
+    items: data.items,
+  })
+}
+
 /**
  * 应用状态接口
  */
@@ -34,6 +110,8 @@ interface AppState {
   events: GitLabEvent[]
   totalCount: number
   aiGenerationConfig: AIGenerationConfig | null
+  batchReportData: WeeklyReportBatchData | null
+  batchGenerationState: BatchGenerationState
 }
 
 /**
@@ -62,6 +140,8 @@ interface AppStore extends AppState {
   // AI 相关操作
   setAIGenerationConfig: (config: AIGenerationConfig | null) => void
   setReportData: (data: WeeklyReportData | null) => void
+  setBatchReportData: (data: WeeklyReportBatchData | null) => void
+  setBatchGenerationState: (state: Partial<BatchGenerationState>) => void
 
   // 工具方法
   resetState: () => void
@@ -74,7 +154,7 @@ interface AppStore extends AppState {
  */
 const initialState: AppState = {
   config: DEFAULT_CONFIG,
-  reportData: null,
+  reportData: restoredSessionState?.reportData ?? null,
   isLoading: false,
   error: null,
   theme: 'system',
@@ -84,7 +164,17 @@ const initialState: AppState = {
   paginationOptions: DEFAULT_PAGINATION_OPTIONS,
   events: [],
   totalCount: 0,
-  aiGenerationConfig: null,
+  aiGenerationConfig: restoredSessionState?.aiGenerationConfig ?? null,
+  batchReportData: normalizeBatchReportData(
+    restoredSessionState?.batchReportData ?? null,
+  ),
+  batchGenerationState: normalizeBatchGenerationState(
+    restoredSessionState?.batchGenerationState ?? null,
+    restoredSessionState?.batchReportData?.weeks ?? DEFAULT_BATCH_WEEKS,
+    restoredSessionState?.batchGenerationState?.endOffsetWeeks ??
+      restoredSessionState?.batchReportData?.endOffsetWeeks ??
+      0,
+  ),
 }
 
 /**
@@ -195,15 +285,57 @@ export const useAppStore = create<AppStore>()(
       },
 
       // AI 相关操作
-      setAIGenerationConfig: (config: AIGenerationConfig | null) =>
-        set({ aiGenerationConfig: config }),
-      setReportData: (data: WeeklyReportData | null) =>
-        set({ reportData: data }),
+      setAIGenerationConfig: (config: AIGenerationConfig | null) => {
+        set({ aiGenerationConfig: config })
+        sessionStorageUtils.saveSessionState(
+          buildSessionSnapshot({
+            ...get(),
+            aiGenerationConfig: config,
+          }),
+        )
+      },
+      setReportData: (data: WeeklyReportData | null) => {
+        set({ reportData: data })
+        sessionStorageUtils.saveSessionState(
+          buildSessionSnapshot({
+            ...get(),
+            reportData: data,
+          }),
+        )
+      },
+      setBatchReportData: (data: WeeklyReportBatchData | null) => {
+        set({ batchReportData: data })
+        sessionStorageUtils.saveSessionState(
+          buildSessionSnapshot({
+            ...get(),
+            batchReportData: data,
+          }),
+        )
+      },
+      setBatchGenerationState: (state: Partial<BatchGenerationState>) => {
+        const nextBatchGenerationState = {
+          ...get().batchGenerationState,
+          ...state,
+        }
+
+        set({ batchGenerationState: nextBatchGenerationState })
+        sessionStorageUtils.saveSessionState(
+          buildSessionSnapshot({
+            ...get(),
+            batchGenerationState: nextBatchGenerationState,
+          }),
+        )
+      },
 
       // 工具方法
       resetState: () => {
-        set(initialState)
+        set({
+          ...initialState,
+          batchGenerationState:
+            createEmptyBatchGenerationState(DEFAULT_BATCH_WEEKS),
+        })
         storageUtils.clearConfig()
+        sessionStorageUtils.clearSessionState()
       },
 
       getTimeRange: () => {
@@ -242,6 +374,10 @@ export const useFilterConditions = () =>
 export const usePaginationOptions = () =>
   useAppStore(state => state.paginationOptions)
 export const useReportData = () => useAppStore(state => state.reportData)
+export const useBatchReportData = () =>
+  useAppStore(state => state.batchReportData)
+export const useBatchGenerationState = () =>
+  useAppStore(state => state.batchGenerationState)
 
 /**
  * 操作 hooks - 用于组件中执行状态更新
@@ -258,6 +394,8 @@ export const useAppActions = () => {
     setFilterConditions: store.setFilterConditions,
     setPaginationOptions: store.setPaginationOptions,
     setReportData: store.setReportData,
+    setBatchReportData: store.setBatchReportData,
+    setBatchGenerationState: store.setBatchGenerationState,
     resetState: store.resetState,
     getTimeRange: store.getTimeRange,
     validateConfig: store.validateConfig,

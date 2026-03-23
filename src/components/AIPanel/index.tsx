@@ -1,6 +1,21 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
-import type { AIGenerationConfig, AITaskType, GitLabEvent } from '@/types'
-import { AI_TASK_CONFIGS } from '@/constants'
+import {
+  AI_TASK_CONFIGS,
+  DEFAULT_BATCH_WEEKS,
+  MAX_BATCH_WEEKS,
+} from '@/constants'
+import type {
+  AIGenerationConfig,
+  AITaskType,
+  BatchGenerationState,
+  WeeklyReportBatchData,
+  WeeklyReportBatchItem,
+} from '@/types'
+import {
+  clampBatchEndOffset,
+  clampBatchWeeks,
+  formatRelativeWeekLabel,
+} from '@/utils/weekly-report'
 import Modal from '../Modal'
 import styles from './index.module.less'
 
@@ -9,17 +24,40 @@ interface AIPanelProps {
   config: AIGenerationConfig | null
   taskType: AITaskType
   onClose: () => void
-  onGenerate: (prompt: string) => void
+  onGenerate: (
+    prompt: string,
+    weeks?: number,
+    endOffsetWeeks?: number,
+  ) => void | Promise<void>
+  onCancelGeneration?: () => void
+  onRerunWeek?: (weekKey: string, prompt: string) => void | Promise<void>
   isLoading: boolean
   selectedEventsCount?: number
-  allEventsCount?: number // 总事件数量
-  dateRange?: {
-    startDate: string
-    endDate: string
-  }
-  // 获取全量数据的功能
-  onFetchAllEvents?: () => Promise<GitLabEvent[]>
-  isAllSelected?: boolean // 是否选择了全选
+  batchData?: WeeklyReportBatchData | null
+  batchGenerationState?: BatchGenerationState | null
+}
+
+const createIdleBatchState = (
+  weeks: number,
+  endOffsetWeeks: number,
+): BatchGenerationState => ({
+  status: 'idle',
+  progress: 0,
+  currentWeekKey: null,
+  currentWeekLabel: null,
+  processedWeeks: 0,
+  totalWeeks: weeks,
+  failedWeeks: 0,
+  endOffsetWeeks,
+  message: '等待批量生成',
+})
+
+const STATUS_LABELS: Record<WeeklyReportBatchItem['status'], string> = {
+  pending: '等待中',
+  running: '生成中',
+  success: '已完成',
+  failed: '失败',
+  skipped: '已跳过',
 }
 
 const AIPanel: React.FC<AIPanelProps> = ({
@@ -28,222 +66,338 @@ const AIPanel: React.FC<AIPanelProps> = ({
   taskType,
   onClose,
   onGenerate,
+  onCancelGeneration,
+  onRerunWeek,
   isLoading,
   selectedEventsCount = 0,
-  allEventsCount = 0,
-  dateRange,
-  onFetchAllEvents,
-  isAllSelected = false,
+  batchData,
+  batchGenerationState,
 }) => {
-  // 根据任务类型获取配置
   const taskConfig = useMemo(() => AI_TASK_CONFIGS[taskType], [taskType])
 
-  const [prompt, setPrompt] = useState(taskConfig.defaultPrompt)
+  const activeConfig = useMemo<AIGenerationConfig>(() => {
+    const defaultPrompt =
+      taskType === 'weekly-report-batch'
+        ? taskConfig.defaultPrompt
+        : config?.prompt || taskConfig.defaultPrompt
+
+    const defaultConfig: AIGenerationConfig = {
+      taskType,
+      prompt: defaultPrompt,
+      tokensUsed: 0,
+      result: '',
+      weeks:
+        taskType === 'weekly-report-batch' ? DEFAULT_BATCH_WEEKS : undefined,
+      endOffsetWeeks: taskType === 'weekly-report-batch' ? 0 : undefined,
+    }
+
+    if (!config || config.taskType !== taskType) {
+      return defaultConfig
+    }
+
+    return {
+      ...defaultConfig,
+      ...config,
+      prompt: config.prompt || defaultPrompt,
+      weeks:
+        taskType === 'weekly-report-batch'
+          ? clampBatchWeeks(config.weeks ?? DEFAULT_BATCH_WEEKS)
+          : undefined,
+      endOffsetWeeks:
+        taskType === 'weekly-report-batch'
+          ? clampBatchEndOffset(
+              config.endOffsetWeeks ?? 0,
+              config.weeks ?? DEFAULT_BATCH_WEEKS,
+            )
+          : undefined,
+    }
+  }, [config, taskConfig.defaultPrompt, taskType])
+
+  const [prompt, setPrompt] = useState(activeConfig.prompt)
+  const [weeks, setWeeks] = useState(activeConfig.weeks ?? DEFAULT_BATCH_WEEKS)
+  const [endOffsetWeeks, setEndOffsetWeeks] = useState(
+    activeConfig.endOffsetWeeks ?? 0,
+  )
   const [isExpanded, setIsExpanded] = useState(false)
-  const [isCopied, setIsCopied] = useState(false)
+  const [copyTarget, setCopyTarget] = useState<string | null>(null)
 
-  // 数据获取状态
-  const [isFetchingData, setIsFetchingData] = useState(false)
-  const [fetchProgress, setFetchProgress] = useState(0)
-  const [allEvents, setAllEvents] = useState<GitLabEvent[] | null>(null)
-  const [hasTriedFetch, setHasTriedFetch] = useState(false)
-  const [fetchStatus, setFetchStatus] = useState<string>('') // 添加状态文本
-
-  // 当taskType或默认prompt更新时，同步更新prompt状态
   useEffect(() => {
-    setPrompt(taskConfig.defaultPrompt)
-  }, [taskConfig.defaultPrompt])
-
-  // 获取全量数据
-  const fetchAllEventsData = useCallback(async () => {
-    if (!onFetchAllEvents || isFetchingData) return
-
-    setIsFetchingData(true)
-    setFetchProgress(0)
-    setFetchStatus('正在初始化数据获取...')
-    setHasTriedFetch(true)
-
-    try {
-      // 创建一个模拟的进度更新，当实际获取数据时会被覆盖
-      let progressTimeout: NodeJS.Timeout
-      const updateProgress = () => {
-        setFetchProgress(prev => {
-          if (prev >= 85) {
-            clearTimeout(progressTimeout)
-            return prev
-          }
-          const newProgress = prev + Math.random() * 8
-          // 根据进度更新状态文本
-          if (newProgress < 30) {
-            setFetchStatus('正在连接GitLab API...')
-          } else if (newProgress < 60) {
-            setFetchStatus('正在分批获取事件数据...')
-          } else {
-            setFetchStatus('正在处理数据...')
-          }
-          return newProgress
-        })
-        progressTimeout = setTimeout(updateProgress, 400)
-      }
-      updateProgress()
-
-      const events = await onFetchAllEvents()
-
-      clearTimeout(progressTimeout!)
-      setFetchProgress(100)
-      setFetchStatus(`数据获取完成！共获取 ${events.length} 条事件`)
-      setAllEvents(events)
-
-      // 延迟一下让用户看到100%的进度
-      setTimeout(() => {
-        setIsFetchingData(false)
-        setFetchStatus('')
-      }, 1000)
-    } catch (error) {
-      console.error('Failed to fetch all events:', error)
-      setIsFetchingData(false)
-      setFetchProgress(0)
-      setFetchStatus('数据获取失败，请稍后重试')
-      setTimeout(() => setFetchStatus(''), 3000)
+    setPrompt(activeConfig.prompt)
+    if (taskType === 'weekly-report-batch') {
+      setWeeks(clampBatchWeeks(activeConfig.weeks ?? DEFAULT_BATCH_WEEKS))
+      setEndOffsetWeeks(activeConfig.endOffsetWeeks ?? 0)
     }
-  }, [onFetchAllEvents, isFetchingData])
-
-  // 当面板打开且需要获取全量数据时，自动获取
-  useEffect(() => {
-    if (visible && isAllSelected && !hasTriedFetch && onFetchAllEvents) {
-      fetchAllEventsData()
-    }
+    setIsExpanded(false)
+    setCopyTarget(null)
   }, [
-    visible,
-    isAllSelected,
-    hasTriedFetch,
-    onFetchAllEvents,
-    fetchAllEventsData,
+    activeConfig.endOffsetWeeks,
+    activeConfig.prompt,
+    activeConfig.weeks,
+    taskType,
   ])
 
-  // 检查是否可以生成
+  useEffect(() => {
+    setEndOffsetWeeks(prev => clampBatchEndOffset(prev, weeks))
+  }, [weeks])
+
+  const safeEndOffsetWeeks = clampBatchEndOffset(endOffsetWeeks, weeks)
+  const batchState =
+    batchGenerationState ?? createIdleBatchState(weeks, safeEndOffsetWeeks)
+
+  const currentResultText = useMemo(() => {
+    if (taskType === 'weekly-report-batch') {
+      return batchData?.combinedMarkdown || activeConfig.result || ''
+    }
+    return activeConfig.result || ''
+  }, [activeConfig.result, batchData?.combinedMarkdown, taskType])
+
   const canGenerate = useMemo(() => {
-    if (isLoading || !prompt.trim()) return false
-    if (isAllSelected && selectedEventsCount !== allEventsCount) {
-      return !isFetchingData && allEvents !== null
+    if (isLoading || !prompt.trim()) {
+      return false
     }
+
+    if (taskType === 'weekly-report-batch') {
+      return clampBatchWeeks(weeks) > 0
+    }
+
     return selectedEventsCount > 0
-  }, [
-    isLoading,
-    prompt,
-    isAllSelected,
-    selectedEventsCount,
-    allEventsCount,
-    isFetchingData,
-    allEvents,
-  ])
+  }, [isLoading, prompt, selectedEventsCount, taskType, weeks])
 
-  const handleGenerate = () => {
-    if (canGenerate) {
-      onGenerate(prompt)
+  const handleGenerate = useCallback(() => {
+    if (!canGenerate) {
+      return
     }
-  }
 
-  // 复制结果到剪贴板
-  const handleCopy = useCallback(async () => {
-    if (!config?.result) return
+    if (taskType === 'weekly-report-batch') {
+      void onGenerate(prompt, clampBatchWeeks(weeks), safeEndOffsetWeeks)
+      return
+    }
+
+    void onGenerate(prompt)
+  }, [canGenerate, onGenerate, prompt, safeEndOffsetWeeks, taskType, weeks])
+
+  const handleCopyText = useCallback(async (text: string, target: string) => {
+    if (!text.trim()) {
+      return
+    }
 
     try {
-      await navigator.clipboard.writeText(config.result)
-      setIsCopied(true)
-      setTimeout(() => setIsCopied(false), 2000)
+      await navigator.clipboard.writeText(text)
+      setCopyTarget(target)
+      setTimeout(() => setCopyTarget(null), 2000)
     } catch (error) {
       console.error('Failed to copy result:', error)
-      // 回退方案：使用传统的复制方法
       const textArea = document.createElement('textarea')
-      textArea.value = config.result
+      textArea.value = text
       document.body.appendChild(textArea)
       textArea.select()
       try {
         document.execCommand('copy')
-        setIsCopied(true)
-        setTimeout(() => setIsCopied(false), 2000)
-      } catch (e) {
-        console.error('Fallback copy also failed:', e)
+        setCopyTarget(target)
+        setTimeout(() => setCopyTarget(null), 2000)
+      } catch (fallbackError) {
+        console.error('Fallback copy also failed:', fallbackError)
       }
       document.body.removeChild(textArea)
     }
-  }, [config?.result])
+  }, [])
 
-  // 重置提示词
+  const handleCopyCurrentResult = useCallback(() => {
+    void handleCopyText(currentResultText, 'all')
+  }, [currentResultText, handleCopyText])
+
+  const handleCopyWeek = useCallback(
+    (item: WeeklyReportBatchItem) => {
+      void handleCopyText(item.report || item.summary, item.weekKey)
+    },
+    [handleCopyText],
+  )
+
+  const handleRerunWeek = useCallback(
+    (item: WeeklyReportBatchItem) => {
+      if (!onRerunWeek) {
+        return
+      }
+
+      void onRerunWeek(item.weekKey, prompt)
+    },
+    [onRerunWeek, prompt],
+  )
+
   const resetPrompt = useCallback(() => {
-    setPrompt(taskConfig.defaultPrompt)
-  }, [taskConfig.defaultPrompt])
+    setPrompt(activeConfig.prompt)
+    if (taskType === 'weekly-report-batch') {
+      setWeeks(clampBatchWeeks(activeConfig.weeks ?? DEFAULT_BATCH_WEEKS))
+      setEndOffsetWeeks(activeConfig.endOffsetWeeks ?? 0)
+    }
+  }, [
+    activeConfig.endOffsetWeeks,
+    activeConfig.prompt,
+    activeConfig.weeks,
+    taskType,
+  ])
+
+  const batchItems = batchData?.items ?? []
+  const hasBatchResult =
+    taskType === 'weekly-report-batch' && batchItems.length > 0
+  const displayResultText = currentResultText
+  const resultTitle =
+    taskType === 'weekly-report-batch' ? '批量结果' : '生成结果'
+  const canCancel = Boolean(onCancelGeneration) && isLoading
+  const canAppendExisting =
+    taskType === 'weekly-report-batch' &&
+    Boolean(
+      batchData &&
+        batchData.prompt.trim() === prompt.trim() &&
+        batchData.weeks < clampBatchWeeks(weeks),
+    )
+  const batchGenerateLabel = isLoading
+    ? '生成中...'
+    : canAppendExisting
+      ? '继续追加'
+      : displayResultText
+        ? taskConfig.regenerateButtonText
+        : taskConfig.generateButtonText
+  const batchEndOptions = useMemo(() => {
+    const maxEndOffset = Math.max(0, MAX_BATCH_WEEKS - clampBatchWeeks(weeks))
+    return Array.from({ length: maxEndOffset + 1 }, (_, offset) => ({
+      value: offset,
+      label: formatRelativeWeekLabel(offset),
+    }))
+  }, [weeks])
+
+  const batchSuccessCount = batchItems.filter(
+    item => item.status === 'success' || item.status === 'skipped',
+  ).length
+  const batchFailedCount = batchItems.filter(
+    item => item.status === 'failed',
+  ).length
 
   return (
     <Modal
       visible={visible}
       title={taskConfig.title}
-      width={800}
+      width={taskType === 'weekly-report-batch' ? 980 : 800}
       onClose={onClose}
       maskClosable={!isLoading}
     >
       <div className={styles.aiPanel}>
-        {/* 数据概览信息 */}
         <div className={styles.dataOverview}>
           <div className={styles.overviewHeader}>
             <h4>📊 数据概览</h4>
           </div>
           <div className={styles.overviewContent}>
-            <div className={styles.overviewItem}>
-              <span className={styles.overviewLabel}>已选择事件：</span>
-              <span className={styles.overviewValue}>
-                {isAllSelected && allEvents
-                  ? allEvents.length
-                  : selectedEventsCount}{' '}
-                条
-              </span>
-            </div>
-            {dateRange && (
-              <div className={styles.overviewItem}>
-                <span className={styles.overviewLabel}>时间范围：</span>
-                <span className={styles.overviewValue}>
-                  {dateRange.startDate} 至 {dateRange.endDate}
-                </span>
-              </div>
+            {taskType === 'weekly-report-batch' ? (
+              <>
+                <div className={styles.overviewItem}>
+                  <span className={styles.overviewLabel}>批量周数：</span>
+                  <span className={styles.overviewValue}>
+                    {batchData?.weeks ?? clampBatchWeeks(weeks)} 周
+                  </span>
+                </div>
+                <div className={styles.overviewItem}>
+                  <span className={styles.overviewLabel}>截止周：</span>
+                  <span className={styles.overviewValue}>
+                    {formatRelativeWeekLabel(
+                      batchData?.endOffsetWeeks ?? safeEndOffsetWeeks,
+                    )}
+                  </span>
+                </div>
+                <div className={styles.overviewItem}>
+                  <span className={styles.overviewLabel}>事件数量：</span>
+                  <span className={styles.overviewValue}>
+                    {batchData?.totalEvents ?? 0} 条
+                  </span>
+                </div>
+                <div className={styles.overviewItem}>
+                  <span className={styles.overviewLabel}>有效事件：</span>
+                  <span className={styles.overviewValue}>
+                    {batchData?.meaningfulEvents ?? 0} 条
+                  </span>
+                </div>
+                <div className={styles.overviewItem}>
+                  <span className={styles.overviewLabel}>生成状态：</span>
+                  <span
+                    className={`${styles.overviewValue} ${
+                      batchState.status === 'success'
+                        ? styles.ready
+                        : batchState.status === 'error' || batchFailedCount > 0
+                          ? styles.error
+                          : styles.waiting
+                    }`}
+                  >
+                    {batchState.message}
+                  </span>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className={styles.overviewItem}>
+                  <span className={styles.overviewLabel}>已选择事件：</span>
+                  <span className={styles.overviewValue}>
+                    {selectedEventsCount} 条
+                  </span>
+                </div>
+                <div className={styles.overviewItem}>
+                  <span className={styles.overviewLabel}>生成状态：</span>
+                  <span
+                    className={`${styles.overviewValue} ${
+                      selectedEventsCount > 0 ? styles.ready : styles.waiting
+                    }`}
+                  >
+                    {isLoading ? '🔄 生成中...' : '✅ 等待生成'}
+                  </span>
+                </div>
+              </>
             )}
-            <div className={styles.overviewItem}>
-              <span className={styles.overviewLabel}>状态：</span>
-              <span
-                className={`${styles.overviewValue} ${selectedEventsCount > 0 ? styles.ready : styles.waiting}`}
-              >
-                {isFetchingData
-                  ? '🔄 获取数据中...'
-                  : allEvents
-                    ? '✅ 数据已就绪'
-                    : selectedEventsCount > 0
-                      ? '✅ 数据就绪'
-                      : '⏳ 等待选择事件'}
-              </span>
-            </div>
           </div>
         </div>
 
-        {/* 数据获取进度 */}
-        {isFetchingData && (
-          <div className={styles.fetchProgress}>
-            <div className={styles.progressHeader}>
-              <span>{fetchStatus}</span>
-              <span>{Math.round(fetchProgress)}%</span>
+        {taskType === 'weekly-report-batch' && (
+          <div className={styles.batchProgressSection}>
+            <div className={styles.batchProgressHeader}>
+              <div className={styles.batchProgressTitle}>
+                <span className={styles.progressIcon}>🧭</span>
+                <span>批量进度</span>
+              </div>
+              <span className={styles.batchProgressText}>
+                {batchState.processedWeeks}/{batchState.totalWeeks} 周
+              </span>
             </div>
             <div className={styles.progressBar}>
               <div
                 className={styles.progressFill}
-                style={{ width: `${fetchProgress}%` }}
+                style={{ width: `${batchState.progress}%` }}
               />
             </div>
-            <p className={styles.progressTip}>
-              正在分批获取事件数据（每批最多100条），请稍候...
-            </p>
+            <div className={styles.batchProgressMeta}>
+              <span>当前：{batchState.currentWeekLabel || '等待中'}</span>
+              <span>失败：{batchState.failedWeeks} 周</span>
+            </div>
           </div>
         )}
 
-        {/* 提示词编辑区域 */}
+        {isLoading && (
+          <div className={styles.loadingSection}>
+            <div className={styles.loadingSpinner} />
+            <p>{taskConfig.loadingText}</p>
+            <div className={styles.loadingTips}>
+              {taskType === 'weekly-report-batch' ? (
+                <span>
+                  💡 批量模式按周串行生成，周数越多耗时越长，可随时取消
+                </span>
+              ) : (
+                <span>💡 生成时间通常为 10-30 秒</span>
+              )}
+            </div>
+            {canCancel && (
+              <button className={styles.cancelBtn} onClick={onCancelGeneration}>
+                取消生成
+              </button>
+            )}
+          </div>
+        )}
+
         <div className={styles.promptSection}>
           <div className={styles.sectionHeader}>
             <h3>提示词</h3>
@@ -260,6 +414,61 @@ const AIPanel: React.FC<AIPanelProps> = ({
             </div>
           </div>
 
+          {taskType === 'weekly-report-batch' && (
+            <>
+              <div className={styles.batchControls}>
+                <label className={styles.batchWeeksControl}>
+                  <span className={styles.batchLabel}>批量周数</span>
+                  <input
+                    className={styles.batchWeeksInput}
+                    type="number"
+                    min={1}
+                    max={MAX_BATCH_WEEKS}
+                    value={weeks}
+                    onChange={event => {
+                      const nextValue = Number.parseInt(event.target.value, 10)
+                      setWeeks(
+                        clampBatchWeeks(nextValue || DEFAULT_BATCH_WEEKS),
+                      )
+                    }}
+                    disabled={isLoading}
+                  />
+                </label>
+                <label className={styles.batchEndControl}>
+                  <span className={styles.batchLabel}>截止周</span>
+                  <select
+                    className={styles.batchEndSelect}
+                    value={safeEndOffsetWeeks}
+                    onChange={event => {
+                      setEndOffsetWeeks(
+                        clampBatchEndOffset(
+                          Number.parseInt(event.target.value, 10),
+                          weeks,
+                        ),
+                      )
+                    }}
+                    disabled={isLoading}
+                  >
+                    {batchEndOptions.map(option => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <span className={styles.batchHint}>
+                  建议 4-8 周，截止周默认本周，可切到上周继续向前
+                </span>
+              </div>
+              {canAppendExisting && (
+                <div className={styles.batchAppendHint}>
+                  已有 {batchData?.weeks} 周结果，改成 {clampBatchWeeks(weeks)}{' '}
+                  周后会自动补齐更早的周报，不会重算已完成内容。
+                </div>
+              )}
+            </>
+          )}
+
           <div
             className={`${styles.promptEditor} ${isExpanded ? styles.expanded : ''}`}
           >
@@ -274,90 +483,183 @@ const AIPanel: React.FC<AIPanelProps> = ({
             <div className={styles.promptFooter}>
               <span className={styles.charCount}>{prompt.length} 字符</span>
               <button
-                className={`${styles.btnPrimary} ${config?.result ? styles.regenerate : ''}`}
+                className={`${styles.btnPrimary} ${displayResultText ? styles.regenerate : ''}`}
                 onClick={handleGenerate}
                 disabled={!canGenerate}
               >
-                {isLoading
-                  ? '生成中...'
-                  : config?.result
-                    ? taskConfig.regenerateButtonText
-                    : taskConfig.generateButtonText}
+                {batchGenerateLabel}
               </button>
             </div>
           </div>
         </div>
 
-        {/* 加载状态 */}
-        {isLoading && (
-          <div className={styles.loadingSection}>
-            <div className={styles.loadingSpinner}></div>
-            <p>{taskConfig.loadingText}</p>
-            <div className={styles.loadingTips}>
-              <span>💡 生成时间通常为 10-30 秒</span>
+        {taskType === 'weekly-report-batch' && hasBatchResult && (
+          <div className={styles.batchSection}>
+            <div className={styles.batchSectionHeader}>
+              <h3>周次明细</h3>
+              <span>
+                {batchSuccessCount} 成功 / {batchFailedCount} 失败
+              </span>
+            </div>
+
+            <div className={styles.batchList}>
+              {batchItems.map(item => {
+                const isCurrent =
+                  batchState.currentWeekKey === item.weekKey &&
+                  batchState.status === 'loading'
+                const isCopied = copyTarget === item.weekKey
+                return (
+                  <article
+                    key={item.weekKey}
+                    className={`${styles.batchItem} ${styles[item.status]} ${
+                      isCurrent ? styles.current : ''
+                    }`}
+                  >
+                    <div className={styles.batchItemHeader}>
+                      <div className={styles.batchItemTitle}>
+                        <span className={styles.batchWeekKey}>
+                          {item.weekKey}
+                        </span>
+                        <span className={styles.batchRelativeLabel}>
+                          {item.relativeLabel}
+                        </span>
+                      </div>
+                      <span
+                        className={`${styles.statusBadge} ${styles[item.status]}`}
+                      >
+                        {STATUS_LABELS[item.status]}
+                      </span>
+                    </div>
+
+                    <div className={styles.batchStats}>
+                      <span>原始 {item.stats.raw}</span>
+                      <span>有效 {item.stats.meaningful}</span>
+                      <span>Push {item.stats.pushed}</span>
+                      <span>Merge {item.stats.merged}</span>
+                      <span>评论 {item.stats.commented}</span>
+                    </div>
+
+                    <div className={styles.batchSummary}>
+                      {item.error ? (
+                        <span className={styles.batchError}>
+                          生成失败：{item.error}
+                        </span>
+                      ) : (
+                        <span>{item.summary || '无有效事件'}</span>
+                      )}
+                    </div>
+
+                    <div className={styles.batchItemActions}>
+                      <button
+                        className={styles.batchActionBtn}
+                        onClick={() => handleCopyWeek(item)}
+                      >
+                        {isCopied ? '已复制' : '复制本周'}
+                      </button>
+                      <button
+                        className={`${styles.batchActionBtn} ${styles.primary}`}
+                        onClick={() => handleRerunWeek(item)}
+                        disabled={!onRerunWeek || isLoading}
+                      >
+                        重跑本周
+                      </button>
+                    </div>
+                  </article>
+                )
+              })}
             </div>
           </div>
         )}
 
-        {/* 生成结果区域 */}
-        {config?.result && (
+        {displayResultText && (
           <div className={styles.resultSection}>
             <div className={styles.resultHeader}>
               <h3 className={styles.resultTitle}>
                 <span className={styles.titleIcon}>✨</span>
-                生成结果
+                {resultTitle}
               </h3>
               <div className={styles.resultActions}>
                 <button
-                  className={`${styles.actionBtn} ${isCopied ? styles.copied : ''}`}
-                  onClick={handleCopy}
+                  className={`${styles.actionBtn} ${copyTarget === 'all' ? styles.copied : ''}`}
+                  onClick={handleCopyCurrentResult}
                   title="一键复制"
-                  disabled={isCopied}
+                  disabled={copyTarget === 'all'}
                 >
                   <span className={styles.btnIcon}>
-                    {isCopied ? '✅' : '📋'}
+                    {copyTarget === 'all' ? '✅' : '📋'}
                   </span>
-                  {isCopied ? '已复制' : '复制'}
+                  {copyTarget === 'all' ? '已复制' : '复制全部'}
                 </button>
               </div>
             </div>
 
             <div className={styles.resultContent}>
-              <div className={styles.resultText}>{config.result}</div>
+              <div className={styles.resultText}>{displayResultText}</div>
             </div>
 
             <div className={styles.resultMeta}>
               <div className={styles.metaLeft}>
                 <div className={styles.metaItem}>
-                  <span>{config.result.split('\n').length} 行</span>
+                  <span>{displayResultText.split('\n').length} 行</span>
                 </div>
                 <div className={styles.metaItem}>
-                  <span>{config.result.length} 字符</span>
+                  <span>{displayResultText.length} 字符</span>
                 </div>
+                {taskType === 'weekly-report-batch' && batchData && (
+                  <>
+                    <div className={styles.metaItem}>
+                      <span>{batchData.weeks} 周</span>
+                    </div>
+                    <div className={styles.metaItem}>
+                      <span>{batchData.totalTokensUsed} Token</span>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
         )}
 
-        <div className={styles.emptyResult}>
-          <div className={styles.emptyIcon}>🤖</div>
-          <h3>{taskConfig.emptyTitle}</h3>
-          <p>{taskConfig.emptyDescription}</p>
-          <div className={styles.emptyFeatures}>
-            <div className={styles.featureItem}>
-              <span className={styles.featureIcon}>📊</span>
-              <span>智能分析工作数据</span>
-            </div>
-            <div className={styles.featureItem}>
-              <span className={styles.featureIcon}>📝</span>
-              <span>自动生成专业内容</span>
-            </div>
-            <div className={styles.featureItem}>
-              <span className={styles.featureIcon}>🎯</span>
-              <span>突出重点信息</span>
+        {!displayResultText && !isLoading && (
+          <div className={styles.emptyResult}>
+            <div className={styles.emptyIcon}>🤖</div>
+            <h3>{taskConfig.emptyTitle}</h3>
+            <p>{taskConfig.emptyDescription}</p>
+            <div className={styles.emptyFeatures}>
+              {taskType === 'weekly-report-batch' ? (
+                <>
+                  <div className={styles.featureItem}>
+                    <span className={styles.featureIcon}>📅</span>
+                    <span>按 ISO 周批量生成</span>
+                  </div>
+                  <div className={styles.featureItem}>
+                    <span className={styles.featureIcon}>🧩</span>
+                    <span>空周也会正常输出</span>
+                  </div>
+                  <div className={styles.featureItem}>
+                    <span className={styles.featureIcon}>🔁</span>
+                    <span>支持单周重跑</span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className={styles.featureItem}>
+                    <span className={styles.featureIcon}>📊</span>
+                    <span>智能分析工作数据</span>
+                  </div>
+                  <div className={styles.featureItem}>
+                    <span className={styles.featureIcon}>📝</span>
+                    <span>自动生成专业内容</span>
+                  </div>
+                  <div className={styles.featureItem}>
+                    <span className={styles.featureIcon}>🎯</span>
+                    <span>突出重点信息</span>
+                  </div>
+                </>
+              )}
             </div>
           </div>
-        </div>
+        )}
       </div>
     </Modal>
   )

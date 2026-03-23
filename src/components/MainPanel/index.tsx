@@ -28,6 +28,7 @@ interface MainPanelProps {
   onEventDetail: (event: GitLabEvent) => void
   onOpenSettings: () => void
   onOpenAI: () => void
+  onOpenBatchAI: () => void
 }
 
 const MainPanel: React.FC<MainPanelProps> = ({
@@ -47,6 +48,7 @@ const MainPanel: React.FC<MainPanelProps> = ({
   onEventDetail,
   onOpenSettings,
   onOpenAI,
+  onOpenBatchAI,
 }) => {
   const { config } = useAppStore()
 
@@ -132,6 +134,32 @@ const MainPanel: React.FC<MainPanelProps> = ({
               </span>
               <span className={styles.btnLabel}>
                 {AI_TASK_CONFIGS['weekly-report'].buttonText}
+              </span>
+            </button>
+
+            <button
+              className={`${styles.actionBtn} ${styles.batchBtn}`}
+              onClick={onOpenBatchAI}
+              title={AI_TASK_CONFIGS['weekly-report-batch'].title}
+            >
+              <span className={styles.btnIcon}>
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M4 6.5C4 5.12 5.12 4 6.5 4h11C18.88 4 20 5.12 20 6.5v11c0 1.38-1.12 2.5-2.5 2.5h-11C5.12 20 4 18.88 4 17.5v-11Z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M8 8h8M8 12h8M8 16h5"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
+              <span className={styles.btnLabel}>
+                {AI_TASK_CONFIGS['weekly-report-batch'].buttonText}
               </span>
             </button>
           </div>

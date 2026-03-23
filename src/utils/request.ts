@@ -155,3 +155,46 @@ export const storageAdapter = {
     }
   },
 }
+
+/**
+ * SessionStorage 适配层
+ */
+export const sessionStorageAdapter = {
+  setItem: (key: string, value: string): void => {
+    try {
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.setItem(key, value)
+      } else {
+        console.warn('sessionStorage is not available')
+      }
+    } catch (error) {
+      console.error('SessionStorage setItem failed:', error)
+    }
+  },
+
+  getItem: (key: string): string | null => {
+    try {
+      if (typeof sessionStorage !== 'undefined') {
+        return sessionStorage.getItem(key)
+      } else {
+        console.warn('sessionStorage is not available')
+        return null
+      }
+    } catch (error) {
+      console.error('SessionStorage getItem failed:', error)
+      return null
+    }
+  },
+
+  removeItem: (key: string): void => {
+    try {
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.removeItem(key)
+      } else {
+        console.warn('sessionStorage is not available')
+      }
+    } catch (error) {
+      console.error('SessionStorage removeItem failed:', error)
+    }
+  },
+}

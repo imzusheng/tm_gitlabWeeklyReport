@@ -30,6 +30,10 @@ export const DEFAULT_CONFIG = {
   theme: 'system' as const,
 }
 
+// 批量周报默认周数
+export const DEFAULT_BATCH_WEEKS = 4
+export const MAX_BATCH_WEEKS = 12
+
 // 配置占位符
 export const CONFIG_PLACEHOLDERS = {
   gitlabUrl: 'https://gitlab.example.com',
@@ -63,6 +67,7 @@ export const STORAGE_KEYS = {
   CONFIG: 'gitlab_weekly_report_config',
   THEME: 'gitlab_weekly_report_theme',
   LAST_REPORT: 'gitlab_weekly_report_last',
+  SESSION_STATE: 'gitlab_weekly_report_session',
 } as const
 
 // 日期格式
@@ -94,6 +99,22 @@ export const AI_TASK_CONFIGS: Record<AITaskType, AITaskConfig> = {
       '点击"生成周报"按钮，AI 将基于您的 GitLab 事件数据生成专业的工作周报',
     generateButtonText: '生成周报',
     regenerateButtonText: '重新生成',
+  },
+  'weekly-report-batch': {
+    type: 'weekly-report-batch',
+    title: '批量周报生成',
+    buttonText: '批量周报',
+    defaultPrompt:
+      '你是一名前端工程师，请根据给定的一周 GitLab 事件，生成适合直接提交的中文周报。要求简洁、工程化、突出完成事项和推进结果，避免空话和夸张表达。',
+    description:
+      '按周批量生成近几周的 GitLab 工程周报，可选择截止周并续接已有结果',
+    placeholder: '请输入批量周报提示词...',
+    loadingText: '正在按周批量生成周报...',
+    emptyTitle: '准备批量生成',
+    emptyDescription:
+      '输入周数、选择截止周并点击批量生成，系统会按周逐条输出近几周周报',
+    generateButtonText: '批量生成',
+    regenerateButtonText: '重新批量生成',
   },
   custom: {
     type: 'custom',

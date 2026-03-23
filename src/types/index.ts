@@ -191,7 +191,116 @@ export interface AppConfig {
 }
 
 // AI任务类型
-export type AITaskType = 'weekly-report' | 'custom'
+export type AITaskType = 'weekly-report' | 'weekly-report-batch' | 'custom'
+
+// 周报事件分类
+export type WeeklyReportEventCategory =
+  | 'pushed'
+  | 'merged'
+  | 'commented'
+  | 'created'
+  | 'approved'
+  | 'closed'
+  | 'reopened'
+  | 'updated'
+  | 'other'
+
+// 周报批量条目状态
+export type WeeklyReportItemStatus =
+  | 'pending'
+  | 'running'
+  | 'success'
+  | 'failed'
+  | 'skipped'
+
+// ISO 周窗口
+export interface WeeklyReportWeekWindow {
+  weekKey: string
+  weeksAgo: number
+  relativeLabel: string
+  startDate: string
+  endDate: string
+  startDateText: string
+  endDateText: string
+}
+
+// 归一化后的 GitLab 事件
+export interface NormalizedGitLabEvent {
+  id: number
+  createdAt: string
+  createdAtMs: number
+  weekKey: string
+  weekLabel: string
+  category: WeeklyReportEventCategory
+  actionName: string
+  targetType: string
+  projectName: string
+  projectPath: string
+  title: string
+  targetTitle: string
+  displayTitle: string
+  displayContent: string
+  isMeaningful: boolean
+  raw: GitLabEvent
+}
+
+// 周报统计
+export interface WeeklyReportStats {
+  raw: number
+  meaningful: number
+  pushed: number
+  merged: number
+  commented: number
+  created: number
+  approved: number
+  closed: number
+  reopened: number
+  updated: number
+}
+
+// 批量周报条目
+export interface WeeklyReportBatchItem {
+  weekKey: string
+  weeksAgo: number
+  relativeLabel: string
+  startDate: string
+  endDate: string
+  rawEvents: GitLabEvent[]
+  normalizedEvents: NormalizedGitLabEvent[]
+  stats: WeeklyReportStats
+  summary: string
+  report: string
+  tokensUsed: number
+  status: WeeklyReportItemStatus
+  error?: string
+  generatedAt?: string
+}
+
+// 批量周报数据
+export interface WeeklyReportBatchData {
+  weeks: number
+  prompt: string
+  endOffsetWeeks: number
+  generatedAt: string
+  totalEvents: number
+  meaningfulEvents: number
+  totalTokensUsed: number
+  combinedMarkdown: string
+  items: WeeklyReportBatchItem[]
+}
+
+// 批量生成状态
+export interface BatchGenerationState {
+  status: 'idle' | 'loading' | 'partial' | 'success' | 'error' | 'cancelled'
+  progress: number
+  currentWeekKey: string | null
+  currentWeekLabel: string | null
+  processedWeeks: number
+  totalWeeks: number
+  failedWeeks: number
+  endOffsetWeeks: number
+  message: string
+}
 
 // AI任务配置
 export interface AITaskConfig {
@@ -214,6 +323,8 @@ export interface AIGenerationConfig {
   prompt: string
   tokensUsed: number
   result: string
+  weeks?: number
+  endOffsetWeeks?: number
 }
 
 // 周报数据类型
@@ -234,6 +345,7 @@ export type Theme = 'light' | 'dark' | 'system'
 export interface AppState {
   config: AppConfig
   reportData: WeeklyReportData | null
+  batchReportData: WeeklyReportBatchData | null
   isLoading: boolean
   error: string | null
   theme: 'light' | 'dark' | 'system'
@@ -244,6 +356,15 @@ export interface AppState {
   events: GitLabEvent[]
   totalCount: number
   aiGenerationConfig: AIGenerationConfig | null
+  batchGenerationState: BatchGenerationState
+}
+
+// 会话存储类型
+export interface AppSessionState {
+  reportData: WeeklyReportData | null
+  aiGenerationConfig: AIGenerationConfig | null
+  batchReportData: WeeklyReportBatchData | null
+  batchGenerationState: BatchGenerationState | null
 }
 
 // 应用 Store 类型
@@ -270,6 +391,8 @@ export interface AppStore extends AppState {
   // AI 相关操作
   setAIGenerationConfig: (config: AIGenerationConfig | null) => void
   setReportData: (data: WeeklyReportData | null) => void
+  setBatchReportData: (data: WeeklyReportBatchData | null) => void
+  setBatchGenerationState: (state: Partial<BatchGenerationState>) => void
 
   // 工具方法
   resetState: () => void
@@ -312,6 +435,13 @@ export interface GitLabUser {
 // GitLab API 服务类型
 export interface GitLabApiService {
   init(): Promise<void>
+  getCurrentUserEventsInRange(options: {
+    startDate: string
+    endDate: string
+    perPage?: number
+    maxPages?: number
+    signal?: AbortSignal
+  }): Promise<GitLabEvent[]>
   getProjectsWithTotal(options?: {
     membership?: boolean
     per_page?: number

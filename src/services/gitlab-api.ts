@@ -327,6 +327,63 @@ export class GitLabApiService {
   }
 
   /**
+   * 按时间范围分页拉取当前用户事件
+   * 会自动翻页直到数据拉完或命中开始时间
+   */
+  async getCurrentUserEventsInRange(options: {
+    startDate: string
+    endDate: string
+    perPage?: number
+    maxPages?: number
+    signal?: AbortSignal
+  }): Promise<GitLabEvent[]> {
+    const currentUser = await this.getCurrentUser()
+    const perPage = options.perPage ?? 100
+    const maxPages = options.maxPages ?? 50
+    const startTimestamp = new Date(options.startDate).getTime()
+    const collectedEvents: GitLabEvent[] = []
+    const seenEventIds = new Set<number>()
+
+    for (let page = 1; page <= maxPages; page += 1) {
+      const { events } = await this.getUserEventsWithTotal(currentUser.id, {
+        after: options.startDate,
+        before: options.endDate,
+        sort: 'desc',
+        page,
+        per_page: perPage,
+        signal: options.signal,
+      })
+
+      if (events.length === 0) {
+        break
+      }
+
+      for (const event of events) {
+        if (seenEventIds.has(event.id)) {
+          continue
+        }
+        seenEventIds.add(event.id)
+        collectedEvents.push(event)
+      }
+
+      const oldestEvent = events[events.length - 1]
+      if (!oldestEvent?.created_at) {
+        break
+      }
+
+      if (new Date(oldestEvent.created_at).getTime() < startTimestamp) {
+        break
+      }
+
+      if (events.length < perPage) {
+        break
+      }
+    }
+
+    return collectedEvents
+  }
+
+  /**
    * 获取项目事件并返回总数信息
    * @param projectId 项目ID
    * @param options 筛选和分页选项

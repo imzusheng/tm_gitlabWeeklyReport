@@ -22,6 +22,7 @@ export class DeepSeekApiService {
     messages: DeepSeekMessage[],
     model: string,
     maxTokens: number,
+    signal?: AbortSignal,
   ): Promise<DeepSeekResponse> {
     const response = await request(`${this.baseUrl}/chat/completions`, {
       method: 'POST',
@@ -36,6 +37,7 @@ export class DeepSeekApiService {
         temperature: 0.7,
       }),
       timeout: API_CONFIG.REQUEST_TIMEOUT,
+      signal,
     })
 
     if (!response.ok) {
@@ -62,8 +64,9 @@ export class DeepSeekApiService {
     messages: DeepSeekMessage[],
     model = 'deepseek-chat',
     maxTokens = 4000,
+    signal?: AbortSignal,
   ): Promise<string> {
-    const data = await this.chatRequest(messages, model, maxTokens)
+    const data = await this.chatRequest(messages, model, maxTokens, signal)
     return data.choices[0].message.content
   }
 
@@ -75,6 +78,7 @@ export class DeepSeekApiService {
     prompt: string,
     model = 'deepseek-chat',
     maxTokens = 4000,
+    signal?: AbortSignal,
   ): Promise<{ content: string; tokensUsed: number }> {
     const messages: DeepSeekMessage[] = [
       {
@@ -87,7 +91,7 @@ export class DeepSeekApiService {
       },
     ]
 
-    const data = await this.chatRequest(messages, model, maxTokens)
+    const data = await this.chatRequest(messages, model, maxTokens, signal)
 
     return {
       content: data.choices[0].message.content,

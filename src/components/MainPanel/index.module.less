@@ -283,6 +283,57 @@
             }
           }
 
+          &.batch-btn {
+            background: linear-gradient(
+              135deg,
+              var(--glwr-color-success) 0%,
+              var(--glwr-color-info) 100%
+            );
+            border: none;
+            color: white;
+            position: relative;
+            overflow: hidden;
+
+            &::before {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: -100%;
+              width: 100%;
+              height: 100%;
+              background: linear-gradient(
+                90deg,
+                transparent,
+                rgb(255 255 255 / 20%),
+                transparent
+              );
+              transition: left 0.5s;
+            }
+
+            &:hover {
+              background: linear-gradient(
+                135deg,
+                var(--glwr-color-success) 0%,
+                var(--glwr-color-info) 100%
+              );
+              box-shadow: var(--glwr-shadow-lg);
+              color: white;
+
+              &::before {
+                left: 100%;
+              }
+            }
+
+            .btn-icon {
+              filter: drop-shadow(0 1px 2px rgb(0 0 0 / 10%));
+            }
+
+            .btn-label {
+              font-weight: 600;
+              text-shadow: 0 1px 2px rgb(0 0 0 / 10%);
+            }
+          }
+
           &.config-incomplete {
             border-color: var(--glwr-color-warning);
             background: var(--glwr-color-warning-light);
